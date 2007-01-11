@@ -21,7 +21,7 @@ class PythonMill(LineMill):
 
 
     def __init__(self):
-        LineMill.__init__(self, "#", "#!/usr/bin/env python")
+        LineMill.__init__(self, "#", "# -*- Python -*-")
         return
 
 
@@ -37,6 +37,6 @@ class PythonMill(LineMill):
 
 
 # version
-__id__ = "$Id: PythonMill.py,v 1.1.1.1 2006-11-27 00:10:09 aivazis Exp $"
+__id__ = "$Id: PythonMill.py,v 1.2 2007-01-11 21:30:04 aivazis Exp $"
 
 #  End of file 
