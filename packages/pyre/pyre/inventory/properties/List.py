@@ -18,7 +18,9 @@ from pyre.inventory.Property import Property
 class List(Property):
 
 
-    def __init__(self, name, default=[], meta=None, validator=None):
+    def __init__(self, name, default=None, meta=None, validator=None):
+        if default is None:
+            default = []
         Property.__init__(self, name, "list", default, meta, validator)
         return
 
@@ -41,6 +43,6 @@ class List(Property):
     
 
 # version
-__id__ = "$Id: List.py,v 1.1.1.1 2006-11-27 00:10:02 aivazis Exp $"
+__id__ = "$Id: List.py,v 1.2 2007-01-11 21:33:29 aivazis Exp $"
 
 # End of file 
