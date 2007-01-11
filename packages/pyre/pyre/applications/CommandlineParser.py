@@ -59,6 +59,10 @@ class CommandlineParser(object):
                 
             self._debug.line("    prefix: arg='%s' after prefix stripping" % candidate)
 
+            # skip the processing if the arg is empty after stripping
+            if not candidate:
+                continue
+
             # check for assignment
             tokens = candidate.split(self.assignment)
             self._debug.line("    tokens: %s" % `candidate`)
@@ -137,6 +141,6 @@ class CommandlineParser(object):
             
 
 # version
-__id__ = "$Id: CommandlineParser.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
+__id__ = "$Id: CommandlineParser.py,v 1.2 2007-01-11 21:42:50 aivazis Exp $"
 
 #  End of file 
