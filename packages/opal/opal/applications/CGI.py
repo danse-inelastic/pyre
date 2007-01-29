@@ -155,7 +155,7 @@ class CGI(Script):
             self.initializeTraceback()
 
             # format journal output
-            self.initializeJournal()
+            # self.initializeJournal()
 
         return
 
@@ -166,6 +166,6 @@ class CGI(Script):
         
 
 # version
-__id__ = "$Id: CGI.py,v 1.2 2007-01-29 07:11:56 aivazis Exp $"
+__id__ = "$Id: CGI.py,v 1.3 2007-01-29 07:37:48 aivazis Exp $"
 
 # End of file 
