@@ -33,6 +33,7 @@ def main():
             uid = os.getuid()
             
             print '<pre>'
+            print 'content: {%s}' % self.content
             print "(%d, %s): Hello %s!" % (pid, uid, self.inventory.name)
             print '</pre>'
             return
@@ -58,6 +59,6 @@ if __name__ == '__main__':
 
 
 # version
-__id__ = "$Id: hello.py,v 1.1.1.1 2006-11-27 00:09:50 aivazis Exp $"
+__id__ = "$Id: hello.py,v 1.2 2007-01-29 07:12:20 aivazis Exp $"
 
 # End of file 
