@@ -79,8 +79,8 @@ class WebApplication(CGI):
         return self.sentry.authenticate()
 
 
-    def __init__(self, name, asCGI=None):
-        CGI.__init__(self, name, asCGI)
+    def __init__(self, name):
+        CGI.__init__(self, name)
 
         # our renderer
         self.pageMill = None
@@ -129,6 +129,6 @@ class WebApplication(CGI):
 
 
 # version
-__id__ = "$Id: WebApplication.py,v 1.1.1.1 2006-11-27 00:09:46 aivazis Exp $"
+__id__ = "$Id: WebApplication.py,v 1.2 2007-01-29 06:39:20 aivazis Exp $"
 
 # End of file 

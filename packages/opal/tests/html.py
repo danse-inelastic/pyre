@@ -49,9 +49,14 @@ def main():
 
 
         def __init__(self):
-            WebApplication.__init__(self, name='html', asCGI=False)
+            WebApplication.__init__(self, name='html')
             return
 
+
+        def _defaults(self):
+            WebApplication._defaults(self)
+            self.inventory.content = "raw"
+            return
 
     app = HtmlApp()
     return app.run()
@@ -64,6 +69,6 @@ if __name__ == '__main__':
 
 
 # version
-__id__ = "$Id: html.py,v 1.1.1.1 2006-11-27 00:09:50 aivazis Exp $"
+__id__ = "$Id: html.py,v 1.2 2007-01-29 06:38:55 aivazis Exp $"
 
 # End of file 
