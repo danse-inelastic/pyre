@@ -25,6 +25,11 @@ class CGI(Script):
         stream = pyre.inventory.outputFile("stream")
         stream.meta['tip'] = "where to place the generated text"
 
+        content = pyre.inventory.str(
+            name="content", default="html",
+            validator=pyre.inventory.choice(["raw", "html", "attachment"]))
+        content.meta['tip'] = "the target browser behaviour"
+
 
     def collectUserInput(self, registry):
 
@@ -90,24 +95,14 @@ class CGI(Script):
         return
 
 
-    def asCGIScript(self, cgi):
-
-        if cgi:
-            # get the headers out asap
-            self.printHeaders()
-
-            # take care of exception output
-            self.initializeTraceback()
-
-            # format journal output
-            self.initializeJournal()
-
-        return
-
-
     def printHeaders(self):
-        print 'Content-type: text/html'
-        print ''
+        if self.content == "html":
+            print 'Content-type: text/html'
+            print ''
+        elif self.content == "attachment":
+            print 'Content-Type: application/force-download'
+            print 'Content-Disposition: attachment'
+            print ''
 
         # just in case further output is done by a subprocess
         import sys
@@ -135,14 +130,10 @@ class CGI(Script):
         return
 
 
-    def __init__(self, name, asCGI=None):
+    def __init__(self, name):
         Script.__init__(self, name)
         self.stream = None
-
-        if asCGI is None:
-            asCGI = True
-        self.asCGIScript(asCGI)
-        
+        self.content = "html"
         return
 
 
@@ -150,6 +141,22 @@ class CGI(Script):
         Script._configure(self)
 
         self.stream = self.inventory.stream
+        self.content = self.inventory.content
+        return
+
+    def _init(self):
+        Script._init(self)
+
+        if self.content != "raw":
+            # get the headers out asap
+            self.printHeaders()
+
+            # take care of exception output
+            self.initializeTraceback()
+
+            # format journal output
+            self.initializeJournal()
+
         return
 
 
@@ -159,6 +166,6 @@ class CGI(Script):
         
 
 # version
-__id__ = "$Id: CGI.py,v 1.1.1.1 2006-11-27 00:09:46 aivazis Exp $"
+__id__ = "$Id: CGI.py,v 1.2 2007-01-29 07:11:56 aivazis Exp $"
 
 # End of file 
