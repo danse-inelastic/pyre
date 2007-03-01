@@ -147,7 +147,7 @@ class CGI(Script):
     def _init(self):
         Script._init(self)
 
-        if self.content != "raw":
+        if self.content == "html":
             # get the headers out asap
             self.printHeaders()
 
@@ -166,6 +166,6 @@ class CGI(Script):
         
 
 # version
-__id__ = "$Id: CGI.py,v 1.3 2007-01-29 07:37:48 aivazis Exp $"
+__id__ = "$Id: CGI.py,v 1.4 2007-03-01 00:00:56 aivazis Exp $"
 
 # End of file 
