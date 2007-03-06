@@ -58,6 +58,13 @@ class Weaver(Component):
         return
 
 
+    def splice(self, body):
+        self.begin()
+        self.contents(body)
+        self.end()
+        return self.document()
+        
+
     def render(self, document=None):
         self._renderer.options = self.inventory
         return self._renderer.weave(document)
@@ -144,6 +151,6 @@ class Weaver(Component):
         
 
 # version
-__id__ = "$Id: Weaver.py,v 1.1.1.1 2006-11-27 00:10:08 aivazis Exp $"
+__id__ = "$Id: Weaver.py,v 1.2 2007-03-06 04:16:38 aivazis Exp $"
 
 # End of file 
