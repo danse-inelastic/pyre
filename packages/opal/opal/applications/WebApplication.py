@@ -13,7 +13,6 @@
 
 
 from opal.applications.CGI import CGI
-from pyre.applications.ComponentHarness import ComponentHarness
 
 
 class WebApplication(CGI):
@@ -129,6 +128,6 @@ class WebApplication(CGI):
 
 
 # version
-__id__ = "$Id: WebApplication.py,v 1.2 2007-01-29 06:39:20 aivazis Exp $"
+__id__ = "$Id: WebApplication.py,v 1.3 2007-03-06 03:43:17 aivazis Exp $"
 
 # End of file 
