@@ -100,9 +100,20 @@ class CGI(Script):
             print 'Content-type: text/html'
             print ''
         elif self.content == "attachment":
-            print 'Content-Type: application/force-download'
-            print 'Content-Disposition: attachment'
-            print ''
+            # header output to be done by the process at a later time
+            pass
+
+        # just in case further output is done by a subprocess
+        import sys
+        sys.stdout.flush()
+
+        return
+
+
+    def printAttachmentHeaders(self, attachment):
+        print 'Content-Type: application/force-download'
+        print 'Content-Disposition: attachment; filename="%s"' % attachment
+        print ''
 
         # just in case further output is done by a subprocess
         import sys
@@ -166,6 +177,6 @@ class CGI(Script):
         
 
 # version
-__id__ = "$Id: CGI.py,v 1.4 2007-03-01 00:00:56 aivazis Exp $"
+__id__ = "$Id: CGI.py,v 1.5 2007-03-26 00:29:50 aivazis Exp $"
 
 # End of file 
