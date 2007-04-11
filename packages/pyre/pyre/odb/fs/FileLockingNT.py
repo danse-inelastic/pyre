@@ -18,7 +18,7 @@ import win32con, win32file, pywintypes
 class FileLockingNT(object):
 
 
-    LOCK_EX = win32com.LOCKFILE_EXCLUSIVE_LOCK
+    LOCK_EX = win32con.LOCKFILE_EXCLUSIVE_LOCK
     LOCK_SH = 0
     LOCK_NB = win32con.LOCKFILE_FAIL_IMMEDIATELY
 
@@ -40,6 +40,6 @@ del pywintypes
 
 
 # version
-__id__ = "$Id: FileLockingNT.py,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $"
+__id__ = "$Id: FileLockingNT.py,v 1.2 2007-04-11 18:02:52 aivazis Exp $"
 
 # End of file 
