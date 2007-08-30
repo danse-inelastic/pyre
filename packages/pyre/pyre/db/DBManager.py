@@ -88,6 +88,7 @@ class DBManager(object):
         # execute the sql statement
         c = self.db.cursor()
         c.execute(sql)
+        self.db.commit()
 
         return
 
@@ -148,6 +149,6 @@ class DBManager(object):
 
 
 # version
-__id__ = "$Id: DBManager.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
+__id__ = "$Id: DBManager.py,v 1.2 2007-08-30 21:33:49 aivazis Exp $"
 
 # End of file 
