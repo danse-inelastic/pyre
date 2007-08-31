@@ -55,8 +55,9 @@ class Form(ElementContainer, ParagraphFactory):
         return control
 
 
-    def submitButton(self, **kwds):
-        return self.control(name="submit", type="submit", value="submit", **kwds)
+    def submitButton(self, value="submit", **kwds):
+        return self.control(name="submit", type="submit", value=value, **kwds)
+
 
     def text(self, **kwds):
         from Input import Input
@@ -83,6 +84,6 @@ class Form(ElementContainer, ParagraphFactory):
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.2 2007-08-31 04:15:58 aivazis Exp $"
 
 # End of file 
