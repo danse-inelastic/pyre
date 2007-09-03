@@ -70,6 +70,17 @@ class Form(ElementContainer, ParagraphFactory):
         return control
 
 
+    def textarea(self, **kwds):
+        from TextArea import TextArea
+        control = TextArea(**kwds)
+        
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+
+        return control
+
+
     # event handlers
     def onSubmit(self, action):
         self.attributes['onSubmit'] = action
@@ -84,6 +95,6 @@ class Form(ElementContainer, ParagraphFactory):
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.2 2007-08-31 04:15:58 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.3 2007-09-03 19:53:42 aivazis Exp $"
 
 # End of file 
