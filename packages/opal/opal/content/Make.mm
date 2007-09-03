@@ -63,6 +63,7 @@ EXPORT_PYTHON_MODULES = \
     SearchBox.py \
     Selector.py \
     Style.py \
+    TextArea.py \
     Title.py \
     __init__.py \
 
@@ -70,6 +71,6 @@ EXPORT_PYTHON_MODULES = \
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $
+# $Id: Make.mm,v 1.2 2007-09-03 15:09:53 aivazis Exp $
 
 # End of file
