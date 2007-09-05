@@ -70,12 +70,12 @@ class Form(ElementContainer, ParagraphFactory):
         return control
 
 
-    def textarea(self, **kwds):
+    def textarea(self, required=False, **kwds):
         from TextArea import TextArea
         control = TextArea(**kwds)
         
         from FormField import FormField
-        field = FormField(control)
+        field = FormField(control, required)
         self.contents.append(field)
 
         return control
@@ -95,6 +95,6 @@ class Form(ElementContainer, ParagraphFactory):
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.4 2007-09-05 20:10:02 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.5 2007-09-05 20:44:32 aivazis Exp $"
 
 # End of file 
