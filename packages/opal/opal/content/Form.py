@@ -59,12 +59,12 @@ class Form(ElementContainer, ParagraphFactory):
         return self.control(name="submit", type="submit", value=value, **kwds)
 
 
-    def text(self, **kwds):
+    def text(self, required=False, **kwds):
         from Input import Input
         control = Input(**kwds)
         
         from FormField import FormField
-        field = FormField(control)
+        field = FormField(control, required)
         self.contents.append(field)
 
         return control
@@ -95,6 +95,6 @@ class Form(ElementContainer, ParagraphFactory):
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.3 2007-09-03 19:53:42 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.4 2007-09-05 20:10:02 aivazis Exp $"
 
 # End of file 

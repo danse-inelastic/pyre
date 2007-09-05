@@ -60,6 +60,9 @@ class DocumentMill(ContentMill):
 
         text = [ self.tagger.onElementBegin(field) ]
         
+        if field.required:
+            text.append('<span class="formfieldRequired">&nbsp;</span>')
+            
         if control.label:
             text.append('<label for="%s">%s</label>' % (control.attributes["id"], control.label))
 
@@ -130,6 +133,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.2 2007-09-03 19:53:42 aivazis Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.3 2007-09-05 20:10:17 aivazis Exp $"
 
 # End of file 
