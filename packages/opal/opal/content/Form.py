@@ -14,9 +14,10 @@
 
 from ElementContainer import ElementContainer
 from ParagraphFactory import ParagraphFactory
+from LiteralFactory import LiteralFactory
 
 
-class Form(ElementContainer, ParagraphFactory):
+class Form(ElementContainer, ParagraphFactory, LiteralFactory):
 
 
     def identify(self, inspector):
@@ -90,11 +91,12 @@ class Form(ElementContainer, ParagraphFactory):
     def __init__(self, name, action, legend=None, **kwds):
         ElementContainer.__init__(self, 'form', name=name, action=action, method="post", **kwds)
         ParagraphFactory.__init__(self)
+        LiteralFactory.__init__(self)
         
         self.legend = legend
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.5 2007-09-05 20:44:32 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.6 2007-09-06 23:59:11 aivazis Exp $"
 
 # End of file 
