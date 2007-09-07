@@ -118,11 +118,18 @@ class DocumentMill(ContentMill):
 
     def onTextArea(self, area):
 
-        text = [
-            self.tagger.onElementBegin(area),
-            area.default,
-            self.tagger.onElementEnd(area),
-            ]
+        default = area.default
+        if default:
+            text = [
+                self.tagger.onElementBegin(area),
+                area.default,
+                self.tagger.onElementEnd(area),
+                ]
+        else:
+            text = [
+                self.tagger.onElementBegin(area),
+                self.tagger.onElementEnd(area),
+                ]
 
         return text
 
@@ -133,6 +140,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.3 2007-09-05 20:10:17 aivazis Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.4 2007-09-07 01:10:10 aivazis Exp $"
 
 # End of file 
