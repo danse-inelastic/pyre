@@ -18,6 +18,14 @@ from DocumentMill import DocumentMill
 class StructuralMill(DocumentMill):
 
 
+    def onBanner(self, banner):
+        text = [
+            '<div id="page-banner"><a href="%s">Home</a></div>' % banner.href
+            ]
+        
+        return text
+
+
     def onDocument(self, document):
         text = [
             self.tagger.onElementBegin(document),
@@ -148,6 +156,6 @@ class StructuralMill(DocumentMill):
 
 
 # version
-__id__ = "$Id: StructuralMill.py,v 1.1.1.1 2006-11-27 00:09:49 aivazis Exp $"
+__id__ = "$Id: StructuralMill.py,v 1.2 2007-09-08 03:28:14 aivazis Exp $"
 
 # End of file 
