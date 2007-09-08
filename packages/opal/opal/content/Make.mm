@@ -22,6 +22,7 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
+    Banner.py \
     Base.py \
     Body.py \
     CoreAttributes.py \
@@ -71,6 +72,6 @@ EXPORT_PYTHON_MODULES = \
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.2 2007-09-03 15:09:53 aivazis Exp $
+# $Id: Make.mm,v 1.3 2007-09-08 03:26:39 aivazis Exp $
 
 # End of file
