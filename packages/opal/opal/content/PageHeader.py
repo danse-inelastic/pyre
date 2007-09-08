@@ -18,6 +18,13 @@ from PageSection import PageSection
 class PageHeader(PageSection):
 
 
+    def banner(self, **kwds):
+        from Banner import Banner
+        banner = Banner(**kwds)
+        self.contents.append(banner)
+        return banner
+
+
     def logo(self, **kwds):
         from Logo import Logo
         logo = Logo(**kwds)
@@ -45,6 +52,6 @@ class PageHeader(PageSection):
 
 
 # version
-__id__ = "$Id: PageHeader.py,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $"
+__id__ = "$Id: PageHeader.py,v 1.2 2007-09-08 03:28:36 aivazis Exp $"
 
 # End of file 
