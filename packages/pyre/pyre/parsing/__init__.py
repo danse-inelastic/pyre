@@ -11,7 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+def tokenizer(file):
+    from Tokenizer import Tokenizer
+    return Tokenizer(file)
+
+
 # version
-__id__ = "$Id: __init__.py,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $"
+__id__ = "$Id: __init__.py,v 1.2 2007-09-13 15:51:52 aivazis Exp $"
 
 # End of file 

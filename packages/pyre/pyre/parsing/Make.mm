@@ -39,6 +39,13 @@ distclean::
 # export
 
 EXPORT_PYTHON_MODULES = \
+    EndOfFile.py \
+    Locator.py \
+    Parser.py \
+    Scanner.py \
+    TokenizationException.py \
+    Tokenizer.py \
+    Token.py \
     __init__.py
 
 
@@ -46,6 +53,6 @@ export:: export-package-python-modules
 	BLD_ACTION="export" $(MM) recurse
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $
+# $Id: Make.mm,v 1.2 2007-09-13 15:51:22 aivazis Exp $
 
 # End of file
