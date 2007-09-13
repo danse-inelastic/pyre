@@ -17,6 +17,7 @@ RECURSE_DIRS = \
     journal \
     pyre \
     blade \
+    fuego \
     merlin \
     opal \
 
@@ -49,6 +50,6 @@ tidy::
 
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:21 aivazis Exp $
+# $Id: Make.mm,v 1.2 2007-09-13 17:11:36 aivazis Exp $
 
 # End of file
