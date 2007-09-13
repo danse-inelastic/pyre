@@ -17,17 +17,17 @@ class Locator(object):
 
     def __init__(self, file, line, column):
 
-        self.filename = file
+        self.source = file
         self.line = line
         self.column = column
 
         return
 
 
-    __slots__ = ("column", "filename", "line")
+    __slots__ = ("column", "source", "line")
 
 
 # version
-__id__ = "$Id: Locator.py,v 1.1 2007-09-13 15:53:29 aivazis Exp $"
+__id__ = "$Id: Locator.py,v 1.2 2007-09-13 17:12:17 aivazis Exp $"
 
 #  End of file 
