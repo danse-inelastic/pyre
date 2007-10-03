@@ -24,6 +24,13 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         return inspector.onForm(self)
 
 
+    def box(self, **kwds):
+        from ControlBox import ControlBox
+        box = ControlBox(**kwds)
+        self.contents.append(box)
+        return box
+
+
     def control(self, **kwds):
         from FormControl import FormControl
         control = FormControl(**kwds)
@@ -97,6 +104,6 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         return
 
 # version
-__id__ = "$Id: Form.py,v 1.6 2007-09-06 23:59:11 aivazis Exp $"
+__id__ = "$Id: Form.py,v 1.7 2007-10-03 21:02:41 aivazis Exp $"
 
 # End of file 
