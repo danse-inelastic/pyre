@@ -64,7 +64,7 @@ class DocumentMill(ContentMill):
             ]
 
         for item in box.contents:
-            text += [ '<td>' ]
+            text += [ '<td class="controlBoxEntry">' ]
             text += item.identify(self)
             text += [ '</td>' ]
 
@@ -176,6 +176,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.5 2007-10-03 21:04:01 aivazis Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.6 2007-10-03 22:40:08 aivazis Exp $"
 
 # End of file 
