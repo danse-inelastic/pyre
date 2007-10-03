@@ -42,6 +42,41 @@ class DocumentMill(ContentMill):
         return text
 
 
+    def onControlBox(self, box):
+        text = ['<div>']
+
+        text += [ '<div>' ]
+        if box.required:
+            text.append('<span class="formfieldRequired">&nbsp;</span>')
+        if box.label:
+            text.append('<label for="%s">%s</label>' % (box.attributes["id"], box.label))
+        text += [ '</div>' ]
+
+        if box.error:
+            text.append('<div class="error">%s</div>' % box.error)
+
+        if box.help:
+            text.append('<div class="formfieldHelp">%s</div>' % box.help)
+
+        text += [
+            self.tagger.onElementBegin(box), 
+            '<tr>'
+            ]
+
+        for item in box.contents:
+            text += [ '<td>' ]
+            text += item.identify(self)
+            text += [ '</td>' ]
+
+        text += [
+            '</tr>',
+            self.tagger.onElementEnd(box),
+            '</div>',
+            ]
+
+        return text
+    
+
     def onFormControl(self, control):
         text = [
             self.tagger.onElementBegin(control),
@@ -60,11 +95,12 @@ class DocumentMill(ContentMill):
 
         text = [ self.tagger.onElementBegin(field) ]
         
+        text += [ '<div>' ]
         if field.required:
             text.append('<span class="formfieldRequired">&nbsp;</span>')
-            
         if control.label:
             text.append('<label for="%s">%s</label>' % (control.attributes["id"], control.label))
+        text += [ '</div>' ]
 
         if control.error:
             text.append('<div class="error">%s</div>' % control.error)
@@ -140,6 +176,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.4 2007-09-07 01:10:10 aivazis Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.5 2007-10-03 21:04:01 aivazis Exp $"
 
 # End of file 
