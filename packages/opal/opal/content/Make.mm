@@ -25,6 +25,7 @@ EXPORT_PYTHON_MODULES = \
     Banner.py \
     Base.py \
     Body.py \
+    ControlBox.py \
     CoreAttributes.py \
     Document.py \
     Element.py \
@@ -72,6 +73,6 @@ EXPORT_PYTHON_MODULES = \
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.3 2007-09-08 03:26:39 aivazis Exp $
+# $Id: Make.mm,v 1.4 2007-10-03 21:05:01 aivazis Exp $
 
 # End of file
