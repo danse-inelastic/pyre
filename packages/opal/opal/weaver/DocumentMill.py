@@ -77,6 +77,11 @@ class DocumentMill(ContentMill):
         return text
     
 
+    def onControlBoxLine(self, line):
+        text = ["</tr><tr>"]
+        return text
+
+
     def onFormControl(self, control):
         text = [
             self.tagger.onElementBegin(control),
@@ -176,6 +181,6 @@ class DocumentMill(ContentMill):
         return
 
 # version
-__id__ = "$Id: DocumentMill.py,v 1.6 2007-10-03 22:40:08 aivazis Exp $"
+__id__ = "$Id: DocumentMill.py,v 1.7 2007-10-04 00:23:57 aivazis Exp $"
 
 # End of file 
