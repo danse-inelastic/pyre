@@ -26,6 +26,7 @@ EXPORT_PYTHON_MODULES = \
     Base.py \
     Body.py \
     ControlBox.py \
+    ControlBoxLine.py \
     CoreAttributes.py \
     Document.py \
     Element.py \
@@ -73,6 +74,6 @@ EXPORT_PYTHON_MODULES = \
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.4 2007-10-03 21:05:01 aivazis Exp $
+# $Id: Make.mm,v 1.5 2007-10-04 00:07:34 aivazis Exp $
 
 # End of file
