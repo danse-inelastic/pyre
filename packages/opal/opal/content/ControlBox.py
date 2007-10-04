@@ -22,6 +22,13 @@ class ControlBox(ElementContainer):
         return inspector.onControlBox(self)
 
 
+    def newline(self, **kwds):
+        from ControlBoxLine import ControlBoxLine
+        control = ControlBoxLine(**kwds)
+        self.contents.append(control)
+        return control
+
+
     def field(self, **kwds):
         from FormField import FormField
         field = FormField(**kwds)
@@ -52,6 +59,6 @@ class ControlBox(ElementContainer):
 
 
 # version
-__id__ = "$Id: ControlBox.py,v 1.2 2007-10-03 22:30:34 aivazis Exp $"
+__id__ = "$Id: ControlBox.py,v 1.3 2007-10-04 00:24:17 aivazis Exp $"
 
 # End of file 
