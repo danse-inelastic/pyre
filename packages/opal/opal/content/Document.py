@@ -27,6 +27,13 @@ class Document(ElementContainer, LiteralFactory, ParagraphFactory):
         return form
 
 
+    def document(self, **kwds):
+        from Document import Document
+        document = Document(**kwds)
+        self.contents.append(document)
+        return document
+
+
     def identify(self, inspector):
         return inspector.onDocument(self)
 
@@ -44,6 +51,6 @@ class Document(ElementContainer, LiteralFactory, ParagraphFactory):
 
 
 # version
-__id__ = "$Id: Document.py,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $"
+__id__ = "$Id: Document.py,v 1.2 2007-11-28 09:37:34 aivazis Exp $"
 
 # End of file 
