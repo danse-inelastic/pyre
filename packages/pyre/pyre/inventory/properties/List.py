@@ -25,24 +25,26 @@ class List(Property):
         return
 
 
-    def _cast(self, text):
-        if isinstance(text, basestring):
-            if text and text[0] in '[({':
-                text = text[1:]
-            if text and text[-1] in '])}':
-                text = text[:-1]
+    def _cast(self, value):
+        if isinstance(value, basestring):
+            if value and value[0] in '[({':
+                value = value[1:]
+            if value and value[-1] in '])}':
+                value = value[:-1]
+
+            if not value:
+                return []
                 
-            value = text.split(",")
-        else:
-            value = text
+            value = value.split(",")
+            return value
 
         if isinstance(value, list):
             return value
             
-        raise TypeError("property '%s': could not convert '%s' to a list" % (self.name, text))
+        raise TypeError("property '%s': could not convert '%s' to a list" % (self.name, value))
     
 
 # version
-__id__ = "$Id: List.py,v 1.2 2007-01-11 21:33:29 aivazis Exp $"
+__id__ = "$Id: List.py,v 1.3 2007-11-28 09:36:43 aivazis Exp $"
 
 # End of file 
