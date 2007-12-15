@@ -75,6 +75,19 @@ class DBManager(object):
         return
 
 
+    def deleteRow(self, table, where=None):
+        sql = "DELETE FROM %s" % table.name
+        if where:
+            sql += "\n    WHERE %s" % where
+
+            # execute the sql statement
+            c = self.db.cursor()
+            c.execute(sql)
+            self.db.commit()
+
+            return
+
+
     def createTable(self, table):
         # build the list of table columns
         fields = []
@@ -149,6 +162,6 @@ class DBManager(object):
 
 
 # version
-__id__ = "$Id: DBManager.py,v 1.2 2007-08-30 21:33:49 aivazis Exp $"
+__id__ = "$Id: DBManager.py,v 1.3 2007-12-15 11:10:21 aivazis Exp $"
 
 # End of file 
