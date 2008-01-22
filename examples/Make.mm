@@ -15,7 +15,6 @@ PACKAGE = examples
 
 RECURSE_DIRS = \
     opaldemo \
-    shock \
 
 OTHERS = \
 
