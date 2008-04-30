@@ -18,7 +18,7 @@ from pyre.components.Component import Component
 class Actor(Component):
 
 
-    def perform(self, director, routine=None):
+    def perform(self, director, routine=None, debug=False):
         """construct an actual page by invoking the requested routine"""
 
         if routine is None:
@@ -30,9 +30,13 @@ class Actor(Component):
             self._info.log("routine '%s' is not yet implemented" % routine)
             behavior = self.nyi
 
+        if debug:
+            # avoid the try net so cgitb can dump the exception
+            return behavior(director)
+
         try:
             page = behavior(director)
-        except TypeError:
+        except:
             self._info.log("routine '%s' is not implemented correctly" % routine)
             page = self.error(director)
 
@@ -58,6 +62,6 @@ class Actor(Component):
 
 
 # version
-__id__ = "$Id: Actor.py,v 1.1.1.1 2006-11-27 00:09:46 aivazis Exp $"
+__id__ = "$Id: Actor.py,v 1.2 2008-04-21 07:51:55 aivazis Exp $"
 
 # End of file 

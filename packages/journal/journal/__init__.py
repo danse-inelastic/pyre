@@ -162,12 +162,11 @@ try:
     import _journal
 except ImportError:
     hasProxy = False
-    warn = warning("journal")
-    warn.line("could not import the C++ bindings for journal")
-    warn.log("control of diagnostics from extension modules is unavailable")
+    msg = info("journal")
+    msg.line("could not import the C++ bindings for journal")
+    msg.log("control of diagnostics from extension modules is unavailable")
 else:
     #print " ** __init__.py: initializing C++ bindings"
-
     _journal.initialize(journal())
     hasProxy = True
 
@@ -176,6 +175,6 @@ register()
         
 # version
 __version__ = "0.8"
-__id__ = "$Id: __init__.py,v 1.1.1.1 2006-11-27 00:09:34 aivazis Exp $"
+__id__ = "$Id: __init__.py,v 1.2 2008-04-13 03:59:03 aivazis Exp $"
 
 #  End of file 

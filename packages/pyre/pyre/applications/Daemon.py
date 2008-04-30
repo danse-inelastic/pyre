@@ -29,8 +29,7 @@ class Daemon(Stager):
         
         if not spawn:
             print " ** daemon %r in debug mode" % self.name
-            import os
-            self.daemon(os.getpid())
+            self.daemon(0)
             return
             
         import pyre.util
@@ -80,10 +79,11 @@ class Daemon(Stager):
         # build a journal configuration file
         # self.configureJournal()
 
-        # close all ties with the parent process
-        os.close(2)
-        os.close(1)
-        os.close(0)
+        # close all ties with the parent process, unless in debug mode
+        if pid:
+            os.close(2)
+            os.close(1)
+            os.close(0)
 
         # launch the application
         self.main(*self.args, **self.kwds)
@@ -113,6 +113,6 @@ class Daemon(Stager):
 
 
 # version
-__id__ = "$Id: Daemon.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
+__id__ = "$Id: Daemon.py,v 1.2 2008-01-31 15:47:35 aivazis Exp $"
 
 # End of file 

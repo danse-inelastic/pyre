@@ -34,9 +34,11 @@ class RecordLocator(Component):
         for index, letter in enumerate(locator):
             tid += self._hashtable[letter] * self._base**index
 
-        label = str(tid)
+        label = "%07d" % tid
+        date = label[-6:]
+        counter = label[:-6]
 
-        return label[:-4], label[-4:]
+        return '20'+date, counter
             
         
 
@@ -97,6 +99,6 @@ class RecordLocator(Component):
 
 
 # version
-__id__ = "$Id: RecordLocator.py,v 1.1.1.1 2006-11-27 00:10:00 aivazis Exp $"
+__id__ = "$Id: RecordLocator.py,v 1.3 2008-03-28 01:34:09 aivazis Exp $"
 
 # End of file 

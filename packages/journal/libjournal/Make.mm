@@ -22,6 +22,8 @@ PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)
 PROJ_CLEAN += $(PROJ_DLL) $(PROJ_SAR)
 
 PROJ_SRCS = \
+    debuginfo.cc \
+    firewall.cc \
     Console.cc \
     DefaultRenderer.cc \
     Device.cc \
@@ -49,6 +51,7 @@ export:: export-headers export-libraries export-binaries
 
 EXPORT_HEADERS = \
     debug.h \
+    debuginfo.h \
     diagnostics.h \
     error.h \
     firewall.h \
@@ -83,6 +86,6 @@ EXPORT_LIBS = $(PROJ_SAR)
 EXPORT_BINS = $(PROJ_DLL)
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:38 aivazis Exp $
+# $Id: Make.mm,v 1.2 2008-04-12 05:16:28 aivazis Exp $
 
 # End of file

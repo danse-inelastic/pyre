@@ -21,8 +21,8 @@ class Column(object):
 
     def declaration(self):
         text = [ self.type() ]
-        if self.default:
-            text.append("DEFAULT %s" % self.default)
+        if self.default is not None:
+            text.append("DEFAULT %r" % self.default)
         if self.constraints:
             text.append(self.constraints)
 
@@ -60,8 +60,16 @@ class Column(object):
             return self
 
         except KeyError:
-            # column value is uinitialized
-            return None
+            # look up the registered default value
+            default = self.default
+
+            # if we don't have a default, mark this column as uninitialized
+            if default is None:
+                return default
+
+            # otherwise, store the default as the actual field value
+            return instance._setColumnValue(self.name, default)
+
 
         # not reachable
         import journal
@@ -74,6 +82,6 @@ class Column(object):
 
 
 # version
-__id__ = "$Id: Column.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
+__id__ = "$Id: Column.py,v 1.3 2008-04-13 07:50:19 aivazis Exp $"
 
 # End of file 

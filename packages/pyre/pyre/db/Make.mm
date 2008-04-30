@@ -33,6 +33,7 @@ EXPORT_PYTHON_MODULES = \
     Integer.py \
     Interval.py \
     Psycopg.py \
+    Psycopg2.py \
     Real.py \
     Schemer.py \
     SmallInt.py \
@@ -46,6 +47,6 @@ EXPORT_PYTHON_MODULES = \
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $
+# $Id: Make.mm,v 1.2 2008-04-12 08:59:56 aivazis Exp $
 
 # End of file

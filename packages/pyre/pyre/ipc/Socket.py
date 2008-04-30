@@ -31,7 +31,6 @@ class Socket(socket.socket):
 
 
     def __init__(self, type):
-        self.type = type
         socket.socket.__init__(self, type=type)
         return
 
@@ -59,6 +58,6 @@ class Socket(socket.socket):
 
 
 # version
-__id__ = "$Id: Socket.py,v 1.1.1.1 2006-11-27 00:10:04 aivazis Exp $"
+__id__ = "$Id: Socket.py,v 1.2 2008-01-31 15:41:00 aivazis Exp $"
 
 # End of file 

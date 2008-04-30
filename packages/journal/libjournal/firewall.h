@@ -14,25 +14,41 @@
 #if !defined(journal_firewall_h)
 #define journal_firewall_h
 
+#include "macros.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    void firewall_hit(__HERE_DECL__, const char * fmt, ...);
+    void firewall_affirm(int condition, __HERE_DECL__, const char * fmt, ...);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+/* C++ section */
+#ifdef __cplusplus
 #include <string>
 #include <sstream>
 
 #include "Diagnostic.h"
 #include "SeverityFirewall.h"
 
-#include "macros.h"
 #include "manipulators.h"
 
-// forward declarations
+/* forward declarations */
 namespace journal {
 
     typedef SeverityFirewall firewall_t;
 }
 
+#endif /* __cplusplus */
 
 #endif
 
-// version
-// $Id: firewall.h,v 1.1.1.1 2006-11-27 00:09:38 aivazis Exp $
+/* version */
+/* $Id: firewall.h,v 1.2 2008-04-12 05:16:43 aivazis Exp $ */
 
-// End of file 
+/* End of file */

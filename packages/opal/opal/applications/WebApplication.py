@@ -43,7 +43,7 @@ class WebApplication(CGI):
 
 
     def main(self, *args, **kwds):
-        page = self.actor.perform(self, self.inventory.routine)
+        page = self.actor.perform(self, routine=self.inventory.routine, debug=self.debug)
         self.render(page)
         return
 
@@ -60,6 +60,13 @@ class WebApplication(CGI):
 
     def retrievePage(self, name):
         page = self.retrieveComponent(name, factory='page', args=[self], vault=['pages'])
+        if page:
+            return page
+
+        if not self.debug:
+            return self.retrieveComponent("error", factory='page', args=[self], vault=['pages'])
+        
+        print "<pre>could not locate page %r</pre>" % name
         return page
 
 
@@ -128,6 +135,6 @@ class WebApplication(CGI):
 
 
 # version
-__id__ = "$Id: WebApplication.py,v 1.3 2007-03-06 03:43:17 aivazis Exp $"
+__id__ = "$Id: WebApplication.py,v 1.4 2008-04-21 07:50:19 aivazis Exp $"
 
 # End of file 

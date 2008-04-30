@@ -30,6 +30,9 @@ class CGI(Script):
             validator=pyre.inventory.choice(["raw", "html", "attachment"]))
         content.meta['tip'] = "the target browser behaviour"
 
+        debug = pyre.inventory.bool(name="debug", default=False)
+        debug.meta['tip'] = "suppress some html output for debugging purposes"
+
 
     def collectUserInput(self, registry):
 
@@ -145,6 +148,10 @@ class CGI(Script):
         Script.__init__(self, name)
         self.stream = None
         self.content = "html"
+
+        # debugging mode
+        self.debug = False
+
         return
 
 
@@ -153,6 +160,7 @@ class CGI(Script):
 
         self.stream = self.inventory.stream
         self.content = self.inventory.content
+        self.debug = self.inventory.debug
         return
 
     def _init(self):
@@ -177,6 +185,6 @@ class CGI(Script):
         
 
 # version
-__id__ = "$Id: CGI.py,v 1.5 2007-03-26 00:29:50 aivazis Exp $"
+__id__ = "$Id: CGI.py,v 1.6 2008-04-21 07:51:08 aivazis Exp $"
 
 # End of file 

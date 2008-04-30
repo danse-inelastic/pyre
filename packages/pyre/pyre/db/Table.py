@@ -19,11 +19,11 @@ class Table(Traceable):
 
 
     def getValues(self):
-        return [ self._priv_columns.get(name) for name in self._columnRegistry ]
+        return [ self.__getattribute__(name) for name in self._columnRegistry ]
 
 
     def getWriteableValues(self):
-        return [ self._priv_columns.get(name) for name in self._writeable ]
+        return [ self.__getattribute__(name) for name in self._writeable ]
 
 
     def getColumnNames(self):
@@ -64,6 +64,6 @@ class Table(Traceable):
 
 
 # version
-__id__ = "$Id: Table.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
+__id__ = "$Id: Table.py,v 1.5 2008-04-21 03:08:46 aivazis Exp $"
 
 # End of file 

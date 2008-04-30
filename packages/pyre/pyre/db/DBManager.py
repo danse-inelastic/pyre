@@ -142,7 +142,8 @@ class DBManager(object):
             # build the dictionary with the column information
             values = {}
             for key, value in zip(columns, row):
-                values[key] = value
+	    	if value is not None:
+                    values[key] = value
             # attach it to the object
             item._priv_columns = values
 
@@ -162,6 +163,6 @@ class DBManager(object):
 
 
 # version
-__id__ = "$Id: DBManager.py,v 1.3 2007-12-15 11:10:21 aivazis Exp $"
+__id__ = "$Id: DBManager.py,v 1.4 2008-04-21 03:07:30 aivazis Exp $"
 
 # End of file 

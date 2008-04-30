@@ -22,13 +22,13 @@ class Char(Column):
         return "character (%d)" % self.length
 
 
-    def __init__(self, name, length, **kwds):
-        Column.__init__(self, name, **kwds)
+    def __init__(self, name, length, default="", **kwds):
+        Column.__init__(self, name, default, **kwds)
         self.length = length
         return
 
 
 # version
-__id__ = "$Id: Char.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
+__id__ = "$Id: Char.py,v 1.3 2008-04-14 04:46:17 aivazis Exp $"
 
 # End of file 

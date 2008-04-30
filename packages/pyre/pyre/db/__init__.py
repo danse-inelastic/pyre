@@ -4,7 +4,7 @@
 #
 #                             Michael A.G. Aivazis
 #                      California Institute of Technology
-#                      (C) 1998-2005  All Rights Reserved
+#                      (C) 1998-2008  All Rights Reserved
 #
 # {LicenseText}
 #
@@ -17,6 +17,10 @@ def connect(database, wrapper=None):
     if wrapper is None or wrapper == "psycopg":
         from Psycopg import Psycopg
         return Psycopg(database)
+
+    if wrapper == "psycopg2":
+        from Psycopg2 import Psycopg2
+        return Psycopg2(database)
 
     import journal
     journal.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
@@ -84,6 +88,6 @@ def varchar(**kwds):
 
 
 # version
-__id__ = "$Id: __init__.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
+__id__ = "$Id: __init__.py,v 1.2 2008-04-04 08:37:14 aivazis Exp $"
 
 # End of file 

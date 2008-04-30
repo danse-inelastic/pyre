@@ -22,12 +22,12 @@ class Integer(Column):
         return "integer"
 
 
-    def __init__(self, name, **kwds):
-        Column.__init__(self, name, **kwds)
+    def __init__(self, name, default=0, **kwds):
+        Column.__init__(self, name, default, **kwds)
         return
 
 
 # version
-__id__ = "$Id: Integer.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
+__id__ = "$Id: Integer.py,v 1.2 2008-04-13 05:59:14 aivazis Exp $"
 
 # End of file 
