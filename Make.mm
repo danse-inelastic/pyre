@@ -14,7 +14,9 @@ PROJECT = pyre
 PACKAGE = pyre
 
 PYTHIA_VERSION = 0.8
+BRANCH_REVISION = $$(svn info|grep -o "^Last Changed Rev: [0-9]*" | sed -e "s/Last Changed Rev: //")
 PYTHIA_ZIP = pythia-${PYTHIA_VERSION}.zip
+PYTHIA_ZIP3 = pythia-${PYTHIA_VERSION}-r${BRANCH_REVISION}.zip
 
 RECURSE_DIRS = \
     packages \
@@ -50,6 +52,8 @@ zip2:
 	(cd packages/pyre; zip -r ../../${PYTHIA_ZIP} pyre -i \*.py; \
         cd ../journal; zip -r ../../${PYTHIA_ZIP} journal -i \*.py)
 
+zip3: zip
+	(mv ./${PYTHIA_ZIP} ./${PYTHIA_ZIP3})
 
 
 # version
