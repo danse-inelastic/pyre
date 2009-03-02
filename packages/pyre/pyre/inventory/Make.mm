@@ -31,6 +31,7 @@ all: export
 
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
+	$(RM) $(RMFLAGS) odb/prefix.py odb/prefix-template.pyc
 
 clean::
 	BLD_ACTION="clean" $(MM) recurse

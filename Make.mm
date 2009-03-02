@@ -42,18 +42,22 @@ distclean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
-zip:
+zip: prefix
 	(cd packages; \
 	for dir in pyre journal; do { \
              (cd $${dir}; zip -r ../../${PYTHIA_ZIP} $${dir} -i \*.py); \
 	} ; done )
 
-zip2: 
+zip2: prefix
 	(cd packages/pyre; zip -r ../../${PYTHIA_ZIP} pyre -i \*.py; \
         cd ../journal; zip -r ../../${PYTHIA_ZIP} journal -i \*.py)
 
 zip3: zip
-	(mv ./${PYTHIA_ZIP} ./${PYTHIA_ZIP3})
+	$(MV_F) ./${PYTHIA_ZIP} ./${PYTHIA_ZIP3}
+
+PREFIX_DIR = ./packages/pyre/pyre/inventory/odb/
+prefix:
+	$(CP_F) ${PREFIX_DIR}/prefix-template.py ${PREFIX_DIR}/prefix.py
 
 
 # version
