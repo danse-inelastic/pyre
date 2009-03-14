@@ -48,9 +48,12 @@ zip: prefix
              (cd $${dir}; zip -r ../../${PYTHIA_ZIP} $${dir} -i \*.py); \
 	} ; done )
 
+PYRE_EXTENSIONS = \*.odb \*.pml \*.md5 \*.sha \*.crypt
 zip2: prefix
-	(cd packages/pyre; zip -r ../../${PYTHIA_ZIP} pyre -i \*.py; \
-        cd ../journal; zip -r ../../${PYTHIA_ZIP} journal -i \*.py)
+	(cd packages/pyre; \
+        zip -r ../../${PYTHIA_ZIP} pyre -i \*.py ${PYRE_EXTENSIONS}; \
+        cd ../journal; \
+        zip -r ../../${PYTHIA_ZIP} journal -i \*.py ${PYRE_EXTENSIONS})
 
 zip3: zip2
 	$(MV_F) ./${PYTHIA_ZIP} ./${PYTHIA_ZIP3}
