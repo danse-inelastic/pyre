@@ -14,9 +14,7 @@ PROJECT = pyre
 PACKAGE = pyre
 
 PYTHIA_VERSION = 0.8
-BRANCH_REVISION = $$(svn info|grep -o "^Last Changed Rev: [0-9]*" | sed -e "s/Last Changed Rev: //")
 PYTHIA_ZIP = pythia-${PYTHIA_VERSION}.zip
-PYTHIA_ZIP3 = pythia-${PYTHIA_VERSION}-r${BRANCH_REVISION}.zip
 
 RECURSE_DIRS = \
     packages \
@@ -55,25 +53,11 @@ zip2: prefix
         cd ../journal; \
         zip -r ../../${PYTHIA_ZIP} journal -i \*.py ${PYRE_EXTENSIONS})
 
-zip3: zip2
-	$(MV_F) ./${PYTHIA_ZIP} ./${PYTHIA_ZIP3}
-
-zip4: addtests zip3 deltests
-
 
 ### slave calls ###
 PREFIX_DIR = ./packages/pyre/pyre/inventory/odb/
 prefix:
 	$(CP_F) ${PREFIX_DIR}/prefix-template.py ${PREFIX_DIR}/prefix.py
-
-CPFLAGS = -rf
-addtests:
-	$(CP) ${CPFLAGS} packages/pyre/tests packages/pyre/pyre/tests
-	$(CP) ${CPFLAGS} packages/journal/tests packages/journal/journal/tests
-
-deltests:
-	$(RM) $(RMFLAGS) packages/pyre/pyre/tests
-	$(RM) $(RMFLAGS) packages/journal/journal/tests
 
 
 # version
