@@ -144,7 +144,6 @@ class Curator(Base):
 
         return
 
-
     def createPrivateDepositories(self, name):
         """ create private system and user depositories from <name>"""
 
