@@ -55,6 +55,26 @@ def parser(mode="pml"):
 
 # builtin property types
 def array(name, **kwds):
+    '''Create an inventory item declaring a list of floats.
+    It can be initialized from a string of comma separated floats,
+    that may be enclosed in parenthesis, brackets or braces.
+
+    name    -- public name of this item, used on command line and
+               PML files.
+
+    Keyword arguments:
+
+    default     -- default list of floats, when not specified use empty list.
+    validator   -- function of one variable that validates a candidate value.
+                   Raises ValueError when validator returns False.
+
+    Returns an instance of inventory.properties.Array.
+
+    Notable attributes:
+
+    meta        -- dictionary, where items ('tip', 'doc') provide short
+                   and long description of the inventory item.
+    '''
     from properties.Array import Array
     return Array(name, **kwds)
 
