@@ -55,7 +55,7 @@ def parser(mode="pml"):
 
 # builtin property types
 def array(name, **kwds):
-    '''Create an inventory item declaring a list of floats.
+    '''Create an inventory item for a list of floats.
     It can be initialized from a string of comma separated floats,
     that may be enclosed in parenthesis, brackets or braces.
 
@@ -65,12 +65,14 @@ def array(name, **kwds):
     Keyword arguments:
 
     default     -- default list of floats, when not specified use empty list.
-    validator   -- function of one variable that validates a candidate value.
-                   Raises ValueError when validator returns False.
+    validator   -- function of one variable that returns its validated value
+                   (usually the same) or raises ValueError
 
     Returns an instance of inventory.properties.Array.
+    Raises TypeError when assigned value that cannot be converted to
+    a list of floats.
 
-    Notable attributes:
+    Notable attributes in the returned object:
 
     meta        -- dictionary, where items ('tip', 'doc') provide short
                    and long description of the inventory item.
@@ -80,6 +82,27 @@ def array(name, **kwds):
 
 
 def bool(name, **kwds):
+    '''Create a boolean inventory item that is by default False.
+    It can be assigned from case-insensitive strings of
+    (1, y, yes, on, t, true) or (0, n, no, off, f, false).
+
+    name    -- public name of this item, used on command line and
+               PML files.
+
+    Keyword arguments:
+
+    default     -- default boolean flag.
+    validator   -- function of one variable that returns its validated value
+                   (usually the same) or raises ValueError.
+
+    Returns an instance of inventory.properties.Bool.
+    Raises KeyError when assigned string, which is none of the above.
+
+    Notable attributes in the returned object:
+
+    meta        -- dictionary, where items ('tip', 'doc') provide short
+                   and long description of the inventory item.
+    '''
     from properties.Bool import Bool
     return Bool(name, **kwds)
 
