@@ -55,7 +55,7 @@ def parser(mode="pml"):
 
 # builtin property types
 def array(name, **kwds):
-    '''Create an inventory item for a list of floats.
+    '''Create an inventory type for a list of floats.
     It can be initialized from a string of comma separated floats,
     that may be enclosed in parenthesis, brackets or braces.
 
@@ -68,21 +68,21 @@ def array(name, **kwds):
     validator   -- function of one variable that returns its validated value
                    (usually the same) or raises ValueError
 
-    Returns an instance of inventory.properties.Array.
+    Returns an instance of Array from inventory.properties.Array.
     Raises TypeError when assigned value that cannot be converted to
     a list of floats.
 
-    Notable attributes in the returned object:
+    Notable attributes of the returned type:
 
-    meta        -- dictionary, where items ('tip', 'doc') provide short
-                   and long description of the inventory item.
+    meta    -- dictionary, where items ('tip', 'doc') provide short
+               and long description of the inventory item.
     '''
     from properties.Array import Array
     return Array(name, **kwds)
 
 
 def bool(name, **kwds):
-    '''Create a boolean inventory item that is by default False.
+    '''Create a boolean inventory type that is by default False.
     It can be assigned from case-insensitive strings of
     (1, y, yes, on, t, true) or (0, n, no, off, f, false).
 
@@ -91,23 +91,65 @@ def bool(name, **kwds):
 
     Keyword arguments:
 
-    default     -- default boolean flag.
+    default     -- default boolean flag, can be None to indicate unassigned
+                   variable
     validator   -- function of one variable that returns its validated value
                    (usually the same) or raises ValueError.
 
-    Returns an instance of inventory.properties.Bool.
-    Raises KeyError when assigned string, which is none of the above.
+    Returns an instance of Bool from inventory.properties.Bool.
+    Raises KeyError when assigned unrecognized string.
 
-    Notable attributes in the returned object:
+    Notable attributes of the returned type:
 
-    meta        -- dictionary, where items ('tip', 'doc') provide short
-                   and long description of the inventory item.
+    meta    -- dictionary, where items ('tip', 'doc') provide short
+               and long description of the inventory item.
     '''
     from properties.Bool import Bool
     return Bool(name, **kwds)
 
 
 def dimensional(name, **kwds):
+    '''Inventory type for one or more values in specified SI units.
+    It must be initialized from an instance of a pyre unit, that can
+    be obtained by importing from pyre.units.SOMETHING, for example:
+
+    from pyre.units.mass import kg
+    m = pyre.inventory.dimensional('m', default=3*kg)
+
+    An instance of dimensional can be also assigned string, where value
+    and units are explicitly multiplied, for example "42*km".  Dimensional
+    supports addition and subtraction for values with compatible units.
+
+    name    -- public name of this item, used on command line and
+               PML files.
+
+    Keyword arguments:
+
+    default     -- the default value, which declares units and shape for the
+                   dimensional.  The default must be a multiple of SI units
+                   obtained from pyre.units.QUANTITY.  Use tuple or list
+                   to declare dimensional array, e.g., default=(1*kg, 2*m).
+                   A constructed dimensional can be only assigned values with
+                   compatible size and units, this can be also a string of
+                   comma separated values.  Without any default, dimensional,
+                   in a way beating its purpose.
+
+    validator   -- function of one variable that returns its validated value
+                   (usually the same) or raises ValueError.
+
+    Returns an instance of Dimensional from inventory.properties.Dimensional.
+    Raises ValueError when assigned value with incompatible units or shape.
+    Raises SyntaxError, for unknown units.
+
+    Notable attributes of the returned type:
+
+    meta    -- dictionary, where items ('tip', 'doc') provide short
+               and long description of the inventory item.
+
+    Notable attributes of instantiated type:
+
+    value   -- float value with respect to base SI units.
+    '''
     from properties.Dimensional import Dimensional
     return Dimensional(name, **kwds)
 
