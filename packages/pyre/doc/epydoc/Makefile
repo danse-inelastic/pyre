@@ -1,3 +1,17 @@
+##############################################################################
+#
+# Rules for building and publishing epydoc documentation.
+#
+# Targets:
+#
+# all       -- build epydoc documents in HTML format [default]
+# clean     -- remove all generated files
+# publish   -- publish the HTML documents online, the user must have ssh
+#              access to the WEBDOCDIR server
+#
+##############################################################################
+
+
 PKGNAME = pyre
 OUTPUT = html
 WEBDOCDIR = login.cacr.caltech.edu:/cacr/home/proj/danse/docs.danse.us/docroot/pyre

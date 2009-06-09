@@ -111,7 +111,7 @@ def bool(name, **kwds):
 def dimensional(name, **kwds):
     '''Inventory type for one or more values in specified SI units.
     It must be initialized from an instance of a pyre unit, that can
-    be obtained by importing from pyre.units.SOMETHING, for example:
+    be obtained by importing from pyre.units.QUANTITY, for example:
 
     from pyre.units.mass import kg
     m = pyre.inventory.dimensional('m', default=3*kg)
