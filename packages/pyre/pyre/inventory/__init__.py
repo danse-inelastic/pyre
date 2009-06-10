@@ -130,9 +130,9 @@ def dimensional(name, **kwds):
                    obtained from pyre.units.QUANTITY.  Use tuple or list
                    to declare dimensional array, e.g., default=(1*kg, 2*m).
                    A constructed dimensional can be only assigned values with
-                   compatible size and units, this can be also a string of
-                   comma separated values.  Without any default, dimensional,
-                   in a way beating its purpose.
+                   compatible size and units or a string of one or several
+                   comma separated values.  Without any default, dimensional
+                   is unitless.
 
     validator   -- function of one variable that returns its validated value
                    (usually the same) or raises ValueError.
@@ -148,7 +148,7 @@ def dimensional(name, **kwds):
 
     Notable attributes of instantiated type:
 
-    value   -- float value with respect to base SI units.
+    value   -- numeric value with respect to the base SI units.
     '''
     from properties.Dimensional import Dimensional
     return Dimensional(name, **kwds)
