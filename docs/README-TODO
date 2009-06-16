@@ -1,0 +1,23 @@
+Content TODO:
+*put in the following pages: 
+> Is the outline here a start for what the reader needs to know?
+> http://wiki.cacr.caltech.edu/danse/index.php/Talk:Frequently_Asked_Questions
+
+I think there's a fair lesson plan that Michael and I discussed earlier,
+and has been posted here:
+ http://danse.us/trac/pyre/wiki/User_Guide
+ http://danse.us/trac/pyre/wiki/Pyre
+ http://danse.us/trac/pyre/wiki/Journal
+ 
+ *
+
+
+
+
+"formatting" ideas: 
+-try using pudge to generate rst documentation from source code
+-would rst2odt and associated packages (python-odtwriter) convert odt back to rst?
+-get editor access to wikipedia-like danse wiki pages and cut and paste into here directly, or convert to html
+-google docs idea using html
+-how to get emacs support:
+http://docutils.sourceforge.net/tools/editors/emacs/README.html
