@@ -13,6 +13,12 @@ Contents:
 
 :doc:`pyreOverview`
 
+Requests for additional documentation and/or tutorials:
+
+* vnf tutorials
+
+
+
 
 Indices and tables
 ==================
