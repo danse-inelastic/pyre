@@ -1,7 +1,3 @@
-Pyre Documentation
-===================
-    
-
 Pyre: an application framework
 ==============================
 
@@ -77,7 +73,65 @@ Methods:
   printall() --> prints foo and bar'''
 
 
-Pyre has a utility to generate a component skeleton called
+Pyre has a script to generate a component skeleton called component.py.  Simply call it from the command line with the new name of the component template you wish to generate::
+
+ $component.py --name=pinkFloydMusicCollection
+
+which generates::
+
+# -*- Python -*-
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#
+# {LicenseText}
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+
+
+from pyre.components.Component import Component
+
+
+class pinkFloydMusicCollection(Component):
+
+
+    class Inventory(Component.Inventory):
+
+        import pyre.inventory
+
+
+    def __init__(self, name):
+        if name is None:
+            name = 'facility'
+
+        Component.__init__(self, name, facility='facility')
+
+        return
+
+
+    def _defaults(self):
+        Component._defaults(self)
+        return
+
+
+    def _configure(self):
+        Component._configure(self)
+        return
+
+
+    def _init(self):
+        Component._init(self)
+        return
+
+
+# version
+__id__ = "$Id$"
+
+# Generated automatically by PythonMill on Sun Jun 21 22:04:03 2009
+
+# End of file 
+
 
 
 
@@ -90,16 +144,7 @@ A script is an application meant to be run from the command line. A script inher
     import os
     
     class Template(Script):
-        '''pyre application template
-    Inventory:
-      foo -- string (default=None)
-      bar -- string (default=None)
-      mix -- boolean (default=False)
-    Methods:
-      shuffle() --> shuffles foo and bar
-      printall() --> prints foo and bar'''
         class Inventory(Script.Inventory):
-            '''Inventory declares and stores user modifiable variables'''
             import pyre.inventory    #for pythia0.6
             foo = pyre.inventory.str('foo', default=None)
             bar = pyre.inventory.str('bar', default=None)
@@ -107,7 +152,6 @@ A script is an application meant to be run from the command line. A script inher
     #       return
     
         def config(self, **kwds):
-            '''configure the inventory'''
             for key,value in kwds.items():
                 if key in ['foo','bar','mix']:
                     if value.__class__() == '':
