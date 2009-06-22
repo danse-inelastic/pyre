@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyre's documentation!
-================================
+Official pyre 0.8 documentation
+===============================
 
 Contents:
 
@@ -13,11 +13,27 @@ Contents:
 
 :doc:`pyreOverview`
 
+:doc:`pyreInstallation`
+
+:doc:`pyreFaqs`
+
+:doc:`pyreHistory`
+
 Requests for additional documentation and/or tutorials:
 
 * vnf tutorials
 
+* luban tutorials
 
+Upcoming versions
+-----------------
+
+Pyre 1.0 is being actively developed currently and will soon be ready for general usage.  Upcoming changes include...
+
+Useful links:
+-------------
+
+`Notes <http://danse.us/trac/ctrl/wiki/CTRL_meetings>`_ of weekly meetings of pyre development group
 
 
 Indices and tables

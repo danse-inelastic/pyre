@@ -1,82 +1,5 @@
 Pyre Documentation
 ===================
-
-Basic pyre:
------------
-
-    - pyre as an application framework
-    - pyre scripts and components
-    - pyre properties and facilities
-    - How is a script different from a component? How do I decide which to use?
-    - What does pyre require of the format (input/output, etc) of my code?
-    - What is the difference between a facility and an component?
-    - What is a factory?
-    - What is a .pml file? How and when is it intended to be used?
-    - What is a .obd file? How and when is it intended to be used?
-    - How is a .odb file different from the same file with a .py extension?
-    - Should I write an additional python layer around my code, or should all of that go into a pyre component? 
-
-
-The pyre inventory:
--------------------
-
-    - What goes in the inventory, versus what is a state variable?
-    - How do I manipulate a component's inventory after the component has been instantiated?
-    - How can I get a component to manipulate its parents inventory?
-    - If I use a component as a facility, can I access one of the facility's methods to return a result?
-    - In __init__, what is the preferred naming convention for the instance? for the facility?
-    - What is the preferred naming convention for the component file versus the component class?
-    - Where can I find out more (documentation) on what is available in the inventory?
-    - Is it preferred to change a variable in the inventory or at the state level?
-    - Behind the scenes: How does the Inventory class work? 
-
-
-Inheritance:
-------------
-
-    - Are there reserved method names within pyre, and how can I find out what they are?
-    - My component needs to inherit from something else, can pyre handle that?
-    - Do I have to include methods like "_defaults" if I don't use them?
-    - What are the minimum methods I have to include to have a functional pyre component? 
-
-
-Using pyre:
------------
-
-    - How do I run everything from the commandline?
-    - Can an application/script drive another application/script?
-    - How do I have a component use another component?
-    - Recombinant graphs: Can two components use the same instance of a child component?
-    - Lists & dicts don't work in pyre from the commandline, what am I doing wrong?
-    - Can I change the wiring of a pyre application on the fly?
-    - What goes in a script's run method versus, say, a 'greet' method?
-    - Can I use different explicit functions within my C code as seperate pyre components, or do I have to wrap all of my code at once?
-    - How can I replace a method within my C code if all the C code is within a single library?
-    - How can I know where user inputs of my application come from (command line? odb? pml?)? How can I track where user inputs of subcomponents ( and subsubcomponents ... ) of my application come from? 
-
-
-Using component Factories
----------------------------
-
-    - What is a factory?
-    - What can a pyre factory do and not do?
-    - How can I override args to a component factory from command line? From .pml file?
-    - Is it possible to have multiple components in an application that use the same factory name? 
-
-
-Miscellaneous:
---------------
-
-    - Does pyre understand swig?
-    - What is the ~/.pyre directory for? 
-
-
-Journal:
---------
-
-    - Is there a journal tutorial, possibly incomplete?
-    - How do I turn a journal on or off from command line? 
-    
     
 
 Pyre: an application framework
@@ -87,27 +10,332 @@ The pyre framework is a Python-based system for constructing applications. Appli
 Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
 
 
-Pyre scripts and components
+Pyre components and scripts
 ===========================
 
-A script is an application meant to be run from the command line. A script usually inherits from the Script class in pyre.applications.Script. For convenience, a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs.
+A pyre component is the basic chunk of code managed by the pyre framework.
 
-An application is a special component that manages and coordinates the work of other components. Application inherits from pyre.inventory.Component.
+To make your own component, subclass Component. Component has an embedded class Inventory; subclasses of Component should similarly have an embedded class Inventory which inherits from Component.Inventory. The inventory is the designated place for the public to interact with components. By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.  An example is::
 
-A component is an instance of the class pyre.inventory.Component. Components are the basic chunk of code managed by the pyre framework.
+    from pyre.inventory.Component import Component
+    import os
+    
+    class Template(Component):
+    
+        class Inventory(Component.Inventory):
+            import pyre.inventory  
+            foo = pyre.inventory.str('foo', default=None)
+            bar = pyre.inventory.str('bar', default=None)
+    
+        def config(self, **kwds):
+            '''configure the inventory'''
+            for key,value in kwds.items():
+                if key in ['foo','bar']:
+                    if value.__class__() == '':
+                        exec 'self.inventory.'+key+' = "'+value+'"'
+                    else:
+                        exec 'self.inventory.'+key+' = '+str(value)
+            return
+    
+        def shuffle(self):
+            '''shuffles foo and bar; a example method'''
+            #pass inventory into local variables
+            foo = self.inventory.foo
+            bar = self.inventory.bar
+            #main code
+            self.inventory.foo = bar
+            self.inventory.bar = foo
+            return
+    
+        def printall(self):
+            '''prints foo and bar; a example method'''
+            #pass inventory into local variables
+            foo = self.inventory.foo
+            bar = self.inventory.bar
+            #main code
+            print foo, bar
+            return
+    
+        def __init__(self, name='Template', **kwds):
+            '''instantiate the application, and pass any keywords to config'''
+            Component.__init__(self, name, 'DummyTemplate')
+            self.config(**kwds)
+            return
+    
+        def help(self):
+            print self.__doc__
+            return
 
-To make your own component, subclass Component. Component has an embedded class Inventory; subclasses of Component should similarly have an embedded class Inventory which inherits from Component.Inventory. The inventory is the designated place for the public to interact with components. By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.
+Notice a component is an instance of the class pyre.inventory.Component. External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
-Components are closely related to facilities. Every component specifies the facility to which it can be bound.
+    '''pyre component template
+Inventory:
+  foo -- string (default=None)
+  bar -- string (default=None)
+Methods:
+  shuffle() --> shuffles foo and bar
+  printall() --> prints foo and bar'''
 
 
-Facility
----------
-A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through .pml file(s).
+Pyre has a utility to generate a component skeleton called
 
-Property
-----------
+
+
+
+
+A script is an application meant to be run from the command line. A script inherits from the Script class in pyre.applications.Script. An example is::
+
+
+    from pyre.applications.Script import Script
+    import os
+    
+    class Template(Script):
+        '''pyre application template
+    Inventory:
+      foo -- string (default=None)
+      bar -- string (default=None)
+      mix -- boolean (default=False)
+    Methods:
+      shuffle() --> shuffles foo and bar
+      printall() --> prints foo and bar'''
+        class Inventory(Script.Inventory):
+            '''Inventory declares and stores user modifiable variables'''
+            import pyre.inventory    #for pythia0.6
+            foo = pyre.inventory.str('foo', default=None)
+            bar = pyre.inventory.str('bar', default=None)
+            mix = pyre.inventory.bool('mix', default=False)
+    #       return
+    
+        def config(self, **kwds):
+            '''configure the inventory'''
+            for key,value in kwds.items():
+                if key in ['foo','bar','mix']:
+                    if value.__class__() == '':
+                        exec 'self.inventory.'+key+' = "'+value+'"'
+                    else:
+                        exec 'self.inventory.'+key+' = '+str(value)
+            return
+    
+        def shuffle(self):
+            '''shuffles foo and bar; a example method'''
+            #pass inventory into local variables
+            foo = self.inventory.foo
+            bar = self.inventory.bar
+            #main code
+            self.inventory.foo = bar
+            self.inventory.bar = foo
+            return
+    
+        def printall(self):
+            '''prints foo and bar; a example method'''
+            #pass inventory into local variables
+            foo = self.inventory.foo
+            bar = self.inventory.bar
+            #main code
+            print foo, bar
+            return
+    
+        def run(self):
+            '''shuffle if required; the main method'''
+            self.printall()
+            if self.inventory.mix:
+                self.shuffle()
+                self.printall()
+            return
+    
+        def __init__(self, name='Template', **kwds):
+            '''instantiate the application, and pass any keywords to config'''
+            Script.__init__(self, name)
+            self.config(**kwds)
+            return
+    
+        def help(self):
+            print self.__doc__
+            return
+    
+    # main
+    if __name__ == '__main__':
+        '''begin journaling services, and then run the main code block'''
+        import journal
+        mp = Template('test')  #instance of class Template (named 'test')
+        journal.debug('test').activate()  #activate journal for 'test'
+        mp.main()  #launch the main code block ('Template.run')
+
+
+Notice a script differs from a Component in that it has a run() method.
+
+To make a Pyre application from a given component:
+
+   1. substitute "pyre.inventory.Component" with "pyre.applications.Application"
+   2. substitute all instances of "Component" with "Application"
+   3. add a run() method (i.e. a code block for "def run(self):"
+   4. delete the 'facility' name in __init__: "Component.__init__(self, name, facility)"
+   5. add a "if __name__ == '__main__':" code block
+   6. add a help() method (if one does not already exist) 
+
+Notice that an additional inventory item, "mix", was added ("mix" only is used by the 'run' method). 
+
+For convenience, a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs.
+
+
+
+
+
+
+
+Pyre inventory: properties, facilities, and factories
+=====================================================
+
 A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
+
+A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
+
+A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
+
+1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class.
+
+class A(object):       # When this line is executed, a callable object named A is made
+    def __init__( self):
+        return 
+
+The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
+
+>>> myA = A()  # This calls the class object "A" to make a new A object for you.
+
+2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py:
+
+def AFactory_1():
+    from A import A
+    a = A()
+    return a
+
+Here's how this would get used:
+
+>>> myA = AFactory_1()
+>>> print myA.__class__.__name__
+A
+
+3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state:
+
+class AFactory_2( object):
+
+    theInstance = None
+
+    def __call__( self):
+        if self.theInstance is None:
+            from A import A
+            self.theInstance = A()
+        a = self.theInstance
+        return a
+
+Here's how that would be used:
+
+>>> afactory = AFactory_2()
+>>> a1 = afactory()
+>>> a2 = afactory()
+>>> a1 is a2
+True
+>>> a1
+<__main__.A instance at 0x2a955e3368>
+>>> a2
+<__main__.A instance at 0x2a955e3368>
+
+Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
+
+
+Pyre .odb and .pml files
+========================
+
+A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
+
+The name of the .pml file must be <applicationName>.pml.
+
+Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test",
+
+$ python inventory.py --name=test
+creating inventory template in 'test.pml'
+
+generates a file containing this:
+
+<?xml version="1.0"?>
+<!--
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
+!                                 T. M. Kelley
+!                   (C) Copyright 2005  All Rights Reserved
+!
+! {LicenseText}
+!
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+
+<!DOCTYPE inventory>
+
+<inventory>
+
+  <component name='test'>
+    <property name='key'>value</property>
+  </component>
+
+</inventory>
+
+
+<!-- version-->
+<!-- $Id$-->
+
+<!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
+
+<!-- End of file -->
+
+By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line
+
+    <property name='key'>value</property>
+
+to read
+
+    <property name='property1'>3.14159</property>
+
+.
+
+See also where to put .pml files
+[edit]
+change the choice of a component
+
+Say if we have a greeter component in our hello application
+
+ class Hello(Script):
+ 
+     class Inventory(Script.Inventory):
+ 
+         greeter = pyre.inventory.facility( 'greeter', default = Greeter('greeter') )
+ 
+         ...
+
+And we want to change the default choice of greeter to a odb file called morning.odb
+
+ #morning.odb
+ from Greeter import Greeter
+ 
+ def greeter():
+     from Greeter import Greeter
+     class Morning (Greeter):
+         def _defaults(self): self.inventory.greeting = "Good morning"
+     return Morning('morning')
+
+What we could do is to change the application pml file hello.pml
+
+ <component name='hello'>
+   <facility name='greeter'>morning</facility>
+
+Where to put .pml files
+-----------------------
+
+There are several places to put .pml files, depending on the scope you'd like them to have.
+
+   1. Files meant to override variables system-wide should be put with the pyre installation, in pythia-m.n/etc/<comp_name>/<comp_name>.pml, where m.n is the pythia version number, and <comp_name> is the name of the component. Example: the system-wide .pml file for myApp with pythia-0.8 should be .../pythia-0.8/etc/myApp/myApp.pml
+   2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp/myApp.pml
+   3. Files meant to be local overrides should go in the local directory: ./myApp.pml 
+
+3 beats the others, 2 beats 1, 1 beats whatever the default is. 
 
 
 
@@ -147,11 +375,5 @@ Wrapping is the process of providing a new interface to an already existing piec
 
 
 
-    
-    
-    
-    
-    
-    
-    
-    
+
+
