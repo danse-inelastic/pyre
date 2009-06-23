@@ -1,7 +1,7 @@
 Pyre: an application framework
 ==============================
 
-The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up. A pyre component is the basic chunk of code managed by the pyre framework. Components contain a unit of functionality, whether one class or many, which requires certain settings before runtime.  A component may in turn pass settings to a subcomponent and so on.  The power of pyre is in taking an arbitrarily long, complex, interrelated set of configurations in a pyre script and being able to sort them out and pass them to all the underlying subcomponents so that they are configured in the correct order and dependencies stay satisfied.
+The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up. A pyre component is the basic chunk of code managed by the pyre framework.  A component contains a "unit of functionality", whether one class or many, which requires certain settings before runtime.  A component may in turn pass settings to a subcomponent and so on.  The power of pyre is in taking an arbitrarily long, complex, interrelated set of configurations and being able to sort them out and pass them to all the underlying subcomponents so that they are configured in the correct order and dependencies are satisfied.
 
 As the component "unit of functionality" is left undefined, it is up to the pyre architect to decide at what level they would like to divide their code into components.  Some may choose to create entire computational engines as components that can be swapped in and out based on a user's preferences.  Others may elect to fine-grain the component nature of their engines, such as creating components for a forcefield within a physics engine that can be altered at configuration time, or even the individual forcefield components.
 
@@ -13,58 +13,98 @@ Pyre components and scripts
 
 Pyre component structure is relatively straightforward.  The component is a python object inheriting from pyre.inventory.Component.  It should contain an inner class called Inventory subclassing Component.Inventory.  An example is::
 
-
     from pyre.components.Component import Component
-
-
-    class Actor(Component):
     
     
-        def perform(self, director, routine=None, debug=False):
-            """construct an actual page by invoking the requested routine"""
+    class Sentry(Component):
     
-            if routine is None:
-                routine = "default"
+    
+        class Inventory(Component.Inventory):
+    
+            import pyre.inventory
+    
+            username = pyre.inventory.str('username')
+            username.meta['tip'] = "the requestor's username"
+    
+            passwd = pyre.inventory.str('passwd')
+            passwd.meta['tip'] = "the requestor's passwd"
+    
+            ticket = pyre.inventory.str('ticket')
+            ticket.meta['tip'] = "the requestor's previously obtained ticket"
+    
+            attempts = pyre.inventory.int('attempts')
+            attempts.meta['tip'] = "the number of unsuccessful attempts to login"
+    
+            import pyre.ipa
+            ipa = pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session)
+            ipa.meta['tip'] = "the ipa session manager"
+    
+    
+        def authenticate(self):
+            self.attempts += 1
+            if self.ticket:
+                try:
+                    self.ticket = self.ipa.refresh(self.username, self.ticket)
+                    return self.ticket
+                except self.ipa.RequestError:
+                    return
     
             try:
-                behavior = self.__getattribute__(routine)
-            except AttributeError:
-                self._info.log("routine '%s' is not yet implemented" % routine)
-                behavior = self.nyi
+                self.ticket = self.ipa.login(self.username, self.passwd)
+                return self.ticket
+            except self.ipa.RequestError:
+                return
     
-            if debug:
-                # avoid the try net so cgitb can dump the exception
-                return behavior(director)
-    
-            try:
-                page = behavior(director)
-            except:
-                self._info.log("routine '%s' is not implemented correctly" % routine)
-                import traceback
-                self._debug.log( traceback.format_exc() )
-                page = self.error(director)
-    
-            return page
+            return
     
     
-        def error(self, director):
-            """notify the user that a routine is not implemented correctly"""
-            page = director.retrievePage("error")
-            return page
+        def __init__(self, name=None):
+            if name is None:
+                name = 'sentry'
+    
+            Component.__init__(self, name, facility='sentry')
+    
+            # the user parameters
+            self.username = ''
+            self.passwd = ''
+            self.ticket = ''
+            self.attempts = 0
+    
+            # the IPA session
+            self.ipa = None
+    
+            return
     
     
-        def nyi(self, director):
-            """notify the user that the requested routine is not yet implemented"""
-            page = director.retrievePage("nyi")
-            return page
+        def _configure(self):
+            Component._configure(self)
+            self.username = self.inventory.username
+            self.passwd = self.inventory.passwd
+            self.ticket = self.inventory.ticket
+            self.attempts = self.inventory.attempts
     
+            self.ipa = self.inventory.ipa
     
-        def __init__(self, name):
-            super(Actor, self).__init__(name, facility='actor')
-            self.routine = None
             return
 
-The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
+Note the presence of an inner class called Inventory, which contains settings such as username and password, as well as subcomponents.  Allowable inventory types are stored in the pyre.inventory package.  Also note the presence of a private method called _configure().   
+
+Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
 
 By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
@@ -233,51 +273,51 @@ A factory is any function (or any other callable object, such as a class object 
 
 1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
 
-class A(object):       # When this line is executed, a callable object named A is made
-    def __init__( self):
-        return 
+    class A(object):       # When this line is executed, a callable object named A is made
+        def __init__( self):
+            return 
 
 The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
 
->>> myA = A()  # This calls the class object "A" to make a new A object for you.
+    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
 
 2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py:
 
-def AFactory_1():
-    from A import A
-    a = A()
-    return a
+    def AFactory_1():
+        from A import A
+        a = A()
+        return a
 
 Here's how this would get used:
 
->>> myA = AFactory_1()
->>> print myA.__class__.__name__
-A
+    >>> myA = AFactory_1()
+    >>> print myA.__class__.__name__
+    A
 
 3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state:
 
-class AFactory_2( object):
-
-    theInstance = None
-
-    def __call__( self):
-        if self.theInstance is None:
-            from A import A
-            self.theInstance = A()
-        a = self.theInstance
-        return a
+    class AFactory_2( object):
+    
+        theInstance = None
+    
+        def __call__( self):
+            if self.theInstance is None:
+                from A import A
+                self.theInstance = A()
+            a = self.theInstance
+            return a
 
 Here's how that would be used:
 
->>> afactory = AFactory_2()
->>> a1 = afactory()
->>> a2 = afactory()
->>> a1 is a2
-True
->>> a1
-<__main__.A instance at 0x2a955e3368>
->>> a2
-<__main__.A instance at 0x2a955e3368>
+    >>> afactory = AFactory_2()
+    >>> a1 = afactory()
+    >>> a2 = afactory()
+    >>> a1 is a2
+    True
+    >>> a1
+    <__main__.A instance at 0x2a955e3368>
+    >>> a2
+    <__main__.A instance at 0x2a955e3368>
 
 Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
 
@@ -289,47 +329,47 @@ A .pml file is an XML file that assigns values to properties, components, and fa
 
 The name of the .pml file must be <applicationName>.pml.
 
-Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test",
+Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test",::
 
-$ python inventory.py --name=test
-creating inventory template in 'test.pml'
+    $ python inventory.py --name=test
+    creating inventory template in 'test.pml'
 
-generates a file containing this:
+generates a file containing this::
 
-<?xml version="1.0"?>
-<!--
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
-!                                 T. M. Kelley
-!                   (C) Copyright 2005  All Rights Reserved
-!
-! {LicenseText}
-!
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <?xml version="1.0"?>
+    <!--
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
+    !                                 T. M. Kelley
+    !                   (C) Copyright 2005  All Rights Reserved
+    !
+    ! {LicenseText}
+    !
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    
+    
+    <!DOCTYPE inventory>
+    
+    <inventory>
+    
+      <component name='test'>
+        <property name='key'>value</property>
+      </component>
+    
+    </inventory>
+    
+    
+    <!-- version-->
+    <!-- $Id$-->
+    
+    <!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
+    
+    <!-- End of file -->
 
+By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line::
 
-<!DOCTYPE inventory>
-
-<inventory>
-
-  <component name='test'>
     <property name='key'>value</property>
-  </component>
 
-</inventory>
-
-
-<!-- version-->
-<!-- $Id$-->
-
-<!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
-
-<!-- End of file -->
-
-By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line
-
-    <property name='key'>value</property>
-
-to read
+to read::
 
     <property name='property1'>3.14159</property>
 
@@ -339,31 +379,31 @@ See also where to put .pml files
 [edit]
 change the choice of a component
 
-Say if we have a greeter component in our hello application
+Say if we have a greeter component in our hello application::
 
- class Hello(Script):
- 
-     class Inventory(Script.Inventory):
- 
-         greeter = pyre.inventory.facility( 'greeter', default = Greeter('greeter') )
- 
-         ...
+     class Hello(Script):
+     
+         class Inventory(Script.Inventory):
+     
+             greeter = pyre.inventory.facility( 'greeter', default = Greeter('greeter') )
+     
+             ...
 
-And we want to change the default choice of greeter to a odb file called morning.odb
+And we want to change the default choice of greeter to a odb file called morning.odb::
 
  #morning.odb
- from Greeter import Greeter
- 
- def greeter():
      from Greeter import Greeter
-     class Morning (Greeter):
-         def _defaults(self): self.inventory.greeting = "Good morning"
-     return Morning('morning')
+     
+     def greeter():
+         from Greeter import Greeter
+         class Morning (Greeter):
+             def _defaults(self): self.inventory.greeting = "Good morning"
+         return Morning('morning')
 
-What we could do is to change the application pml file hello.pml
+What we could do is to change the application pml file hello.pml::
 
- <component name='hello'>
-   <facility name='greeter'>morning</facility>
+     <component name='hello'>
+       <facility name='greeter'>morning</facility>
 
 Where to put .pml files
 -----------------------
