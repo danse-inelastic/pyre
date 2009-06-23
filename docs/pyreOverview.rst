@@ -92,6 +92,159 @@ Note the presence of an inner class called Inventory, which contains settings su
 Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
 
 
+Pyre inventory: properties, facilities, and factories
+-----------------------------------------------------
+
+A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
+
+A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
+
+A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
+
+1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
+
+    class A(object):       # When this line is executed, a callable object named A is made
+        def __init__( self):
+            return 
+
+The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
+
+    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
+
+2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py:
+
+    def AFactory_1():
+        from A import A
+        a = A()
+        return a
+
+Here's how this would get used:
+
+    >>> myA = AFactory_1()
+    >>> print myA.__class__.__name__
+    A
+
+3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state:
+
+    class AFactory_2( object):
+    
+        theInstance = None
+    
+        def __call__( self):
+            if self.theInstance is None:
+                from A import A
+                self.theInstance = A()
+            a = self.theInstance
+            return a
+
+Here's how that would be used:
+
+    >>> afactory = AFactory_2()
+    >>> a1 = afactory()
+    >>> a2 = afactory()
+    >>> a1 is a2
+    True
+    >>> a1
+    <__main__.A instance at 0x2a955e3368>
+    >>> a2
+    <__main__.A instance at 0x2a955e3368>
+
+Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
+
+
+Pyre .odb and .pml files
+------------------------
+
+A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
+
+The name of the .pml file must be <applicationName>.pml.
+
+Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test"::
+
+    $ python inventory.py --name=test
+    creating inventory template in 'test.pml'
+
+generates a file containing this::
+
+    <?xml version="1.0"?>
+    <!--
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
+    !                                 T. M. Kelley
+    !                   (C) Copyright 2005  All Rights Reserved
+    !
+    ! {LicenseText}
+    !
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    
+    
+    <!DOCTYPE inventory>
+    
+    <inventory>
+    
+      <component name='test'>
+        <property name='key'>value</property>
+      </component>
+    
+    </inventory>
+    
+    
+    <!-- version-->
+    <!-- $Id$-->
+    
+    <!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
+    
+    <!-- End of file -->
+
+By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line::
+
+    <property name='key'>value</property>
+
+to read::
+
+    <property name='property1'>3.14159</property>
+
+.
+
+See also where to put .pml files
+[edit]
+change the choice of a component
+
+Say if we have a greeter component in our hello application::
+
+     class Hello(Script):
+     
+         class Inventory(Script.Inventory):
+     
+             greeter = pyre.inventory.facility( 'greeter', default = Greeter('greeter') )
+     
+             ...
+
+And we want to change the default choice of greeter to a odb file called morning.odb::
+
+ #morning.odb
+     from Greeter import Greeter
+     
+     def greeter():
+         from Greeter import Greeter
+         class Morning (Greeter):
+             def _defaults(self): self.inventory.greeting = "Good morning"
+         return Morning('morning')
+
+What we could do is to change the application pml file hello.pml::
+
+     <component name='hello'>
+       <facility name='greeter'>morning</facility>
+
+Where to put .pml files
+-----------------------
+
+There are several places to put .pml files, depending on the scope you'd like them to have.
+
+   1. Files meant to override variables system-wide should be put with the pyre installation, in pythia-m.n/etc/<comp_name>/<comp_name>.pml, where m.n is the pythia version number, and <comp_name> is the name of the component. Example: the system-wide .pml file for myApp with pythia-0.8 should be .../pythia-0.8/etc/myApp/myApp.pml
+   2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp/myApp.pml
+   3. Files meant to be local overrides should go in the local directory: ./myApp.pml 
+
+3 beats the others, 2 beats 1, 1 beats whatever the default is. 
 
 
 
@@ -262,159 +415,6 @@ This application does....Notice the only real difference between a script and a 
 
 
 
-Pyre inventory: properties, facilities, and factories
------------------------------------------------------
-
-A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
-
-A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
-
-A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
-
-1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
-
-    class A(object):       # When this line is executed, a callable object named A is made
-        def __init__( self):
-            return 
-
-The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
-
-    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
-
-2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py:
-
-    def AFactory_1():
-        from A import A
-        a = A()
-        return a
-
-Here's how this would get used:
-
-    >>> myA = AFactory_1()
-    >>> print myA.__class__.__name__
-    A
-
-3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state:
-
-    class AFactory_2( object):
-    
-        theInstance = None
-    
-        def __call__( self):
-            if self.theInstance is None:
-                from A import A
-                self.theInstance = A()
-            a = self.theInstance
-            return a
-
-Here's how that would be used:
-
-    >>> afactory = AFactory_2()
-    >>> a1 = afactory()
-    >>> a2 = afactory()
-    >>> a1 is a2
-    True
-    >>> a1
-    <__main__.A instance at 0x2a955e3368>
-    >>> a2
-    <__main__.A instance at 0x2a955e3368>
-
-Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
-
-
-Pyre .odb and .pml files
-========================
-
-A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
-
-The name of the .pml file must be <applicationName>.pml.
-
-Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test",::
-
-    $ python inventory.py --name=test
-    creating inventory template in 'test.pml'
-
-generates a file containing this::
-
-    <?xml version="1.0"?>
-    <!--
-    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
-    !                                 T. M. Kelley
-    !                   (C) Copyright 2005  All Rights Reserved
-    !
-    ! {LicenseText}
-    !
-    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    
-    
-    <!DOCTYPE inventory>
-    
-    <inventory>
-    
-      <component name='test'>
-        <property name='key'>value</property>
-      </component>
-    
-    </inventory>
-    
-    
-    <!-- version-->
-    <!-- $Id$-->
-    
-    <!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
-    
-    <!-- End of file -->
-
-By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line::
-
-    <property name='key'>value</property>
-
-to read::
-
-    <property name='property1'>3.14159</property>
-
-.
-
-See also where to put .pml files
-[edit]
-change the choice of a component
-
-Say if we have a greeter component in our hello application::
-
-     class Hello(Script):
-     
-         class Inventory(Script.Inventory):
-     
-             greeter = pyre.inventory.facility( 'greeter', default = Greeter('greeter') )
-     
-             ...
-
-And we want to change the default choice of greeter to a odb file called morning.odb::
-
- #morning.odb
-     from Greeter import Greeter
-     
-     def greeter():
-         from Greeter import Greeter
-         class Morning (Greeter):
-             def _defaults(self): self.inventory.greeting = "Good morning"
-         return Morning('morning')
-
-What we could do is to change the application pml file hello.pml::
-
-     <component name='hello'>
-       <facility name='greeter'>morning</facility>
-
-Where to put .pml files
------------------------
-
-There are several places to put .pml files, depending on the scope you'd like them to have.
-
-   1. Files meant to override variables system-wide should be put with the pyre installation, in pythia-m.n/etc/<comp_name>/<comp_name>.pml, where m.n is the pythia version number, and <comp_name> is the name of the component. Example: the system-wide .pml file for myApp with pythia-0.8 should be .../pythia-0.8/etc/myApp/myApp.pml
-   2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp/myApp.pml
-   3. Files meant to be local overrides should go in the local directory: ./myApp.pml 
-
-3 beats the others, 2 beats 1, 1 beats whatever the default is. 
 
 
 
