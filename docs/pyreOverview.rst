@@ -13,319 +13,217 @@ Pyre components and scripts
 
 Pyre component structure is relatively straightforward.  The component is a python object inheriting from pyre.inventory.Component.  It should contain an inner class called Inventory subclassing Component.Inventory.  An example is::
 
-## Initialize vnf db to have necessary tables. This will remove all
-## existing tables, so be careful!
+
+    from pyre.components.Component import Component
 
 
-from pyre.applications.Script import Script
-
-
-class DbApp(Script):
-
-
-    class Inventory(Script.Inventory):
-
-        import pyre.inventory
-
-        import vnf.components
-        clerk = pyre.inventory.facility(name="clerk", factory=vnf.components.clerk)
-        clerk.meta['tip'] = "the component that retrieves data from the various database tables"
-
-        import pyre.idd
-        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
-        idd.meta['tip'] = "access to the token server"
-
-        wwwuser = pyre.inventory.str(name='wwwuser', default='')
-
-        tables = pyre.inventory.list(name='tables', default=[])
-
-
-    def main(self, *args, **kwds):
-
-        self.db.autocommit(True)
-
-        tables = self.tables
-        if not tables:
-            from vnf.dom import alltables
-            tables = alltables()
-        else:
-            tables = [self.clerk._getTable(t) for t in tables]
-
-        for table in tables:
-            #self.dropTable( table )
-            self.createTable( table )
-            if self.wwwuser: self.enableWWWUser( table )
-            continue
-
-        for table in tables:
-            self.initTable( table )
-
-        return
-
-
-    def createTable(self, table):
-        # create the component table
-        print " -- creating table %r" % table.name
-        try:
-            self.db.createTable(table)
-        except self.db.ProgrammingError, msg:
-            print "    failed; table exists?"
-            print msg
-        else:
-            print "    success"
-
-        return
-
-
-    def dropTable(self, table):
-        print " -- dropping table %r" % table.name
-        try:
-            self.db.dropTable(table)
-        except self.db.ProgrammingError:
-            print "    failed; table doesn't exist?"
-        else:
-            print "    success"
-
-        return
-
-
-    def initTable(self, table):
-        module = table.__module__
-        m = __import__( module, {}, {}, [''] )
-        inittable = m.__dict__.get( 'inittable' )
-        if inittable is None: return
-        print " -- Inialize table %r" % table.name
-        try:
-            inittable( self.db )
-        except self.db.IntegrityError:
-            print "    failed; records already exist?"
-        else:
-            print "    success"
-            
-        return
-
-
-    def enableWWWUser(self, table):
-        print " -- Enable www user %r for table %r" % (self.wwwuser, table.name)
-        sql = 'grant all on table "%s" to "%s"' % (table.name, self.wwwuser)
-        c = self.db.cursor()
-        c.execute(sql)
-        return
-
-
-    def __init__(self):
-        Script.__init__(self, 'initdb')
-        self.db = None
-        return
-
-
-    def _configure(self):
-        Script._configure(self)
-        self.clerk = self.inventory.clerk
-        self.clerk.director = self
-        self.wwwuser = self.inventory.wwwuser
-        self.tables = self.inventory.tables
-        return
-
-
-    def _init(self):
-        Script._init(self)
-
-        self.db = self.clerk.db
-        self.idd = self.inventory.idd
-
-        # initialize table registry
-        import vnf.dom
-        vnf.dom.register_alltables()
-
-        # id generator
-        def guid(): return '%s' % self.idd.token().locator
-        import vnf.dom
-        vnf.dom.set_idgenerator( guid )
-        return
-
-
-    def _getPrivateDepositoryLocations(self):
-        return ['../config']
+    class Actor(Component):
     
-
-
-def main():
-    import journal
-    journal.debug('db').activate()
-    app = DbApp()
-    return app.run()
-
-
-# main
-if __name__ == '__main__':
-    # invoke the application shell
-    main()
-
-
-# version
-__id__ = "$Id$"
-
-# End of file 
-
-
-
-    from pyre.inventory.Component import Component
-    import os
     
-    class Template(Component):
+        def perform(self, director, routine=None, debug=False):
+            """construct an actual page by invoking the requested routine"""
     
-        class Inventory(Component.Inventory):
-            import pyre.inventory  
-            foo = pyre.inventory.str('foo', default=None)
-            bar = pyre.inventory.str('bar', default=None)
+            if routine is None:
+                routine = "default"
     
-        def config(self, **kwds):
-            '''configure the inventory'''
-            for key,value in kwds.items():
-                if key in ['foo','bar']:
-                    if value.__class__() == '':
-                        exec 'self.inventory.'+key+' = "'+value+'"'
-                    else:
-                        exec 'self.inventory.'+key+' = '+str(value)
-            return
+            try:
+                behavior = self.__getattribute__(routine)
+            except AttributeError:
+                self._info.log("routine '%s' is not yet implemented" % routine)
+                behavior = self.nyi
     
-        def shuffle(self):
-            '''shuffles foo and bar; a example method'''
-            #pass inventory into local variables
-            foo = self.inventory.foo
-            bar = self.inventory.bar
-            #main code
-            self.inventory.foo = bar
-            self.inventory.bar = foo
-            return
+            if debug:
+                # avoid the try net so cgitb can dump the exception
+                return behavior(director)
     
-        def printall(self):
-            '''prints foo and bar; a example method'''
-            #pass inventory into local variables
-            foo = self.inventory.foo
-            bar = self.inventory.bar
-            #main code
-            print foo, bar
-            return
+            try:
+                page = behavior(director)
+            except:
+                self._info.log("routine '%s' is not implemented correctly" % routine)
+                import traceback
+                self._debug.log( traceback.format_exc() )
+                page = self.error(director)
     
-        def __init__(self, name='Template', **kwds):
-            '''instantiate the application, and pass any keywords to config'''
-            Component.__init__(self, name, 'DummyTemplate')
-            self.config(**kwds)
-            return
+            return page
     
-        def help(self):
-            print self.__doc__
+    
+        def error(self, director):
+            """notify the user that a routine is not implemented correctly"""
+            page = director.retrievePage("error")
+            return page
+    
+    
+        def nyi(self, director):
+            """notify the user that the requested routine is not yet implemented"""
+            page = director.retrievePage("nyi")
+            return page
+    
+    
+        def __init__(self, name):
+            super(Actor, self).__init__(name, facility='actor')
+            self.routine = None
             return
 
 The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
 
 By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
-    '''pyre component template
-Inventory:
-  foo -- string (default=None)
-  bar -- string (default=None)
-Methods:
-  shuffle() --> shuffles foo and bar
-  printall() --> prints foo and bar'''
+
 
 
 (incorporate pyre class diagrams, possibly activity diagrams)
 
 A script is simply the top-level component that can also be "executed".  As such it can be run from the command line, started as a daemon, or copied to a remote cluster and put in a scheduler. A script inherits from the Script class in pyre.applications.Script. An example is::
 
-
     from pyre.applications.Script import Script
-    import os
     
-    class Template(Script):
+    
+    class DbApp(Script):
+    
+    
         class Inventory(Script.Inventory):
-            import pyre.inventory    #for pythia0.6
-            foo = pyre.inventory.str('foo', default=None)
-            bar = pyre.inventory.str('bar', default=None)
-            mix = pyre.inventory.bool('mix', default=False)
-    #       return
     
-        def config(self, **kwds):
-            for key,value in kwds.items():
-                if key in ['foo','bar','mix']:
-                    if value.__class__() == '':
-                        exec 'self.inventory.'+key+' = "'+value+'"'
-                    else:
-                        exec 'self.inventory.'+key+' = '+str(value)
+            import pyre.inventory
+    
+            import vnf.components
+            clerk = pyre.inventory.facility(name="clerk", factory=vnf.components.clerk)
+            clerk.meta['tip'] = "the component that retrieves data from the various database tables"
+    
+            import pyre.idd
+            idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
+            idd.meta['tip'] = "access to the token server"
+    
+            wwwuser = pyre.inventory.str(name='wwwuser', default='')
+    
+            tables = pyre.inventory.list(name='tables', default=[])
+    
+    
+        def main(self, *args, **kwds):
+    
+            self.db.autocommit(True)
+    
+            tables = self.tables
+            if not tables:
+                from vnf.dom import alltables
+                tables = alltables()
+            else:
+                tables = [self.clerk._getTable(t) for t in tables]
+    
+            for table in tables:
+                #self.dropTable( table )
+                self.createTable( table )
+                if self.wwwuser: self.enableWWWUser( table )
+                continue
+    
+            for table in tables:
+                self.initTable( table )
+    
             return
     
-        def shuffle(self):
-            '''shuffles foo and bar; a example method'''
-            #pass inventory into local variables
-            foo = self.inventory.foo
-            bar = self.inventory.bar
-            #main code
-            self.inventory.foo = bar
-            self.inventory.bar = foo
+    
+        def createTable(self, table):
+            # create the component table
+            print " -- creating table %r" % table.name
+            try:
+                self.db.createTable(table)
+            except self.db.ProgrammingError, msg:
+                print "    failed; table exists?"
+                print msg
+            else:
+                print "    success"
+    
             return
     
-        def printall(self):
-            '''prints foo and bar; a example method'''
-            #pass inventory into local variables
-            foo = self.inventory.foo
-            bar = self.inventory.bar
-            #main code
-            print foo, bar
+    
+        def dropTable(self, table):
+            print " -- dropping table %r" % table.name
+            try:
+                self.db.dropTable(table)
+            except self.db.ProgrammingError:
+                print "    failed; table doesn't exist?"
+            else:
+                print "    success"
+    
             return
     
-        def run(self):
-            '''shuffle if required; the main method'''
-            self.printall()
-            if self.inventory.mix:
-                self.shuffle()
-                self.printall()
+    
+        def initTable(self, table):
+            module = table.__module__
+            m = __import__( module, {}, {}, [''] )
+            inittable = m.__dict__.get( 'inittable' )
+            if inittable is None: return
+            print " -- Inialize table %r" % table.name
+            try:
+                inittable( self.db )
+            except self.db.IntegrityError:
+                print "    failed; records already exist?"
+            else:
+                print "    success"
+                
             return
     
-        def __init__(self, name='Template', **kwds):
-            '''instantiate the application, and pass any keywords to config'''
-            Script.__init__(self, name)
-            self.config(**kwds)
+    
+        def enableWWWUser(self, table):
+            print " -- Enable www user %r for table %r" % (self.wwwuser, table.name)
+            sql = 'grant all on table "%s" to "%s"' % (table.name, self.wwwuser)
+            c = self.db.cursor()
+            c.execute(sql)
             return
     
-        def help(self):
-            print self.__doc__
+    
+        def __init__(self):
+            Script.__init__(self, 'initdb')
+            self.db = None
             return
     
-    # main
-    if __name__ == '__main__':
-        '''begin journaling services, and then run the main code block'''
+    
+        def _configure(self):
+            Script._configure(self)
+            self.clerk = self.inventory.clerk
+            self.clerk.director = self
+            self.wwwuser = self.inventory.wwwuser
+            self.tables = self.inventory.tables
+            return
+    
+    
+        def _init(self):
+            Script._init(self)
+    
+            self.db = self.clerk.db
+            self.idd = self.inventory.idd
+    
+            # initialize table registry
+            import vnf.dom
+            vnf.dom.register_alltables()
+    
+            # id generator
+            def guid(): return '%s' % self.idd.token().locator
+            import vnf.dom
+            vnf.dom.set_idgenerator( guid )
+            return
+    
+    
+        def _getPrivateDepositoryLocations(self):
+            return ['../config']
+        
+    
+    
+    def runScript():
         import journal
-        mp = Template('test')  #instance of class Template (named 'test')
-        journal.debug('test').activate()  #activate journal for 'test'
-        mp.main()  #launch the main code block ('Template.run')
+        journal.debug('db').activate()
+        app = DbApp()
+        return app.run()
+    
+    
+    if __name__ == '__main__':
+        runScript()
 
-
-Notice a script differs from a Component in that it has a run() method.
-
-To make a Pyre application from a given component:
-
-   1. substitute "pyre.inventory.Component" with "pyre.applications.Application"
-   2. substitute all instances of "Component" with "Application"
-   3. add a run() method (i.e. a code block for "def run(self):"
-   4. delete the 'facility' name in __init__: "Component.__init__(self, name, facility)"
-   5. add a "if __name__ == '__main__':" code block
-   6. add a help() method (if one does not already exist) 
-
-Notice that an additional inventory item, "mix", was added ("mix" only is used by the 'run' method). 
-
-For convenience, a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs.
-
-
-
-
+This application does....Notice the only real difference between a script and a Component is that it has a main() method. It is instantiated in the typical way and then executed by calling the run() method of the superclass pyre.applications.Script.
 
 
 
 Pyre inventory: properties, facilities, and factories
-=====================================================
+-----------------------------------------------------
 
 A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
 
@@ -333,7 +231,7 @@ A facility is how one component (let's call it A) specifies that it would like a
 
 A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
 
-1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class.
+1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
 
 class A(object):       # When this line is executed, a callable object named A is made
     def __init__( self):

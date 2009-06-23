@@ -59,5 +59,7 @@ which generates::
     # Generated automatically by PythonMill on Mon Jun 22 17:57:32 2009
     
     # End of file 
+
+The same may also be done for scripts--a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs.
     
 
