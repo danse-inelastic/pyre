@@ -11,13 +11,10 @@ Assuming you have the `easy install <http://peak.telecommunity.com/DevCenter/Eas
 As a zip file from the DANSE developer's package repository:
 ------------------------------------------------------------
 
-Download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_
+# Download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_
 
-Add the zipfile to your $PYTHONPATH
+# Add the zipfile to your $PYTHONPATH
 
-
-From DANSE or CACR svn repositories:
-------------------------------------
 
 
 

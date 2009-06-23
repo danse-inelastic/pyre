@@ -1,17 +1,17 @@
 Pyre: an application framework
 ==============================
 
-The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up.
+The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up. A pyre component is the basic chunk of code managed by the pyre framework. Components contain a unit of functionality, whether one class or many, which requires certain settings before runtime.  A component may in turn pass settings to a subcomponent and so on.  The power of pyre is in taking an arbitrarily long, complex, interrelated set of configurations in a pyre script and being able to sort them out and pass them to all the underlying subcomponents so that they are configured in the correct order and dependencies stay satisfied.
+
+As the component "unit of functionality" is left undefined, it is up to the pyre architect to decide at what level they would like to divide their code into components.  Some may choose to create entire computational engines as components that can be swapped in and out based on a user's preferences.  Others may elect to fine-grain the component nature of their engines, such as creating components for a forcefield within a physics engine that can be altered at configuration time, or even the individual forcefield components.
 
 Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
 
 
 Pyre components and scripts
-===========================
+---------------------------
 
-A pyre component is the basic chunk of code managed by the pyre framework.
-
-To make your own component, subclass Component. Component has an embedded class Inventory; subclasses of Component should similarly have an embedded class Inventory which inherits from Component.Inventory. The inventory is the designated place for the public to interact with components. By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.  An example is::
+Pyre component structure is relatively straightforward.  The component is a python object inheriting from pyre.inventory.Component.  It should contain an inner class called Inventory subclassing Component.Inventory.  An example is::
 
     from pyre.inventory.Component import Component
     import os
@@ -62,7 +62,9 @@ To make your own component, subclass Component. Component has an embedded class 
             print self.__doc__
             return
 
-Notice a component is an instance of the class pyre.inventory.Component. External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
+The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
+
+By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
     '''pyre component template
 Inventory:
@@ -73,71 +75,9 @@ Methods:
   printall() --> prints foo and bar'''
 
 
-Pyre has a script to generate a component skeleton called component.py.  Simply call it from the command line with the new name of the component template you wish to generate::
-
- $component.py --name=pinkFloydMusicCollection
-
-which generates::
-
-# -*- Python -*-
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#
-# {LicenseText}
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
 
 
-from pyre.components.Component import Component
-
-
-class pinkFloydMusicCollection(Component):
-
-
-    class Inventory(Component.Inventory):
-
-        import pyre.inventory
-
-
-    def __init__(self, name):
-        if name is None:
-            name = 'facility'
-
-        Component.__init__(self, name, facility='facility')
-
-        return
-
-
-    def _defaults(self):
-        Component._defaults(self)
-        return
-
-
-    def _configure(self):
-        Component._configure(self)
-        return
-
-
-    def _init(self):
-        Component._init(self)
-        return
-
-
-# version
-__id__ = "$Id$"
-
-# Generated automatically by PythonMill on Sun Jun 21 22:04:03 2009
-
-# End of file 
-
-
-
-
-
-
-A script is an application meant to be run from the command line. A script inherits from the Script class in pyre.applications.Script. An example is::
+A script is simply the top-level component that can also be "executed".  As such it can be run from the command line, started as a daemon, or copied to a remote cluster and put in a scheduler. A script inherits from the Script class in pyre.applications.Script. An example is::
 
 
     from pyre.applications.Script import Script

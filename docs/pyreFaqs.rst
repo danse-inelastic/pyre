@@ -6,11 +6,6 @@ Basic pyre:
 
     - How is a script different from a component? How do I decide which to use?
     - What does pyre require of the format (input/output, etc) of my code?
-    - What is the difference between a facility and an component?
-    - What is a factory?
-    - What is a .pml file? How and when is it intended to be used?
-    - What is a .obd file? How and when is it intended to be used?
-    - How is a .odb file different from the same file with a .py extension?
     - Should I write an additional python layer around my code, or should all of that go into a pyre component? 
 
 
