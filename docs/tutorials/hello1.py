@@ -8,8 +8,8 @@ class HelloApp(base):
         print "Hello World!"
         return
     
-    def __init__(self):
-        super(HelloApp, self).__init__("hello1")
+    def __init__(self, name='hello1'):
+        super(HelloApp, self).__init__(name=name)
         return
     
 # main
