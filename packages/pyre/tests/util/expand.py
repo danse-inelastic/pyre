@@ -17,7 +17,7 @@ def test():
     subs = {
         'SPEAKER': 'Michael Aivazis',
         'COMPANY': 'California Insitute of Technology',
-        # 'STATE': 'well'
+        'STATE': 'well'
         }
 
     text = "Hello, this is ${SPEAKER} from ${COMPANY}. I hope you are ${STATE}."
