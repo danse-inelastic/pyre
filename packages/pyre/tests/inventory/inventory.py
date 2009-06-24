@@ -19,7 +19,7 @@ from pyre.inventory.Inventory import Inventory
 
 class MyInventory(Inventory):
 
-    name = Trait("name")
+    name = Trait("name","str")
     prop = Property("prop", "str", default="hello")
     
 
