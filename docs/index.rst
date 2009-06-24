@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Official pyre 0.8 documentation
+Pyre 0.8 documentation
 ===============================
 
 Contents:
@@ -11,9 +11,10 @@ Contents:
 .. toctree::
 
    pyreIntroduction   
+   pyreInstallation
+   pyreTutorials
    pyreOverview
    pyreUtilities
-   pyreInstallation
    journal
    pyreUnits
    pyreFaqs
