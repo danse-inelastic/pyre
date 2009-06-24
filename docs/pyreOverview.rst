@@ -8,6 +8,8 @@ As the component "unit of functionality" is left undefined, it is up to the pyre
 Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
 
 
+.. _pyre-component:
+
 Pyre components and scripts
 ---------------------------
 
@@ -91,6 +93,8 @@ Note the presence of an inner class called Inventory, which contains settings su
 
 Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
 
+
+.. _pyre-inventory:
 
 Pyre inventory: properties, facilities, and factories
 -----------------------------------------------------

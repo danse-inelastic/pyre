@@ -9,10 +9,13 @@ Official pyre 0.8 documentation
 Contents:
 
 .. toctree::
-   
+
+   pyreIntroduction   
    pyreOverview
    pyreUtilities
    pyreInstallation
+   journal
+   pyreUnits
    pyreFaqs
    pyreHistory
    additionalDocs
