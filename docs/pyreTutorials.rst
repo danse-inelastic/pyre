@@ -311,6 +311,8 @@ Hi Bob!::
 You see we can now not only configure the target of the greetings,
 but also the content of the greetings.
 
+Facility
+""""""""
 In this example, an important concept is introduced: "facility".
 Facility is a way that a component can declare that he needs 
 another component to perform some work for him.
@@ -363,7 +365,8 @@ The string "greeter" denotes the "greeter" component,
 and the string "greeter.greetings" deontes the property
 "greetings" of the component "greeter".
 
-
+Easy to plug in a different component for a facility
+""""""""""""""""""""""""""""""""""""""""""""""""""""
 Now we create another pyre component to show the benefit
 of using pyre facility. Please create file "fancy-greeter.odb"
 with the following content::

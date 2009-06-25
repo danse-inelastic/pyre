@@ -1,11 +1,90 @@
 Pyre basics: Inventory, Component, and Application
 ==================================================
 
-The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up. A pyre component is the basic chunk of code managed by the pyre framework.  A component contains a "unit of functionality", whether one class or many, which requires certain settings before runtime.  A component may in turn pass settings to a subcomponent and so on.  The power of pyre is in taking an arbitrarily long, complex, interrelated set of configurations and being able to sort them out and pass them to all the underlying subcomponents so that they are configured in the correct order and dependencies are satisfied.
+.. The pyre framework is a Python-based system for constructing applications. Applications consist of a top level application component and a set of lower level components. The framework performs services such as instantiating components, configuring them, and cleaning up. A pyre component is the basic chunk of code managed by the pyre framework.  A component contains a "unit of functionality", whether one class or many, which requires certain settings before runtime.  A component may in turn pass settings to a subcomponent and so on.  The power of pyre is in taking an arbitrarily long, complex, interrelated set of configurations and being able to sort them out and pass them to all the underlying subcomponents so that they are configured in the correct order and dependencies are satisfied.
 
-As the component "unit of functionality" is left undefined, it is up to the pyre architect to decide at what level they would like to divide their code into components.  Some may choose to create entire computational engines as components that can be swapped in and out based on a user's preferences.  Others may elect to fine-grain the component nature of their engines, such as creating components for a forcefield within a physics engine that can be altered at configuration time, or even the individual forcefield components.
+.. As the component "unit of functionality" is left undefined, it is up to the pyre architect to decide at what level they would like to divide their code into components.  Some may choose to create entire computational engines as components that can be swapped in and out based on a user's preferences.  Others may elect to fine-grain the component nature of their engines, such as creating components for a forcefield within a physics engine that can be altered at configuration time, or even the individual forcefield components.
 
-Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
+.. Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
+
+If you have not read :ref:`the tutorial <pyre-tutorials>`, please read it through
+and try out examples there to get a feeling of pyre components and pyre applications.
+Here, we are trying to explain a few key concepts in pyre:
+
+ * Inventory
+   * Trait(Descriptor)
+   * Property
+   * Facility
+ * Component
+ * Application
+ 
+
+.. _pyre-inventory:
+
+Pyre inventory: properties and facilities
+-----------------------------------------
+In pyre, a component's inventory is the place where user inputs are 
+connected to a pyre component.
+In the inventory of a pyre component, all public configurable items
+are declared using descriptors.
+For details of how pyre inventory works, please consult
+:ref:`pyre-inventory-implementation`.
+
+A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
+
+A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
+
+A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
+
+1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
+
+    class A(object):       # When this line is executed, a callable object named A is made
+        def __init__( self):
+            return 
+
+The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
+
+    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
+
+2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py::
+
+    def AFactory_1():
+        from A import A
+        a = A()
+        return a
+
+Here's how this would get used::
+
+    >>> myA = AFactory_1()
+    >>> print myA.__class__.__name__
+    A
+
+3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state::
+
+    class AFactory_2( object):
+    
+        theInstance = None
+    
+        def __call__( self):
+            if self.theInstance is None:
+                from A import A
+                self.theInstance = A()
+            a = self.theInstance
+            return a
+
+Here's how that would be used::
+
+    >>> afactory = AFactory_2()
+    >>> a1 = afactory()
+    >>> a2 = afactory()
+    >>> a1 is a2
+    True
+    >>> a1
+    <__main__.A instance at 0x2a955e3368>
+    >>> a2
+    <__main__.A instance at 0x2a955e3368>
+
+Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
 
 
 .. _pyre-component:
@@ -92,68 +171,6 @@ Pyre component structure is relatively straightforward.  The component is a pyth
 Note the presence of an inner class called Inventory, which contains settings such as username and password, as well as subcomponents.  Allowable inventory types are stored in the pyre.inventory package.  Also note the presence of a private method called _configure().   
 
 Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
-
-
-.. _pyre-inventory:
-
-Pyre inventory: properties, facilities, and factories
------------------------------------------------------
-
-A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
-
-A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
-
-A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
-
-1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
-
-    class A(object):       # When this line is executed, a callable object named A is made
-        def __init__( self):
-            return 
-
-The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
-
-    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
-
-2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py::
-
-    def AFactory_1():
-        from A import A
-        a = A()
-        return a
-
-Here's how this would get used::
-
-    >>> myA = AFactory_1()
-    >>> print myA.__class__.__name__
-    A
-
-3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state::
-
-    class AFactory_2( object):
-    
-        theInstance = None
-    
-        def __call__( self):
-            if self.theInstance is None:
-                from A import A
-                self.theInstance = A()
-            a = self.theInstance
-            return a
-
-Here's how that would be used::
-
-    >>> afactory = AFactory_2()
-    >>> a1 = afactory()
-    >>> a2 = afactory()
-    >>> a1 is a2
-    True
-    >>> a1
-    <__main__.A instance at 0x2a955e3368>
-    >>> a2
-    <__main__.A instance at 0x2a955e3368>
-
-Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
 
 
 Pyre .odb and .pml files

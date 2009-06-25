@@ -18,6 +18,7 @@ Contents:
    journal
    pyrePackages
    pyreFaqs
+   pyreAdvancedTopics
    pyreHistory
    projectsUsingPyre
    additionalDocs
