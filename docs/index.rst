@@ -19,6 +19,7 @@ Contents:
    pyreUnits
    pyreFaqs
    pyreHistory
+   projectsUsingPyre
    additionalDocs
    upcoming
    usefulLinks

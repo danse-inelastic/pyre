@@ -1,5 +1,5 @@
-Introduction
-============
+ Introduction
+==============
  
 Pyre is an integration framework for high-performance computing based on `python <http://www.python.org>`_. It is used by :ref:`several scientific computing projects <projects-using-pyre>`. 
 
@@ -18,12 +18,3 @@ Pyre is not useful for development of simple, monolithic applications; but as so
 To start using pyre, you can first try out :ref:`these tutorials <pyre-tutorials>`.
 
 
-.. _projects-using-pyre:
-
-Projects Using Pyre
--------------------
-
- * `ASCI <http://csdrm.caltech.edu/>`_
- * `PSAAP <http://www.psaap.caltech.edu/>`_
- * `CIG <http://www.geodynamics.org/cig/>`_
- * `DANSE <http://danse.us>`_

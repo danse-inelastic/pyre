@@ -1,10 +1,11 @@
 .. _pyre-tutorials:
 
-Tutorials
-==========
+
+ Tutorials
+===========
 
 Hello World
---------------------
+-----------
 This is the pyre version of hello world. It introduces some structures into the simple one-liner ::
 
     print "Hello World!"
