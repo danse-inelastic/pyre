@@ -55,7 +55,7 @@ Here are a few things needs attention:
    class.
  * The new application class needs a method "main". This method will be executed   when the application is launched.
  * The application's constructor has a keyword argument "name", and this name 
-   is the key that the pyre framework will use to find the application's
+   is the key that pyre framework will use to find the application's
    configuration items.
 
 You may wonder why we need to create this pyre application instead of
@@ -150,9 +150,10 @@ where self is the application.
 
 _configure
 """"""""""
-In the _configure method, we pass create a variable of this
-hello2 application, and pass it the value of the property
-"name", which is handed out by the pyre framework::
+In the _configure method, we create a local variable of this
+hello2 application, and pass to it the value of the property
+"name", which is handed out by pyre framework
+(obtained from parsing user inputs)::
 
   self.name = self.inventory.name
 
@@ -195,7 +196,7 @@ different::
   $ python hello2.py
   Hello Alice!
 
-The pyre framework looks for pml files by looking for the
+Pyre framework looks for pml files by looking for the
 names of the pyre components (pyre application is also a pyre component),
 and it found "hello2.pml", and the configurations in this
 file is used.
@@ -206,7 +207,235 @@ you will end up with ::
   $ python hello2.py
   Hello World!
 
-because the pyre framework cannot recognize your pml file as the one
+because pyre framework cannot recognize your pml file as the one
 to configure hello2.py.
 
+
+Say Some Greetings to Someone
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In this example we need two python modules. The first one is the
+pyre application "greet.py"::
+
+  #!/usr/bin/env python
+
+  from pyre.applications.Script import Script as base
+
+  class GreetApp(base):
+
+      class Inventory(base.Inventory):
+
+	  import pyre.inventory
+
+	  from Greeter import Greeter
+	  greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
+	  name = pyre.inventory.str(name='name', default='World')
+
+
+      def main(self):
+	  self.greeter.greet(self.name)
+	  return
+
+
+      def _configure(self):
+	  super(GreetApp, self)._configure()
+	  self.name = self.inventory.name
+	  self.greeter = self.inventory.greeter
+	  return
+
+
+      def __init__(self, name='greet'):
+	  super(GreetApp, self).__init__(name=name)
+	  return
+
+
+  # main
+  if __name__ == "__main__":
+      app = GreetApp()
+      app.run()
+
+  # End of file
+
+and the second one is a pyre component "Greeter.py"::
+
+  # -*- Python -*-
+
+  from pyre.components.Component import Component
+
+
+  class Greeter(Component):
+
+
+      class Inventory(Component.Inventory):
+
+	  import pyre.inventory
+
+	  greetings = pyre.inventory.str('greetings', default='Hello')
+
+
+      def greet(self, name):
+	  print self.greetings + ' ' + name + '!'
+	  return
+
+
+      def __init__(self, name='greeter'):
+	  Component.__init__(self, name, facility='greeter')
+	  return
+
+
+      def _configure(self):
+	  super(Greeter, self)._configure()
+	  self.greetings = self.inventory.greetings
+	  return
+
+
+  # End of file 
+
+Let us try it out. 
+
+Default configuration::
+   
+   $ python greet.py
+   Hello World!
+
+Hello Bob!::
+
+  $ python greet.py --name=Bob
+  Hello Bob!
+
+Hi Bob!::
+
+  $ python greet.py --name=Bob --greeter.greetings=Hi
+  Hi Bob!
+
+You see we can now not only configure the target of the greetings,
+but also the content of the greetings.
+
+In this example, an important concept is introduced: "facility".
+Facility is a way that a component can declare that he needs 
+another component to perform some work for him.
+This is a very useful feature of pyre, which enables developers
+to construct pyre applications in layers, and keep each component
+small, dedicated and manageable.
+
+This "greet" pyre application now delegates its functionality to
+the pyre component "greeter". The pyre application itself just
+simply calls the greeter to do the real work. 
+It may look unecessary at the first glance, but you will see
+the benefit of this delegation even for this simple demo application
+a bit later in this tutorial. Here, let us first see how we declare
+that a component needs another component::
+
+  greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
+
+The greeter is declared as a facility in the inventory of the pyre
+application "greet", which means the app "greet" needs a component
+"greeter" to work correctly. The "name" keyword in this declaration
+tells pyre framework that it needs to look for the name "greeter"
+in order to configure this facility. The "factory" keyword tells
+pyre framework that it can use the assigned factory method
+to create a pyre component and use that component as the default
+component for this greeter facility.
+
+Now let us take a look at the Greeter component. The Greeter component
+is constructed in a way quite similar to the way we construct the
+pyre applications hello1.py, hello2.py, and greet.py. 
+We inherit from class pyre.components.Component.Component to 
+create a new component class, then we add public settable 
+property "greetings" to its inventory, and touch the "_configure"
+method and the constructor "__init__" a little bit to fit this component. 
+
+One extra thing worth mentioning is that we create a method
+"greet" for this component, which takes an argument "name"
+which is the target of greetings. This method
+is called by the pyre app "greet" in its method "main".
+
+In the example ::
+
+  $ python greet.py --name=Bob --greeter.greetings=Hi
+  Hi Bob!
+
+we notice something interesting::
+
+  --greeter.greetings=Hi
+
+The string "greeter" denotes the "greeter" component,
+and the string "greeter.greetings" deontes the property
+"greetings" of the component "greeter".
+
+
+Now we create another pyre component to show the benefit
+of using pyre facility. Please create file "fancy-greeter.odb"
+with the following content::
+
+  # -*- Python -*-
+
+  from pyre.components.Component import Component
+
+
+  class Greeter(Component):
+
+
+      class Inventory(Component.Inventory):
+
+	  import pyre.inventory
+
+	  decoration = pyre.inventory.str('decoration', default='*')
+	  greetings = pyre.inventory.str('greetings', default='Hello')
+
+
+      def greet(self, name):
+	  s = self.greetings + ' ' + name + '!'
+	  s = ' '.join([self.decoration, s, self.decoration])
+
+	  print self.decoration*(len(s))
+	  print s
+	  print self.decoration*(len(s))
+	  return
+
+
+      def __init__(self, name='fancy-greeter'):
+	  Component.__init__(self, name, facility='greeter')
+	  return
+
+
+      def _configure(self):
+	  super(Greeter, self)._configure()
+	  self.greetings = self.inventory.greetings
+	  self.decoration = self.inventory.decoration
+	  return
+
+
+  def greeter(): return Greeter()
+
+  # End of file 
+
+
+Try the following command::
+
+  $ python greet.py --name=Bob --greeter.greetings=Hi --greeter=fancy-greeter
+  ***********
+  * Hi Bob! *
+  ***********
+
+The extra command line option ::
+
+  --greeter=fancy-greeter
+
+tells pyre framework to use the component named "fancy-greeter" instead
+of the default component for the facility "greeter". 
+Pyre framework then looks for this "fancy-greeter" component
+by looking for "fancy-greeter.odb" in a few directories 
+(~/.pyre and current directory). 
+The fancy-greeter.odb file must have a method "greeter", which
+is the name of the facility this component will be plugged into.
+The method "greeter" returns a pyre component, which will 
+be harnessed by pyre framework and used as the "greeter" component
+for the "greet" pyre application.
+
+Apparently this feature is very useful since you can switch the computation
+engine easily with pyre applications. For example, if you have
+an application that do parametric fitting and this application makes use
+of a optimizer. You can declare an "optimizer" facility and easily
+use pyre machineries to order the application to use different optimizers
+implemented using different algorithms.
 
