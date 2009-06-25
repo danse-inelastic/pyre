@@ -1,4 +1,4 @@
-Pyre Installation
+Installation
 =================
 
 :ref:`Pure python version<pure-python-distrib>` of pyre is a very good start point to try out pyre, and for many applications, it is actually adequate.

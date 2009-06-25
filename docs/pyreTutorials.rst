@@ -1,7 +1,7 @@
 .. _pyre-tutorials:
 
 
- Tutorials
+Tutorials
 ===========
 
 Hello World
