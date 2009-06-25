@@ -12,9 +12,11 @@ and try out examples there to get a feeling of pyre components and pyre applicat
 Here, we are trying to explain a few key concepts in pyre:
 
  * Inventory
+
    * Trait(Descriptor)
    * Property
    * Facility
+
  * Component
  * Application
  
@@ -26,65 +28,62 @@ Pyre inventory: properties and facilities
 In pyre, a component's inventory is the place where user inputs are 
 connected to a pyre component.
 In the inventory of a pyre component, all public configurable items
-are declared using descriptors.
+are declared using descriptors (traits).
 For details of how pyre inventory works, please consult
 :ref:`pyre-inventory-implementation`.
 
-A component requests user input by declaring a property in its inventory. All properties are instances of pyre.inventory.property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator.
+There are two kinds of descriptors for a pyre inventory: properties or facilities.
+All properties are instances of pyre.inventory.Property.Property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator. For example::
 
-A facility is how one component (let's call it A) specifies that it would like another component to do some work for it. It's a bit like a help-wanted ad. As part of the facility spec, A gets to recommend a default component to do the job, or it can recommend a way to build a component to do the job (factory). Users get the final decision: they can direct that a different component be used, specifying that on the command line or through a .pml file.
+  import pyre.units.energy
+  energy = pyre.inventory.dimensional(
+      name='energy', 
+      default=50*pyre.units.energy.meV, 
+      validator=pyre.inventory.less(1*pyre.units.energy.eV))
 
-A factory is any function (or any other callable object, such as a class object or a functor) that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
+Here the factory 
+`pyre.inventory.dimensional <http://docs.danse.us/pyre/pythia-0.8/pyre.inventory-module.html#dimensional>`_
+is a factory method creating a property of dimensional type, and all user inputs
+for this property will be casted into this type.
+For more factories, please consult 
+`this page <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ .
+Keyword "name" specifies the name of the property, and this name will be
+the key that pyre framework will use to find its user configuration.
+Keyword "default" specifies the default value;
+Keyword "validator" specifies a method that validate the user input.
+In this example, a pyre built-in validator pyre.inventory.less is used.
+You can find more builtin validators 
+`here <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
+near the end of the file.
 
-1. Whenever you declare a class, the resulting object is a factory: it makes instances of the class::
 
-    class A(object):       # When this line is executed, a callable object named A is made
-        def __init__( self):
-            return 
+A facility is how one component (let's call it A) specifies that it would like another 
+component to do some work for it. 
+It's a bit like a help-wanted ad. 
+As part of the facility declaration, A gets to recommend a default component to do the job,
+or it can recommend a way to build a component to do the job 
+(:ref:`factory <what-is-factory>`). 
+Users get the final decision: they can direct that a different component be used, 
+specifying that on the command line or through a configuration file (.pml).
 
-The object named A is a factory for making objects; the class of the objects that that factory makes is class A.
+In this example::
 
-    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
+   greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
 
-2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py::
+A factory method is given and the default component is to be used is created from
+calling the factory method
 
-    def AFactory_1():
-        from A import A
-        a = A()
-        return a
+In this example::
 
-Here's how this would get used::
+   greeter = pyre.inventory.facility(name='greeter', default=Greeter())
 
-    >>> myA = AFactory_1()
-    >>> print myA.__class__.__name__
-    A
+A default component is specified.
 
-3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state::
-
-    class AFactory_2( object):
-    
-        theInstance = None
-    
-        def __call__( self):
-            if self.theInstance is None:
-                from A import A
-                self.theInstance = A()
-            a = self.theInstance
-            return a
-
-Here's how that would be used::
-
-    >>> afactory = AFactory_2()
-    >>> a1 = afactory()
-    >>> a2 = afactory()
-    >>> a1 is a2
-    True
-    >>> a1
-    <__main__.A instance at 0x2a955e3368>
-    >>> a2
-    <__main__.A instance at 0x2a955e3368>
-
-Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. Factories make it easy to use tricks like this. Whether those tricks are a good idea is another question. 
+The difference between this two approaches is that in the second case
+the default component is one single instance, like a singleton.
+This could lead to some strange behavior of your application if you
+don't design your application carefully. 
+On the other hand, using the first approach is a safe choice.
 
 
 .. _pyre-component:

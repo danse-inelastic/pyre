@@ -21,7 +21,7 @@ and explain the reasons why those structures are needed.
 The simplest pyre application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please open your favorite editor and type in the following::
+Please open your favorite editor and type in the following (or download it `here <tutorials/hello1.py>`_::
 
   #!/usr/bin/env python
 
@@ -70,7 +70,8 @@ and interesting.
 
 Say Hello to Someone
 ^^^^^^^^^^^^^^^^^^^^
-Please create a new python file "hello2.py" and type in the following code::
+Please create a new python file "hello2.py" and type in the following code 
+(or download it `here <tutorials/hello2.py>`_)::
 
   #!/usr/bin/env python
 
@@ -214,7 +215,10 @@ to configure hello2.py.
 
 Say Some Greetings to Someone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In this example we need two python modules. The first one is the
+In this example we need two python modules (you can download them: 
+`greet.py <tutorials/greet.py>`_ ,
+`Greeter.py <tutorials/Greeter.py>`_ 
+). The first one is the
 pyre application "greet.py"::
 
   #!/usr/bin/env python
@@ -368,7 +372,8 @@ and the string "greeter.greetings" deontes the property
 Easy to plug in a different component for a facility
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 Now we create another pyre component to show the benefit
-of using pyre facility. Please create file "fancy-greeter.odb"
+of using pyre facility. Please create file
+`fancy-greeter.odb <tutorials/fancy-greeter.odb>`_
 with the following content::
 
   # -*- Python -*-

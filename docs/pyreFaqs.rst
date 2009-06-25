@@ -1,5 +1,5 @@
-Pyre FAQs:
-==========
+FAQs:
+=====
     
 Basic pyre:
 -----------
@@ -50,10 +50,73 @@ Using pyre:
 Using component Factories
 ---------------------------
 
-    - What is a factory?
+    - :ref:`What is a factory<what-is-factory>`?
     - What can a pyre factory do and not do?
     - How can I override args to a component factory from command line? From .pml file?
     - Is it possible to have multiple components in an application that use the same factory name? 
+
+
+.. _what-is-factory:
+
+What is factory
+^^^^^^^^^^^^^^^
+Here, we are describing the factory that can be fed to the facility declaration 
+in :ref:`pyre inventory<pyre-inventory>`.
+
+In python, a factory is any callable that creates an object and returns it to the caller. There are many ways to implement factories in Python. The first way is so simple, you probably never realized you were using a factory:
+
+1. A python class is a factory. Whenever you declare a class, the result is that you create a python class, which is a factory of instances of this class::
+
+    class A(object):       
+        def __init__( self):
+            return 
+    # After the class definintion here is executed, class A is created, and it is a factory
+
+The object named A (a python class) is a factory for making objects of type A::
+
+    >>> myA = A()  # This calls the class object "A" to make a new A object for you.
+
+2. A factory could be a simple python method. This example assumes the previous class declaration is in a module named A.py::
+
+    def AFactory_1():
+        from A import A
+        a = A()
+        return a
+
+Here's how this would get used::
+
+    >>> myA = AFactory_1()
+    >>> print myA.__class__.__name__
+    A
+
+3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). 
+
+One advantage of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state::
+
+    class AFactory_2( object):
+    
+        theInstance = None
+    
+        def __call__( self):
+            if self.theInstance is None:
+                from A import A
+                self.theInstance = A()
+            a = self.theInstance
+            return a
+
+Here's how that would be used::
+
+    >>> afactory = AFactory_2()
+    >>> a1 = afactory()
+    >>> a2 = afactory()
+    >>> a1 is a2
+    True
+    >>> a1
+    <__main__.A instance at 0x2a955e3368>
+    >>> a2
+    <__main__.A instance at 0x2a955e3368>
+
+Note that in this example, every time you ask the afactory for another A, you get exactly the same instance of a. This is actually one way of creating `singleton <http://en.wikipedia.org/wiki/Singleton_pattern>`_.
 
 
 Miscellaneous:

@@ -35,7 +35,7 @@ distclean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
-docs: sphinx-build
+docs: sphinx-build export-tutorials
 
 
 include std-docs.def
@@ -44,6 +44,10 @@ RSYNC_A = rsync -a
 sphinx-build: Makefile $(EXPORT_DOCDIR)
 	make html
 	$(RSYNC_A) _build/html/ $(EXPORT_DOCDIR)/
+
+
+export-tutorials: tutorials
+	$(RSYNC_A) tutorials/ $(EXPORT_DOCDIR)/tutorials/
 
 # version
 # $Id: Make.mm,v 1.2 2008-04-13 03:55:58 aivazis Exp $
