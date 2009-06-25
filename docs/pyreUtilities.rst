@@ -3,17 +3,14 @@ Utilities for pyre developers
 
 Pythia-0.8/bin comes with a number of programmer's utilities.  There are templates for creating components and scipts.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
 
- $component.py --name=NmrMachine
+ $ component.py --name=NmrMachine
 
 which generates::
 
     # -*- Python -*-
     #
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    #
-    #
     # {LicenseText}
-    #
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #
     
@@ -56,10 +53,14 @@ which generates::
     # version
     __id__ = "$Id$"
     
-    # Generated automatically by PythonMill on Mon Jun 22 17:57:32 2009
-    
     # End of file 
 
-The same may also be done for scripts--a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs.
-    
+The same may also be done for scripts--a "hello world" script may be auto-generated using app.py in pyre.applications, and users may then customize that script to fit their needs::
+
+  $ app.py --name=myapp-name
+
+
+To create a template pml file, do the following::
+
+  $ inventory.py --name=component-name    
 
