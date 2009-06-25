@@ -204,6 +204,18 @@ This is the place where the computing engine should be constructed.
 
 
 
+Layered structure of pyre
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Pyre encourage decomposition of large, complex computing system to small, dedicated
+computing engines by providing a architecture allowing construction of
+components in a layored structure. 
+:ref:`Application greet.py <helloworld-greet.py>` is a good example
+showing the benefit of decomposition.
+
+
+More texts here...
+
+
 .. Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
 
 
@@ -212,8 +224,6 @@ Applications
 ------------
 A pyre application is simply the top-level component that can also be "executed".  
 As such it can be run from the command line or started as a daemon.
-.. or copied to a remote cluster and put in a scheduler. 
-.. A script inherits from the Script class in pyre.applications.Script. An example is::
 
 Constructions of pyre applications are very similar to constructions
 of pyre components. 

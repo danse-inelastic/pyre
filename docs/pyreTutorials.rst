@@ -21,7 +21,7 @@ and explain the reasons why those structures are needed.
 The simplest pyre application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please open your favorite editor and type in the following (or download it `here <tutorials/hello1.py>`_::
+Please open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_::
 
   #!/usr/bin/env python
 
@@ -71,7 +71,7 @@ and interesting.
 Say Hello to Someone
 ^^^^^^^^^^^^^^^^^^^^
 Please create a new python file "hello2.py" and type in the following code 
-(or download it `here <tutorials/hello2.py>`_)::
+(or download it: `hello2.py <tutorials/hello2.py>`_)::
 
   #!/usr/bin/env python
 
@@ -212,6 +212,8 @@ you will end up with ::
 because pyre framework cannot recognize your pml file as the one
 to configure hello2.py.
 
+
+.. _helloworld-greet.py:
 
 Say Some Greetings to Someone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
