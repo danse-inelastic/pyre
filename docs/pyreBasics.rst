@@ -23,12 +23,18 @@ Here, we are trying to explain a few key concepts in pyre:
 
 .. _pyre-inventory:
 
-Pyre inventory: properties and facilities
+Inventory: properties and facilities
 -----------------------------------------
 In pyre, a component's inventory is the place where user inputs are 
 connected to a pyre component.
 In the inventory of a pyre component, all public configurable items
 are declared using descriptors (traits).
+
+Descriptors are special python objects that describe attributes
+of a python instance.
+If you want to know more about descriptors, this is a good place to start
+http://users.rcn.com/python/download/Descriptor.htm. 
+
 For details of how pyre inventory works, please consult
 :ref:`pyre-inventory-implementation`.
 
@@ -88,10 +94,10 @@ On the other hand, using the first approach is a safe choice.
 
 .. _pyre-component:
 
-Pyre components and scripts
----------------------------
+Components
+---------------
 
-Pyre component structure is relatively straightforward.  The component is a python object inheriting from pyre.inventory.Component.  It should contain an inner class called Inventory subclassing Component.Inventory.  An example is::
+Pyre component structure is relatively straightforward.  The component class is inherited from pyre.inventory.Component.  It should contain an inner class called Inventory, which usually subclass the Inventory class of the parent component class.  An example is::
 
     from pyre.components.Component import Component
     
@@ -121,39 +127,15 @@ Pyre component structure is relatively straightforward.  The component is a pyth
     
     
         def authenticate(self):
-            self.attempts += 1
-            if self.ticket:
-                try:
-                    self.ticket = self.ipa.refresh(self.username, self.ticket)
-                    return self.ticket
-                except self.ipa.RequestError:
-                    return
-    
-            try:
-                self.ticket = self.ipa.login(self.username, self.passwd)
-                return self.ticket
-            except self.ipa.RequestError:
-                return
-    
-            return
+	    ...
     
     
         def __init__(self, name=None):
             if name is None:
                 name = 'sentry'
     
-            Component.__init__(self, name, facility='sentry')
-    
-            # the user parameters
-            self.username = ''
-            self.passwd = ''
-            self.ticket = ''
-            self.attempts = 0
-    
-            # the IPA session
-            self.ipa = None
-    
-            return
+            super(Sentry, self).__init__(name, facility='sentry')
+	    ...    
     
     
         def _configure(self):
@@ -167,9 +149,79 @@ Pyre component structure is relatively straightforward.  The component is a pyth
     
             return
 
-Note the presence of an inner class called Inventory, which contains settings such as username and password, as well as subcomponents.  Allowable inventory types are stored in the pyre.inventory package.  Also note the presence of a private method called _configure().   
+Note the presence of an inner class called Inventory, which contains settings such as username and password, as well as specifications of subcomponents (ipa).  Allowed inventory types are stored in the
+`pyre.inventory <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
+package. 
 
-Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
+Methods that are useful to communicate to pyre framework for a pyre component are:
+
+__init__: the constructor
+^^^^^^^^^^^^^^^^^^^^^^^^^
+The constructor must contains a call to parent's constructor::
+
+            super(Sentry, self).__init__(name, facility='sentry')
+
+here the name is the name of this component, and it is the key that pyre framework
+uses to look for its configuration.
+
+
+_defaults: setting default values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You can set the default value for an inventory item when declaring them 
+in the Inventory class. 
+Beyond that, you get another chance to set the default values
+in this _defaults method.
+You can do sth like ::
+
+  self.inventory.username = 'bob'
+
+and this will override the default value. But if users specify another value
+for this property thruough command line or configuration files, it will
+be overriden.
+
+
+_configure: transfer user inputs to local variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In the _configure method, the user inputs are already parsed by the framework,
+checked for errors, and store in the object "self.inventory".
+Any property or component is accessed as the attribute of this inventory object.
+For example, if you declare a str property in the inventory::
+
+  filename = pyre.inventory.str('filename')
+
+self.inventory.filename now contains the value of "filename" provided by user.
+In the _configure method, you could transfer this value to local variables of this
+component::
+
+  self.filename = self.inventory.filename
+
+_init: initialization of computing engine
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This method will be called after every component is configured. 
+The method _configure
+for all components will be called already at this time.
+This is the place where the computing engine should be constructed.
+
+
+
+.. Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
+
+
+
+Applications
+------------
+Pyre applications are special kind of pyre components.
+Constructions of pyre applications are very similar to constructions
+of pyre components. 
+Here is 
+`an example <tutorials/greet.py>`_
+.
+
+Instead of subclassing pyre.components.Component.Component, you need to
+subclass pyre.applications.Script.Script.
+Other than that, all pyre applications must declare method "main",
+which is like the "main" function in c/c++.
+
 
 
 Pyre .odb and .pml files
