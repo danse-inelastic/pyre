@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Pyre 0.8 documentation
-===============================
+======================
 
 Contents:
 
@@ -13,10 +13,10 @@ Contents:
    pyreIntroduction   
    pyreInstallation
    pyreTutorials
-   pyreOverview
+   pyreBasics
    pyreUtilities
    journal
-   pyreUnits
+   pyrePackages
    pyreFaqs
    pyreHistory
    projectsUsingPyre

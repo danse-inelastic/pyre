@@ -1,7 +1,11 @@
+Packages of pyre
+================
+
+
 .. _pyre-units:
 
 pyre.units
-==========
+----------
 
 `pyre.units <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units>`_ provides developers an easy way to work with quantities with units. It is fairly easy and intuitive to use. For example, to create velocity quantity of 3000 meter/second, you will do ::
 
@@ -11,7 +15,7 @@ pyre.units
 
 
 Modules
--------
+^^^^^^^
 
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
@@ -29,7 +33,25 @@ Modules
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
 
-----
 
-back to [wiki:User_Guide User Guide]
+
+.. _pyre-db:
+
+pyre.db
+-------
+
+
+
+.. _pyre-geometry:
+
+pyre.geometry
+-------------
+
+
+
+
+.. _pyre-xml:
+
+pyre.xml
+--------
 
