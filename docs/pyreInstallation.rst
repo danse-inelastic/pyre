@@ -23,8 +23,7 @@ From a zip file:
 ^^^^^^^^^^^^^^^^
 
 
- * Download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_
- * Add the zipfile to your $PYTHONPATH. For example, if you are using bash::
+First, download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_. Second, add the zipfile to your $PYTHONPATH. For example, if you are using bash::
 
   $ export PYTHONPATH=/path/to/downloadedzip:$PYTHONPATH
 

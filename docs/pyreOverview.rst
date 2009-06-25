@@ -115,20 +115,20 @@ The object named A is a factory for making objects; the class of the objects tha
 
     >>> myA = A()  # This calls the class object "A" to make a new A object for you.
 
-2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py:
+2. A factory could be a simple function. This example assumes the previous class declaration is in a module named A.py::
 
     def AFactory_1():
         from A import A
         a = A()
         return a
 
-Here's how this would get used:
+Here's how this would get used::
 
     >>> myA = AFactory_1()
     >>> print myA.__class__.__name__
     A
 
-3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state:
+3. A factory could also be another class in its own right, as long that class supplies a function named __call__ (any such class is called a functor). One purpose of having all these options is to allow arbitrarily complicated creation schemes. Here's a class that creates objects of class A. All of those objects are one and the same object. That is, every instance from this factory shares the same state::
 
     class AFactory_2( object):
     
@@ -141,7 +141,7 @@ Here's how this would get used:
             a = self.theInstance
             return a
 
-Here's how that would be used:
+Here's how that would be used::
 
     >>> afactory = AFactory_2()
     >>> a1 = afactory()
