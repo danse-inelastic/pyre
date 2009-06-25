@@ -123,6 +123,54 @@ Miscellaneous:
 --------------
     - Does pyre understand swig?
     - What is the ~/.pyre directory for? 
+    - :ref:`binding`
+    - :ref:`template`
+    - :ref:`wrapping`
+
+
+.. _binding:
+
+Binding
+^^^^^^^
+Binding is the process of making a piece of code callable. In the DANSE project, we frequently use Python bindings for code written in C, C++, and FORTRAN; that means that we use pieces of code that make functions written in those languages callable from Python. Python bindings involve several components including wrappers; the process is described in Writing C extensions for Python.
+
+
+.. _template:
+
+Template
+^^^^^^^^
+In C++, a template function (or class) is a technique for defining function (or class) implementation while not specifying types used in the interface. Loosely speaking, templates define implementation but leave interface to be defined later, while inheritance defines interface but delays deciding implementation.
+
+For example, suppose you have two functions:
+
+float addf(float a, float b){return a + b;}
+double add( double a, double b){return a + b;}
+
+One template function could replace both of these functions:
+
+template <typename T> 
+T add( T a, T b){ return a + b;}
+
+This simplifies writing the code: there's only one function to keep track of, instead of one function for every type. Strictly speaking, this is not a function definition: it is a blueprint for the compiler to create a function definition ("instantiate" the template). The programmer has deferred until later the decision of what type(s) to use in this function. This function will work for any type for which the "+" operator is defined.
+
+The person using this function has to make it clear to the compiler which types are to be involved:
+
+float a=1.2, b=2.3;
+float c = add<float>( a,b);
+
+double d = 3.4, e = 4.5;
+double f = add<double>( d, e);
+
+
+.. _wrapping:
+
+Wrapping
+^^^^^^^^
+Wrapping is the process of providing a new interface to an already existing piece of code. The code that does this is a wrappe
+
+
+
+
 
 
 Journal:

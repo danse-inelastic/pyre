@@ -210,7 +210,11 @@ This is the place where the computing engine should be constructed.
 
 Applications
 ------------
-Pyre applications are special kind of pyre components.
+A pyre application is simply the top-level component that can also be "executed".  
+As such it can be run from the command line or started as a daemon.
+.. or copied to a remote cluster and put in a scheduler. 
+.. A script inherits from the Script class in pyre.applications.Script. An example is::
+
 Constructions of pyre applications are very similar to constructions
 of pyre components. 
 Here is 
@@ -229,9 +233,12 @@ Pyre .odb and .pml files
 
 A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
 
-The name of the .pml file must be <applicationName>.pml.
+The name of the .pml file must be <component_name>.pml.
 
-Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for the application named "test"::
+Create a pml file
+^^^^^^^^^^^^^^^^^
+
+Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for a component named "test"::
 
     $ python inventory.py --name=test
     creating inventory template in 'test.pml'
@@ -241,11 +248,7 @@ generates a file containing this::
     <?xml version="1.0"?>
     <!--
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
-    !                                 T. M. Kelley
-    !                   (C) Copyright 2005  All Rights Reserved
-    !
     ! {LicenseText}
-    !
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     
     
@@ -267,6 +270,9 @@ generates a file containing this::
     
     <!-- End of file -->
 
+Change value of a property
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line::
 
     <property name='key'>value</property>
@@ -277,9 +283,13 @@ to read::
 
 .
 
-See also where to put .pml files
-[edit]
-change the choice of a component
+See also 
+:ref:`where to put .pml files<where-to-put-pml-odb>`
+.
+
+
+Change the component for a facility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Say if we have a greeter component in our hello application::
 
@@ -293,22 +303,26 @@ Say if we have a greeter component in our hello application::
 
 And we want to change the default choice of greeter to a odb file called morning.odb::
 
- #morning.odb
+     # morning.odb
+
      from Greeter import Greeter
      
      def greeter():
          from Greeter import Greeter
          class Morning (Greeter):
-             def _defaults(self): self.inventory.greeting = "Good morning"
+             def _defaults(self): self.inventory.greetings = "Good morning"
          return Morning('morning')
+
 
 What we could do is to change the application pml file hello.pml::
 
-     <component name='hello'>
        <facility name='greeter'>morning</facility>
 
-Where to put .pml files
------------------------
+
+.. _where-to-put-pml-odb:
+
+Where to put .pml/.odb files
+----------------------------
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 
@@ -329,201 +343,14 @@ There are several places to put .pml files, depending on the scope you'd like th
 
 
 
- also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
+..  also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
 
-By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
-
-
-
-
-(incorporate pyre class diagrams, possibly activity diagrams)
-
-A script is simply the top-level component that can also be "executed".  As such it can be run from the command line, started as a daemon, or copied to a remote cluster and put in a scheduler. A script inherits from the Script class in pyre.applications.Script. An example is::
-
-    from pyre.applications.Script import Script
-    
-    
-    class DbApp(Script):
-    
-    
-        class Inventory(Script.Inventory):
-    
-            import pyre.inventory
-    
-            import vnf.components
-            clerk = pyre.inventory.facility(name="clerk", factory=vnf.components.clerk)
-            clerk.meta['tip'] = "the component that retrieves data from the various database tables"
-    
-            import pyre.idd
-            idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
-            idd.meta['tip'] = "access to the token server"
-    
-            wwwuser = pyre.inventory.str(name='wwwuser', default='')
-    
-            tables = pyre.inventory.list(name='tables', default=[])
-    
-    
-        def main(self, *args, **kwds):
-    
-            self.db.autocommit(True)
-    
-            tables = self.tables
-            if not tables:
-                from vnf.dom import alltables
-                tables = alltables()
-            else:
-                tables = [self.clerk._getTable(t) for t in tables]
-    
-            for table in tables:
-                #self.dropTable( table )
-                self.createTable( table )
-                if self.wwwuser: self.enableWWWUser( table )
-                continue
-    
-            for table in tables:
-                self.initTable( table )
-    
-            return
-    
-    
-        def createTable(self, table):
-            # create the component table
-            print " -- creating table %r" % table.name
-            try:
-                self.db.createTable(table)
-            except self.db.ProgrammingError, msg:
-                print "    failed; table exists?"
-                print msg
-            else:
-                print "    success"
-    
-            return
-    
-    
-        def dropTable(self, table):
-            print " -- dropping table %r" % table.name
-            try:
-                self.db.dropTable(table)
-            except self.db.ProgrammingError:
-                print "    failed; table doesn't exist?"
-            else:
-                print "    success"
-    
-            return
-    
-    
-        def initTable(self, table):
-            module = table.__module__
-            m = __import__( module, {}, {}, [''] )
-            inittable = m.__dict__.get( 'inittable' )
-            if inittable is None: return
-            print " -- Inialize table %r" % table.name
-            try:
-                inittable( self.db )
-            except self.db.IntegrityError:
-                print "    failed; records already exist?"
-            else:
-                print "    success"
-                
-            return
-    
-    
-        def enableWWWUser(self, table):
-            print " -- Enable www user %r for table %r" % (self.wwwuser, table.name)
-            sql = 'grant all on table "%s" to "%s"' % (table.name, self.wwwuser)
-            c = self.db.cursor()
-            c.execute(sql)
-            return
-    
-    
-        def __init__(self):
-            Script.__init__(self, 'initdb')
-            self.db = None
-            return
-    
-    
-        def _configure(self):
-            Script._configure(self)
-            self.clerk = self.inventory.clerk
-            self.clerk.director = self
-            self.wwwuser = self.inventory.wwwuser
-            self.tables = self.inventory.tables
-            return
-    
-    
-        def _init(self):
-            Script._init(self)
-    
-            self.db = self.clerk.db
-            self.idd = self.inventory.idd
-    
-            # initialize table registry
-            import vnf.dom
-            vnf.dom.register_alltables()
-    
-            # id generator
-            def guid(): return '%s' % self.idd.token().locator
-            import vnf.dom
-            vnf.dom.set_idgenerator( guid )
-            return
-    
-    
-        def _getPrivateDepositoryLocations(self):
-            return ['../config']
-        
-    
-    
-    def runScript():
-        import journal
-        journal.debug('db').activate()
-        app = DbApp()
-        return app.run()
-    
-    
-    if __name__ == '__main__':
-        runScript()
-
-This application does....Notice the only real difference between a script and a Component is that it has a main() method. It is instantiated in the typical way and then executed by calling the run() method of the superclass pyre.applications.Script.
+.. By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
 
 
 
-
-
-
-Binding
----------
-Binding is the process of making a piece of code callable. In the DANSE project, we frequently use Python bindings for code written in C, C++, and FORTRAN; that means that we use pieces of code that make functions written in those languages callable from Python. Python bindings involve several components including wrappers; the process is described in Writing C extensions for Python.
-
-Template
-----------
-In C++, a template function (or class) is a technique for defining function (or class) implementation while not specifying types used in the interface. Loosely speaking, templates define implementation but leave interface to be defined later, while inheritance defines interface but delays deciding implementation.
-
-For example, suppose you have two functions:
-
-float addf(float a, float b){return a + b;}
-double add( double a, double b){return a + b;}
-
-One template function could replace both of these functions:
-
-template <typename T> 
-T add( T a, T b){ return a + b;}
-
-This simplifies writing the code: there's only one function to keep track of, instead of one function for every type. Strictly speaking, this is not a function definition: it is a blueprint for the compiler to create a function definition ("instantiate" the template). The programmer has deferred until later the decision of what type(s) to use in this function. This function will work for any type for which the "+" operator is defined.
-
-The person using this function has to make it clear to the compiler which types are to be involved:
-
-float a=1.2, b=2.3;
-float c = add<float>( a,b);
-
-double d = 3.4, e = 4.5;
-double f = add<double>( d, e);
-
-
-Wrapping
----------
-Wrapping is the process of providing a new interface to an already existing piece of code. The code that does this is a wrappe
-
+.. (incorporate pyre class diagrams, possibly activity diagrams)
 
 
 
