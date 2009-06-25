@@ -4,6 +4,11 @@
 Tutorials
 ===========
 
+If you have not done so, please 
+:ref:`install <installation>`
+pythia-0.8 before you start playing with the following examples.
+
+
 Hello World
 -----------
 This is the pyre version of hello world. It introduces some structures into the simple one-liner ::
