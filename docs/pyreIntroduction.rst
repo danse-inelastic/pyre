@@ -1,4 +1,4 @@
- Introduction
+Introduction
 ==============
  
 Pyre is an integration framework for high-performance computing based on `python <http://www.python.org>`_. It is used by :ref:`several scientific computing projects <projects-using-pyre>`. 

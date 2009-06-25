@@ -21,6 +21,7 @@ RECURSE_DIRS = \
     tests \
     applications \
     examples \
+    docs \
 
 
 
@@ -39,6 +40,9 @@ distclean::
 
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
+
+docs::
+	BLD_ACTION="docs" $(MM) recurse
 
 zip: prefix
 	(cd packages; \
