@@ -3,7 +3,7 @@
 Installation
 =================
 
-:ref:`Pure python version<pure-python-distrib>` of pyre is a very good start point to try out pyre, and for many applications, it is actually adequate.
+:ref:`Pure python version<pure-python-distrib>` of pyre is a good starting point to try out pyre, and for most python applications, is adequate.
 
 
 

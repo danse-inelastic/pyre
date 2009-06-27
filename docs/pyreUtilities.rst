@@ -59,8 +59,39 @@ The same may also be done for scripts--a "hello world" script may be auto-genera
 
   $ app.py --name=myapp-name
 
+Create a pml file
+^^^^^^^^^^^^^^^^^
 
-To create a template pml file, do the following::
+Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for a component named "test"::
 
-  $ inventory.py --name=component-name    
+    $ python inventory.py --name=test
+    creating inventory template in 'test.pml'
+
+generates a file containing this::
+
+    <?xml version="1.0"?>
+    <!--
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
+    ! {LicenseText}
+    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    
+    
+    <!DOCTYPE inventory>
+    
+    <inventory>
+    
+      <component name='test'>
+        <property name='key'>value</property>
+      </component>
+    
+    </inventory>
+    
+    
+    <!-- version-->
+    <!-- $Id$-->
+    
+    <!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
+    
+    <!-- End of file -->
+  
 

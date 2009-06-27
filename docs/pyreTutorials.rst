@@ -26,7 +26,7 @@ and explain the reasons why those structures are needed.
 The simplest pyre application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_::
+Please open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_)::
 
   #!/usr/bin/env python
 
@@ -55,21 +55,20 @@ Please save it as hello1.py and run it ::
   $ python hello1.py
   Hello World!
 
-Here are a few things needs attention:
+Here are a few things to note:
 
- * A pyre application needs to be inherited from pyre.applications.Script.Script
-   class.
- * The new application class needs a method "main". This method will be executed   when the application is launched.
+ * A pyre application needs to inherit from pyre.applications.Script.Script.
+ * It needs a method named "main". This method will be executed when the application is launched.
  * The application's constructor has a keyword argument "name", and this name 
-   is the key that pyre framework will use to find the application's
+   is the key the pyre framework will use to find the application's
    configuration items.
 
-You may wonder why we need to create this pyre application instead of
-just simply using the python one-liner to achieve the same effect::
+You may wonder why we need this larger pyre application instead of
+just using the python one-liner to achieve the same effect::
 
   >>> print "Hello World!"
 
-In the next step we will make this application a little bit more configurable
+This will become apparent in the next few sections.  The next step is to make this application a little more configurable
 and interesting.
 
 
@@ -124,31 +123,26 @@ And you can change the person you want to say hello::
   $ python hello2.py --name=Bob
   Hello Bob!
 
-Compare this example to :ref:`the previous example <helloworld1>`, a few things 
-are added or modified
-
-  * An Inventory class
-  * The _configure method
-  * The main method
-  * The constructor 
+Comparing this to :ref:`the previous example <helloworld1>`, we note a few things 
+are added or modified:
 
 
 Inventory
 """"""""""
-In the inventory, the public cofigurable items are presented.
-In this simple pyre application, the inventory has one item,
-"name", which is the name of the one who we would like to say
+There is an inner class called Inventory, where publicly cofigurable items are listed.
+In the simple application above, Inventory has one item,
+"name", which is the name of the one whom we would like to say
 hello::
 
   name = pyre.inventory.str(name='name', default='World')
 
-This statement declares that there is a public property for
-this application, and its type is a string, its name is "name",
+This statement declares there is a public property for
+this application, its type is a string, its name is "name",
 and its default value is "World".
-Pyre framework will keep this declaration in mind, and look
-for user inputs for this property when this application is
-launched, and parse user inputs to appropriate data type,
-and feed the value to::
+Pyre instantiates Inventory with the lower case name "inventory", looks
+for user inputs for its properties when the application is
+launched, parses user inputs to appropriate data types,
+and feeds the value to::
 
   self.inventory.name
 
@@ -157,29 +151,30 @@ where self is the application.
 
 _configure
 """"""""""
-In the _configure method, we create a local variable of this
-hello2 application, and pass to it the value of the property
-"name", which is handed out by pyre framework
-(obtained from parsing user inputs)::
+In the _configure method, we create a local variable and pass it the value of the property
+"name", which is managed by the pyre framework::
 
   self.name = self.inventory.name
 
 
 main
 """"
-
 In the main method, we change the print message so that we
 will say hello to the person defined by the variable "name"::
 
   print "Hello "+self.name+"!"
  
 
+.. brandon: need a better introduction to pml files here...and utilities like invenetory.py
 constructor __init__
 """"""""""""""""""""""""""""""
-
-In the constructor, we gives this application a name "hello2".
+In the constructor, we give this application the name "hello2".
 This name is a identifier that pyre framework will use to
-look for configurations.  For example, we can use pml files
+look for configurations.  
+
+
+Although it is useful to have a system to manage commandline inputs, both to an application and to its subapplications, called "components" in pyre, wouldn't it be useful to have alternative ways to configure a program? Pyre has this in the form of xml files, which are given the .pml ending.  Pml files are created by...(outline structure of pml file), discuss utitlies, 
+For example, we can use pml files
 to configure pyre applications.  Let us create a pml file by::
 
   $ inventory.py --name=hello2
@@ -203,7 +198,7 @@ different::
   $ python hello2.py
   Hello Alice!
 
-Pyre framework looks for pml files by looking for the
+Pyre looks for pml files by looking for the
 names of the pyre components (pyre application is also a pyre component),
 and it found "hello2.pml", and the configurations in this
 file is used.
@@ -437,9 +432,9 @@ The extra command line option ::
 
   --greeter=fancy-greeter
 
-tells pyre framework to use the component named "fancy-greeter" instead
+tells pyre to use the component named "fancy-greeter" instead
 of the default component for the facility "greeter". 
-Pyre framework then looks for this "fancy-greeter" component
+Pyre then looks for this "fancy-greeter" component
 by looking for "fancy-greeter.odb" in a few directories 
 (~/.pyre and current directory). 
 The fancy-greeter.odb file must have a method "greeter", which
@@ -450,8 +445,6 @@ for the "greet" pyre application.
 
 Apparently this feature is very useful since you can switch the computation
 engine easily with pyre applications. For example, if you have
-an application that do parametric fitting and this application makes use
-of a optimizer. You can declare an "optimizer" facility and easily
-use pyre machineries to order the application to use different optimizers
-implemented using different algorithms.
+an application that does parametric fitting and this application makes use
+of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
 

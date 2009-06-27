@@ -206,7 +206,7 @@ This is the place where the computing engine should be constructed.
 
 Layered structure of pyre
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-Pyre encourage decomposition of large, complex computing system to small, dedicated
+Pyre encourages decomposition of large, complex computing system to small, dedicated
 computing engines by providing a architecture allowing construction of
 components in a layored structure. 
 :ref:`Application greet.py <helloworld-greet.py>` is a good example
@@ -244,41 +244,6 @@ Pyre .odb and .pml files
 A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
 
 The name of the .pml file must be <component_name>.pml.
-
-Create a pml file
-^^^^^^^^^^^^^^^^^
-
-Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for a component named "test"::
-
-    $ python inventory.py --name=test
-    creating inventory template in 'test.pml'
-
-generates a file containing this::
-
-    <?xml version="1.0"?>
-    <!--
-    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~!
-    ! {LicenseText}
-    ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    
-    
-    <!DOCTYPE inventory>
-    
-    <inventory>
-    
-      <component name='test'>
-        <property name='key'>value</property>
-      </component>
-    
-    </inventory>
-    
-    
-    <!-- version-->
-    <!-- $Id$-->
-    
-    <!-- Generated automatically by XMLMill on Tue Apr 12 17:36:35 2005-->
-    
-    <!-- End of file -->
 
 Change value of a property
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

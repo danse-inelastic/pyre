@@ -40,6 +40,45 @@ Modules
 pyre.db
 -------
 
+= vnf dom =
+The user inputs accepted from user interface must be stored somewhere for later use. In opal, this is done with the help of pyre.db, the db engine in pyre framework.
+
+VNF extends pyre.db to support the hierarchial data structure needed by VNF. The hierarchy in VNF DOM is established by connecting db tables with "references". 
+Furthermore, since VNF makes use of polymorphic pointers in various places, a special reference type, VersatileReference, is introduced into VNF DOM.
+
+== simple data structures ==
+A simple data structure with hierarchy can be easily built from a pyre.db table. Following is an example:
+
+{{{
+from Table import Table as base
+class Cylinder(base):
+
+    name = 'cylinders'
+
+    import pyre.db
+
+    idd = pyre.db.varchar(name="id", length=64)
+    id.constraints = 'PRIMARY KEY'
+
+    height = pyre.db.real( name = 'height', default = 0.1 )
+    innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
+    outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
+}}}
+
+This table describes cylinders with parameters height, innerradius, and outerradius.
+
+== hierarchial data structures ==
+Hierarchial data structures are stored by establishing "references" between related objects.
+
+There are two kinds of references:
+
+ * normal reference with definite type
+ * versatile reference. this is useful in case of polymorphism
+
+=== Normal reference ===
+
+
+
 
 
 .. _pyre-geometry:
