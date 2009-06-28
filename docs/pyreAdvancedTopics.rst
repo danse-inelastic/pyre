@@ -6,13 +6,14 @@ Intermediate Pyre
 Pyre Project Structure
 ------------------------
 
-A pyre project typically contains a number of directories
+A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several plane wave abinitio codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named pwabinit::
+
+
+is could be done in the following way, supposing the project is named p for native python, switchable component factor functesting, c extensions, c-python binding code, 
 
 applications
 ^^^^^^^^^^^^
-* Pyre applications typically
-
-* add "d" if it's a daemon
+Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>`_ that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>`_ appends a "d" to the app name if it is a service.
 
 etc
 ^^^
@@ -21,7 +22,7 @@ etc
 
 
 
-
+Much of this structure can be generated automatically by using the package utility.  However, appli
 
 .. _pyre-inventory-implementation:
 

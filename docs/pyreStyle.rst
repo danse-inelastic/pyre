@@ -1,7 +1,9 @@
+.. _pyre-style:
+
 Pyre Style
 ==========
 
-Pyre uses and encourages pyre applications to be written using a style consistent with the python interpreter.  For example, the __init__ file of packages contains factory functions for the underlying classes.  An example is pyre.inventory.__init__::
+Pyre encourages python applications to be written using a style consistent with the python interpreter.  For example, the __init__ file of packages contains factory functions for the underlying classes.  An example is pyre.inventory.__init__::
 
     #!/usr/bin/env python
     
@@ -151,4 +153,4 @@ Pyre uses and encourages pyre applications to be written using a style consisten
         return Not(v)
 
 
-Another style convention is to leave two spaces between methods.
+Another style convention is to leave two spaces between methods.  For applications, services should end with the letter "d".

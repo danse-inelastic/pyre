@@ -17,6 +17,10 @@ from the command line.  Then insert the following at the top of your pyre app::
     import journal
     journal.info(name).activate()
 
+and/or::
+
+    journal.debug("journal").activate()
+
 As the need arises, insert debugging statements in your code.  
 
 

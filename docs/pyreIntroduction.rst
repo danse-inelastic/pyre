@@ -9,7 +9,7 @@ As an integration framework, pyre provides developers of scientific computing so
  * :ref:`Database access <pyre-db>`
  * :ref:`Geometry <pyre-geometry>`
  * :ref:`XML support <pyre-xml>`
- * `Opal: web application builder <http://danse.us/trac/pyre/wiki/Opal>`
+ * `Opal: web application builder <http://danse.us/trac/pyre/wiki/Opal>`_
 
 Pyre is more than a framework. Pyre is designed and implemented to promote good software development practices; decomposition of large, complex systems to small, managable components; writing reusable data objects, components and services; appropriate applications of software design patterns; and encourages pythonic style.
 
