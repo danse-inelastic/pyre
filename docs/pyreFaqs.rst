@@ -50,11 +50,12 @@ Using pyre:
 Using component Factories
 ---------------------------
 
-    - :ref:`What is a factory<what-is-factory>`?
+    - :ref:`What is a factory?<what-is-factory>`
     - What can a pyre factory do and not do?
     - How can I override args to a component factory from command line? From .pml file?
     - Is it possible to have multiple components in an application that use the same factory name? 
 
+.. 
 
 .. _what-is-factory:
 

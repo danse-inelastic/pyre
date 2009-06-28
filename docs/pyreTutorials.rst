@@ -131,8 +131,7 @@ Inventory
 """"""""""
 There is an inner class called Inventory, where publicly cofigurable items are listed.
 In the simple application above, Inventory has one item,
-"name", which is the name of the one whom we would like to say
-hello::
+"name", which is the name of the person to whom we say hello::
 
   name = pyre.inventory.str(name='name', default='World')
 
