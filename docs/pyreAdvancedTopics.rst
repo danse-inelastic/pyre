@@ -11,15 +11,28 @@ A pyre project typically contains a number of directories.  For example, supposi
 
 is could be done in the following way, supposing the project is named p for native python, switchable component factor functesting, c extensions, c-python binding code, 
 
-applications
-^^^^^^^^^^^^
-Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>`_ that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>`_ appends a "d" to the app name if it is a service.
+applications/
+^^^^^^^^^^^^^
+Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>`_ that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>`_ appends a "d" to the app name if it is a service daemon.  
 
-etc
-^^^
-* carries odb files for switching facilities
+etc/
+^^^^
+This directory stores facility factory method files, called `odb files <>`_, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
 
+    class MdApp(Script):
+    
+        class Inventory(Script.Inventory):
+            import pyre.inventory as inv 
+            mdEngine = inv.facility('mdEngine', default='gulp')
+            mdEngine.meta['known_plugins'] = ['gulp','mmtk']
+            mdEngine.meta['tip'] = 'which md engine to use'
 
+Then etc/ would have the structure::
+
+    $ ls etc
+    Make.mm MdApp
+    $ ls etc/MdApp
+    
 
 
 Much of this structure can be generated automatically by using the package utility.  However, appli

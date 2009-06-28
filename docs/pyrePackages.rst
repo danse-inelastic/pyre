@@ -40,6 +40,7 @@ Modules
 pyre.db
 -------
 
+
 Here is the class diagram of pyre's db object handling capabilities:
 
 .. image:: images/PyreDbClassDiagram.png
