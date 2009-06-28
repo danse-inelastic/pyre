@@ -1,5 +1,27 @@
-Advanced Topics
-===============
+Intermediate Pyre
+=================
+
+.. _pyre-directory-structure:
+
+Pyre Project Structure
+------------------------
+
+A pyre project typically contains a number of directories
+
+applications
+^^^^^^^^^^^^
+* Pyre applications typically
+
+* add "d" if it's a daemon
+
+etc
+^^^
+* carries odb files for switching facilities
+
+
+
+
+
 
 .. _pyre-inventory-implementation:
 
@@ -51,5 +73,11 @@ The metaclass's __init__ will be called when the object of the class
 (Note: the class object != the class instance) is built. 
 In Notary's __init__, all traits of an Inventory class will be 
 collected to two registries, one for properties, and one for facilities.
+
+
+Listing of Pyre Reserved Methods 
+--------------------------------
+
+
 
 

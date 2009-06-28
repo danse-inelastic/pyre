@@ -19,6 +19,7 @@ Contents:
    journal
    pyreStyle
    pyreUtilities
+   makeMm
    pyreFaqs
    pyreHistory
    projectsUsingPyre

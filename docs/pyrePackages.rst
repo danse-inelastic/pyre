@@ -1,5 +1,5 @@
-Packages of pyre
-================
+Advanced pyre: packages and internal structure
+==============================================
 
 
 .. _pyre-units:
@@ -39,6 +39,11 @@ Modules
 
 pyre.db
 -------
+
+Here is the class diagram of pyre's db object handling capabilities:
+
+.. image:: images/PyreDbClassDiagram.png
+
 
 = vnf dom =
 The user inputs accepted from user interface must be stored somewhere for later use. In opal, this is done with the help of pyre.db, the db engine in pyre framework.
@@ -86,11 +91,38 @@ There are two kinds of references:
 pyre.geometry
 -------------
 
+Here is the class diagram:
+
+.. image:: images/PyreGeometryClassDiagram.png
+
+
 
 
 
 .. _pyre-xml:
 
-pyre.xml
---------
+Pyre's xml processor: pyre.xml
+------------------------------
+
+Here is the class diagram:
+
+.. image:: images/PyreGeometryClassDiagram.png
+
+
+.. _pyre-pyre:
+
+Pyre internal structure: pyre.pyre
+----------------------------------
+
+Pyre has a complex internal structure.  Here are some class diagrams:
+
+Here is how it handles internally inventory items:
+
+.. image:: images/PyreInventoryClassDiagram.png
+
+Here is how it
+
+.. image:: images/PyreInventoryClassDiagram.png
+
+
 

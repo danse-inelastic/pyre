@@ -98,3 +98,33 @@ generates a file containing this::
     <!-- End of file -->
   
 
+Creating a pyre service
+^^^^^^^^^^^^^^^^^^^^^^^
+
+* need a good example of hour services are used first, perhaps using Ipa...
+
+
+.. _create-a-pyre-project:
+
+Create a pyre project
+^^^^^^^^^^^^^^^^^^^^^
+
+Pyre project directory templates can be generated using the package.sh utility. Simply type the utility followed by the name of the project, such as "CoolIdea"::
+
+    $ package.sh CoolIdea
+    $ cd CoolIdea/
+    $ ls
+    CoolIdea  CoolIdeamodule  examples  libCoolIdea  Make.mm  tests
+    $ ls CoolIdea
+    __init__.py  Make.mm
+    $ ls CoolIdeamodule/
+    bindings.cc  CoolIdeamodule.cc  exceptions.h  Make.mm  misc.h
+    bindings.h   exceptions.cc      local.def     misc.cc
+    $ ls libCoolIdea/
+    hello.cc  hello.h  local.def  Make.mm
+    $ ls tests/
+    hello.cc  Make.mm  signon.py
+
+and :ref:`traditional pyre directories <pyre-directory-structure>` will be generated below a directory with the indicated name, each filled with Make.mm files and initialization files.
+
+
