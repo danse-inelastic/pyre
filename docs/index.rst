@@ -14,11 +14,12 @@ Contents:
    pyreInstallation
    pyreTutorials
    pyreBasics
-   pyreUtilities
-   journal
-   pyrePackages
-   pyreFaqs
    pyreAdvancedTopics
+   pyrePackages
+   journal
+   pyreStyle
+   pyreUtilities
+   pyreFaqs
    pyreHistory
    projectsUsingPyre
    additionalDocs

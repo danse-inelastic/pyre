@@ -1,18 +1,16 @@
-FAQs:
+FAQs (note: in future this should probably be put into forum or google group..):
 =====
     
 Basic pyre:
 -----------
 
-    - How is a script different from a component? How do I decide which to use?
-    - What does pyre require of the format (input/output, etc) of my code?
+    - :ref:`What does pyre require of the format (input/output, etc) of my code?<code-requirements>`
     - Should I write an additional python layer around my code, or should all of that go into a pyre component? 
 
 
 The pyre inventory:
 -------------------
 
-    - What goes in the inventory, versus what is a state variable?
     - How do I manipulate a component's inventory after the component has been instantiated?
     - How can I get a component to manipulate its parents inventory?
     - If I use a component as a facility, can I access one of the facility's methods to return a result?
@@ -26,9 +24,8 @@ The pyre inventory:
 Inheritance:
 ------------
 
-    - Are there reserved method names within pyre, and how can I find out what they are?
+    - Are there reserved method names within pyre?
     - My component needs to inherit from something else, can pyre handle that?
-    - Do I have to include methods like "_defaults" if I don't use them?
     - What are the minimum methods I have to include to have a functional pyre component? 
 
 
@@ -55,7 +52,13 @@ Using component Factories
     - How can I override args to a component factory from command line? From .pml file?
     - Is it possible to have multiple components in an application that use the same factory name? 
 
-.. 
+.. _code-requirements:
+
+What does pyre require of the format (input/output, etc) of my code?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Nothing, except to feed the inventory items into your code before it is executed.  If your code needs to maintain state between executions, consider wrapping it as a pyre daemon, such as ipa, idd, or :ref:`journal <journal>`.
+
 
 .. _what-is-factory:
 

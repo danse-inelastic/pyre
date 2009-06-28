@@ -1,6 +1,9 @@
 Utilities for pyre developers
 =============================
 
+Create a component or application skeleton
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Pythia-0.8/bin comes with a number of programmer's utilities.  There are templates for creating components and scipts.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
 
  $ component.py --name=NmrMachine
@@ -59,8 +62,8 @@ The same may also be done for scripts--a "hello world" script may be auto-genera
 
   $ app.py --name=myapp-name
 
-Create a pml file
-^^^^^^^^^^^^^^^^^
+Create a pml skeleton
+^^^^^^^^^^^^^^^^^^^^^
 
 Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for a component named "test"::
 
