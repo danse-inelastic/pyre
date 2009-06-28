@@ -96,7 +96,25 @@ Here is the class diagram:
 .. image:: images/PyreGeometryClassDiagram.png
 
 
+.. _pyre-parsing:
 
+pyre.parsing
+-------------
+
+Here is the class diagram for pyre's parsing utilities:
+
+.. image:: images/PyreParsingClassDiagram.png
+
+
+
+.. _pyre-services:
+
+pyre.services
+-------------
+
+Here is the class diagram for pyre's services base:
+
+.. image:: images/PyreServicesClassDiagram.png
 
 
 .. _pyre-xml:
@@ -124,5 +142,15 @@ Here is how it
 
 .. image:: images/PyreInventoryClassDiagram.png
 
+
+.._journal-structure:
+
+Journal: structure and architecture 
+-----------------------------------
+
+
+Here is the class diagram of journal:
+
+.. image:: images/JournalTopLevelClassDiagram.png
 
 
