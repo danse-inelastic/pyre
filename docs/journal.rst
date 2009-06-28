@@ -12,7 +12,7 @@ To start using journal, first execute the journal daemon by typing::
 
     $ journald.py	
 
-from the command line.  Then insert the following at the top of your pyre app::
+from the command line.  (also talk about having the right pml files set up and making sure journal is "pointing" to them).  Then insert the following at the top of your pyre app::
 
     import journal
     journal.info(name).activate()
