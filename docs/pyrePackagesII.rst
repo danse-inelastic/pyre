@@ -40,7 +40,7 @@ Here is the class diagram for pyre's component:
 .. _pyre-parsing:
 
 pyre.parsing
--------------
+------------
 
 Here is the class diagram for pyre's parsing utilities:
 
@@ -55,7 +55,7 @@ It's classes in turn use locators for the files they parse:
 .. _pyre-filesystem:
 
 pyre.filesystem
-------------
+---------------
 
 Here is the class diagram for pyre's tools for managing filesystems:
 
