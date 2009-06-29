@@ -1,5 +1,5 @@
-Pyre Internals: I
-=================
+Advanced topics
+===============
 
 .. _pyre-directory-structure:
 
@@ -32,15 +32,15 @@ Then etc/ would have the structure::
     gulp.odb mmtk.odb lammps.odb cp2k.odb
     
 <package>/
-^^^^^^^
+^^^^^^^^^^
 This is the top level directory for python source.
 
 lib<package>/
-^^^^^^^^^^
+^^^^^^^^^^^^^
 This contains possible c extensions.
 
 <package>module/
-^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 This contains python bindings to the c extensions.
 
 tests/

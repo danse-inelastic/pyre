@@ -14,14 +14,13 @@ Contents:
    pyreInstallation
    pyreTutorials
    pyreBasics
-   pyrePackages
-   pythiaPackages
-   pyreInternalsI
-   pyreInternalsII
-   journal
-   pyreStyle
+   debugging
    pyreUtilities
    makeMm
+   pyreStyle
+   pyrePackages
+   advancedTopics
+   pyreInternals
    pyreFaqs
    pyreHistory
    projectsUsingPyre
