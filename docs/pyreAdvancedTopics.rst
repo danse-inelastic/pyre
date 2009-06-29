@@ -104,8 +104,17 @@ In Notary's __init__, all traits of an Inventory class will be
 collected to two registries, one for properties, and one for facilities.
 
 
+
+
 Listing of Pyre Reserved Methods 
 --------------------------------
+
+
+
+
+Pyre rendering: Weaver
+----------------------
+
 
 
 

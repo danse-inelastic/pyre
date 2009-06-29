@@ -16,6 +16,8 @@ Contents:
    pyreBasics
    pyreAdvancedTopics
    pyrePackages
+   pyrePackagesII
+   pyrePackagesIII
    journal
    pyreStyle
    pyreUtilities
@@ -26,8 +28,6 @@ Contents:
    additionalDocs
    upcoming
    usefulLinks
-
-.. here is an optional depth qualifer for the above toctree :maxdepth: 2
 
 
 Indices and tables

@@ -1,5 +1,5 @@
-Advanced pyre: packages and internal structure
-==============================================
+Advanced pyre I: pyre packages
+==============================
 
 
 .. _pyre-units:
@@ -64,29 +64,19 @@ To store objects in a db, one must subclass "Table", such as::
 
 This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw<http://, DbManager is overlaid with additional functionality for creating hierarchical data structures.  
 
-Then users can create and/or drop tables:
+Then users can store objects in the usual way::
 
     >>> dbm = DbManager()
+    >>> dbm.createTable(Cylinder)
+    >>> cylinder = Cylinder()
+    >>> dbm.insertRow(cylinder)
+
+as well as execute other methods in the DbManager interface.
 
 
-.. _pyre-geometry:
-
-pyre.geometry
--------------
-
-Here is the class diagram:
-
-.. image:: images/PyreGeometryClassDiagram.png
 
 
-.. _pyre-parsing:
 
-pyre.parsing
--------------
-
-Here is the class diagram for pyre's parsing utilities:
-
-.. image:: images/PyreParsingClassDiagram.png
 
 
 
@@ -110,6 +100,21 @@ Here is the class diagram:
 .. image:: images/PyreGeometryClassDiagram.png
 
 
+
+.. _pyre-geometry:
+
+pyre.geometry
+-------------
+
+Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
+
+.. image:: images/PyreGeometryClassDiagram.png
+
+In the operations package we have:
+
+.. image:: images/PyreGeometryClassDiagram.png
+
+
 .. _pyre-pyre:
 
 Pyre internal structure: pyre.pyre
@@ -124,6 +129,18 @@ Here is how it handles internally inventory items:
 Here is how it
 
 .. image:: images/PyreInventoryClassDiagram.png
+
+
+
+.. _pyre-parsing:
+
+pyre.parsing
+-------------
+
+Here is the class diagram for pyre's parsing utilities:
+
+.. image:: images/PyreParsingClassDiagram.png
+
 
 
 .._journal-structure:
