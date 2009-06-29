@@ -309,7 +309,7 @@ There are several places to put .pml files, depending on the scope you'd like th
 3 beats the others, 2 beats 1, 1 beats whatever the default is. 
 
 
-
+(talk about depositories and configuring them in more detail...)
 
 
 
@@ -324,9 +324,6 @@ There are several places to put .pml files, depending on the scope you'd like th
 .. By having an explicit place to interact with the component, components gain the ability to control whether they accept a given change, and what to do with that setting.   External inputs such as those from the command line, a higher-level component, or a GUI, are stored in inventory items.    
 
 
-
-
-.. (incorporate pyre class diagrams, possibly activity diagrams)
 
 
 

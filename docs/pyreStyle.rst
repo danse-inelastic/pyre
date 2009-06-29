@@ -153,4 +153,10 @@ Pyre encourages python applications to be written using a style consistent with 
         return Not(v)
 
 
-Another style convention is to leave two spaces between methods.  For applications, services should end with the letter "d".
+Another style convention is to leave two spaces between methods.  
+
+For applications, services should end with the letter "d".  
+
+When using the visitor pattern, preface visitor rendering methods with "on" followed by the name of the data structure, such as "onCylinder()" for rendering information about the geometrical Cylinder shape.  The data structure in turn should carry an "identify()" method that calls this method.
+
+

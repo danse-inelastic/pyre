@@ -112,8 +112,12 @@ In reality, any method of a used by Component is "reserved", but here are some o
 * _configure()
 * _defaults()
 * _init()
-* _configureComponent()
+* _fini()
+* configureComponent()
 * 
+
+(give some examples of how each of these may be used--start with vnf's redirect)
+
 
 .. _weaver:
 

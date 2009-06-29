@@ -32,7 +32,9 @@ Modules
  * `energy <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/energy.py>`_
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
+Hare some of the classes used by these data structures:
 
+.. image:: images/PyreUnitsClassDiagram.png
 
 
 .. _pyre-db:
@@ -152,3 +154,26 @@ where we see classes related to rendering and parsing pml files for geometrical 
 .. image:: images/PyreGeometryPmlParserClassDiagram.png
 
 there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.
+
+
+
+.. _pyre-simulations:
+
+Running and steering simulations in pyre: pyre.simulations
+----------------------------------------------------------
+
+Here are tools for running simulations with pyre (mostly finite element for now):
+
+.. image:: images/PyreSimulations	ClassDiagram.png
+
+
+
+.. _pyre-util:
+
+Pyre.util
+---------
+
+Here are various utilities used in pyre:
+
+.. image:: images/PyreUtilClassDiagram.png
+
