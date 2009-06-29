@@ -54,12 +54,12 @@ It's classes in turn use locators for the files they parse:
 
 .. _pyre-filesystem:
 
-pyre.parsing
+pyre.filesystem
 ------------
 
-Here is the class diagram for pyre's parsing utilities:
+Here is the class diagram for pyre's tools for managing filesystems:
 
-.. image:: images/PyreParsingClassDiagram.png
+.. image:: images/PyreFilesystemClassDiagram.png
 
 
 

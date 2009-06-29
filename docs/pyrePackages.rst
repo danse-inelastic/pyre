@@ -16,6 +16,8 @@ pyre.units
 Modules
 ^^^^^^^
 
+(need to do inline docstrings and module attributes here...)
+
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
  * `length <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/length.py>`_
@@ -32,6 +34,8 @@ Modules
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
 Hare some of the classes used by these data structures:
+
+(Parser is not in this package, i think--remove)
 
 .. image:: images/PyreUnitsClassDiagram.png
 

@@ -44,9 +44,9 @@ so that if one desires to debug components or scripts, one only has to call::
 
 .. _debugger:
 
-Debugging pyre apps with a debugger such as in eclipse
-------------------------------------------------------
+Debuggers
+---------
 
-In addition to journal, and especially for routine debugging of individual components, native ide debuggers (such as in Eclipse) maybe used.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in eclipse maybe be set, stored, and exported as a wide variety of run/debug configuration files.
+In addition to journal, and especially for routine debugging of individual components, native ide debuggers (such as in Eclipse) may be used.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in Eclipse maybe be set, stored, and exported as run/debug configuration files.
 
 Alternatively, one may store the run configurations themselves as pml files.
