@@ -48,7 +48,7 @@ All properties are instances of pyre.inventory.Property.Property, and usually th
       validator=pyre.inventory.less(1*pyre.units.energy.eV))
 
 Here the factory 
-`pyre.inventory.dimensional <http://docs.danse.us/pyre/api/pyre.inventory-module.html#dimensional>`_
+`pyre.inventory.dimensional </pyre/api/pyre.inventory-module.html#dimensional>`_
 is a factory method creating a property of dimensional type, and all user inputs
 for this property will be casted into this type.
 For more factories, please consult 
@@ -161,7 +161,8 @@ The constructor must contains a call to parent's constructor::
 
             super(Sentry, self).__init__(name, facility='sentry')
 
-here the name is the name of this component, and it is the key that pyre framework
+here the name argument specifies the name of this component, 
+and it is the key that pyre framework
 uses to look for its configuration.
 
 
@@ -201,6 +202,10 @@ This method will be called after every component is configured.
 The method _configure
 for all components will be called already at this time.
 This is the place where the computing engine should be constructed.
+Usually, in _init method you want to prepare everything so that the
+component is ready to run; for example, you may want to allocate memory,
+open input/output files, initiate c/c++/fortran engines that this
+component is depending on, etc.
 
 
 
@@ -302,8 +307,8 @@ Where to put .pml/.odb files
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 
-   1. Files meant to override variables system-wide should be put with the pyre installation, in pythia-m.n/etc/<comp_name>/<comp_name>.pml, where m.n is the pythia version number, and <comp_name> is the name of the component. Example: the system-wide .pml file for myApp with pythia-0.8 should be .../pythia-0.8/etc/myApp/myApp.pml
-   2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp/myApp.pml
+   1. Files meant to override variables system-wide should be put with the pyre installation, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. Example: the system-wide .pml files for myApp with pythia-0.8 should be in directory $EXPORT_ROOT/etc/myApp
+   2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp
    3. Files meant to be local overrides should go in the local directory: ./myApp.pml 
 
 3 beats the others, 2 beats 1, 1 beats whatever the default is. 
