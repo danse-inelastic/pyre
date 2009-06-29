@@ -28,7 +28,7 @@ This appears to be a stub.  Real db interaction is managed by :ref:`pyre.db <pyr
 .. _pyre-components:
 
 pyre.components
--------------
+---------------
 
 Here is the class diagram for pyre's component:
 
@@ -55,7 +55,7 @@ It's classes in turn use locators for the files they parse:
 .. _pyre-filesystem:
 
 pyre.parsing
--------------
+------------
 
 Here is the class diagram for pyre's parsing utilities:
 

@@ -1,7 +1,6 @@
 Advanced pyre I: pyre packages
 ==============================
 
-
 .. _pyre-units:
 
 pyre.units
@@ -87,6 +86,8 @@ Here is the class diagram:
 
 
 
+
+
 .. _pyre-services:
 
 Pyre server base: pyre.services
@@ -96,15 +97,23 @@ Here is the class diagram for pyre's services base:
 
 .. image:: images/PyreServicesClassDiagram.png
 
+These classes are useful when creating servers that need to provide a type of service, as shown for idd, ipa, and ipc in the next sections.
+
 
 .. _idd:
 
 Generating globally unique identifiers: pyre.idd
 ------------------------------------------------
 
-Here is the class diagram for pyre's idd daemon:
+Idd is a daemon which issues globally unique identifiers.  Here is its class diagram:
 
 .. image:: images/PyreIddClassDiagram.png
+
+Objects that need a unique identifier simply use this as a facility and configure it::
+
+
+then obtain the identifier:
+
 
 
 .. _ipa:
@@ -112,7 +121,7 @@ Here is the class diagram for pyre's idd daemon:
 Managing user sessions: pyre.ipa
 --------------------------------
 
-Here is the class diagram for pyre's ipa daemon:
+Ipa is a daemon which can manage user sessions by creating hashes, issuing tickets, and verifying passwords. Here is the class diagram:
 
 .. image:: images/PyreIpaClassDiagram.png
 
@@ -132,6 +141,8 @@ Here is the class diagram for pyre.ipc:
 
 Using and manipulating basic geometrical shapes: pyre.geometry
 --------------------------------------------------------------
+
+(note: the internal classes of the packages need to be removed)
 
 Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
 
@@ -170,10 +181,10 @@ Here are tools for running simulations with pyre (mostly finite element for now)
 
 .. _pyre-util:
 
-Pyre.util
----------
+Pyre utilities
+--------------
 
-Here are various utilities used in pyre:
+Here are various utilities, such as a singleton base class for the singleton design pattern:
 
 .. image:: images/PyreUtilClassDiagram.png
 
