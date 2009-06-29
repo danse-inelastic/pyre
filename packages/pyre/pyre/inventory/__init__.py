@@ -65,6 +65,7 @@ def array(name, **kwds):
     Keyword arguments:
 
     default     -- default list of floats, when not specified use empty list.
+
     validator   -- function of one variable that returns its validated value
                    (usually the same) or raises ValueError
 
@@ -93,6 +94,7 @@ def bool(name, **kwds):
 
     default     -- default boolean flag, can be None to indicate unassigned
                    variable
+
     validator   -- function of one variable that returns its validated value
                    (usually the same) or raises ValueError.
 
@@ -155,6 +157,27 @@ def dimensional(name, **kwds):
 
 
 def float(name, **kwds):
+    '''Create an inventory type for a floating point value.
+    It can be assigned either float or a string convertible to float.
+
+    name    -- public name of this item, used on command line and
+               PML files.
+
+    Keyword arguments:
+
+    default -- the default value, can be float or a string.
+
+    validator   -- function of one variable that returns its validated value
+                   (usually the same) or raises ValueError.
+
+    Returns an instance of Float from inventory.properties.Float.
+    Raises ValueError when assigned value that cannot be converted to float.
+
+    Notable attributes of the returned type:
+
+    meta    -- dictionary, where items ('tip', 'doc') provide short
+               and long description of the inventory item.
+    '''
     from properties.Float import Float
     return Float(name, **kwds)
 
