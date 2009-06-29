@@ -6,9 +6,68 @@ Debugging pyre applications
 Journal
 -------
 
-Pyre's native debugger is called journal and is a daemon similar to log4j.  It is also a good model of a pyre application as discussed in :ref:`a section on advanced pyre <journal-structure>`.  Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
+Pyre's native debugger is called journal
+(that, for java developers, is kind of similar to log4j).
+It allows developers to insert into their codes journalling instructions that produce
+pyre application diagnostics such as
+error reporting, warnings, and debugging.
 
-To start using journal, first execute the journal daemon by typing::
+Here is the cheat sheet of creating a journal channel and writing to it::
+
+  >>> import journal
+  >>> debug = journal.debug('myproject')
+  >>> debug.activate()
+  >>> debug.log( 'This is a debugging message' )
+
+and this would be the output::
+
+   >> <stdin>:1:<module>
+   >> myproject(debug)
+   -- This is a debugging message
+  <journal.diagnostics.Diagnostic.Diagnostic object at 0x956910>
+
+The factory ::
+
+  journal.debug
+
+creates journal channels of "debug" type. And this call ::
+
+  journal.debug("myproject")
+
+creates a journal debug channel named "myproject".
+The call ::
+
+  >>> debug.activate()
+
+activates this journal channel.
+And now you are ready to output to the newly created journal stream::
+
+  >>> debug.log( 'This is a debugging message' )
+
+
+Journal types
+^^^^^^^^^^^^^
+Following types are available
+ * debug: debugging information. Default off.
+ * error: unrecoverable runtime error. Default on.
+ * firewall: fatal programming error. Default on.
+ * info: descriptive information. Default off.
+ * warning: recoverable runtime error. Default off.
+
+
+Journal devices
+^^^^^^^^^^^^^^^
+
+Journals can be easily directed to different devices. By default, journal
+writes to a terminal-like device that directly outputs to screen.
+Another very useful device is actualy a journal daemon.
+
+
+Journal daemon
+""""""""""""""
+It is also a good model of a pyre application as discussed in :ref:`a section on advanced pyre <journal-structure>`.  Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
+
+To start using journal daemon, first execute the journal daemon by typing::
 
     $ journald.py	
 
@@ -28,18 +87,22 @@ and as the need arises, insert debugging statements in your code::
     i.log(something-you'd-like-to-see)
     d.log(something-you'd-like-to-see)
 
-This is done intrinsically for all components in Configurable.py, a superclass of Component.py::
+
+Journaling for pyre components
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Journaling channels are automatically set up for all pyre components.
+In Configurable.py, a superclass of Component.py::
 
     def __init__(self, name):
 	...
         self._info = journal.info(name)
         self._debug = journal.debug(name)
 
-so that if one desires to debug components or scripts, one only has to call::
+so that if one desires to debug pyre components or pyre scripts, one only has to call::
 
     self._debug.log(something-you'd-like-to-see)
 
-(ps: describe difference between info and debug)
 
 
 .. _debugger:
