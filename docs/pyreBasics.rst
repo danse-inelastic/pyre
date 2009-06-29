@@ -48,7 +48,7 @@ All properties are instances of pyre.inventory.Property.Property, and usually th
       validator=pyre.inventory.less(1*pyre.units.energy.eV))
 
 Here the factory 
-`pyre.inventory.dimensional <http://docs.danse.us/pyre/pythia-0.8/pyre.inventory-module.html#dimensional>`_
+`pyre.inventory.dimensional <http://docs.danse.us/pyre/api/pyre.inventory-module.html#dimensional>`_
 is a factory method creating a property of dimensional type, and all user inputs
 for this property will be casted into this type.
 For more factories, please consult 
