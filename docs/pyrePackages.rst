@@ -37,8 +37,8 @@ Modules
 
 .. _pyre-db:
 
-pyre.db
--------
+Database access and object storage: pyre.db
+-------------------------------------------
 
 Pyre contains the groundwork for an Object Relational Mapper (ORM) in pyre.db.  A class diagram is:
 
@@ -62,7 +62,7 @@ To store objects in a db, one must subclass "Table", such as::
         innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
         outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 
-This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw<http://, DbManager is overlaid with additional functionality for creating hierarchical data structures.  
+This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw <http://danse.us/trac/pyre/browser/branches/patches-from-jiao/packages/dsaw>`_, DbManager is overlaid with additional functionality for creating hierarchical data structures.  
 
 Then users can store objects in the usual way::
 
@@ -74,22 +74,6 @@ Then users can store objects in the usual way::
 as well as execute other methods in the DbManager interface.
 
 
-
-
-
-
-
-
-.. _pyre-services:
-
-pyre.services
--------------
-
-Here is the class diagram for pyre's services base:
-
-.. image:: images/PyreServicesClassDiagram.png
-
-
 .. _pyre-xml:
 
 Pyre's xml processor: pyre.xml
@@ -97,60 +81,74 @@ Pyre's xml processor: pyre.xml
 
 Here is the class diagram:
 
-.. image:: images/PyreGeometryClassDiagram.png
+.. image:: images/PyreXmlClassDiagram.png
+
+
+
+.. _pyre-services:
+
+Pyre server base: pyre.services
+-------------------------------
+
+Here is the class diagram for pyre's services base:
+
+.. image:: images/PyreServicesClassDiagram.png
+
+
+.. _idd:
+
+Generating globally unique identifiers: pyre.idd
+------------------------------------------------
+
+Here is the class diagram for pyre's idd daemon:
+
+.. image:: images/PyreIddClassDiagram.png
+
+
+.. _ipa:
+
+Managing user sessions: pyre.ipa
+--------------------------------
+
+Here is the class diagram for pyre's ipa daemon:
+
+.. image:: images/PyreIpaClassDiagram.png
+
+
+.. _ipc:
+
+Pyre.ipc
+--------------------------------
+
+Here is the class diagram for pyre.ipc:
+
+.. image:: images/PyreIpcClassDiagram.png
 
 
 
 .. _pyre-geometry:
 
-pyre.geometry
--------------
+Using and manipulating basic geometrical shapes: pyre.geometry
+--------------------------------------------------------------
 
 Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
 
 .. image:: images/PyreGeometryClassDiagram.png
 
+In the solids package we see the differing geometrical solids available to pyre users:
+
+.. image:: images/PyreGeometrySolidsClassDiagram.png
+
 In the operations package we have:
 
-.. image:: images/PyreGeometryClassDiagram.png
+.. image:: images/PyreGeometryOperationsClassDiagram.png
 
+where we see the types of boolean operations that can be done on basic geometrical shapes.  In the pml package we have:
 
-.. _pyre-pyre:
+.. image:: images/PyreGeometryPmlClassDiagram.png
 
-Pyre internal structure: pyre.pyre
-----------------------------------
+where we see classes related to rendering and parsing pml files for geometrical structure objects.  In the pml.parsing:
 
-Pyre has a complex internal structure.  Here are some class diagrams:
+.. image:: images/PyreGeometryPmlParserClassDiagram.png
 
-Here is how it handles internally inventory items:
-
-.. image:: images/PyreInventoryClassDiagram.png
-
-Here is how it
-
-.. image:: images/PyreInventoryClassDiagram.png
-
-
-
-.. _pyre-parsing:
-
-pyre.parsing
--------------
-
-Here is the class diagram for pyre's parsing utilities:
-
-.. image:: images/PyreParsingClassDiagram.png
-
-
-
-.._journal-structure:
-
-Journal: structure and architecture 
------------------------------------
-
-
-Here is the class diagram of journal:
-
-.. image:: images/JournalTopLevelClassDiagram.png
-
-
+there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.

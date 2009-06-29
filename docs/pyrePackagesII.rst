@@ -1,12 +1,10 @@
 Advanced pyre II: pyre internal structure
 ========================================
 
+Pyre has a complex internal structure.  Here we discuss some of it's internal workings for the benefit of those who would like to extend it.
 
-
-Pyre.pyre
-----------------------------------
-
-Pyre has a complex internal structure.  Here are some class diagrams:
+Pyre.inventory
+--------------
 
 Here is how it handles internally inventory items:
 

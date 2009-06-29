@@ -1,23 +1,20 @@
-Intermediate Pyre
+Intermediate pyre
 =================
 
 .. _pyre-directory-structure:
 
-Pyre Project Structure
+Pyre project structure
 ------------------------
 
-A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several molecular dynamics codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named moldyn::
-
-
-is could be done in the following way, supposing the project is named p for native python, switchable component factor functesting, c extensions, c-python binding code, 
+A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several molecular dynamics codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named moldyn:
 
 applications/
 ^^^^^^^^^^^^^
-Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>`_ that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>`_ appends a "d" to the app name if it is a service daemon.  
+Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>` that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>` appends a "d" to the app name if it is a service daemon.  
 
 etc/
 ^^^^
-This directory stores facility factory method files, called `odb files <odb-pml-files>`_, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
+This directory stores facility factory method files, called :ref:`odb files <odb-pml-files>`, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
 
     class MdApp(Script):
     
@@ -34,23 +31,24 @@ Then etc/ would have the structure::
     $ ls etc/MdApp
     gulp.odb mmtk.odb lammps.odb cp2k.odb
     
-moldyn
-^^^^^^
+moldyn/
+^^^^^^^
 This is the top level directory for python source.
 
-libmoldyn
-^^^^^^^^^
+libmoldyn/
+^^^^^^^^^^
 This contains possible c extensions.
 
-moldynmodule
-^^^^^^^^^^^^
+moldynmodule/
+^^^^^^^^^^^^^
 This contains python bindings to the c extensions.
 
-tests
-^^^^^
+tests/
+^^^^^^
 Tests for all parts of the project.
 
 Although this directory structure is not mandatory, it is somewhat conventional.  Much of this structure can be generated automatically by using the :ref:`package utility<create-a-pyre-project>`. 
+
 
 .. _pyre-inventory-implementation:
 
@@ -106,15 +104,23 @@ collected to two registries, one for properties, and one for facilities.
 
 
 
-Listing of Pyre Reserved Methods 
---------------------------------
+Listing of reserved methods for pyre components and scripts
+-----------------------------------------------------------
 
+In reality, any method of a used by Component is "reserved", but here are some of the more obvious ones to avoid overriding (but instead use in your application):
 
+* _configure()
+* _defaults()
+* _init()
+* _configureComponent()
+* 
 
+.. _weaver:
 
 Pyre rendering: Weaver
 ----------------------
 
+A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing structure and data objects using a number of underlying mills.  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
 
 
 
