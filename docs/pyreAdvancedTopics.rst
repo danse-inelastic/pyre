@@ -6,7 +6,7 @@ Intermediate Pyre
 Pyre Project Structure
 ------------------------
 
-A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several plane wave abinitio codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named pwabinit::
+A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several molecular dynamics codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named moldyn::
 
 
 is could be done in the following way, supposing the project is named p for native python, switchable component factor functesting, c extensions, c-python binding code, 
@@ -32,10 +32,25 @@ Then etc/ would have the structure::
     $ ls etc
     Make.mm MdApp
     $ ls etc/MdApp
+    gulp.odb mmtk.odb lammps.odb cp2k.odb
     
+moldyn
+^^^^^^
+This is the top level directory for python source.
 
+libmoldyn
+^^^^^^^^^
+This contains possible c extensions.
 
-Much of this structure can be generated automatically by using the package utility.  However, appli
+moldynmodule
+^^^^^^^^^^^^
+This contains python bindings to the c extensions.
+
+tests
+^^^^^
+Tests for all parts of the project.
+
+Although this directory structure is not mandatory, it is somewhat conventional.  Much of this structure can be generated automatically by using the :ref:`package utility<create-a-pyre-project>`. 
 
 .. _pyre-inventory-implementation:
 

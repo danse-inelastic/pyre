@@ -40,10 +40,11 @@ Modules
 pyre.db
 -------
 
-
-Here is the class diagram of pyre's db object handling capabilities:
+Pyre contains the groundwork for an Object Relational Mapper (ORM) in pyre.db.  A class diagram is:
 
 .. image:: images/PyreDbClassDiagram.png
+
+As apparent, pyre
 
 
 = vnf dom =
@@ -71,20 +72,7 @@ class Cylinder(base):
     outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 }}}
 
-This table describes cylinders with parameters height, innerradius, and outerradius.
-
-== hierarchial data structures ==
-Hierarchial data structures are stored by establishing "references" between related objects.
-
-There are two kinds of references:
-
- * normal reference with definite type
- * versatile reference. this is useful in case of polymorphism
-
-=== Normal reference ===
-
-
-
+This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw<http://, DbManager is overlaid with additional functionality for creating hierarchical data structures.
 
 
 .. _pyre-geometry:
