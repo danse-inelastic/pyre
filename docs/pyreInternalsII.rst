@@ -1,28 +1,7 @@
-Advanced pyre II: pyre internal structure
-=========================================
+Pyre Internals: II
+==================
 
 Pyre has a complex internal structure.  Here we discuss some of it's internal workings for the benefit of those who would like to extend it.
-
-Intneral structure of inventory and odb handling
-------------------------------------------------
-
-Here is how it handles internally inventory items:
-
-.. image:: images/PyreInventoryClassDiagram.png
-
-Here is how it handles the common parts of odb and db-type files:
-
-.. image:: images/PyreOdbCommonClassDiagram.png
-
-Here is how it handles odb files:
-
-.. image:: images/PyreOdbFsClassDiagram.png
-
-and db-type "files":
-
-.. image:: images/PyreOdbDbmClassDiagram.png
-
-This appears to be a stub.  Real db interaction is managed by :ref:`pyre.db <pyre-db>`.
 
 
 .. _pyre-components:

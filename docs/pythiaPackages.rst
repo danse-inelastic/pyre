@@ -1,8 +1,8 @@
-Advanced pyre III: pyre external packages
-=========================================
+Pythia packages
+===============
 
 
-.._opal-structure:
+.. _opal-structure:
 
 Opal: basic web framework 
 -------------------------
@@ -13,7 +13,7 @@ Here is the class diagram of opal:
 
 
 
-.._journal-structure:
+.. _journal-structure:
 
 Journal: structure and architecture 
 -----------------------------------

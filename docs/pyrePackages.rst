@@ -1,5 +1,5 @@
-Advanced pyre I: pyre packages
-==============================
+Pyre packages
+=============
 
 .. _pyre-units:
 
@@ -34,8 +34,6 @@ Modules
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
 Hare some of the classes used by these data structures:
-
-(Parser is not in this package, i think--remove)
 
 .. image:: images/PyreUnitsClassDiagram.png
 
@@ -77,6 +75,37 @@ Then users can store objects in the usual way::
     >>> dbm.insertRow(cylinder)
 
 as well as execute other methods in the DbManager interface.
+
+
+.. _pyre-geometry:
+
+Constructive Solid Geometry: pyre.geometry
+------------------------------------------
+
+(note: the internal classes of the packages need to be removed)
+
+Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
+
+.. image:: images/PyreGeometryClassDiagram.png
+
+In the solids package we see the differing geometrical solids available to pyre users:
+
+.. image:: images/PyreGeometrySolidsClassDiagram.png
+
+In the operations package we have:
+
+.. image:: images/PyreGeometryOperationsClassDiagram.png
+
+where we see the types of boolean operations that can be done on basic geometrical shapes.  In the pml package we have:
+
+.. image:: images/PyreGeometryPmlClassDiagram.png
+
+where we see classes related to rendering and parsing pml files for geometrical structure objects.  In the pml.parsing:
+
+.. image:: images/PyreGeometryPmlParserClassDiagram.png
+
+there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.
+
 
 
 .. _pyre-xml:
@@ -138,37 +167,6 @@ Pyre.ipc
 Here is the class diagram for pyre.ipc:
 
 .. image:: images/PyreIpcClassDiagram.png
-
-
-
-.. _pyre-geometry:
-
-Using and manipulating basic geometrical shapes: pyre.geometry
---------------------------------------------------------------
-
-(note: the internal classes of the packages need to be removed)
-
-Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
-
-.. image:: images/PyreGeometryClassDiagram.png
-
-In the solids package we see the differing geometrical solids available to pyre users:
-
-.. image:: images/PyreGeometrySolidsClassDiagram.png
-
-In the operations package we have:
-
-.. image:: images/PyreGeometryOperationsClassDiagram.png
-
-where we see the types of boolean operations that can be done on basic geometrical shapes.  In the pml package we have:
-
-.. image:: images/PyreGeometryPmlClassDiagram.png
-
-where we see classes related to rendering and parsing pml files for geometrical structure objects.  In the pml.parsing:
-
-.. image:: images/PyreGeometryPmlParserClassDiagram.png
-
-there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.
 
 
 

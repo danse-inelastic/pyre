@@ -1,4 +1,4 @@
-Intermediate pyre
+Pyre Internals: I
 =================
 
 .. _pyre-directory-structure:
@@ -31,15 +31,15 @@ Then etc/ would have the structure::
     $ ls etc/MdApp
     gulp.odb mmtk.odb lammps.odb cp2k.odb
     
-moldyn/
+<package>/
 ^^^^^^^
 This is the top level directory for python source.
 
-libmoldyn/
+lib<package>/
 ^^^^^^^^^^
 This contains possible c extensions.
 
-moldynmodule/
+<package>module/
 ^^^^^^^^^^^^^
 This contains python bindings to the c extensions.
 
@@ -101,6 +101,29 @@ The metaclass's __init__ will be called when the object of the class
 In Notary's __init__, all traits of an Inventory class will be 
 collected to two registries, one for properties, and one for facilities.
 
+
+Class Diagrams
+^^^^^^^^^^^^^^
+
+
+Here is how it handles internally inventory items:
+
+.. image:: images/PyreInventoryClassDiagram.png
+
+Here is how it handles the common parts of odb and db-type files:
+
+.. image:: images/PyreOdbCommonClassDiagram.png
+
+Here is how it handles odb files:
+
+.. image:: images/PyreOdbFsClassDiagram.png
+
+and db-type "files":
+
+.. image:: images/PyreOdbDbmClassDiagram.png
+
+
+.. This appears to be a stub.  Real db interaction is managed by :ref:`pyre.db <pyre-db>`.
 
 
 

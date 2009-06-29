@@ -35,7 +35,7 @@ distclean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
-docs: sphinx-build export-tutorials
+docs: export-tutorials sphinx-build 
 
 
 include std-docs.def

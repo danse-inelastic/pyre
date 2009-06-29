@@ -165,6 +165,9 @@ will say hello to the person defined by the variable "name"::
  
 
 .. brandon: need a better introduction to pml files here...and utilities like invenetory.py
+
+
+
 constructor __init__
 """"""""""""""""""""""""""""""
 In the constructor, we give this application the name "hello2".
@@ -172,9 +175,14 @@ This name is a identifier that pyre framework will use to
 look for configurations.  
 
 
-Although it is useful to have a system to manage commandline inputs, both to an application and to its subapplications, called "components" in pyre, wouldn't it be useful to have alternative ways to configure a program? Pyre has this in the form of xml files, which are given the .pml ending.  Pml files are created by...(outline structure of pml file), discuss utitlies, 
+Although it is useful to have a system to manage commandline inputs, both to an application and to its components,
+wouldn't it be useful to have alternative ways to configure a program? Pyre has this in the form of xml files, which are given the .pml ending. 
+
+.. Pml files are created by...(outline structure of pml file), discuss utitlies, 
+
+
 For example, we can use pml files
-to configure pyre applications.  Let us create a pml file by::
+to configure this demo pyre application.  Let us create a pml file by::
 
   $ inventory.py --name=hello2
   creating inventory template in 'hello2.pml'

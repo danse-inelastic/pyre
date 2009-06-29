@@ -14,10 +14,10 @@ Contents:
    pyreInstallation
    pyreTutorials
    pyreBasics
-   pyreAdvancedTopics
    pyrePackages
-   pyrePackagesII
-   pyrePackagesIII
+   pythiaPackages
+   pyreInternalsI
+   pyreInternalsII
    journal
    pyreStyle
    pyreUtilities
