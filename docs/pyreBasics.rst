@@ -9,7 +9,7 @@ Pyre basics: Inventory, Component, and Application
 
 If you have not read :ref:`the tutorial <pyre-tutorials>`, please read it through
 and try out examples there to get a feeling of pyre components and pyre applications.
-Here, we are trying to explain a few key concepts in pyre:
+Here, we cover in more depth these key concepts in pyre:
 
  * Inventory
 
@@ -213,7 +213,7 @@ components in a layored structure.
 showing the benefit of decomposition.
 
 
-More texts here...
+More text here...
 
 
 .. Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
@@ -237,6 +237,7 @@ Other than that, all pyre applications must declare method "main",
 which is like the "main" function in c/c++.
 
 
+.. _odb-pml-files:
 
 Pyre .odb and .pml files
 ------------------------

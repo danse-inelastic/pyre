@@ -17,7 +17,7 @@ Pyre applications typically are put in this directory with a :ref:`Make.mm <make
 
 etc/
 ^^^^
-This directory stores facility factory method files, called `odb files <>`_, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
+This directory stores facility factory method files, called `odb files <odb-pml-files>`_, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
 
     class MdApp(Script):
     

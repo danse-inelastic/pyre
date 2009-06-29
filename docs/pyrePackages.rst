@@ -44,35 +44,29 @@ Pyre contains the groundwork for an Object Relational Mapper (ORM) in pyre.db.  
 
 .. image:: images/PyreDbClassDiagram.png
 
-As apparent, pyre
+As apparent, pyre.db offers a number of variable types (inheriting from "Column"), which are part of "Table".  These are managed by a subclass of DBManager, currently implemented with a postgres db backend by "Psycopg2", for example, which overrides DBManager's commit() method.  This class name is also the name of the python wrapper for postgres.
 
+To store objects in a db, one must subclass "Table", such as::
 
-= vnf dom =
-The user inputs accepted from user interface must be stored somewhere for later use. In opal, this is done with the help of pyre.db, the db engine in pyre framework.
+    from Table import Table as base
+    class Cylinder(base):
+    
+        name = 'cylinders'
+    
+        import pyre.db
+    
+        idd = pyre.db.varchar(name="id", length=64)
+        id.constraints = 'PRIMARY KEY'
+    
+        height = pyre.db.real( name = 'height', default = 0.1 )
+        innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
+        outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 
-VNF extends pyre.db to support the hierarchial data structure needed by VNF. The hierarchy in VNF DOM is established by connecting db tables with "references". 
-Furthermore, since VNF makes use of polymorphic pointers in various places, a special reference type, VersatileReference, is introduced into VNF DOM.
+This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw<http://, DbManager is overlaid with additional functionality for creating hierarchical data structures.  
 
-== simple data structures ==
-A simple data structure with hierarchy can be easily built from a pyre.db table. Following is an example:
+Then users can create and/or drop tables:
 
-{{{
-from Table import Table as base
-class Cylinder(base):
-
-    name = 'cylinders'
-
-    import pyre.db
-
-    idd = pyre.db.varchar(name="id", length=64)
-    id.constraints = 'PRIMARY KEY'
-
-    height = pyre.db.real( name = 'height', default = 0.1 )
-    innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
-    outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
-}}}
-
-This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw<http://, DbManager is overlaid with additional functionality for creating hierarchical data structures.
+    >>> dbm = DbManager()
 
 
 .. _pyre-geometry:

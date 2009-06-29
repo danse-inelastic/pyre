@@ -6,7 +6,7 @@ Debugging pyre applications
 Journal
 -------
 
-For those used to debugging daemons such as log4j or inserting print statements, journal is the debugging tool for you.  It is also a good model of a pyre application as discussed in :ref:`the section on advanced pyre <journal-structure>`.  Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
+For those used to debugging daemons such as log4j or inserting print statements, journal is the debugging tool for you.  It is also a good model of a pyre application as discussed in :ref:`the section on advanced pyre <journal-structure>`_.  Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
 
 To start using journal, first execute the journal daemon by typing::
 
