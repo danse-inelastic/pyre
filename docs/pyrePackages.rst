@@ -167,6 +167,9 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 .. image:: images/PyreIpaClassDiagram.png
 
 
+* need a good example of how Ipa is used...try Sentry here...
+
+
 .. _ipc:
 
 Pyre.ipc
