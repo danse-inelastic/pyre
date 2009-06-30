@@ -144,9 +144,17 @@ Idd is a daemon which issues globally unique identifiers.  Here is its class dia
 
 Objects that need a unique identifier simply use this as a facility and configure it::
 
+    class Inventory(Base.Inventory):
+        import pyre.idd
+        idd = pyre.inventory.facility('idd-session', factory=pyre.idd.session, args=['idd-session'])
+        idd.meta['tip'] = "access to the token server"
 
-then obtain the identifier:
+    def _configure(self):
+        self.idd = self.inventory.idd
 
+then obtain the identifier::
+
+    id = self.idd.token().locator
 
 
 .. _ipa:
@@ -177,7 +185,7 @@ Running and steering simulations in pyre: pyre.simulations
 
 Here are tools for running simulations with pyre (mostly finite element for now):
 
-.. image:: images/PyreSimulations	ClassDiagram.png
+.. image:: images/PyreSimulationsClassDiagram.png
 
 
 
@@ -186,7 +194,7 @@ Here are tools for running simulations with pyre (mostly finite element for now)
 Pyre utilities
 --------------
 
-Here are various utilities, such as a singleton base class for the singleton design pattern:
+Here are various utilities, such as the base class, Singleton, for the singleton design pattern:
 
 .. image:: images/PyreUtilClassDiagram.png
 
