@@ -23,25 +23,26 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-    BigInt.py \
-    Boolean.py \
-    Char.py \
-    Column.py \
-    Date.py \
-    Double.py \
-    DBManager.py \
-    Integer.py \
-    Interval.py \
-    Psycopg.py \
-    Psycopg2.py \
-    Real.py \
-    Schemer.py \
-    SmallInt.py \
-    Table.py \
-    Time.py \
-    Timestamp.py \
-    VarChar.py \
-    __init__.py
+	BigInt.py \
+	Boolean.py \
+	Char.py \
+	Column.py \
+	Date.py \
+	Double.py \
+	DBManager.py \
+	Integer.py \
+	Interval.py \
+	Psycopg.py \
+	Psycopg2.py \
+	Real.py \
+	Schemer.py \
+	SmallInt.py \
+	SQLite.py \
+	Table.py \
+	Time.py \
+	Timestamp.py \
+	VarChar.py \
+	__init__.py \
 
 
 export:: export-package-python-modules

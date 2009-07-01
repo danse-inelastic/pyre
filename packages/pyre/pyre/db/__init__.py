@@ -14,17 +14,24 @@
 
 def connect(database, wrapper=None):
 
-    if wrapper is None or wrapper == "psycopg":
-        from Psycopg import Psycopg
-        return Psycopg(database)
+    name2mod = {
+        None: 'Psycopg',
+        'psycopg': 'Psycopg',
+        'psycopg2': 'Psycopg2',
+        'sqlite': 'SQLite',
+        }
 
-    if wrapper == "psycopg2":
-        from Psycopg2 import Psycopg2
-        return Psycopg2(database)
+    mod = name2mod.get(wrapper)
+    if not mod:
+        import journal
+        journal.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
+        return None
 
-    import journal
-    journal.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
-    return None
+    package = 'pyre.db'
+    module = __import__(package+'.'+mod, {}, {}, [''])
+    factory = getattr(module, mod)
+    return factory(database, **kwds)
+
 
 
 def bigint(**kwds):
