@@ -13,12 +13,12 @@ The build system used by pyre uses the "mm" comand, which activates a file calle
 Installing Make.mm
 ^^^^^^^^^^^^^^^^^^
 
-Installing Make.mm, as well as configuring environment variables useful to install pythia-0.8 from svn, can be done with the following steps::
+Installing Make.mm and configuring environment variables useful to pythia-0.8 can be done with the following steps.  Although we assume linux environment and bash shell, scripts for mac and other shells can be found at the end of this section.
 
 Pythia-0.8
 """"""""""
 
-First, choose an installation directory, which we call DV_DIR, and export it as environment variable::
+First, choose an installation directory, which we call DV_DIR.  Export it as environment variable::
 
   $ export DV_DIR=<your choice here>         
 
@@ -52,19 +52,23 @@ now add "tools" to your path::
     export MANPATH=${TOOLS_DIR}/man:${MANPATH}
   fi
 
-and create build and config directories containing the compiled versions of pythia and the coin
-  export BLD_ROOT=${DV_DIR}/builds       # root directory of builds
-# export BLD_CONFIG=$BLD_ROOT/config     # location of build procedure files
-  export BLD_CONFIG=${DV_DIR}/config     # location of build procedure files
-# export TARGET=debug,mpi                # build target options
-  export TARGET=shared,opt,debug         # build target options
-  export TEMPLATES_DIR=${DV_DIR}/templates
+and create a config directory which contains Make.mm and its system of macros::
 
-  export PYTHIA_VERSION=0.8
-  export PYTHIA_DIR=${DV_DIR}/pythia-${PYTHIA_VERSION}
-  export EXPORT_ROOT=${TOOLS_DIR}/pythia-${PYTHIA_VERSION}
+  $ export BLD_CONFIG=${DV_DIR}/config     # location of build procedure files
 
-# Add build procedure and products directories to PATH variables
+and create a build directory containing the compiled versions of pythia::
+
+  $ export BLD_ROOT=${DV_DIR}/builds       # root directory of builds
+  $ export TARGET=shared,opt,debug         # build target options
+  $ export TEMPLATES_DIR=${DV_DIR}/templates
+
+next initialize some useful environment variables::
+
+  $ export PYTHIA_VERSION=0.8
+  $ export PYTHIA_DIR=${DV_DIR}/pythia-${PYTHIA_VERSION}
+  $ export EXPORT_ROOT=${TOOLS_DIR}/pythia-${PYTHIA_VERSION}
+
+and add build procedure to your path
   export PATH=${BLD_CONFIG}/make:${PATH}
   export PATH=${PATH}:${EXPORT_ROOT}/bin
   export LD_LIBRARY_PATH=${EXPORT_ROOT}/lib:${LD_LIBRARY_PATH}
@@ -86,8 +90,6 @@ set some general environment variables::
     export PYTHONPATH=${PYTHONPATH}:${EXPORT_ROOT}/modules
   fi
   export PYTHONSTARTUP=${HOME}/.python
-
-
 
 
 MPI/mpich support
@@ -143,8 +145,7 @@ Here is an example of how(uncomment as needed)
   # export PATH=$GCC_DIR/bin:$PATH
   # export LD_LIBRARY_PATH=$GCC_DIR/lib:$LD_LIBRARY_PATH
 
-
-These commands are all found in the following scripts for bash, csh, and 
+These commands are all found in the following example scripts for linux (`bash <bash_tools.linux>` and `csh <csh_tools.linux>`) and mac (`bash <bash_tools.mac>` and `csh <csh_tools.mac>`).
 
 
 Directives/options/macros used in Make.mm:
