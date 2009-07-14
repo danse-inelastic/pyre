@@ -108,62 +108,62 @@ Service templates can be generated using the service.py script distributed with 
 
 generates a file containing this::
 
-# -*- Python -*-
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#
-# {LicenseText}
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-
-
-from pyre.components.Service import Service
-
-
-class giveAdvice(Service):
-
-
-    class Inventory(Service.Inventory):
-
-        import pyre.inventory
-
-
-    def serve(self):
-        return
-
-
-    def __init__(self, name=None):
-        if name is None:
-            name = 'service'
-
-        Service.__init__(self, name)
-
-        return
-
-
-    def _defaults(self):
-        Service._defaults(self)
-        return
-
-
-    def _configure(self):
-        Service._configure(self)
-        return
-
-
-    def _init(self):
-        Service._init(self)
-        return
-
-
-# version
-__id__ = "$Id$"
-
-# Generated automatically by PythonMill on Tue Jun 30 10:03:10 2009
-
-# End of file 
+    # -*- Python -*-
+    #
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #
+    #
+    # {LicenseText}
+    #
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #
+    
+    
+    from pyre.components.Service import Service
+    
+    
+    class giveAdvice(Service):
+    
+    
+        class Inventory(Service.Inventory):
+    
+            import pyre.inventory
+    
+    
+        def serve(self):
+            return
+    
+    
+        def __init__(self, name=None):
+            if name is None:
+                name = 'service'
+    
+            Service.__init__(self, name)
+    
+            return
+    
+    
+        def _defaults(self):
+            Service._defaults(self)
+            return
+    
+    
+        def _configure(self):
+            Service._configure(self)
+            return
+    
+    
+        def _init(self):
+            Service._init(self)
+            return
+    
+    
+    # version
+    __id__ = "$Id$"
+    
+    # Generated automatically by PythonMill on Tue Jun 30 10:03:10 2009
+    
+    # End of file 
 
 
 .. _create-a-pyre-project:

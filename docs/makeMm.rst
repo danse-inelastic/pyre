@@ -60,6 +60,9 @@ and create a build directory containing the compiled versions of pythia::
 
   $ export BLD_ROOT=${DV_DIR}/builds       # root directory of builds
   $ export TARGET=shared,opt,debug         # build target options
+
+also create a templates directory for pyre utilities::
+
   $ export TEMPLATES_DIR=${DV_DIR}/templates
 
 next initialize some useful environment variables::
@@ -68,28 +71,27 @@ next initialize some useful environment variables::
   $ export PYTHIA_DIR=${DV_DIR}/pythia-${PYTHIA_VERSION}
   $ export EXPORT_ROOT=${TOOLS_DIR}/pythia-${PYTHIA_VERSION}
 
-and add build procedure to your path
-  export PATH=${BLD_CONFIG}/make:${PATH}
-  export PATH=${PATH}:${EXPORT_ROOT}/bin
-  export LD_LIBRARY_PATH=${EXPORT_ROOT}/lib:${LD_LIBRARY_PATH}
+and add the config and build directories to your path::
+
+  $ export PATH=${BLD_CONFIG}/make:${PATH}
+  $ export PATH=${PATH}:${EXPORT_ROOT}/bin
+  $ export LD_LIBRARY_PATH=${EXPORT_ROOT}/lib:${LD_LIBRARY_PATH}
 
 set some general environment variables::
 
-  export PYTHON_VERSION=2.4
-  export PYTHON_DIR=/usr/local
-# export PYTHON_DIR=$TOOLS_DIR/python-2.3.4  # Python installation directory
-  export PYTHON_LIBDIR=${PYTHON_DIR}/lib/python${PYTHON_VERSION}
-  export PYTHON_INCDIR=${PYTHON_DIR}/include/python${PYTHON_VERSION}
+  $ export PYTHON_VERSION=2.5
+  $ export PYTHON_DIR=/usr
+  $ export PYTHON_LIBDIR=${PYTHON_DIR}/lib/python${PYTHON_VERSION}
+  $ export PYTHON_INCDIR=${PYTHON_DIR}/include/python${PYTHON_VERSION}
 
-# Add Python to PATH variables
-  export PATH=$PYTHON_DIR/bin:$PATH
-  if [ "$PYTHONPATH" = "" ]
-  then
-    export PYTHONPATH=$EXPORT_ROOT/modules
-  else
-    export PYTHONPATH=${PYTHONPATH}:${EXPORT_ROOT}/modules
-  fi
-  export PYTHONSTARTUP=${HOME}/.python
+and add the python modules to the python path::
+
+  $ if [ "$PYTHONPATH" = "" ]
+  $ then
+      export PYTHONPATH=$EXPORT_ROOT/modules
+  $ else
+      export PYTHONPATH=${PYTHONPATH}:${EXPORT_ROOT}/modules
+  $ fi
 
 
 MPI/mpich support
@@ -103,25 +105,27 @@ Here is an example of how to include mpi support (uncomment as needed)::
   # export MPI_INCDIR=$MPI_DIR/include
   # export MPI_LIBDIR=$MPI_DIR/lib
 
-# Add MPI to PATH variables if installed in non-standard location.
+  # Add MPI to PATH variables if installed in non-standard location.
   # export PATH=$MPI_DIR/bin:$PATH
   # export LD_LIBRARY_PATH=$MPI_DIR/lib:$LD_LIBRARY_PATH
   # export MANPATH=$MPI_DIR/man:$MANPATH
 
+
 Optional compilers 
+""""""""""""""""""
 
-Here is an example of how(uncomment as needed)
-#
-  export GNU_MAKE=make
+Here are examples of how to add other compilers for use in pyre (uncomment as needed)::
 
-# Absoft Pro FORTRAN compiler
+  # export GNU_MAKE=make
+
+  # Absoft Pro FORTRAN compiler
   # export TARGET_F77=Absoft-2.1
   # export ABSOFT=$TOOLS_DIR/ProFortran-7.0  # Absoft installation directory
   # export ABSOFT_DIR=$ABSOFT
   # export ABSOFT_LIBDIR=$ABSOFT/lib
   # export PATH=$ABSOFT/bin:$PATH
 
-# Portland Group compilers
+  # Portland Group compilers
   # export TARGET_F77=PGI-3.0
   # export TARGET_CC=PGI-3.0
   # export TARGET_CXX=PGI-3.0
@@ -131,12 +135,12 @@ Here is an example of how(uncomment as needed)
   # export PATH=$PGI_DIR/linux86/bin:$PATH
   # export MANPATH=$PGI_DIR/man:$MANPATH
 
-# KAI C++ Compiler
+  # KAI C++ Compiler
   # export TARGET_CXX=KAI-4.0
   # export KAI_DIR=/usr/local/KAI            # KCC installation directory
   # export PATH=$KAI_DIR/bin:$PATH
 
-# GCC 3.x Compiler
+  # GCC 3.x Compiler
   export TARGET_F77=gcc
   # export TARGET_F77=gcc-3.0
   # export TARGET_CC=gcc-3.0
@@ -145,11 +149,11 @@ Here is an example of how(uncomment as needed)
   # export PATH=$GCC_DIR/bin:$PATH
   # export LD_LIBRARY_PATH=$GCC_DIR/lib:$LD_LIBRARY_PATH
 
-These commands are all found in the following example scripts for linux (`bash <bash_tools.linux>` and `csh <csh_tools.linux>`) and mac (`bash <bash_tools.mac>` and `csh <csh_tools.mac>`).
+These commands are all found in the following example scripts for linux (:download:`bash <bash_tools.linux>` and :download:`csh <csh_tools.linux>`) and mac (:download:`bash <bash_tools.mac>` and :download:`csh <csh_tools.mac>`).
 
 
-Directives/options/macros used in Make.mm:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Directives/options/macros used in Make.mm
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Make.mm format is similar to that of typical linux shell scripting.  A few macros which may be useful are:
 

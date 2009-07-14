@@ -3,26 +3,25 @@
 Installation
 =================
 
-:ref:`Pure python version<pure-python-distrib>` of pyre is a good starting point to try out pyre, and for most python applications, is adequate.
-
-
+Pyre is the base package in a larger group of software packages based upon it and collectively called pythia-0.8.  However, we frequently use the word pyre to represent pythia as well, especially when discussing installation.  Pythia can either be installed as a python-only set of modules or a group of python modules with some c extensions.  Howev
 
 .. _pure-python-distrib:
 
 Pure python distribution
 -------------------------
 
+Pure python version of pyre is a good starting point to try out pyre, and for most python applications, is adequate.
 
-From an egg:
-^^^^^^^^^^^^
+From an egg
+^^^^^^^^^^^
 
 Assuming you have the `easy install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_   package already on your system::
 
   $ easy_install -f http://dev.danse.us/packages pythia
 
 
-From a zip file:
-^^^^^^^^^^^^^^^^
+From a zip file
+^^^^^^^^^^^^^^^
 
 First, download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_. Second, add the zipfile to your $PYTHONPATH. For example, if you are using bash::
 
@@ -31,7 +30,7 @@ First, download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/p
 
 
 Python/C distribution
--------------------------
+---------------------
 
 A complete installation can be done through svn.  Currently, there are various branches of pyre.  
 
