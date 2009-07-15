@@ -42,18 +42,25 @@ Developers participating in Distributed Analysis of Neutron Scattering Experimen
 
   $ svn co svn://svn@danse.us/pyre/branches/patches-from-jiao
 
-Read and write access can be done by joining the DANSE project by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.  Eventually this branch will be merged with the trunk toward the end of the project.
+Read and write access can be done by joining the DANSE project by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.  Eventually this branch will be merged with the trunk toward the end of the project.  
+
 
 
 Installing pyre
 ^^^^^^^^^^^^^^^
 
-To install pyre, one must first install :ref:`make-mm`.  After installing it, one can simply go to the base directory of pyre::
+To install pyre, one must first install :ref:`make-mm`.  After installing Make.mm, one can simply go to the base directory of pyre::
 
   $ cd patches-from-jiao
   $ mm
 
-and type 'mm'.
+and type 'mm'.  To test the installation, change to the pyre tests directory::
+
+  $ cd $PYTHIA_DIR/packages/pyre/tests/applications 
+  $ python hello.py --name=NewPyreUser
+  Good morning NewPyreUser!
+
+and run the hello.py test.
 
 
 Installing other pythia-0.8 packages
