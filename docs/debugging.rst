@@ -110,6 +110,6 @@ so that if one desires to debug pyre components or pyre scripts, one only has to
 Debuggers
 ---------
 
-In addition to journal, and especially for routine debugging of individual components, native ide debuggers (such as in Eclipse) may be used.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in Eclipse maybe be set, stored, and exported as run/debug configuration files.
+In addition to journal, and especially for routine debugging of individual components, native ide debuggers (such as in Eclipse) may be used.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in Eclipse may be stored as run configurations.  
 
-Alternatively, one may store the run configurations themselves as pml files.
+In eclipse these run configuration can also be exported ("Shared File" under the "Common" tab) and archived or shared among developers.  Additionally, each time a developer changes the run configuration, eclipse automatically updates the exported files.

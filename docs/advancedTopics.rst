@@ -6,7 +6,7 @@ Advanced topics
 Pyre project structure
 ------------------------
 
-A pyre project typically contains a number of directories.  For example, supposing one wishes to create a pyre module wrapping several molecular dynamics codes.  The pyre application directory structure would be configured with the following subdirectories, assuming the project name (and top-level directory) is named moldyn:
+A pyre project typically contains a number of directories.  For example, supposing one creates a pyre project with <package> as it's name:
 
 applications/
 ^^^^^^^^^^^^^
@@ -21,7 +21,7 @@ This directory stores facility factory method files, called :ref:`odb files <odb
         class Inventory(Script.Inventory):
             import pyre.inventory as inv 
             mdEngine = inv.facility('mdEngine', default='gulp')
-            mdEngine.meta['known_plugins'] = ['gulp','mmtk']
+            mdEngine.meta['known_plugins'] = ['gulp','mmtk','lammps','cp2k']
             mdEngine.meta['tip'] = 'which md engine to use'
 
 Then etc/ would have the structure::
@@ -147,7 +147,7 @@ In reality, any method of a used by Component is "reserved", but here are some o
 Pyre rendering: Weaver
 ----------------------
 
-A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing structure and data objects using a number of underlying mills.  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
+A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing data structures using a number of underlying rendering classes called "mills".  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
 
 
 

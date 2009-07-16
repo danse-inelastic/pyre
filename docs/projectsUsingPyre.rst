@@ -1,7 +1,7 @@
 .. _projects-using-pyre:
 
 =====================
- Projects Using Pyre
+ Projects using pyre
 =====================
 
 Serveral sophisticated scientific computing projects

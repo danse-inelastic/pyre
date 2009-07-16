@@ -1,6 +1,6 @@
 .. _pyre-style:
 
-Pyre Style
+Pyre style
 ==========
 
 Pyre encourages python applications to be written using a style consistent with the python interpreter.  For example, the __init__ file of packages contains factory functions for the underlying classes.  An example is pyre.inventory.__init__::
@@ -152,10 +152,7 @@ Pyre encourages python applications to be written using a style consistent with 
         from validators.Not import Not
         return Not(v)
 
-
-Another style convention is to leave two spaces between methods.  
-
-For applications, services should end with the letter "d".  
+These are also the types of inventory items available to pyre developers.  Another style convention demonstrated in this file is to leave two spaces between methods.  
 
 When using the visitor pattern, preface visitor rendering methods with "on" followed by the name of the data structure, such as "onCylinder()" for rendering information about the geometrical Cylinder shape.  The data structure in turn should carry an "identify()" method that calls this method.
 

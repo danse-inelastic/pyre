@@ -25,7 +25,6 @@ Contents:
    pyreHistory
    projectsUsingPyre
    additionalDocs
-   upcoming
    usefulLinks
 
 
