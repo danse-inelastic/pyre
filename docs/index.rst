@@ -26,6 +26,7 @@ Contents:
    projectsUsingPyre
    additionalDocs
    usefulLinks
+   VNFinstallguide
 
 
 Indices and tables
