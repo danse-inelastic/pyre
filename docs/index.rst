@@ -21,7 +21,6 @@ Contents:
    pyrePackages
    advancedTopics
    pyreInternals
-   pyreFaqs
    pyreHistory
    projectsUsingPyre
    additionalDocs

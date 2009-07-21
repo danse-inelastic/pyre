@@ -3,7 +3,14 @@
 Installation
 =================
 
-Pyre is the base package in a larger group of software packages based upon it and collectively called pythia-0.8.  However, we frequently use the word pyre to represent pythia as well, especially when discussing installation.  Pythia can either be installed as a python-only set of modules or a group of python modules with some c extensions.  Howev
+Pyre is the base package in a larger group of software packages based upon it and collectively called pythia-0.8.  However, we frequently use the word pyre to represent pythia as well, especially when discussing installation.  Pythia can either be installed as a python-only set of modules or a group of python modules with some c extensions. 
+
+
+Prerequisites
+-------------
+
+Currently pythia-0.8 has only been well-tested with python 2.5, and has recently been shown to have some metaclass incompatibilities with python 2.6.  Although pythia-1.0 will be completely compatible with python 3.0, for now we recommend using python 2.5 until the incompatibilties can be removed.
+
 
 .. _pure-python-distrib:
 
