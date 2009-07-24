@@ -85,6 +85,17 @@ In terminal, navigate to root and type this code in::
 
 	mm
 
+Configuring main.cgi
+---------------------
+
+In the folder where you installed Pyre in, navigate to a a document /pythia-0.8/vnf/cgi/main.cgi.  Using a text editor, change the second line of text from::
+
+	VNFINSTALL=/home/jbk/dv
+
+to::
+
+	VNFINSTALL=/home/(your home directory)/(wherever Pyre is installed to)
+
 PostgreSQL Install
 ------------------
 
@@ -107,6 +118,36 @@ Open terminal and type::
 	sudo su postgres -c psql template1
 
 	createdb vnf
+
+If you installed PostgreSQL on the machine where you installed VNF, you can skip this step. If not, modify $VNF_EXPORT/vnf/config/clerk.pml. The default clerk.pml is::
+
+	<inventory>
+
+	  <component name='clerk'>
+	     <property name='db'>vnf</property>
+	     <property name='dbwrapper'>psycopg2</property>
+	  </component>
+
+	</inventory>
+
+where the property "db" tells the vnf applications where to connect to database. The default value "vnf" means that a unix domain socket connection to the local PostgreSQL db server is used, and the database name is "vnf". To connect to a remote db server, the value of "db" should be something like::
+
+	username:password@hostname:port:database
+
+or, to take a specific case::
+
+	vnf:1234567@db.server:5432:vnf
+
+With the db properly functioning, we can initialize three vnf services (a journal daemon, a unique identifier generator daemon, and an authentication daemon) by executing the shell script::
+
+	 cd $VNF_EXPORT/vnf/bin
+	 ./startservices.sh
+
+You will probably also want to initialize the vnf database with some tables by executing the python script within $VNF_EXPORT/vnf/bin::
+
+ 	./initdb.py
+
+If this fails, it usually means your database connection was not configured correctly. Go reconfigure first. 
 
 psycopg2 Install
 -----------------
