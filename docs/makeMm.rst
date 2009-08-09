@@ -88,9 +88,9 @@ and add the python modules to the python path::
 
   $ if [ "$PYTHONPATH" = "" ]
   $ then
-      export PYTHONPATH=$EXPORT_ROOT/modules
+      export PYTHONPATH=$EXPORT_ROOT/packages
   $ else
-      export PYTHONPATH=${PYTHONPATH}:${EXPORT_ROOT}/modules
+      export PYTHONPATH=${PYTHONPATH}:${EXPORT_ROOT}/packages
   $ fi
 
 

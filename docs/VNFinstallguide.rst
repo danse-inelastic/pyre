@@ -4,9 +4,9 @@ VNF Install Guide
 This walkthrough assumes a fresh Ubuntu or Fedora install.  However, any part of the guide can be theoretically apply to any unix-based system.  This guide assumes no background whatsoever in unix-based systems.
 
 CACR
------
+----
 
-To aquire a CACR account first generate a `SSH key <http://www.cacr.caltech.edu/main/?page_id=85>`_.  Then head over to the `CACR Registration Site <http://www.cacr.caltech.edu/main/?page_id=477>`_
+To aquire a CACR account first generate a `SSH key <http://www.cacr.caltech.edu/main/?page_id=85>`_.  Then head over to the `CACR Registration Site <http://www.cacr.caltech.edu/main/?page_id=477>`_ . VNF can still be installed with read-only access.
 
 Configuring Your Environment
 ----------------------------
@@ -16,10 +16,13 @@ There are several packages that need to be installed prior to actually installin
 Install Dependencies
 ~~~~~~~~~~~~~~~~~~~~
 
-For Ubuntu, open a terminal and type 'sudo apt-get install' and each of the packages names in the following list. For Fedora, log in to root, and the equivalent is 'yum install'.
+For Ubuntu, open a terminal and type 'sudo apt-get install' and each of the package names in the following list. 
+
+For Fedora, log in to root and type 'yum install' and each of these package names.
 
 - subversion
 - postgresql-8.3
+- postgresql postgresql-server
 - pgadmin3 (Optional)
 - wxPython
 - numpy
@@ -36,7 +39,7 @@ Test wxPython, numpy, and matplotlib by making sure there are no errors when you
 Downgrading to Python 2.5
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Note: Pyre and vnf have been known to work with Python2.6 on Fedora 11, so try continuing with installation without downgrading from Python2.6 first. 
+Note: Pyre and VNF have been known to work with Python 2.6 on Fedora 11, so try continuing with installation without downgrading from Python 2.6 first. 
 
 For Ubuntu, to install Python 2.5 onto your system, open terminal and type in this code::
 
@@ -53,11 +56,13 @@ Open terminal and type this code in::
 Make.mm
 ~~~~~~~~
 
+Throughout these instructions, it will be assumed that everything is installed in /home/username, for example's sake. It is highly recommended to not install VNF as root unless a step in the instructions says to, to prevent problems with file permissions.
+
 Follow the instructions :ref:`here <make-mm>`.
 
-As mentioned in the detailed instructions for Make.mm, a shortcut is to download this :download:`bash <bash_tools.linux>` file and then move it to root.  Make sure it is named bash_tools.linux.
+As mentioned in the detailed instructions for Make.mm, a shortcut is to download this :download:`bash <bash_tools.linux>` file and then move it to your home directory (/home/username).  Make sure it is named bash_tools.linux.
 
-In terminal, navigate to your root directory and execute this code::
+In terminal, navigate to your home directory and execute this code::
 
 	. .bash_tools.linux
 
@@ -69,7 +74,7 @@ On Fedora, this is::
 Checking Python and Make.mm Install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	
-If you downgraded to Python2.5, try the following:
+If you downgraded to Python2.5, try the following. If you did not downgrade, you can skip this step.
 In terminal, execute this code::
 
 	env
@@ -87,12 +92,10 @@ Pyre Install
 In terminal, navigate to root and type this code in::
 
 	svn co svn+ssh://svn@danse.us/pyre/branches/patches-from-jiao
-
 	cd patches-from-jiao/
-
 	mm
 
-Check to make sure Pyre and Make.mm is properly installed by following the directions on testing them (e.g. typing app.py in terminal should produce the message "creating application 'Simple' in 'simple.py'").
+Check to make sure Pyre and Make.mm is properly installed by typing app.py in terminal, which should produce the message "creating application 'Simple' in 'simple.py'".
 
 Downloading VNF
 ---------------
@@ -103,15 +106,12 @@ In terminal, go to where you would like to install VNF and type::
 	cd alpha
 	mm
 
-Throughout these instructions, it will be assumed that everything is installed in /home/username, for example's sake.
-
 Configuring the Database
 ------------------------
 
 For Ubuntu, open a terminal and type::
 
 	sudo su postgres -c psql template1
-
 	createdb vnf
 
 In Fedora, logged in as root, type in a terminal::
@@ -124,7 +124,7 @@ In Fedora, logged in as root, type in a terminal::
 	su -- username
 	createdb vnf
 
-Where username is one that matches the apache httpd.conf file (in Apache Configuration, below).
+Where username is one that matches the apache httpd.conf file (in Apache Configuration, below). 
 
 Remote DB Servers
 -----------------
@@ -158,9 +158,13 @@ If there are error messages, it may be necessary to download header files for po
 Apache Server Install and Configuration
 -----------------------------------------
 
-Download the Apache install files `here <http://www.gtlib.gatech.edu/pub/apache/httpd/httpd-2.2.11.tar.gz>`_.  Install Apache. 
+For Fedora, type in terminal, logged in as root::
 
-In terminal, log in to root and type::
+	yum install httpd
+
+Alternatively, download the Apache install files `here <http://www.gtlib.gatech.edu/pub/apache/httpd/httpd-2.2.11.tar.gz>`_ and install Apache.
+
+Start up your Apache server by typing in terminal (as root)::
 
 	apachectl start
 
@@ -194,7 +198,7 @@ Also, you may need to find where it says::
 
 and change apache to your username (which matches your database username). 
 
-It may also be necessary to disable SELinux (System > Administration > SELinux Management).
+It may also be necessary to disable SELinux (System > Administration > SELinux Management) to allow apache to access user directories.
 
 After making changes to httpd.conf, restart the server by logging in to root and type::
 
@@ -271,19 +275,41 @@ If this fails, it usually means your database connection was not configured corr
 Test Your VNF Installation
 --------------------------
 
-Open your browser and go to http://localhost/cgi-bin/vnf/main.cgi.
+Open your browser and go to http://localhost/cgi-bin/vnf/main.cgi. You should see the VNF login page. 
+
+If that does not work, try http://localhost/cgi-bin/vnf/main.cgi?actor=login instead. See Troubleshooting, below, if there are problems.
+
+Configuring Your Computational Cluster
+--------------------------------------
+For each cluster or machine on which VNF launches jobs, a scheduler needs to be installed. VNF has been tested with torque. Information on downloading and installing torque is here: http://www.clusterresources.com/wiki/doku.php?id=torque:appendix:l_torque_quickstart_guide
+
+For each cluster/machine where vnf jobs will be launched, add an entry to the "servers" table in the "vnf" database by using, for example, pgadmin3. The record is used to describe the computation server. For example, the columns id, address, username, workdir, and scheduler might be: 
+
+    * id: octopod
+    * address: octopod.danse.us
+    * username: vnf
+    * workdir: /home/vnf/vnfworkdir
+    * scheduler: torque 
+
+To access the server, an authentication method needs to be available. Currently ssh is used. To set up ssh access:
+
+   1. create private/public key pair
+   2. add the public key to the remote computational server's .ssh/authorized_keys
+   3. edit $VNF_EXPORT/vnf/config/ssher.pml to point to these keys 
 
 Troubleshooting
 ---------------
-
-Try http://localhost/cgi-bin/vnf/main.cgi?actor=login for the test url.
 
 Error log locations:
 
 - For apache: /var/log/httpd
 - For vnf: $VNF_EXPORT/log
 
-You could also try running VNF out of </home/username>/dv/tools/pythia-0.8/vnf instead of </home/username>/alpha. In this case, main.cgi should read::
+If there are problems with importing 'histogram.hdf', try this link: http://dev.danse.us/trac/histogram/wiki/Install-0.1_from_svn
+
+You could also try running VNF out of </home/username>/dv/tools/pythia-0.8/vnf instead of </home/username>/alpha. This directory should already exist if you installed Make.mm correctly.
+
+And main.cgi should be changed to the following (with username changed to your username, etc.)::
 
 	#!/usr/bin/env bash
 
