@@ -49,7 +49,7 @@
   export TEMPLATES_DIR=${DV_DIR}/templates
 
   export PYTHIA_VERSION=0.8
-  export PYTHIA_DIR=${DV_DIR}/pythia-${PYTHIA_VERSION}
+  export PYTHIA_DIR=${DV_DIR}/tools/pythia-${PYTHIA_VERSION}
 # export EXPORT_ROOT=${DV_DIR}/products  # root directory of build products
   export EXPORT_ROOT=${TOOLS_DIR}/pythia-${PYTHIA_VERSION}
 

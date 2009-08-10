@@ -97,6 +97,17 @@ In terminal, navigate to root and type this code in::
 
 Check to make sure Pyre and Make.mm is properly installed by typing app.py in terminal, which should produce the message "creating application 'Simple' in 'simple.py'".
 
+Histogram Install
+-----------------
+Follow the instructions `here <http://dev.danse.us/trac/histogram/wiki/Install-0.1_from_svn>`_ to install the histogram package after you finish installing Pyre. Then, copy the necessary files from tmp to your pyre directory (so the main.cgi supplied below will work) by typing in terminal::
+
+	cd $EXPORT_ROOT/packages
+	mkdir histogram
+	cd histogram
+	cp -r /tmp/histogram-0.1/modules/* .
+
+Where $EXPORT_ROOT is, for example, /home/username/dv/tools/pythia-0.8
+
 Downloading VNF
 ---------------
 
@@ -281,7 +292,7 @@ If that does not work, try http://localhost/cgi-bin/vnf/main.cgi?actor=login ins
 
 Configuring Your Computational Cluster
 --------------------------------------
-For each cluster or machine on which VNF launches jobs, a scheduler needs to be installed. VNF has been tested with torque. Information on downloading and installing torque is here: http://www.clusterresources.com/wiki/doku.php?id=torque:appendix:l_torque_quickstart_guide
+For each cluster or machine on which VNF launches jobs, a scheduler needs to be installed. VNF has been tested with torque. Information on downloading and installing torque is `here <http://www.clusterresources.com/wiki/doku.php?id=torque:appendix:l_torque_quickstart_guide>`_.
 
 For each cluster/machine where vnf jobs will be launched, add an entry to the "servers" table in the "vnf" database by using, for example, pgadmin3. The record is used to describe the computation server. For example, the columns id, address, username, workdir, and scheduler might be: 
 
@@ -304,8 +315,6 @@ Error log locations:
 
 - For apache: /var/log/httpd
 - For vnf: $VNF_EXPORT/log
-
-If there are problems with importing 'histogram.hdf', try this link: http://dev.danse.us/trac/histogram/wiki/Install-0.1_from_svn
 
 You could also try running VNF out of </home/username>/dv/tools/pythia-0.8/vnf instead of </home/username>/alpha. This directory should already exist if you installed Make.mm correctly.
 

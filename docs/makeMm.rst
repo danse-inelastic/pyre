@@ -13,7 +13,7 @@ The build system used by pyre uses the "mm" comand, which activates a file calle
 Installing Make.mm
 ^^^^^^^^^^^^^^^^^^
 
-Installing Make.mm and configuring environment variables useful to pythia-0.8 can be done with the following steps.  Although we assume linux environment and bash shell, scripts for mac and other shells can be found at the end of this section.
+Installing Make.mm and configuring environment variables useful to pythia-0.8 can be done with the following steps.  Although we assume linux environment and bash shell, scripts containing the following commands can be found in these example scripts for linux (:download:`bash <bash_tools.linux>` and :download:`csh <csh_tools.linux>`) and mac (:download:`bash <bash_tools.mac>` and :download:`csh <csh_tools.mac>`).  Normally one will want to source this script as part of a shell startup routine such as .bashrc.
 
 Pythia-0.8
 """"""""""
@@ -68,7 +68,7 @@ also create a templates directory for pyre utilities::
 next initialize some useful environment variables::
 
   $ export PYTHIA_VERSION=0.8
-  $ export PYTHIA_DIR=${DV_DIR}/pythia-${PYTHIA_VERSION}
+  $ export PYTHIA_DIR=${DV_DIR}/tools/pythia-${PYTHIA_VERSION}
   $ export EXPORT_ROOT=${TOOLS_DIR}/pythia-${PYTHIA_VERSION}
 
 and add the config and build directories to your path::
@@ -148,8 +148,6 @@ Here are examples of how to add other compilers for use in pyre (uncomment as ne
   # export GCC_DIR=/usr/local/gnu            # GCC installation directory
   # export PATH=$GCC_DIR/bin:$PATH
   # export LD_LIBRARY_PATH=$GCC_DIR/lib:$LD_LIBRARY_PATH
-
-These commands are all found in the following example scripts for linux (:download:`bash <bash_tools.linux>` and :download:`csh <csh_tools.linux>`) and mac (:download:`bash <bash_tools.mac>` and :download:`csh <csh_tools.mac>`).  Normally one will want to source this script as part of a shell startup routine such as .bashrc.
 
 
 Setup config and templates
