@@ -64,12 +64,9 @@ As mentioned in the detailed instructions for Make.mm, a shortcut is to download
 
 In terminal, navigate to your home directory and execute this code::
 
-	. .bash_tools.linux
+	. ./bash_tools.linux
 
-On Fedora, this is::
-
-	source bash_tools.linux
-	./bash_tools.linux
+You will need to execute this command every time you start a terminal (a shortcut might be to add it to your .bashrc).
 
 Checking Python and Make.mm Install
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
@@ -95,10 +92,17 @@ In terminal, navigate to root and type this code in::
 	cd patches-from-jiao/
 	mm
 
-Check to make sure Pyre and Make.mm is properly installed by typing app.py in terminal, which should produce the message "creating application 'Simple' in 'simple.py'".
+Check to make sure Pyre and Make.mm are properly installed by typing in terminal::
+
+	cd
+	app.py
+
+which should produce the message: "creating application 'Simple' in 'simple.py'".
+
 
 Histogram Install
 -----------------
+
 Follow the instructions `here <http://dev.danse.us/trac/histogram/wiki/Install-0.1_from_svn>`_ to install the histogram package after you finish installing Pyre. Then, copy the necessary files from tmp to your pyre directory (so the main.cgi supplied below will work) by typing in terminal::
 
 	cd $EXPORT_ROOT/packages
@@ -132,10 +136,9 @@ In Fedora, logged in as root, type in a terminal::
 	psql template1
 	CREATE USER username WITH PASSWORD 'password';
 	\q
-	su -- username
 	createdb vnf
 
-Where username is one that matches the apache httpd.conf file (in Apache Configuration, below). 
+Where username is one that matches the apache httpd.conf file (in Apache Configuration, below) and is consistent with the username used throughout this installation. 
 
 Remote DB Servers
 -----------------
@@ -209,7 +212,7 @@ Also, you may need to find where it says::
 
 and change apache to your username (which matches your database username). 
 
-It may also be necessary to disable SELinux (System > Administration > SELinux Management) to allow apache to access user directories.
+If using Fedora, disable SELinux (System > Administration > SELinux Management) to allow apache to access user directories. You may have to reboot your machine to make this take effect.  
 
 After making changes to httpd.conf, restart the server by logging in to root and type::
 
@@ -225,7 +228,7 @@ For Fedora, in terminal::
 	mkdir /var/www/cgi-bin/vnf
         cd /var/www/cgi-bin/vnf
 
-Make a simple CGI (main.cgi) that sets up enviromental variables and also calls the VNF application. Assuming vnf was downloaded in /home/username (replace username with your actual username) and Pyre was installed following the Make.mm instructions in /home/username/dv/tools/pythia-0.8, main.cgi should contain::
+Make a simple CGI (main.cgi) that sets up enviromental variables and also calls the VNF application. Assuming vnf was downloaded in /home/username/alpha and Pyre was installed following the Make.mm instructions in /home/username/dv/tools/pythia-0.8, main.cgi should contain::
 
 	#!/usr/bin/env bash
 
@@ -238,16 +241,23 @@ Make a simple CGI (main.cgi) that sets up enviromental variables and also calls 
 	export PYRE_DIR=$PYREINSTALL/packages:$PYRE_DIR
 	cd $VNFINSTALL/cgi && python main.py $@
 
-Adjust the above code as needed and make sure main.cgi is executable::
+Adjust the above code as needed (i.e. replace username with your username) and make sure main.cgi is executable::
 
         chmod +x main.cgi
 
-HTML content needs to be made available by creating a symbolic link. For example::
+HTML content needs to be made available by creating a symbolic link. In the below instructions, $VNF_EXPORT refers to where you installed VNF (for example, /home/username/alpha).
+
+For Ubuntu, type in terminal::
 
 	sudo cd /var/www
- 	sudo ln -s /home/username/dv/tools/pythia-0.8/vnf/html vnf
+ 	sudo ln -s $VNF_EXPORT/html vnf
 
-To configure the vnf web application, you will need to put these new paths in /home/username/alpha/config/main.pml. For example::
+For Fedora, in terminal as root::
+
+	cd /var/www/html
+	ln -s $VNF_EXPORT/html vnf
+
+To configure the vnf web application, you will need to put these new paths in $VNF_EXPORT/config/main.pml. Edit main.pml to contain::
 
 	<inventory>
 	
@@ -275,8 +285,6 @@ or::
         ./idd.py
         ./ipad.py
 
-where $VNF_EXPORT is the directory where vnf is installed (example: /home/username/alpha).
-
 You will also want to initialize the vnf database with some tables by executing the python script within $VNF_EXPORT/bin::
 
  	./initdb.py
@@ -292,7 +300,8 @@ If that does not work, try http://localhost/cgi-bin/vnf/main.cgi?actor=login ins
 
 Configuring Your Computational Cluster
 --------------------------------------
-For each cluster or machine on which VNF launches jobs, a scheduler needs to be installed. VNF has been tested with torque. Information on downloading and installing torque is `here <http://www.clusterresources.com/wiki/doku.php?id=torque:appendix:l_torque_quickstart_guide>`_.
+
+For each cluster or machine on which VNF launches jobs, a scheduler needs to be installed. VNF has been tested with torque. Information on downloading and installing torque is `here <http://www.clusterresources.com/wiki/doku.php?id=torque:appendix:l_torque_quickstart_guide>`_. Then install either the built-in scheduler in torque, pbs_scheduler, or `Maui <http://www.clusterresources.com/pages/products/maui-cluster-scheduler.php>`_.
 
 For each cluster/machine where vnf jobs will be launched, add an entry to the "servers" table in the "vnf" database by using, for example, pgadmin3. The record is used to describe the computation server. For example, the columns id, address, username, workdir, and scheduler might be: 
 
@@ -306,7 +315,7 @@ To access the server, an authentication method needs to be available. Currently 
 
    1. create private/public key pair
    2. add the public key to the remote computational server's .ssh/authorized_keys
-   3. edit $VNF_EXPORT/vnf/config/ssher.pml to point to these keys 
+   3. edit $VNF_EXPORT/config/ssher.pml to point to these keys 
 
 Troubleshooting
 ---------------
@@ -316,7 +325,7 @@ Error log locations:
 - For apache: /var/log/httpd
 - For vnf: $VNF_EXPORT/log
 
-You could also try running VNF out of </home/username>/dv/tools/pythia-0.8/vnf instead of </home/username>/alpha. This directory should already exist if you installed Make.mm correctly.
+You could also try running VNF out of /home/username/dv/tools/pythia-0.8/vnf instead of /home/username/alpha. This directory should already exist if you installed Make.mm and Pyre.
 
 And main.cgi should be changed to the following (with username changed to your username, etc.)::
 
@@ -326,7 +335,6 @@ And main.cgi should be changed to the following (with username changed to your u
         EXPORT_ROOT=$VNFINSTALL/tools/pythia-0.8
         export PATH=$EXPORT_ROOT/bin:$PATH
         export PYTHONPATH=$EXPORT_ROOT/packages/histogram:$PYTHONPATH
-        export PYTHONPATH=$EXPORT_ROOT/modules:$PYTHONPATH
         export PYTHONPATH=$EXPORT_ROOT/packages:$PYTHONPATH
         export LD_LIBRARY_PATH=$EXPORT_ROOT/lib:$LD_LIBRARY_PATH
         export PYRE_DIR=$EXPORT_ROOT/packages:$PYRE_DIR
