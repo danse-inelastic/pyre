@@ -236,7 +236,7 @@ Make a simple CGI (main.cgi) that sets up enviromental variables and also calls 
         PYREINSTALL=/home/username/dv/tools/pythia-0.8
 	export PATH=$VNFINSTALL/bin:$PATH
 	export PYTHONPATH=$PYREINSTALL/packages/histogram:$PYTHONPATH
-	export PYTHONPATH=$VNFINSTALL:$PYTHONPATH
+	export PYTHONPATH=$PYREINSTALL/packages:$PYTHONPATH
 	export LD_LIBRARY_PATH=$PYREINSTALL/lib:$LD_LIBRARY_PATH
 	export PYRE_DIR=$PYREINSTALL/packages:$PYRE_DIR
 	cd $VNFINSTALL/cgi && python main.py $@
