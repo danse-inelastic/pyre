@@ -6,16 +6,15 @@ Historically, pyre was created to bring a degree of order to the complex task of
 Pyre 1.0 is being actively developed currently and will soon be ready for general usage.  Upcoming changes include a more seamless inventory, better db support, and many new additions for creating web applications.
 
 
-Pyre Criticisms and Needed Improvements
+Discussion of Pyre improvements
 =======================================
 
-Pyre is not perfect and is undergoing continued, heavy development.  Here are a few obvious shortcomings:
+Pyre is not perfect and is undergoing continued development.  Here are a issues:
 
 Pyre
 ----
 
 * code bloat
-  - inventory too big--why use inner class when can use annotations
   - def _configure() almost unnecessary
 
 
