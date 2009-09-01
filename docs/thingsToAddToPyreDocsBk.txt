@@ -35,3 +35,8 @@ have a "Pyre concepts" page (intermediate pyre)...Weaver, Curator (, etc.
 *talk about adding this line to your components:
     def _getPrivateDepositoryLocations(self):
         return ['../config']
+
+
+*combine this file with README-TODO
+
+*look for all TODO's in code and address them...

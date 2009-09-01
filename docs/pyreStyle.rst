@@ -154,6 +154,23 @@ Pyre encourages python applications to be written using a style consistent with 
 
 These are also the types of inventory items available to pyre developers.  Another style convention demonstrated in this file is to leave two spaces between methods.  
 
+Visitor pattern
+^^^^^^^^^^^^^^^
 When using the visitor pattern, preface visitor rendering methods with "on" followed by the name of the data structure, such as "onCylinder()" for rendering information about the geometrical Cylinder shape.  The data structure in turn should carry an "identify()" method that calls this method.
+
+Private methods
+^^^^^^^^^^^^^^^
+Pyre uses the common python convention of writing "private methods" with a beginning underscore "_", such as "_configure", "_init", etc.
+
+Layered structure of pyre
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Pyre encourages decomposition of large, complex computing system to small, dedicated
+computing engines by providing a architecture allowing construction of
+components in a layored structure. 
+:ref:`Application greet.py <helloworld-greet.py>` is a good example
+showing the benefit of decomposition.
+
+
+
 
 

@@ -149,15 +149,29 @@ Pyre component structure is relatively straightforward.  The component class is 
     
             return
 
-Note the presence of an inner class called Inventory, which contains settings such as username and password, as well as specifications of subcomponents (ipa).  Allowed inventory types are stored in the
+Sentry, represents a "unit of functionality".  It performs the task of authenticating new users.  Note the presence of an inner class called Inventory, which contains settings such as username and password.  Allowed inventory types are stored in the
 `pyre.inventory <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
 package. 
 
-Methods that are useful to communicate to pyre framework for a pyre component are:
+.. TODO: we need to link to an api discussion of inventory and move the link to the actual file to there
+
+Sentry's Inventory also contains a reference to a subcomponent called "ipa".  Such references are termed facilities in pyre.  
+
+Facilities: including and configuring pyre subcomponents 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Users place subcomponents or facilities in their inventory by specifiying a name and an optional family and factory function::
+
+	ipa = pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session)
+
+The name is the internal reference to it in pyre and the family is a namespece where the framework will first look for the factory function, which is also named session.
+
+
+Another thing to note in Sentry is methods such as def _defaults, which communicate directly with the framework.  Examples of these methods include:
 
 __init__: the constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-The constructor must contains a call to parent's constructor::
+The constructor must call to parent's constructor::
 
             super(Sentry, self).__init__(name, facility='sentry')
 
@@ -196,6 +210,7 @@ component::
 
   self.filename = self.inventory.filename
 
+
 _init: initialization of computing engine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This method will be called after every component is configured. 
@@ -207,21 +222,10 @@ component is ready to run; for example, you may want to allocate memory,
 open input/output files, initiate c/c++/fortran engines that this
 component is depending on, etc.
 
+TODO: have a link to a complete listing of these overidable methods 
 
 
-Layered structure of pyre
-^^^^^^^^^^^^^^^^^^^^^^^^^
-Pyre encourages decomposition of large, complex computing system to small, dedicated
-computing engines by providing a architecture allowing construction of
-components in a layored structure. 
-:ref:`Application greet.py <helloworld-greet.py>` is a good example
-showing the benefit of decomposition.
-
-
-More text here...
-
-
-.. Sentry, represents a "unit of functionality" in the opal web framework.  It performs the task of authenticating new users.  As such it contains a subcomponent called Ipa which manages sessions, either by authenticating new logins against a database or keeping track of login time and issuing tickets to authenticate.  As such Ipa must maintain state, and is, in fact, a daemon.  However, it is treated exactly like any other subcomponent by Sentry.  As a subcomponent Ipa is stored in Sentry's inventory as a facility, whose method signature is pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session), containing a name, family, and factory.  These are all discussed in the next section.  
+facilities
 
 
 
