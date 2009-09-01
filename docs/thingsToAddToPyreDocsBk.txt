@@ -40,3 +40,14 @@ have a "Pyre concepts" page (intermediate pyre)...Weaver, Curator (, etc.
 *combine this file with README-TODO
 
 *look for all TODO's in code and address them...
+
+*do class diagrams like this: http://matplotlib.sourceforge.net/devel/documenting_mpl.html#inheritance-diagrams
+
+*put into pyre docs:
+
+me:  did you reset anything on one of the pml files?  can't remember how you did this before...
+ Jiao:  idd-config.pml
+property "tid"
+ me:  ahhh...that's right...
+thx!!!
+ Jiao:  sure
