@@ -160,7 +160,7 @@ When using the visitor pattern, preface visitor rendering methods with "on" foll
 
 Private methods
 ^^^^^^^^^^^^^^^
-Pyre uses the common python convention of writing "private methods" with a beginning underscore "_", such as "_configure", "_init", etc.
+Pyre uses the common python convention of naming private methods with a beginning underscore "_", such as "_configure", "_init", etc.
 
 Layered structure of pyre
 ^^^^^^^^^^^^^^^^^^^^^^^^^

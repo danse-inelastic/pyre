@@ -1,6 +1,61 @@
 Content TODO:
 
-*
+explain odb and pml as types of codecs (portmanteau of 'coder-decoder')--talk about where this is in the class diagram
+
+discuss how to configure odb user, system, and local depositories (in pyre.inventory.odb.prefix.py)
+
+discuss how to put in a new codec?
+
+discuss other configurations Curator does...
+        # look for an environment variable with additional local directories
+        try:
+            plist = os.environ["PYTHIA_LOCAL"]
+            if plist[0] == '[':
+                plist = plist[1:]
+            if plist[-1] == ']':
+                plist = plist[:-1]
+            local += plist.split(',')
+        except KeyError:
+            pass
+
+        # gain access to the user settings from the command line
+        db = registry.extractNode(self._DB_NAME)
+(i.e. environment variables and db...)
+
+
+discuss what happens to your application as it runs (go through code that runs, perhaps as a uml diagram)
+-
+
+
+explain how initdb.py works
+
+have a "Pyre concepts" page (intermediate pyre)...Weaver, Curator (, etc.
+
+
+*talk about adding this line to your components:
+    def _getPrivateDepositoryLocations(self):
+        return ['../config']
+
+
+*combine this file with README-TODO
+
+*look for all TODO's in code and address them...
+
+*do class diagrams like this: http://matplotlib.sourceforge.net/devel/documenting_mpl.html#inheritance-diagrams
+
+*put into pyre docs:
+
+me:  did you reset anything on one of the pml files?  can't remember how you did this before...
+ Jiao:  idd-config.pml
+property "tid"
+ me:  ahhh...that's right...
+thx!!!
+ Jiao:  sure
+
+
+* eventually change the look and feel to help people understand it is revised...use http://matplotlib.sourceforge.net/sampledoc/custom_look.html
+
+
 *put in Make.mm examples and discussion of macros
 
 
