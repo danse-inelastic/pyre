@@ -97,7 +97,7 @@ On the other hand, using the first approach is a safe choice.
 Components
 ---------------
 
-Pyre component structure is relatively straightforward.  The component class is inherited from pyre.inventory.Component.  It should contain an inner class called Inventory, which usually subclass the Inventory class of the parent component class.  An example is::
+Pyre component structure is relatively straightforward.  The component class is inherited from pyre.inventory.Component.  It should contain an inner class called Inventory, which usually subclasses the Inventory class of the parent.  An example is Sentry, which performs the task of authenticating new users::
 
     from pyre.components.Component import Component
     
@@ -122,7 +122,7 @@ Pyre component structure is relatively straightforward.  The component class is 
             attempts.meta['tip'] = "the number of unsuccessful attempts to login"
     
             import pyre.ipa
-            ipa = pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session)
+            ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
             ipa.meta['tip'] = "the ipa session manager"
     
     
@@ -134,7 +134,7 @@ Pyre component structure is relatively straightforward.  The component class is 
             if name is None:
                 name = 'sentry'
     
-            super(Sentry, self).__init__(name, facility='sentry')
+            super(Sentry, self).__init__(name)
 	    ...    
     
     
@@ -149,66 +149,60 @@ Pyre component structure is relatively straightforward.  The component class is 
     
             return
 
-Sentry, represents a "unit of functionality".  It performs the task of authenticating new users.  Note the presence of an inner class called Inventory, which contains settings such as username and password.  Allowed inventory types are stored in the
+As a component, Sentry represents a "unit of functionality".  Note Inventory contains settings, such as username and password.  Allowed Inventory types are stored in the
 `pyre.inventory <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
 package. 
 
 .. TODO: we need to link to an api discussion of inventory and move the link to the actual file to there
 
-Sentry's Inventory also contains a reference to a subcomponent called "ipa".  Such references are termed facilities in pyre.  
+Sentry's Inventory class also contains a reference to a subcomponent called "ipa".  Such references are termed facilities.  
 
 Facilities: including and configuring pyre subcomponents 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Users place subcomponents or facilities in their inventory by specifiying a name and an optional family and factory function::
+Users place subcomponents in their inventory by specifiying a name and factory function::
 
-	ipa = pyre.inventory.facility("session", family="ipa", factory=pyre.ipa.session)
+	ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
 
-The name is the internal reference to it in pyre and the family is a namespece where the framework will first look for the factory function, which is also named session.
+The name "session" is the internal reference to ipa in the pyre framework. Facilities may be swapped in and out at run time using command line arguments or pml files as discussed in :ref:`odb-pml-files.
 
-
-Another thing to note in Sentry is methods such as def _defaults, which communicate directly with the framework.  Examples of these methods include:
+Another thing to note is methods such as _defaults, which communicate directly with the framework.  Examples of these include:
 
 __init__: the constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-The constructor must call to parent's constructor::
+The constructor must call the parent's constructor::
 
-            super(Sentry, self).__init__(name, facility='sentry')
+            super(Sentry, self).__init__(name)
 
-here the name argument specifies the name of this component, 
-and it is the key that pyre framework
-uses to look for its configuration.
+Here the name argument specifies the name of this component (i.e. 'sentry'). 
 
 
 _defaults: setting default values
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You can set the default value for an inventory item when declaring them 
-in the Inventory class. 
-Beyond that, you get another chance to set the default values
-in this _defaults method.
-You can do sth like ::
+Each command-line configurable item in the inventory may be given a default value when declared in the Inventory class. 
+However, you may need to reset them based on some internal configuration within the component.  This maybe done in the _defaults method::
 
   self.inventory.username = 'bob'
 
-and this will override the default value. But if users specify another value
-for this property thruough command line or configuration files, it will
-be overriden.
+and this will override the default value. However, if users specify another value
+for this property through command line or configuration files, it will be overriden.
 
 
 _configure: transfer user inputs to local variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In the _configure method, the user inputs are already parsed by the framework,
-checked for errors, and store in the object "self.inventory".
-Any property or component is accessed as the attribute of this inventory object.
-For example, if you declare a str property in the inventory::
+During component configuration, external command-line or configuration file inputs are parsed by the framework,
+checked for errors and stored in the object "self.inventory".
+Any property or component is accessed as the attribute of this object.
+For example, if you declare a string-type property in the inventory::
 
   filename = pyre.inventory.str('filename')
 
-self.inventory.filename now contains the value of "filename" provided by user.
-In the _configure method, you could transfer this value to local variables of this
-component::
+self.inventory.filename now contains the value of "filename" provided by the user.
+In the _configure method, you can transfer this value to local variables of the component::
 
   self.filename = self.inventory.filename
+
+allowing the component to use these external application-level inputs.
 
 
 _init: initialization of computing engine
@@ -222,12 +216,9 @@ component is ready to run; for example, you may want to allocate memory,
 open input/output files, initiate c/c++/fortran engines that this
 component is depending on, etc.
 
-TODO: have a link to a complete listing of these overidable methods 
+.. TODO: have a link to a complete listing of these overidable methods 
 
-
-facilities
-
-
+.. TODO: discuss the order in which these methods are called by the framework
 
 Applications
 ------------
@@ -236,13 +227,11 @@ As such it can be run from the command line or started as a daemon.
 
 Constructions of pyre applications are very similar to constructions
 of pyre components. 
-Here is 
-`an example <tutorials/greet.py>`_
-.
+Here is `an example <tutorials/greet.py>`_ .
 
 Instead of subclassing pyre.components.Component.Component, you need to
 subclass pyre.applications.Script.Script.
-Other than that, all pyre applications must declare method "main",
+Other than that, all pyre applications must declare a method called "main",
 which is like the "main" function in c/c++.
 
 

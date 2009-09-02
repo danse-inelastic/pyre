@@ -51,3 +51,6 @@ property "tid"
  me:  ahhh...that's right...
 thx!!!
  Jiao:  sure
+
+
+* eventually change the look and feel to help people understand it is revised...use http://matplotlib.sourceforge.net/sampledoc/custom_look.html

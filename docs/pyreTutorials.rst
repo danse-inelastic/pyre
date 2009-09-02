@@ -6,7 +6,7 @@ Tutorials
 
 If you have not done so, please 
 :ref:`install <installation>`
-pythia-0.8 before you start playing with the following examples.
+pythia-0.8 before you try out the following examples.
 
 
 Hello World
@@ -16,9 +16,7 @@ This is the pyre version of hello world. It introduces some structures into the 
     print "Hello World!"
 
 
-In this tutorial we will build the pyre application step-by-step
-by gradually adding structure to this simple application,
-and explain the reasons why those structures are needed.
+In this tutorial we build a pyre application step-by-step, gradually adding structure and explaining why those structures are needed.
 
 
 .. _helloworld1:
@@ -26,7 +24,7 @@ and explain the reasons why those structures are needed.
 The simplest pyre application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_)::
+Open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_)::
 
   #!/usr/bin/env python
 
@@ -50,7 +48,7 @@ Please open your favorite editor and type in the following (or download it: `hel
   # End of file
 
 
-Please save it as hello1.py and run it ::
+Save it as hello1.py and run it::
 
   $ python hello1.py
   Hello World!

@@ -15,7 +15,7 @@ Pyre
 ----
 
 * code bloat
-  - def _configure() almost unnecessary
+  - use annotations as much as possible rather than subclassing, factory functions, etc.
 
 
 Opal
