@@ -1,10 +1,8 @@
 Content TODO:
 
-explain odb and pml as types of codecs (portmanteau of 'coder-decoder')--talk about where this is in the class diagram
+do opal's class diagram?...or maybe make it a separate link...
 
-discuss how to configure odb user, system, and local depositories (in pyre.inventory.odb.prefix.py)
 
-discuss how to put in a new codec?
 
 discuss other configurations Curator does...
         # look for an environment variable with additional local directories
@@ -26,6 +24,11 @@ discuss other configurations Curator does...
 discuss what happens to your application as it runs (go through code that runs, perhaps as a uml diagram)
 -
 
+explain odb and pml as types of codecs (portmanteau of 'coder-decoder')--talk about where this is in the class diagram
+
+discuss how to configure odb user, system, and local depositories (in pyre.inventory.odb.prefix.py)
+
+discuss how to put in a new codec?
 
 explain how initdb.py works
 
@@ -36,8 +39,6 @@ have a "Pyre concepts" page (intermediate pyre)...Weaver, Curator (, etc.
     def _getPrivateDepositoryLocations(self):
         return ['../config']
 
-
-*combine this file with README-TODO
 
 *look for all TODO's in code and address them...
 
