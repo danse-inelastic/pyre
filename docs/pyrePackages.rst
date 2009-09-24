@@ -16,7 +16,21 @@ pyre.units
 Modules
 ^^^^^^^
 
-(need to do inline docstrings and module attributes here...)
+.. automodule:: pyre.units.SI
+   :members:
+   :undoc-members:
+
+.. automodule:: SI
+   :members:
+   :undoc-members:
+
+.. automodule:: SI.py
+   :members:
+   :undoc-members:
+
+.. autoclass:: Solver
+   :members:
+   :undoc-members:
 
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
@@ -34,6 +48,10 @@ Modules
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
 Hare some of the classes used by these data structures:
+
+.. inheritance-diagram:: matplotlib.patches matplotlib.lines matplotlib.text
+   :parts: 2
+
 
 .. image:: images/PyreUnitsClassDiagram.png
 

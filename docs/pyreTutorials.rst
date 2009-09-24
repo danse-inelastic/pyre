@@ -332,12 +332,9 @@ to construct pyre applications in layers, and keep each component
 small, dedicated and manageable.
 
 This "greet" pyre application now delegates its functionality to
-the pyre component "greeter". The pyre application itself just
+the pyre component "greeter". The pyre application itself
 simply calls the greeter to do the real work. 
-It may look unecessary at the first glance, but you will see
-the benefit of this delegation even for this simple demo application
-a bit later in this tutorial. Here, let us first see how we declare
-that a component needs another component::
+It may look unecessary at first glance, but the benefit of this delegation will become obvious for larger, more complex applications. Let us first demonstrate how one component declares a subcomponent::
 
   greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
 

@@ -237,14 +237,14 @@ One of the strengths of pyre is a systematic way to configure and distribute fro
 
   application.py --property=value
 
-but changing the subcomponent of a facility requires the presence of odb files, which are simply factory function files for each component.
+but changing the subcomponent of a facility requires the presence of odb files, discussed next. 
 
-Change the component for a facility
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Swapping subcomponents
+^^^^^^^^^^^^^^^^^^^^^^
 
-Say if we have a greeter component in our hello application::
+To swap subcomponents one must have a factory function in a python file ending in odb.  This factory returns an instance of the subcomponent to be swapped.  For example, suppose we have a greeter component in our GreetApp from the tutorial::
 
-     class Hello(Script):
+     class GreetApp(Script):
      
          class Inventory(Script.Inventory):
      
@@ -263,6 +263,9 @@ And we want to change the default choice of greeter to a odb file called morning
          class Morning (Greeter):
              def _defaults(self): self.inventory.greetings = "Good morning"
          return Morning('morning')
+
+
+
 
 
 What we could do is to change the application pml file hello.pml::
