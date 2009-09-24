@@ -164,7 +164,7 @@ Users place subcomponents in their inventory by specifiying a name and factory f
 
 	ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
 
-The name "session" is the internal reference to ipa in the pyre framework. Facilities may be swapped in and out at run time using command line arguments or pml files as discussed in :ref:`odb-pml-files.
+The name "session" is the internal reference to ipa in the pyre framework. Facilities may be swapped in and out at run time using command line arguments or pml files as discussed in :ref:`odb-pml-files`.
 
 Another thing to note is methods such as _defaults, which communicate directly with the framework.  Examples of these include:
 
@@ -208,10 +208,9 @@ allowing the component to use these external application-level inputs.
 _init: initialization of computing engine
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This method will be called after every component is configured. 
-The method _configure
-for all components will be called already at this time.
+The method _configure() will already have been called at this time for all components.
 This is the place where the computing engine should be constructed.
-Usually, in _init method you want to prepare everything so that the
+Usually, in _init() one will want to prepare everything so that the
 component is ready to run; for example, you may want to allocate memory,
 open input/output files, initiate c/c++/fortran engines that this
 component is depending on, etc.
@@ -232,35 +231,13 @@ Here is `an example <tutorials/greet.py>`_ .
 Instead of subclassing pyre.components.Component.Component, you need to
 subclass pyre.applications.Script.Script.
 Other than that, all pyre applications must declare a method called "main",
-which is like the "main" function in c/c++.
+which is called when one instantiates the application and calls its run() method.
 
+One of the strengths of pyre is a systematic way to configure and distribute from the command line all inventory items at run time.  As shown above, inventories are composed of both properties and facilities.  Changing a property on the command line is as simple as::
 
-.. _odb-pml-files:
+  application.py --property=value
 
-Pyre .odb and .pml files
-------------------------
-
-A .pml file is an XML file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
-
-The name of the .pml file must be <component_name>.pml.
-
-Change value of a property
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-By editing this file one can change the properties of the application named "test". For instance, suppose test has a property named "property1", and you want to set it to 3.14159. You could edit the line::
-
-    <property name='key'>value</property>
-
-to read::
-
-    <property name='property1'>3.14159</property>
-
-.
-
-See also 
-:ref:`where to put .pml files<where-to-put-pml-odb>`
-.
-
+but changing the subcomponent of a facility requires the presence of odb files, which are simply factory function files for each component.
 
 Change the component for a facility
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -291,6 +268,31 @@ And we want to change the default choice of greeter to a odb file called morning
 What we could do is to change the application pml file hello.pml::
 
        <facility name='greeter'>morning</facility>
+
+
+A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
+
+.. _odb-pml-files:
+
+Pyre .odb and .pml files
+------------------------
+
+A .pml file is an xml file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
+
+To change the values of a property simply hand-edit the value, which has the general form::
+
+    <property name='key'>value</property>
+
+Changing a facility is slightly more complex
+
+Pml files mu
+
+The name of the .pml file must be <component_name>.pml. 
+
+See also :ref:`where to put .pml files<where-to-put-pml-odb>`.
+
+
+
 
 
 .. _where-to-put-pml-odb:
