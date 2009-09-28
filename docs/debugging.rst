@@ -6,20 +6,19 @@ Debugging pyre applications
 Journal
 -------
 
-Pyre's native debugger is called journal
-(that, for java developers, is kind of similar to log4j).
-It allows developers to insert into their codes journalling instructions that produce
+Pyre's native debugger is called journal.
+It allows developers to insert journalling instructions in their code that produce
 pyre application diagnostics such as
 error reporting, warnings, and debugging.
 
-Here is the cheat sheet of creating a journal channel and writing to it::
+To create a journal channel and write to it include something like the following::
 
   >>> import journal
   >>> debug = journal.debug('myproject')
   >>> debug.activate()
   >>> debug.log( 'This is a debugging message' )
 
-and this would be the output::
+which gives the output::
 
    >> <stdin>:1:<module>
    >> myproject(debug)
@@ -30,16 +29,16 @@ The factory ::
 
   journal.debug
 
-creates journal channels of "debug" type. And this call ::
+creates journal channels of "debug" type. And this call::
 
   journal.debug("myproject")
 
 creates a journal debug channel named "myproject".
-The call ::
+The call::
 
   >>> debug.activate()
 
-activates this journal channel.
+activates this channel.
 And now you are ready to output to the newly created journal stream::
 
   >>> debug.log( 'This is a debugging message' )
@@ -60,7 +59,7 @@ Journal devices
 
 Journals can be easily directed to different devices. By default, journal
 writes to a terminal-like device that directly outputs to screen.
-Another very useful device is actualy a journal daemon.
+Another very useful device is a journal daemon.
 
 
 Journal daemon
@@ -77,7 +76,7 @@ from the command line.  (also talk about having the right pml files set up and m
     journal.info(name).activate()
     journal.debug("journal").activate()
 
-Then in the constructor, information about the code part may be labeled in order to discern which, of the many parts of your code, is outputting the information:
+Then in the constructor, information about the code part may be labeled in order to discern which, of the many parts of your code, is outputting the information::
 
     i = journal.info(codepart)
     d = journal.debug(codepart)
