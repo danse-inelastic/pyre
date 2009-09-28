@@ -1,10 +1,12 @@
-Utilities for pyre developers
-=============================
+.. _templates:
+
+Pyre templates
+==============
 
 Create a component or application skeleton
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pythia-0.8/bin comes with a number of programmer's utilities.  There are templates for creating components and scipts.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
+Pythia-0.8/bin comes with a number of programmer's utilities, including templates for creating components and scipts.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
 
  $ component.py --name=NmrMachine
 

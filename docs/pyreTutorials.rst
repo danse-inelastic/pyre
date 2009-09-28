@@ -124,53 +124,51 @@ And you can change the person you want to say hello::
 Comparing this to :ref:`the previous example <helloworld1>`, we note a few things 
 are added or modified:
 
+* Inventory
 
-Inventory
-""""""""""
-There is an inner class called Inventory, where publicly cofigurable items are listed.
-In the simple application above, Inventory has one item,
-"name", which is the name of the person to whom we say hello::
+  There is an inner class called Inventory, where publicly cofigurable items are listed.
+  In the simple application above, Inventory has one item,
+  "name", which is the name of the person to whom we say hello::
 
-  name = pyre.inventory.str(name='name', default='World')
+    name = pyre.inventory.str(name='name', default='World')
 
-This statement declares there is a public property for
-this application, its type is a string, its name is "name",
-and its default value is "World".
-Pyre instantiates Inventory with the lower case name "inventory", looks
-for user inputs for its properties when the application is
-launched, parses user inputs to appropriate data types,
-and feeds the value to::
+  This statement declares there is a public property for
+  this application, its type is a string, its name is "name",
+  and its default value is "World".
+  Pyre instantiates Inventory with the lower case name "inventory", looks
+  for user inputs for its properties when the application is
+  launched, parses user inputs to appropriate data types,
+  and feeds the value to::
 
-  self.inventory.name
+    self.inventory.name
 
-where self is the application.
-
-
-_configure
-""""""""""
-In the _configure method, we create a local variable and pass it the value of the property
-"name", which is managed by the pyre framework::
-
-  self.name = self.inventory.name
+  where self is the application.
 
 
-main
-""""
-In the main method, we change the print message so that we
-will say hello to the person defined by the variable "name"::
+* _configure
 
-  print "Hello "+self.name+"!"
+  In the _configure method, we create a local variable and pass it the value of the property
+  "name", which is managed by the pyre framework::
+
+    self.name = self.inventory.name
+
+
+* main
+
+  In the main method, we change the print message so that we
+  will say hello to the person defined by the variable "name"::
+
+    print "Hello "+self.name+"!"
  
 
-.. brandon: need a better introduction to pml files here...and utilities like invenetory.py
+.. TODO: need a better introduction to pml files here...and utilities like invenetory.py
 
 
+* constructor __init__
 
-constructor __init__
-""""""""""""""""""""""""""""""
-In the constructor, we give this application the name "hello2".
-This name is a identifier that pyre framework will use to
-look for configurations.  
+  In the constructor, we give this application the name "hello2".
+  This name is a identifier that pyre framework will use to
+  look for configurations.  
 
 
 Although it is useful to have a system to manage commandline inputs, both to an application and to its components,
@@ -178,9 +176,8 @@ wouldn't it be useful to have alternative ways to configure a program? Pyre has 
 
 .. Pml files are created by...(outline structure of pml file), discuss utitlies, 
 
-
 For example, we can use pml files
-to configure this demo pyre application.  Let us create a pml file by::
+to configure this demo pyre application.  Let us create a pml file by using one of the pyre :ref:`templates <templates>`::
 
   $ inventory.py --name=hello2
   creating inventory template in 'hello2.pml'
@@ -204,18 +201,14 @@ different::
   Hello Alice!
 
 Pyre looks for pml files by looking for the
-names of the pyre components (pyre application is also a pyre component),
-and it found "hello2.pml", and the configurations in this
-file is used.
-
+names of pyre components/applications, which in this case is "hello2".
 If you change the name of the pml file, for example, to hello2a.pml,
 you will end up with ::
 
   $ python hello2.py
   Hello World!
 
-because pyre framework cannot recognize your pml file as the one
-to configure hello2.py.
+because pyre does not have a component named hello2a.
 
 
 .. _helloworld-greet.py:
