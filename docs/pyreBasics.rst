@@ -270,13 +270,12 @@ And we want to change the default choice of greeter to a odb file called morning
 
 By specifying a different greeter::
 
-
-
+  \--greeter=morning
 
 
 What we could do is to change the application pml file hello.pml::
 
-
+  <facility name="greeter">morning</facility>
 
 
 A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
