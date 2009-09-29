@@ -266,13 +266,15 @@ And we want to change the default choice of greeter to a odb file called morning
              def _defaults(self): self.inventory.greetings = "Good morning"
          return Morning('morning')
 
+By specifying a different greeter::
+
 
 
 
 
 What we could do is to change the application pml file hello.pml::
 
-       <facility name='greeter'>morning</facility>
+
 
 
 A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
@@ -288,22 +290,13 @@ To change the values of a property simply hand-edit the value, which has the gen
 
     <property name='key'>value</property>
 
-Changing a facility is slightly more complex
+The name of the .pml file must be <component_name>.pml. Facilities may also be configured ina  similar manner::
 
-Pml files mu
-
-The name of the .pml file must be <component_name>.pml. 
-
-See also :ref:`where to put .pml files<where-to-put-pml-odb>`.
-
-
+    <facility name='greeter'>morning</facility>
 
 
 
 .. _where-to-put-pml-odb:
-
-Where to put .pml/.odb files
-----------------------------
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 

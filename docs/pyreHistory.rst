@@ -7,7 +7,7 @@ Pyre 1.0 is being actively developed currently and will soon be ready for genera
 
 
 Discussion of Pyre improvements
-=======================================
+===============================
 
 Pyre is not perfect and is undergoing continued development.  Here are a few issues currently being worked on:
 

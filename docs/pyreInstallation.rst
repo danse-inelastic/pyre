@@ -187,28 +187,21 @@ To test the templates installation::
           * $ app.py
           * creating application 'Simple' in 'simple.py'
 
-
-
-
-Directives/options/macros used in Make.mm
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Make.mm format is similar to that of typical linux shell scripting.  A few macros which may be useful are:
-
- * export-python-package 
-
- * others to be included
-
-
-Internals of pyre config
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-To be written.
-
-
+Now that the build system is installed, let's install pyre. 
 
 Installing pyre
 ^^^^^^^^^^^^^^^
+
+Pyre source including c extensions is available from various svn repositories.  Let's use the DANSE branch.
+
+Checking out the DANSE branch:
+""""""""""""""""""""""""""""""
+
+Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the "patches-from-jiao" branch which can be checked out from the danse.us/pyre repository.  For example, assuming read-only access::
+
+  $ svn co svn://svn@danse.us/pyre/branches/patches-from-jiao
+
+Read and write access can be done by joining the DANSE project by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.  Eventually this branch will be merged with the trunk.  
 
 To install pyre, one must first install :ref:`make-mm`.  After installing Make.mm, one can simply go to the base directory of pyre::
 
@@ -229,12 +222,3 @@ Installing other pythia-0.8 packages
 
 Assuming pyre is also installed, one may follow the same procedure as above and type 'mm' in the top level directory.
 
-
-Checking out the DANSE branch:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A complete installation including c extensions can be done through svn.  Currently, there are various branches of pyre. Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the "patches-from-jiao" branch which can be checked out from the danse.us/pyre repository.  For example, assuming read-only access::
-
-  $ svn co svn://svn@danse.us/pyre/branches/patches-from-jiao
-
-Read and write access can be done by joining the DANSE project by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.  Eventually this branch will be merged with the trunk.  

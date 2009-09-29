@@ -448,11 +448,11 @@ The extra command line option ::
 tells pyre to use the component named "fancy-greeter" instead
 of the default component for the facility "greeter". 
 Pyre then looks for fancy-greeter by looking for "fancy-greeter.odb" in :ref:`various directories<where-to-put-pml-odb>`, including the current one. The module fancy-greeter.odb must contain a "def greeter()" method which
-is the *name of the facility* this component will be plugged into.
-The method "greeter" returns a pyre component, which will 
-be used as the "greeter" subcomponent by the main application.
+is the *facility name* this component will plug into.
+Thus the method "greeter" returns a pyre component which will 
+be used as the "greeter" subcomponent of the main application.
 
-Although these examples have been primitive, the features in the aggregate are useful :ref:`as shown in the science use cases <indexScienceUseCases>` for tasks such as switching computational engines at runtime, interface abstraction, coupling different time/length scale physics engines, abstracting parallelism, and more.  
+Although these examples have been primitive, these features are useful to scientific development, as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/pyregui>`_ to such engines. 
 
 .. For example, if you have an application that does parametric fitting and this application makes use of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
 

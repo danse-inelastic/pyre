@@ -191,7 +191,7 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 .. _ipc:
 
 Pyre.ipc
---------------------------------
+--------
 
 Here is the class diagram for pyre.ipc:
 
@@ -218,4 +218,81 @@ Pyre utilities
 Here are various utilities, such as the base class, Singleton, for the singleton design pattern:
 
 .. image:: images/PyreUtilClassDiagram.png
+
+
+
+Tutorial: Creating your own pyre project
+----------------------------------------
+
+We now discuss how to create your own pyre project by reviewing typical pyre project structre and some useful Make.mm directives.
+
+.. _pyre-directory-structure:
+
+Pyre project structure
+^^^^^^^^^^^^^^^^^^^^^^
+
+A pyre project typically contains a number of directories.  For example, supposing one creates a pyre project with <package> as it's name:
+
+applications/
+"""""""""""""
+Pyre applications typically are put in this directory with a :ref:`Make.mm <make-mm>` that exports them to the pythia-0.8/bin directory.  :ref:`Pyre convention <pyre-style>` appends a "d" to the app name if it is a service daemon.  
+
+etc/
+"""""""""""""
+This directory stores facility factory method files, called :ref:`odb files <odb-pml-files>`, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
+
+    class MdApp(Script):
+    
+        class Inventory(Script.Inventory):
+            import pyre.inventory as inv 
+            mdEngine = inv.facility('mdEngine', default='gulp')
+            mdEngine.meta['known_plugins'] = ['gulp','mmtk','lammps','cp2k']
+            mdEngine.meta['tip'] = 'which md engine to use'
+
+Then etc/ would have the structure::
+
+    $ ls etc
+    Make.mm MdApp
+    $ ls etc/MdApp
+    gulp.odb mmtk.odb lammps.odb cp2k.odb
+    
+<package>/
+"""""""""""""
+This is the top level directory for python source.
+
+lib<package>/
+"""""""""""""
+This contains possible c extensions.
+
+<package>module/
+"""""""""""""
+This contains python bindings to the c extensions.
+
+tests/
+"""""""""""""
+Tests for all parts of the project.
+
+Although this directory structure is not mandatory, it is somewhat conventional.  Much of this structure can be generated automatically by using the :ref:`package utility<create-a-pyre-project>`. 
+
+When creating one's own pyre project, one must learn some internals of the Make.mm build system.  Here we overview some of them.  The rest may be learned by reading config files such as .
+
+Directives/options/macros used in Make.mm
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Make.mm format is similar to that of typical linux shell scripting.  A few macros which may be useful are:
+
+ * export-python-package 
+
+ * others to be included
+
+
+.. _mcvine:
+
+Science Tutorial: conducting a virtual neutron experiment
+---------------------------------------------------------
+
+An interesting problem in scattering science is how to simulate neutron scattering.  Typically this is done via a large number virtual neutrons randomly being projected toward a virtual sample represented by a scattering kernel.
+
+
+
 

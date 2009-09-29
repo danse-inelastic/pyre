@@ -11,10 +11,9 @@ Contents:
 .. toctree::
 
    pyreIntroduction   
-   pyreInstallation
    pyreTutorials
    pyreBasics
-   makeMm
+   pyreInstallation
    pyrePackages
    advancedTopics
    pyreInternals
