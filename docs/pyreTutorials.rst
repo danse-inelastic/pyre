@@ -452,7 +452,9 @@ is the *facility name* this component will plug into.
 Thus the method "greeter" returns a pyre component which will 
 be used as the "greeter" subcomponent of the main application.
 
-Although these examples have been primitive, these features are useful to scientific development, as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/pyregui>`_ to such engines. 
+Although the above examples are primitive, their features are useful to scientific development as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/pyregui>`_ to such engines. 
+
+Where to go from here?  You could continue in the :ref:`first section<pyre-basics>` of the User's Guide, which reviews much of what is taught here and illustrates it with an :ref:`MD science use case<mmtk>`, or you could jump straight into a discussion of other pyre packages, finishing with a tutorial about how to create your own pyre project, and a tutorial showing :ref:`how to create a virual neutron experiment<mcvine>`. 
 
 .. For example, if you have an application that does parametric fitting and this application makes use of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
 

@@ -1,3 +1,5 @@
+.. _pyre-basics:
+
 Pyre basics: Inventory, Component, and Application
 ==================================================
 

@@ -388,7 +388,9 @@ so that if one desires to debug pyre components or pyre scripts, one only has to
 
     self._debug.log(something-you'd-like-to-see)
 
-and make sure they turn "on" debug or info output for that component.  For example
+and make sure they turn "on" debug or info output for that component.  For example, this can be done with a journal.pml file in one's config directory::
+
+
 
 
 
