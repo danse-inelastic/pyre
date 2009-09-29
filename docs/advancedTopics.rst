@@ -1,9 +1,10 @@
 Advanced topics
 ===============
 
+.. _moreMakemm
 
-Build Procedure
----------------
+More about the Make.mm build system
+-----------------------------------
 
 Introduction
 ^^^^^^^^^^^^
@@ -15,7 +16,7 @@ The mm Script
 
 The mm script is meant to be used in a manner similar to the standard make tool. mm is invoked in the following way::
 
-mm [-f <makefile>] [target]
+    mm [-f <makefile>] [target]
 
 The -f option allows a code package to use makefiles with a different name other than the default name, which is Make.mm. If any target is specified, then mm will build that target rather than the default target given by the makefiles.
 

@@ -9,7 +9,7 @@ Before installing pyre from source, one must install its build system, popularly
 Installing Make.mm
 ^^^^^^^^^^^^^^^^^^
 
-Installing Make.mm and configuring environment variables useful to pythia-0.8 can be done with the following steps.  Although we assume linux environment and bash shell, scripts containing the following commands can be found in these example scripts for linux (:download:`bash <bash_tools.linux>` and :download:`csh <csh_tools.linux>`) and mac (:download:`bash <bash_tools.mac>` and :download:`csh <csh_tools.mac>`).  Normally one will want to source this script as part of a shell startup routine such as .bashrc.
+Installing :ref:`Make.mm<moreMakemm>` and configuring environment variables useful to pythia-0.8 can be done with the following steps.  Although we assume linux environment and bash shell, scripts containing the following commands can be found in these example scripts for linux (:download:`bash <bash_tools.linux>` and :download:`csh <csh_tools.linux>`) and mac (:download:`bash <bash_tools.mac>` and :download:`csh <csh_tools.mac>`).  Normally one will want to source this script as part of a shell startup routine such as .bashrc.
 
 Pythia-0.8
 """"""""""
@@ -192,18 +192,18 @@ Now that the build system is installed, let's install pyre.
 Installing pyre
 ^^^^^^^^^^^^^^^
 
-Pyre source including c extensions is available from various svn repositories.  Let's use the DANSE branch.
+Pyre source including c extensions is available from various svn repositories.  Let's use the DANSE repo.
 
-Checking out the DANSE branch:
-""""""""""""""""""""""""""""""
+Checking out the DANSE repo:
+""""""""""""""""""""""""""""
 
 Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the "patches-from-jiao" branch which can be checked out from the danse.us/pyre repository.  For example, assuming read-only access::
 
   $ svn co svn://svn@danse.us/pyre/branches/patches-from-jiao
 
-Read and write access can be done by joining the DANSE project by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.  Eventually this branch will be merged with the trunk.  
+Read and write access can be obtained by joining the DANSE project and by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.   
 
-To install pyre, one must first install :ref:`make-mm`.  After installing Make.mm, one can simply go to the base directory of pyre::
+Now go to the base directory of pyre::
 
   $ cd patches-from-jiao
   $ mm
@@ -214,11 +214,11 @@ and type 'mm'.  To test the installation, change to the pyre tests directory::
   $ python hello.py --name=NewPyreUser
   Good morning NewPyreUser!
 
-and run the hello.py test.
+and run the hello.py test.  If you have installed the pure python version of pyre from egg or zip previously, uninstall it before trying these tests.
 
 
 Installing other pythia-0.8 packages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Assuming pyre is also installed, one may follow the same procedure as above and type 'mm' in the top level directory.
+Any package that depends on pyre probably also uses Make.mm as it's build system.  To install it, one may follow the same procedure as above and type 'mm' in the top level directory.
 

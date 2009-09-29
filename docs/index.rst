@@ -15,9 +15,8 @@ Contents:
    pyreBasics
    pyreInstallation
    pyrePackages
-   advancedTopics
    pyreInternals
-   debugging
+   advancedTopics
    templates
    pyreStyle
    pyreHistory
