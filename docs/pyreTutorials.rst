@@ -1,3 +1,40 @@
+.. _installation:
+
+Basic Installation
+==================
+
+Pyre is the base package in a larger group of software packages built upon it and collectively called pythia-0.8.  However, we frequently use the word pyre to represent pythia as well, especially when discussing installation.  Pythia can either be installed as a python-only set of modules as discussed below, or as a group of python modules with some c extensions discussed :ref:`later<advancedInstall>`. 
+
+
+Prerequisites
+-------------
+
+Currently pythia-0.8 has only been well-tested with python 2.5, and has recently been shown to have some metaclass incompatibilities with python 2.6.  Although pythia-1.0 will be completely compatible with python 3.0, for now we recommend using python 2.5 until the incompatibilties can be removed.
+
+
+.. _pure-python-distrib:
+
+Python-only distribution
+-------------------------
+
+The python-only version of pyre is a good starting point to try out pyre.
+
+From an egg
+^^^^^^^^^^^
+
+Assuming you have the `easy install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_   package already on your system::
+
+  $ easy_install -f http://dev.danse.us/packages pythia
+
+
+From a zip file
+^^^^^^^^^^^^^^^
+
+First, download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/pythia-0.8-patches.zip>`_. Second, add the zipfile to your $PYTHONPATH. For example, if you are using bash::
+
+  $ export PYTHONPATH=/path/to/downloadedzip:$PYTHONPATH
+
+
 .. _pyre-tutorials:
 
 
@@ -9,12 +46,9 @@ If you have not done so, please
 pythia-0.8 before you try out the following examples.
 
 
-Hello world
------------
 This is the pyre version of hello world. It introduces some structures into the simple one-liner ::
 
     print "Hello World!"
-
 
 In this tutorial we build a pyre application step-by-step, gradually adding structure and explaining why those structures are needed.
 
@@ -22,7 +56,7 @@ In this tutorial we build a pyre application step-by-step, gradually adding stru
 .. _helloworld1:
 
 The simplest pyre application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
 
 Open your favorite editor and type in the following (or download it: `hello1.py <tutorials/hello1.py>`_)::
 
@@ -71,7 +105,8 @@ and interesting.
 
 
 Say hello to someone
-^^^^^^^^^^^^^^^^^^^^
+--------------------
+
 Please create a new python file "hello2.py" and type in the following code 
 (or download it: `hello2.py <tutorials/hello2.py>`_)::
 
@@ -214,7 +249,7 @@ because there is no component named hello2a.
 .. _helloworld-greet.py:
 
 Greet someone in different ways
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 In this example we need the following python modules (or you can download them: 
 `greet.py <tutorials/greet.py>`_ ,
 `Greeter.py <tutorials/Greeter.py>`_ 
@@ -350,7 +385,7 @@ and __init__() slightly to accomodate its new behavior.
 
 
 Greeting someone in dynamically-loaded different ways
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 Now we demo another component to show the benefit
 of using facilities. Please create `fancy-greeter.odb <tutorials/fancy-greeter.odb>`_

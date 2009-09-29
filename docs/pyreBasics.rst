@@ -300,12 +300,10 @@ See also :ref:`where to put .pml files<where-to-put-pml-odb>`.
 
 
 
-
+.. _where-to-put-pml-odb:
 
 Where to put .pml/.odb files
 ----------------------------
-
-.. _where-to-put-pml-odb:
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 

@@ -14,13 +14,13 @@ Contents:
    pyreInstallation
    pyreTutorials
    pyreBasics
-   debugging
-   pyreUtilities
    makeMm
-   pyreStyle
    pyrePackages
    advancedTopics
    pyreInternals
+   debugging
+   templates
+   pyreStyle
    pyreHistory
    indexOfScienceUseCases
    projectsUsingPyre
