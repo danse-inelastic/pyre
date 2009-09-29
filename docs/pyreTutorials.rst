@@ -1,15 +1,15 @@
 .. _pyre-tutorials:
 
 
-Tutorials
-===========
+10-minute Tutorial
+==================
 
 If you have not done so, please 
 :ref:`install <installation>`
 pythia-0.8 before you try out the following examples.
 
 
-Hello World
+Hello world
 -----------
 This is the pyre version of hello world. It introduces some structures into the simple one-liner ::
 
@@ -70,7 +70,7 @@ This will become apparent in the next few sections.  The next step is to make th
 and interesting.
 
 
-Say Hello to Someone
+Say hello to someone
 ^^^^^^^^^^^^^^^^^^^^
 Please create a new python file "hello2.py" and type in the following code 
 (or download it: `hello2.py <tutorials/hello2.py>`_)::
@@ -121,7 +121,7 @@ And you can change the person you want to say hello::
   $ python hello2.py --name=Bob
   Hello Bob!
 
-Comparing this to :ref:`the previous example <helloworld1>`, we note a few things 
+Comparing this to the :ref:`previous example <helloworld1>`, we note a few things 
 are added or modified:
 
 * Inventory
@@ -145,26 +145,26 @@ are added or modified:
   where self is the application.
 
 
-* _configure
+* _configure()
 
-  In the _configure method, we create a local variable and pass it the value of the property
+  Here we create a local variable and pass it the value of the property
   "name", which is managed by the pyre framework::
 
     self.name = self.inventory.name
 
 
-* main
+* main()
 
-  In the main method, we change the print message so that we
+  Here we change the print message so that we
   will say hello to the person defined by the variable "name"::
 
     print "Hello "+self.name+"!"
  
 
-.. TODO: need a better introduction to pml files here...and utilities like invenetory.py
+.. TODO: need a better introduction to pml files here...and utilities like inventory.py
 
 
-* constructor __init__
+* __init__()
 
   In the constructor, we give this application the name "hello2".
   This name is a identifier that pyre framework will use to
@@ -172,7 +172,7 @@ are added or modified:
 
 
 Although it is useful to have a system to manage commandline inputs, both to an application and to its components,
-wouldn't it be useful to have alternative ways to configure a program? Pyre has this in the form of xml files, which are given the .pml ending. 
+wouldn't it be useful to have alternative ways to configure a program? Pyre allows xml input through the use of :ref:`pml files <pml-files>`, which are given the .pml ending. 
 
 .. Pml files are created by...(outline structure of pml file), discuss utitlies, 
 
@@ -208,17 +208,17 @@ you will end up with ::
   $ python hello2.py
   Hello World!
 
-because pyre does not have a component named hello2a.
+because there is no component named hello2a.
 
 
 .. _helloworld-greet.py:
 
-Say Some Greetings to Someone
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In this example we need two python modules (you can download them: 
+Greet someone in different ways
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In this example we need the following python modules (or you can download them: 
 `greet.py <tutorials/greet.py>`_ ,
 `Greeter.py <tutorials/Greeter.py>`_ 
-). The first one is the
+). The first one is a
 pyre application "greet.py"::
 
   #!/usr/bin/env python
@@ -295,82 +295,65 @@ and the second one is a pyre component "Greeter.py"::
 
   # End of file 
 
-Let us try it out. 
-
-Default configuration::
+Let's try it out::
    
-   $ python greet.py
-   Hello World!
-
-Hello Bob!::
+  $ python greet.py
+  Hello World!
 
   $ python greet.py --name=Bob
   Hello Bob!
-
-Hi Bob!::
 
   $ python greet.py --name=Bob --greeter.greetings=Hi
   Hi Bob!
 
 You see we can now not only configure the target of the greetings,
-but also the content of the greetings.
+but also the content of the greetings.  There are a few things to note:
 
-Facility
-""""""""
-In this example, an important concept is introduced: "facility".
-Facility is a way that a component can declare that he needs 
-another component to perform some work for him.
-This is a very useful feature of pyre, which enables developers
-to construct pyre applications in layers, and keep each component
-small, dedicated and manageable.
+* facility()
 
-This "greet" pyre application now delegates its functionality to
-the pyre component "greeter". The pyre application itself
-simply calls the greeter to do the real work. 
-It may look unecessary at first glance, but the benefit of this delegation will become obvious for larger, more complex applications. Let us first demonstrate how one component declares a subcomponent::
+  A facility is a way a component can declare it needs 
+  another component to do some work for it.
+  This is a useful feature of pyre, enabling developers
+  to construct software in layers and keep each component
+  small, dedicated and manageable.
 
-  greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
+  This "greet" application now delegates its functionality to
+  "greeter". It may look unecessary at first glance, but the benefit of this delegation will become obvious for larger, more complex applications. To declare a subcomponent one needs::
 
-The greeter is declared as a facility in the inventory of the pyre
-application "greet", which means the app "greet" needs a component
-"greeter" to work correctly. The "name" keyword in this declaration
-tells pyre framework that it needs to look for the name "greeter"
-in order to configure this facility. The "factory" keyword tells
-pyre framework that it can use the assigned factory method
-to create a pyre component and use that component as the default
-component for this greeter facility.
+    greeter = pyre.inventory.facility(name='greeter', factory=Greeter)
 
-Now let us take a look at the Greeter component. The Greeter component
-is constructed in a way quite similar to the way we construct the
-pyre applications hello1.py, hello2.py, and greet.py. 
-We inherit from class pyre.components.Component.Component to 
-create a new component class, then we add public settable 
-property "greetings" to its inventory, and touch the "_configure"
-method and the constructor "__init__" a little bit to fit this component. 
+  in the inventory, which means the app "greet" needs a component
+  "greeter" to work correctly. The "name" keyword in this declaration
+  tells pyre it needs to look for the name "greeter"
+  in order to configure this facility. The "factory" keyword tells
+  pyre it can use the assigned factory method
+  to create a pyre component and use that component as the default
+  component for this greeter facility.
 
-One extra thing worth mentioning is that we create a method
-"greet" for this component, which takes an argument "name"
-which is the target of greetings. This method
-is called by the pyre app "greet" in its method "main".
+Now let's look at Greeter. The Greeter component
+is similar to hello1.py, hello2.py, and greet.py. 
+It inherits from pyre.components.Component.Component, adds a publicly settable 
+property, "greetings", to its inventory, and alters _configure()
+and __init__() slightly to accomodate its new behavior. 
 
-In the example ::
+* One extra thing worth mentioning is we create a method "greet", which takes an argument "name"
+  which is the target of greetings. This method
+  is called by the pyre app "greet" in its method "main".
 
-  $ python greet.py --name=Bob --greeter.greetings=Hi
-  Hi Bob!
+* We also notice in the commandline argument::
 
-we notice something interesting::
+    --greeter.greetings=Hi
 
-  --greeter.greetings=Hi
+  how the string "greeter" denotes the "greeter" component,
+  and the string "greeter.greetings" denotes the property
+  "greetings" of the component "greeter".
 
-The string "greeter" denotes the "greeter" component,
-and the string "greeter.greetings" deontes the property
-"greetings" of the component "greeter".
 
-Easy to plug in a different component for a facility
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-Now we create another pyre component to show the benefit
-of using pyre facility. Please create file
-`fancy-greeter.odb <tutorials/fancy-greeter.odb>`_
+Greeting someone in dynamically-loaded different ways
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Now we demo another component to show the benefit
+of using facilities. Please create `fancy-greeter.odb <tutorials/fancy-greeter.odb>`_
 with the following content::
 
   # -*- Python -*-
@@ -429,17 +412,12 @@ The extra command line option ::
 
 tells pyre to use the component named "fancy-greeter" instead
 of the default component for the facility "greeter". 
-Pyre then looks for this "fancy-greeter" component
-by looking for "fancy-greeter.odb" in a few directories 
-(~/.pyre and current directory). 
-The fancy-greeter.odb file must have a method "greeter", which
-is the name of the facility this component will be plugged into.
+Pyre then looks for fancy-greeter by looking for "fancy-greeter.odb" in :ref:`various directories<where-to-put-pml-odb>`, including the current one. The module fancy-greeter.odb must contain a "def greeter()" method which
+is the *name of the facility* this component will be plugged into.
 The method "greeter" returns a pyre component, which will 
-be harnessed by pyre framework and used as the "greeter" component
-for the "greet" pyre application.
+be used as the "greeter" subcomponent by the main application.
 
-Apparently this feature is very useful since you can switch the computation
-engine easily with pyre applications. For example, if you have
-an application that does parametric fitting and this application makes use
-of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
+Although these examples have been primitive, the features in the aggregate are useful :ref:`as shown in the science use cases <indexScienceUseCases>` for tasks such as switching computational engines at runtime, interface abstraction, coupling different time/length scale physics engines, abstracting parallelism, and more.  
+
+.. For example, if you have an application that does parametric fitting and this application makes use of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
 

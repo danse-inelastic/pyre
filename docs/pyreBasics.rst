@@ -239,6 +239,8 @@ One of the strengths of pyre is a systematic way to configure and distribute fro
 
 but changing the subcomponent of a facility requires the presence of odb files, discussed next. 
 
+.. _odb-files:
+
 Swapping subcomponents
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -275,10 +277,10 @@ What we could do is to change the application pml file hello.pml::
 
 A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
 
-.. _odb-pml-files:
+.. _pml-files:
 
-Pyre .odb and .pml files
-------------------------
+Pyre pml files
+--------------
 
 A .pml file is an xml file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
 
@@ -298,10 +300,12 @@ See also :ref:`where to put .pml files<where-to-put-pml-odb>`.
 
 
 
-.. _where-to-put-pml-odb:
+
 
 Where to put .pml/.odb files
 ----------------------------
+
+.. _where-to-put-pml-odb:
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 
@@ -314,6 +318,10 @@ There are several places to put .pml files, depending on the scope you'd like th
 
 (talk about depositories and configuring them in more detail...)
 
+.. _mmtk:
+
+Science use case: molecular dynamics with MMTK
+----------------------------------------------
 
 
 

@@ -22,6 +22,7 @@ Contents:
    advancedTopics
    pyreInternals
    pyreHistory
+   indexOfScienceUseCases
    projectsUsingPyre
    additionalDocs
    usefulLinks
