@@ -1,3 +1,5 @@
+.. _pyrePackages:
+
 Pyre packages
 =============
 
@@ -219,7 +221,7 @@ Here are various utilities, such as the base class, Singleton, for the singleton
 
 .. image:: images/PyreUtilClassDiagram.png
 
-
+.. _createPyreProject:
 
 Tutorial: Creating your own pyre project
 ========================================
