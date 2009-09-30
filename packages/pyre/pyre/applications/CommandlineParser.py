@@ -75,7 +75,8 @@ class CommandlineParser(object):
             # lhs, rhs
             lhs = tokens[0]
             if len(tokens) > 1:
-                rhs = tokens[1]
+                #rhs = tokens[1]
+                rhs = self.assignment.join(tokens[1:])
             else:
                 rhs = "true"
             self._debug.line("    tokens: key={%s}, value={%s}" % (lhs,  rhs))

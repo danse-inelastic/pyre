@@ -70,8 +70,16 @@ class ServiceDaemon(Application, Stager, ComponentHarness):
         Application._configure(self)
 
         import os
-        self.home = os.path.abspath(self.inventory.home)
+        self.home = os.path.abspath(
+            os.path.expanduser(self.inventory.home))
+
+        # should the following be in _init?
+        import os
+        if not os.path.exists(self.home):
+            os.makedirs(self.home)
+            
         return
+
 
 
 # version

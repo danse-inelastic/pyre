@@ -36,6 +36,11 @@ class Application(Component, Executive):
         journal = journal.facility()
         journal.meta['tip'] = 'the logging facility'
 
+        dumpconfiguration = pyre.inventory.bool( 'dumpconfiguration', default = 0 )
+        dumpconfiguration.meta['tip'] = 'If set, dump configuration to a pml file'
+        dumpconfiguration.meta['opacity'] = 100000
+        dumpconfiguration_output = pyre.inventory.str( 'dumpconfiguration-output', default = '' )
+
 
     def run(self, *args, **kwds):
 
@@ -67,6 +72,9 @@ class Application(Component, Executive):
 
         # print a startup page
         self.generateBanner()
+
+        # dump configuration
+        if self.inventory.dumpconfiguration: self._saveConfiguration()
 
         # the main application behavior
         if help:
@@ -141,8 +149,67 @@ class Application(Component, Executive):
         return
 
 
+    def _saveConfiguration(self):
+        outfile = self.inventory.dumpconfiguration_output or '%s.pml' % self.name
+        import os
+        if os.path.exists(outfile):
+            raise RuntimeError, "output file %r already exists" % outfile
+        registry = self.createRegistry()
+        registry = retrieveConfiguration( self.inventory, registry )
+        stream = open(outfile, 'w')
+        self.weaver.weave( registry, stream )
+        return
+
+
     def _getPrivateDepositoryLocations(self):
         return []
+
+
+
+
+def retrieveConfiguration(inventory, registry, excludes = None):
+    """place the current inventory configuration in the given registry"""
+
+    if excludes is None:
+        excludes = [
+            'weaver',
+            'typos',
+            'dumpconfiguration', 'dumpconfiguration-output',
+            'help-properties', 'help', 'help-persistence', 'help-components']
+
+    from pyre.inventory.Facility import Facility
+    from pyre.inventory.Property import Property
+    from journal.components.Journal import Journal
+
+    node = registry.getNode(inventory._priv_name)
+
+    for prop in inventory.properties():
+
+        name = prop.name
+        descriptor = inventory.getTraitDescriptor(name)
+        value = descriptor.value
+        locator = descriptor.locator
+
+        if name in excludes: continue
+        #if isinstance(prop, Property) and value == prop.default: continue
+        if isinstance(prop, Facility) and isinstance(value, Journal): continue
+        if value and isinstance(prop, Facility): value = value.name
+
+        node.setProperty(name, value, locator)
+        continue
+
+    for fac in inventory.facilities():
+        name = fac.name
+        if name in excludes: continue
+        component = fac.__get__(inventory)
+        if isinstance(component, Journal): continue
+        if component is None:
+            raise RuntimeError, "Unable to retrieve component for facility %s" % fac.name
+        retrieveConfiguration(component.inventory, node, excludes = excludes)
+        continue
+
+    return registry
+
 
 
 
