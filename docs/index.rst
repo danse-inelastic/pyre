@@ -15,7 +15,6 @@ Contents:
    pyreBasics
    pyreInstallation
    pyrePackages
-   pyreInternals
    advancedTopics
    templates
    pyreStyle
@@ -25,6 +24,7 @@ Contents:
    additionalDocs
    usefulLinks
 
+..   pyreInternals
 
 Indices and tables
 ==================
@@ -32,4 +32,5 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
 
