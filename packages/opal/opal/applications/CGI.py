@@ -32,7 +32,11 @@ class CGI(Script):
 
         debug = pyre.inventory.bool(name="debug", default=False)
         debug.meta['tip'] = "suppress some html output for debugging purposes"
+    
+    
+    stdin_size_limit = 1024*1024*16
 
+    
 
     def collectUserInput(self, registry):
 
@@ -49,6 +53,9 @@ class CGI(Script):
     def collectCGIInput(self, registry, argv):
         # get access to the environment variables
         import os
+
+        # remember the cgi inputs so that we can output them when necessary (debug)
+        self._cgi_inputs = os.environ.copy()
         
         # create a parser for query strings
         parser = self._createCGIParser()
@@ -67,7 +74,7 @@ class CGI(Script):
             headers['content-length'] = os.environ['CONTENT_LENGTH']
         except KeyError:
             pass
-
+        
         # process arguments from query string
         if method == 'GET' or method == 'HEAD':
             try:
@@ -76,15 +83,34 @@ class CGI(Script):
                 pass
             else:
                 parser.parse(registry, query, 'query string')
+                
         elif method == 'POST':
-            if headers['content-type'] == 'application/x-www-form-urlencoded':
+            
+            try:
+                query = os.environ['QUERY_STRING']
+            except KeyError:
+                pass
+            else:
+                parser.parse(registry, query, 'query string')
+
+            content_type = headers['content-type']
+            
+            normalform = 'application/x-www-form-urlencoded'
+            if content_type[:len(normalform)] == normalform:
                 import sys
+                inlines = []
                 for line in sys.stdin:
+                    inlines.append(line)
                     parser.parse(registry, line, 'form')
+                self._cgi_inputs['sys.stdin'] = inlines
+                    
+            elif content_type.find( 'multipart/form-data' ) != -1:
+                self._handle_upload(headers, registry, parser)
+                
             else:
                 import journal
                 firewall = journal.firewall('opal')
-                firewall.log("NYI: unsupported content-type '%s'" % headers['content-type'])
+                firewall.log("NYI: unsupported content-type '%s'" % content_type)
         else:
             import journal
             journal.firewall('opal').log("unknown method '%s'" % method)
@@ -144,6 +170,77 @@ class CGI(Script):
         return
 
 
+    def getUploads(self):
+        return self._uploads
+
+    def _handle_upload(self, headers, registry, parser):
+        # file upload handling
+
+        # mime parser
+        from email.FeedParser import FeedParser
+        fp = FeedParser()
+
+        # need header
+        content_type = headers['content-type']
+        fp.feed( 'CONTENT-TYPE: %s\n' % content_type )
+
+        # size limit
+        size_limit = self.stdin_size_limit
+
+        # read in chunks
+        chunk_size = 8192
+
+        # number of chunks
+        n = size_limit/chunk_size
+        
+        # feed contents from stdin to parser
+        import sys
+        i=0; succeeded = False
+        while i<n:
+            data = sys.stdin.read( chunk_size )
+            if not data: succeeded = True; break
+            fp.feed( data )
+            continue
+        if not succeeded:
+            raise RuntimeError, "stdin too large"
+        
+        # parsed is a mime instance
+        parsed = fp.close()
+
+        #
+        header = 'Content-Disposition'
+
+        if self.inventory.debug: 
+            self._cgi_inputs['uploaded mime'] = parsed.as_string()
+
+        args = []
+        uploads = {}
+        for part in parsed.walk():
+
+            if part.get_content_maintype() == 'multipart':
+                # this part is the parent message it self, skip
+                continue
+
+            filename = part.get_param( 'filename', header = header )
+            if filename:
+                # this means we are dealing with a real file
+                # save them to a dictionary so that later actors can handle them
+                content = part.get_payload(decode=True)
+                uploads[filename] = content
+            else:
+                # just a key,value pair
+                key = part.get_param( 'name', header = header )
+                value = part.get_payload()
+                args.append( (key,value) )
+
+            # pass key,value pairs to pyre option registry
+            arg = '&'.join( [ '%s=%s' % (k,v) for k,v in args] )
+            if arg: parser.parse( registry, arg, 'form' )
+
+        self._uploads = uploads
+        return
+
+    
     def __init__(self, name):
         Script.__init__(self, name)
         self.stream = None
