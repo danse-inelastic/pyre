@@ -12,7 +12,7 @@
 #
 
 
-import psycopg
+import psycopg2 as psycopg
 from DBManager import DBManager
 
 
@@ -21,7 +21,7 @@ class Psycopg(DBManager):
 
     # exceptions
     ProgrammingError = psycopg.ProgrammingError
-
+    IntegrityError = psycopg.IntegrityError
 
     # interface
     def connect(self, **kwds):

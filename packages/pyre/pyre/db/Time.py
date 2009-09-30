@@ -30,6 +30,39 @@ class Time(Column):
         return
 
 
+    def __get__(self, instance, cls=None):
+        ret = Column.__get__(self, instance, cls = cls)
+        if ret is None:
+            return self._getDefaultValue()
+        return self._cast(ret)
+
+
+    def _cast(self, value):
+        format = '%a %b %d %H:%M:%S %Y'
+        if isinstance(value, basestring):
+            return calendar.timegm(time.strptime(value, format))
+        if isinstance(value, time.struct_time):
+            return calendar.timegm(value)
+        if isinstance(value, float) or isinstance(value, int):
+            return value
+        raise NotImplementedError
+
+
+    def _format(self, value):
+        if not value:
+            value = self._getDefaultValue()
+        return time.asctime(time.gmtime(value))
+
+
+    def _getDefaultValue(self):
+        import time
+        value = time.ctime()
+        value = self._cast(value)
+        return value
+    
+
+import time, calendar
+
 # version
 __id__ = "$Id: Time.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
 

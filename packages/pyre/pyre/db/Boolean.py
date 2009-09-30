@@ -22,6 +22,10 @@ class Boolean(Column):
         return "boolean"
 
 
+    def _cast(self, value):
+        return bool(value)
+
+
 # version
 __id__ = "$Id: Boolean.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
 

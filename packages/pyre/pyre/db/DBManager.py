@@ -12,6 +12,10 @@
 #
 
 
+import journal
+debug = journal.debug('db' )
+
+
 class DBManager(object):
 
 
@@ -38,7 +42,7 @@ class DBManager(object):
         else:
             name = tableName
             
-        values = row.getWriteableValues()
+        values = row.getFormattedWriteableValues()
         columns = row.getWriteableColumnNames()
 
         # build the sql query
@@ -47,7 +51,11 @@ class DBManager(object):
 
         # execute the sql statement
         c = self.db.cursor()
-        c.execute(sql, values)
+        try:
+            c.execute(sql, values)
+        except:
+            debug.log( 'sql: %s, values: %s' % (sql, values) )
+            raise
         self.db.commit()
 
         return
@@ -57,11 +65,15 @@ class DBManager(object):
 
         columns = []
         values = []
-
+        
+        row = table()
         for column, value in assignments:
-            columns.append(column)
-            values.append(value)
-
+            row._setColumnValue( column, value )
+            formatted = row._getFormattedColumnValue( column )
+            values.append( formatted )
+            columns.append( column )
+            continue
+        
         expr = ", ".join(["%s=%%s" % column for column in columns])
         sql = "UPDATE %s\n    SET %s" % (table.name, expr)
         if where:
@@ -69,7 +81,12 @@ class DBManager(object):
 
         # execute the sql statement
         c = self.db.cursor()
-        c.execute(sql, values)
+
+        try:
+            c.execute(sql, values)
+        except:
+            debug.log( 'sql: %s, values: %s' % (sql, values) )
+            raise
         self.db.commit()
 
         return
@@ -100,7 +117,12 @@ class DBManager(object):
 
         # execute the sql statement
         c = self.db.cursor()
-        c.execute(sql)
+
+        try:
+            c.execute(sql)
+        except:
+            debug.log( 'sql: %s' % sql )
+            raise
         self.db.commit()
 
         return
@@ -130,11 +152,14 @@ class DBManager(object):
         
         # execute the sql statement
         c = self.db.cursor()
+        debug.log( 'fetchall: sql=%r' % sql )
         c.execute(sql)
 
         # walk through the result of the query
+        rows = c.fetchall()
+        debug.log( 'query result: %r' % (rows,) )
         items = []
-        for row in c.fetchall():
+        for row in rows:
             # create the object
             item = table()
             item.locator = self.locator
@@ -150,11 +175,12 @@ class DBManager(object):
             # add this object tothepile
             items.append(item)
 
+        debug.log( 'items: %r' % (items,) )
         return items
-
-
-    def __init__(self, name):
-        self.db = self.connect(database=name)
+    
+    
+    def __init__(self, name, **kwds):
+        self.db = self.connect(database=name, **kwds)
 
         import pyre.parsing.locators
         self.locator = pyre.parsing.locators.simple("%s database" % name)

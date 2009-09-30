@@ -29,8 +29,10 @@ EXPORT_PYTHON_MODULES = \
 	Column.py \
 	Date.py \
 	Double.py \
+	DoubleArray.py \
 	DBManager.py \
 	Integer.py \
+	IntegerArray.py \
 	Interval.py \
 	Psycopg.py \
 	Psycopg2.py \
@@ -42,6 +44,7 @@ EXPORT_PYTHON_MODULES = \
 	Time.py \
 	Timestamp.py \
 	VarChar.py \
+	VarCharArray.py \
 	__init__.py \
 
 

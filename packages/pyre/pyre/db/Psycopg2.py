@@ -21,11 +21,34 @@ class Psycopg2(DBManager):
 
     # exceptions
     ProgrammingError = psycopg2.ProgrammingError
+    IntegrityError = psycopg2.IntegrityError
 
 
     # interface
     def connect(self, **kwds):
-        return psycopg2.connect(**kwds)
+        ret = psycopg2.connect(**kwds)
+        if not hasattr(ret, 'autocommit'):
+            return wrapper( ret )
+        return ret
+
+
+class wrapper(object):
+
+    def __init__(self, core):
+        self._core = core
+        return
+
+
+    def __getattr__(self, name):
+        return getattr( self._core, name )
+
+
+    def autocommit(self, on_off=1):
+        """autocommit(on_off=1) -> switch autocommit on (1) or off (0)"""
+        if on_off > 0:
+            self.set_isolation_level(0)
+        else:
+            self.set_isolation_level(2)
 
 
 # version

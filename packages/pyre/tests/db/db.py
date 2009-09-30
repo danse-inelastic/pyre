@@ -44,6 +44,9 @@ def main():
             db = pyre.inventory.str('db', default='testdb')
             db.meta['tip'] = 'the database to connect to'
 
+            dbwrapper = pyre.inventory.str('dbwrapper', default='psycopg2', validator=pyre.inventory.choice(['psycopg2','psycopg','sqlite']))
+            dbwrapper.meta['tip'] = 'the database engine'
+
             wipe = pyre.inventory.bool('wipe', default=True)
             wipe.meta['tip'] = 'delete the table before inserting data?'
 
@@ -88,7 +91,6 @@ def main():
                 print "    success"
 
             index = 0
-            print users
             for user in users:
                 index += 1
                 print "user %d: name=%s, password=%s" % (index, user.username, user.password)
@@ -145,7 +147,7 @@ def main():
             Script._init(self)
 
             import pyre.db
-            self.db = pyre.db.connect(self.inventory.db)
+            self.db = pyre.db.connect(self.inventory.db, self.inventory.dbwrapper)
 
             return
 

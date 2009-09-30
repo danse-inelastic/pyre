@@ -19,6 +19,12 @@ class Column(object):
         raise NotImplementedError("class %r must override 'type'" % self.__class__.__name__)
 
 
+    def getFormattedValue(self, instance, cls = None):
+        'obtain value that is formatted for db access'
+        value = self.__get__(instance, cls = cls)
+        return self._format( value )
+    
+
     def declaration(self):
         text = [ self.type() ]
         if self.default is not None:
@@ -78,7 +84,18 @@ class Column(object):
 
 
     def __set__(self, instance, value):
+        value = self._cast(value)
         return instance._setColumnValue(self.name, value)
+
+
+    def _cast(self, value):
+        return value
+
+
+    def _format(self, value):
+        'format the given value so that it can be used in db cmd'
+        #by default, just return the value
+        return value
 
 
 # version

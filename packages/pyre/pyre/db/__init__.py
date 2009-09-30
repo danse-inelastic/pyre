@@ -12,15 +12,13 @@
 #
 
 
-def connect(database, wrapper=None):
-
+def connect(database, wrapper=None, **kwds):
     name2mod = {
         None: 'Psycopg',
         'psycopg': 'Psycopg',
         'psycopg2': 'Psycopg2',
         'sqlite': 'SQLite',
         }
-
     mod = name2mod.get(wrapper)
     if not mod:
         import journal
@@ -59,9 +57,19 @@ def double(**kwds):
     return Double(**kwds)
 
 
+def doubleArray(**kwds):
+    from DoubleArray import DoubleArray
+    return DoubleArray(**kwds)
+
+
 def integer(**kwds):
     from Integer import Integer
     return Integer(**kwds)
+
+
+def integerArray(**kwds):
+    from IntegerArray import IntegerArray
+    return IntegerArray(**kwds)
 
 
 def interval(**kwds):
@@ -92,6 +100,11 @@ def timestamp(**kwds):
 def varchar(**kwds):
     from VarChar import VarChar
     return VarChar(**kwds)
+
+
+def varcharArray(**kwds):
+    from VarCharArray import VarCharArray
+    return VarCharArray(**kwds)
 
 
 # version

@@ -27,6 +27,10 @@ class Real(Column):
         return
 
 
+    def _cast(self,value):
+        return float(value)
+
+
 # version
 __id__ = "$Id: Real.py,v 1.2 2008-04-13 06:00:17 aivazis Exp $"
 

@@ -27,6 +27,14 @@ class Date(Column):
         return
 
 
+    def __get__(self, instance, cls=None):
+        ret = Column.__get__(self, instance, cls = cls)
+        if ret is None:
+            import time
+            return time.ctime()
+        return ret
+
+
 # version
 __id__ = "$Id: Date.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
 
