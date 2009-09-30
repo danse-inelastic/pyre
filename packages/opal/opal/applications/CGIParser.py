@@ -33,9 +33,15 @@ class CGIParser(object):
                     key = field
                     value = ''
                 else:
+                    key = tokens[0]
+                    value = self.assignment.join(tokens[1:])
                     continue
 
-            self._processArgument(key, value, registry)
+            if not key: continue
+            try:
+                self._processArgument(key, value, registry)
+            except:
+                raise RuntimeError, 'Error parsing cgi arguments: key=%s, arg=%s, source=%s' % (key, arg, source)
 
         self.locator = None
 
