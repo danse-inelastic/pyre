@@ -18,7 +18,7 @@ from Actor import Actor
 class GenericActor(Actor):
 
 
-    def perform(self, app, routine=None):
+    def perform(self, app, routine=None, debug=False):
         self.routine = routine
         page = self.createPage(app)
         return page

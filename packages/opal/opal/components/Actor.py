@@ -38,6 +38,8 @@ class Actor(Component):
             page = behavior(director)
         except:
             self._info.log("routine '%s' is not implemented correctly" % routine)
+            import traceback
+            self._debug.log( traceback.format_exc() )
             page = self.error(director)
 
         return page
