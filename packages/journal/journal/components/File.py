@@ -27,9 +27,18 @@ class File(Device):
 
 
     def createDevice(self):
-        logfile = file(self.inventory.name, "a", 0)
-
         import os
+
+        # absolute path
+        filename = os.path.abspath(os.path.expanduser(self.inventory.name))
+
+        # create parent directory if necessary
+        dir = os.path.dirname(filename)
+        if not os.path.exists(dir): os.makedirs(dir)
+
+        #
+        logfile = file(filename, "a", 0)
+
         import time
         
         print >> logfile, " ** MARK: opened by %s on %s" % (os.getpid(), time.ctime())
