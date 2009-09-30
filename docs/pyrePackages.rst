@@ -51,8 +51,9 @@ Modules
 
 Hare some of the classes used by these data structures:
 
-.. inheritance-diagram:: matplotlib.patches matplotlib.lines matplotlib.text
+.. inheritance-diagram:: pyre.units
    :parts: 2
+
 
 
 .. image:: images/PyreUnitsClassDiagram.png
@@ -66,6 +67,11 @@ Database access and object storage: pyre.db
 Pyre contains the groundwork for an Object Relational Mapper (ORM) in pyre.db.  A class diagram is:
 
 .. image:: images/PyreDbClassDiagram.png
+
+or 
+
+.. inheritance-diagram:: pyre.db
+   :parts: 2
 
 As apparent, pyre.db offers a number of variable types (inheriting from "Column"), which are part of "Table".  These are managed by a subclass of DBManager, currently implemented with a postgres db backend by "Psycopg2", for example, which overrides DBManager's commit() method.  This class name is also the name of the python wrapper for postgres.
 
@@ -99,7 +105,7 @@ as well as execute other methods in the DbManager interface.
 
 .. _pyre-geometry:
 
-Constructive Solid Geometry: pyre.geometry
+Constructive solid geometry: pyre.geometry
 ------------------------------------------
 
 (note: the internal classes of the packages need to be removed)
