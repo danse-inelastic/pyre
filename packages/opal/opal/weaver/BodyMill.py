@@ -17,16 +17,16 @@ from ContentMill import ContentMill
 
 class BodyMill(ContentMill):
 
+# this can be removed since it is already defined in ContentMill (BK)
+#    def onLiteral(self, literal):
+#        return [ "\n".join(literal.text) ]
 
-    def onLiteral(self, literal):
-        return [ "\n".join(literal.text) ]
-
-
-    def onParagraph(self, p):
-        text = [ self.tagger.onElementBegin(p) ]
-        text += p.text
-        text.append(self.tagger.onElementEnd(p))
-        return text
+# this can be removed since it is already defined in ContentMill (BK)
+#    def onParagraph(self, p):
+#        text = [ self.tagger.onElementBegin(p) ]
+#        text += p.text
+#        text.append(self.tagger.onElementEnd(p))
+#        return text
 
 
     def onPageSection(self, section):

@@ -45,6 +45,14 @@ class ControlBox(ElementContainer):
         self.contents.append(field)
 
         return control
+    
+    def radio(self, **kwds):
+        from Input import Input
+        control = Input(type="radio", **kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+        return control
 
         
     def __init__(self, required=False, label="", help="", error="", **attributes):

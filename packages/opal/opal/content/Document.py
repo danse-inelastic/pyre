@@ -15,9 +15,9 @@
 from ElementContainer import ElementContainer
 from LiteralFactory import LiteralFactory
 from ParagraphFactory import ParagraphFactory
+from PreformattedFactory import PreformattedFactory
 
-
-class Document(ElementContainer, LiteralFactory, ParagraphFactory):
+class Document(ElementContainer, LiteralFactory, ParagraphFactory, PreformattedFactory):
 
 
     def form(self, **kwds):
@@ -42,6 +42,7 @@ class Document(ElementContainer, LiteralFactory, ParagraphFactory):
         ElementContainer.__init__(self, 'div', **kwds)
         LiteralFactory.__init__(self)
         ParagraphFactory.__init__(self)
+        PreformattedFactory.__init__(self)
 
         self.title = title
         self.description = description

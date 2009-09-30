@@ -4,7 +4,7 @@
 #
 #                             Michael A.G. Aivazis
 #                      California Institute of Technology
-#                      (C) 1998-2004  All Rights Reserved
+#                      (C) 1998-2005  All Rights Reserved
 #
 # {LicenseText}
 #
@@ -15,26 +15,24 @@
 from Element import Element
 
 
-class Selector(Element):
+class Button(Element):
 
 
     def identify(self, inspector):
-        return inspector.onSelector(self)
+        return inspector.onButton(self)
 
 
-    def __init__(self, id, name, entries, label, selected=None, help='', error='',  **kwds):
-        Element.__init__(self, tag='select', id=id, name=name, **kwds)
+    def __init__(self, id, name, label, value='', embeddedText='', help='', error='', type='button', **kwds):
+        Element.__init__(self, tag='button', id=id, name=name, type=type, value=value, **kwds)
 
         self.label = label
+        self.embeddedText = embeddedText
         self.help = help
         self.error = error
-        self.entries = entries
-        self.selection = selected
 
         return
-        
 
 # version
-__id__ = "$Id: Selector.py,v 1.1.1.1 2006-11-27 00:09:48 aivazis Exp $"
+__id__ = "$Id: Input.py,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $"
 
 # End of file 

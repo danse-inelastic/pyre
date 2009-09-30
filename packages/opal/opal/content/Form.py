@@ -30,6 +30,24 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         self.contents.append(box)
         return box
 
+    
+    def button(self, **kwds):
+        from Button import Button
+        control = Button(**kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+        return control
+
+    
+    def checkbox(self, **kwds):
+        from Checkbox import Checkbox
+        control = Checkbox(**kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+        return control
+
 
     def control(self, **kwds):
         from FormControl import FormControl
@@ -55,11 +73,27 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
     def password(self, **kwds):
         from Input import Input
         control = Input(type="password", **kwds)
-        
         from FormField import FormField
         field = FormField(control)
         self.contents.append(field)
+        return control
 
+
+    def file(self, **kwds):
+        from Input import Input
+        control = Input(type="file", **kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+        return control
+
+    
+    def radio(self, **kwds):
+        from Input import Input
+        control = Input(type="radio", **kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
         return control
 
 
@@ -67,25 +101,30 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         return self.control(name="submit", type="submit", value=value, **kwds)
 
 
+    def selector(self, **kwds):
+        from Selector import Selector
+        control = Selector(**kwds)
+        from FormField import FormField
+        field = FormField(control)
+        self.contents.append(field)
+        return control
+
+
     def text(self, required=False, **kwds):
         from Input import Input
         control = Input(**kwds)
-        
         from FormField import FormField
         field = FormField(control, required)
         self.contents.append(field)
-
         return control
 
 
     def textarea(self, required=False, **kwds):
         from TextArea import TextArea
         control = TextArea(**kwds)
-        
         from FormField import FormField
         field = FormField(control, required)
         self.contents.append(field)
-
         return control
 
 
@@ -99,9 +138,10 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         ElementContainer.__init__(self, 'form', name=name, action=action, method="post", **kwds)
         ParagraphFactory.__init__(self)
         LiteralFactory.__init__(self)
-        
+
         self.legend = legend
         return
+
 
 # version
 __id__ = "$Id: Form.py,v 1.7 2007-10-03 21:02:41 aivazis Exp $"

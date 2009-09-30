@@ -18,6 +18,17 @@ from ContentMill import ContentMill
 class DocumentMill(ContentMill):
 
 
+    def onButton(self, control):
+        text=[self.tagger.onElementBegin(control)]
+        text += [control.embeddedText]
+        
+        text += [self.tagger.onElementEnd(control)]
+        return text
+    
+    def onCheckbox(self, control):
+        text=[self.tagger.onElement(control)]
+        return text
+
     def onForm(self, form):
         if form.legend:
             legendStart = '<fieldset><legend>%s</legend>' % form.legend
@@ -83,10 +94,10 @@ class DocumentMill(ContentMill):
 
 
     def onFormControl(self, control):
+        formatString='<input class="context" name="%s" type="%s" value="%s"/>'
         text = [
             self.tagger.onElementBegin(control),
-            '<input class="context" name="%s" type="%s" value="%s"/>' % (
-                control.name, control.type, control.value),
+            formatString % (control.name, control.type, control.value),
             self.tagger.onElementEnd(control),
             ]
         
@@ -130,9 +141,8 @@ class DocumentMill(ContentMill):
 
     def onInput(self, control):
         text = []
-        
-        text.append(self.tagger.onElement(control))
-
+        tag=self.tagger.onElement(control)
+        text.append(tag)
         return text
 
 

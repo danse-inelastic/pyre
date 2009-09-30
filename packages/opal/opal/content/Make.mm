@@ -25,6 +25,8 @@ EXPORT_PYTHON_MODULES = \
     Banner.py \
     Base.py \
     Body.py \
+    Button.py \
+    Checkbox.py \
     ControlBox.py \
     ControlBoxLine.py \
     CoreAttributes.py \
@@ -61,6 +63,8 @@ EXPORT_PYTHON_MODULES = \
     PortletContent.py \
     PortletFactory.py \
     PortletLink.py \
+    Preformatted.py \
+    PreformattedFactory.py \
     Script.py \
     ScriptFactory.py \
     SearchBox.py \

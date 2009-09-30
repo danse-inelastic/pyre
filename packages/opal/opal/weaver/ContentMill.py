@@ -24,6 +24,12 @@ class ContentMill(object):
         text += p.text
         text.append(self.tagger.onElementEnd(p))
         return text
+    
+    def onPreformatted(self, p):
+        text = [ self.tagger.onElementBegin(p) ]
+        text += p.text
+        text.append(self.tagger.onElementEnd(p))
+        return text
 
 
     def onScript(self, script):

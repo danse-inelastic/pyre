@@ -15,22 +15,21 @@
 from Element import Element
 
 
-class Input(Element):
+class Preformatted(Element):
 
 
     def identify(self, inspector):
-        return inspector.onInput(self)
+        return inspector.onPreformatted(self)
 
 
-    def __init__(self, id, name, label, value='', help='', error='', type='text', **kwds):
-        Element.__init__(self, tag='input', id=id, name=name, type=type, value=value, **kwds)
+    def __init__(self, **kwds):
+        Element.__init__(self, 'pre', **kwds)
 
-        self.label = label
-        self.help = help
-        self.error = error
+        self.text = []
         return
 
+
 # version
-__id__ = "$Id: Input.py,v 1.1.1.1 2006-11-27 00:09:47 aivazis Exp $"
+__id__ = "$Id: Paragraph.py,v 1.1.1.1 2006-11-27 00:09:48 aivazis Exp $"
 
 # End of file 
