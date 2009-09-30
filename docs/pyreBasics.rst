@@ -312,8 +312,8 @@ There are several places to put .pml files, depending on the scope you'd like th
 
 .. _mmtk:
 
-Science use case: molecular dynamics with MMTK
-----------------------------------------------
+Science tutorial: swapping molecular dynamics engines
+=====================================================
 
 
 

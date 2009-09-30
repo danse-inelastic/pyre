@@ -1,7 +1,7 @@
 .. _pyrePackages:
 
-Pyre packages
-=============
+Pyre libraries
+==============
 
 .. _pyre-units:
 

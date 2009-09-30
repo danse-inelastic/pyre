@@ -18,11 +18,26 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('.'))
 sys.path.append(os.path.abspath('../../pyreJiao/packages/pyre'))#this is a hack--it only works on Brandon's machine
+sys.path.append(os.path.abspath('sphinxext'))
 # -- General configuration -----------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinx.ext.doctest', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig','sphinx.ext.graphviz','sphinx.ext.inheritance_diagram']#, 'sphinx.ext.jsmath']
+extensions = ['sphinx.ext.autodoc', 
+              'sphinx.ext.autosummary', 
+              'sphinx.ext.doctest', 
+              'sphinx.ext.todo', 
+              'sphinx.ext.coverage', 
+              'sphinx.ext.pngmath', 
+              'sphinx.ext.ifconfig',
+              'sphinx.ext.graphviz',
+              'sphinx.ext.inheritance_diagram',
+              'matplotlib.sphinxext.mathmpl',
+              'matplotlib.sphinxext.only_directives',
+              'matplotlib.sphinxext.plot_directive',
+              'ipython_console_highlighting',
+              'inheritance_diagram',
+              'numpydoc']#, 'sphinx.ext.jsmath']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
