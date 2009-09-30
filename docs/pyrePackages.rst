@@ -216,6 +216,10 @@ Here are tools for running simulations with pyre (mostly finite element for now)
 
 .. image:: images/PyreSimulationsClassDiagram.png
 
+.. inheritance-diagram:: pyre.units
+   :parts: 2
+
+
 
 
 .. _pyre-util:

@@ -3,10 +3,10 @@
 Pyre templates
 ==============
 
-Create a component or application skeleton
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Create a component or application templates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pythia-0.8/bin comes with a number of programmer's utilities, including templates for creating components and scipts.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
+Pythia-0.8/bin comes with a number of programmer's utilities, including scripts for creating component and application templates.  For example, suppose one is creating a virtual laboratory and wishes to create a component for an nmr device.  One would simply type this at the command line::
 
  $ component.py --name=NmrMachine
 
@@ -64,7 +64,7 @@ The same may also be done for scripts--a "hello world" script may be auto-genera
 
   $ app.py --name=myapp-name
 
-Create a pml skeleton
+Create a pml template
 ^^^^^^^^^^^^^^^^^^^^^
 
 Empty pml files can be generated using the inventory.py script distributed with pyre. For example, to generate a pml file for a component named "test"::
@@ -100,8 +100,8 @@ generates a file containing this::
     <!-- End of file -->
   
 
-Create a pyre service
-^^^^^^^^^^^^^^^^^^^^^
+Create a pyre service template
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Service templates can be generated using the service.py script distributed with pyre::
 
@@ -170,8 +170,8 @@ generates a file containing this::
 
 .. _create-a-pyre-project:
 
-Create a pyre project
-^^^^^^^^^^^^^^^^^^^^^
+Create a pyre project template
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Pyre project directory templates can be generated using the package.sh utility. Simply type the utility followed by the name of the project, such as "CoolIdea"::
 

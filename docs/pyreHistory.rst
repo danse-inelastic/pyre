@@ -6,7 +6,7 @@ Historically, pyre was created to bring a degree of order to the complex task of
 Pyre 1.0 is being actively developed currently and will soon be ready for general usage.  Upcoming changes include a more seamless inventory, better db support, and many new additions for creating and staging web applications.
 
 
-Discussion of Pyre improvements
+Discussion of pyre improvements
 ===============================
 
 Pyre is not perfect and is undergoing continued development.  Here are a few issues currently being worked on:

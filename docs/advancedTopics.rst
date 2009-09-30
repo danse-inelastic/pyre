@@ -188,4 +188,10 @@ A typical pyre pattern is to move rendering methods to a class under the generic
 
 
 
+Science tutorial: Distributed optimization
+==========================================
+
+
+
+
 
