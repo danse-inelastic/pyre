@@ -201,7 +201,7 @@ class Configurable(Traceable):
             locator = descriptor.locator
 
             print "    %s=<%s>: %s" % (name, traitType, tip)
-            print "        default value: %r" % default
+            print "        default value: %r" % (default,)
             print "        current value: %r, from %s" % (value, locator)
             if validator:
                 print "        validator: %s" % validator
