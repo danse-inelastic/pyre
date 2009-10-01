@@ -20,19 +20,15 @@ Modules
 
 .. automodule:: pyre.units.SI
    :members:
-   :undoc-members:
 
-.. automodule:: SI
-   :members:
-   :undoc-members:
+.. automodule:: pyre.components.Component
 
-.. automodule:: SI.py
-   :members:
-   :undoc-members:
 
 .. autoclass:: Solver
    :members:
-   :undoc-members:
+
+.. autoclass:: Solver
+
 
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
@@ -130,6 +126,9 @@ where we see classes related to rendering and parsing pml files for geometrical 
 
 .. image:: images/PyreGeometryPmlParserClassDiagram.png
 
+.. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
+   :parts: 1
+
 there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.
 
 
@@ -143,7 +142,8 @@ Here is the class diagram:
 
 .. image:: images/PyreXmlClassDiagram.png
 
-
+.. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
+   :parts: 1
 
 
 
@@ -155,6 +155,9 @@ Pyre server base: pyre.services
 Here is the class diagram for pyre's services base:
 
 .. image:: images/PyreServicesClassDiagram.png
+
+.. inheritance-diagram:: pyre.services.UDPService pyre.services.TCPService pyre.services.Evaluator pyre.services.Pickler pyre.services.TCPSession pyre.services.UDPSession
+   :parts: 1
 
 These classes are useful when creating servers that need to provide a type of service, as shown for idd, ipa, and ipc in the next sections.
 
@@ -207,7 +210,7 @@ Here is the class diagram for pyre.ipc:
 
 
 
-.. _pyre-simulations:
+.. _pyre-simulations: 
 
 Running and steering simulations in pyre: pyre.simulations
 ----------------------------------------------------------
@@ -216,8 +219,8 @@ Here are tools for running simulations with pyre (mostly finite element for now)
 
 .. image:: images/PyreSimulationsClassDiagram.png
 
-.. inheritance-diagram:: pyre.units
-   :parts: 2
+.. inheritance-diagram:: pyre.simulations.SimpleSolver pyre.simulations.SimulationController
+   :parts: 1
 
 
 
@@ -231,9 +234,8 @@ Here are various utilities, such as the base class, Singleton, for the singleton
 
 .. image:: images/PyreUtilClassDiagram.png
 
-
-
-
+.. inheritance-diagram:: pyre.util.Singleton pyre.util.ResourceManager pyre.util.Toggle
+   :parts: 1
 
 .. _luban_include:
 
@@ -251,9 +253,6 @@ Luban is a generic user-interface specification language and builder.
    luban/LubanApp
    luban/Gongshuzi
    luban/History
-
-
-
 
 
 .. _createPyreProject:

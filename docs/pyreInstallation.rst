@@ -195,8 +195,8 @@ Installing pyre
 
 Pyre source including c extensions is available from various svn repositories.  Let's use the DANSE repo.
 
-Checking out the DANSE repo:
-""""""""""""""""""""""""""""
+Checking out the DANSE repo version of pyre
+"""""""""""""""""""""""""""""""""""""""""""
 
 Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the "patches-from-jiao" branch which can be checked out from the danse.us/pyre repository.  For example, assuming read-only access::
 

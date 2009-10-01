@@ -187,6 +187,7 @@ Pyre rendering: Weaver
 A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing data structures using a number of underlying rendering classes called "mills".  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
 
 
+.. _mystic:
 
 Science tutorial: Distributed optimization
 ==========================================

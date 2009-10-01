@@ -17,7 +17,8 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('.'))
-sys.path.append(os.path.abspath('../../pyreJiao/packages/pyre'))#this is a hack--it only works on Brandon's machine
+#sys.path.append(os.path.abspath('../../pyreJiao/packages/pyre'))#this is a hack--it only works on Brandon's machine
+sys.path.append(os.path.abspath('../packages/pyre'))
 sys.path.append(os.path.abspath('sphinxext'))
 # -- General configuration -----------------------------------------------------
 
@@ -32,7 +33,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.ifconfig',
               'sphinx.ext.graphviz',
               'sphinx.ext.inheritance_diagram',
-              'sphinx.ext.intersphinx',
+              #'sphinx.ext.intersphinx',
               #'matplotlib.sphinxext.mathmpl','matplotlib.sphinxext.only_directives','matplotlib.sphinxext.plot_directive',
               'ipython_console_highlighting',
               #'inheritance_diagram',
