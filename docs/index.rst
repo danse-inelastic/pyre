@@ -9,12 +9,14 @@ Pyre 0.8 documentation
 Contents:
 
 .. toctree::
+   :maxdepth: 3
 
    pyreIntroduction   
    pyreTutorials
    pyreBasics
    pyreInstallation
    pyrePackages
+   drchops
    advancedTopics
    templates
    pyreStyle
