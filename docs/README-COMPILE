@@ -1,0 +1,3 @@
+To link in luban documentation, one has to create a symbolic link "luban"
+pointing to luban's documentation tree root.
+

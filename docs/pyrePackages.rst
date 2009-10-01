@@ -231,6 +231,31 @@ Here are various utilities, such as the base class, Singleton, for the singleton
 
 .. image:: images/PyreUtilClassDiagram.png
 
+
+
+
+
+.. _luban_include:
+
+Luban
+-----
+
+Luban is a generic user-interface specification language and builder.
+
+.. toctree::
+
+   luban/Introduction
+   luban/Installation
+   luban/Tutorials
+   luban/API
+   luban/LubanApp
+   luban/Gongshuzi
+   luban/History
+
+
+
+
+
 .. _createPyreProject:
 
 Tutorial: Creating your own pyre project
@@ -414,6 +439,9 @@ Debuggers
 In addition to journal, and especially for routine debugging of individual components, interactive debuggers (such as in Eclipse) may be useful.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in Eclipse may be stored as run configurations.  
 
 In Eclipse these run configuration can also be exported ("Shared File" under the "Common" tab) and archived or shared among developers.  Additionally, each time a developer changes the run configuration, Eclipse automatically updates the exported files.
+
+
+
 
 .. _mcvine:
 
