@@ -11,30 +11,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-PROJECT = mpi
-PACKAGE = _mpimodule
-MODULE = _mpi
+#
+# Local (project) definitions
+#
 
-include std-pythonmodule.def
-include local.def
+# C++
 
-PROJ_CXX_SRCLIB = -ljournal -lpyrempi
-
-PROJ_SRCS = \
-    bindings.cc \
-    communicators.cc \
-    exceptions.cc \
-    groups.cc \
-    misc.cc \
-    ports.cc \
-    startup.cc
-
-EXPORT_HEADERS = \
-
-
-export:: export-headers
+    PROJ_CXX_FLAGS += $(CXX_SOFLAGS)
+    PROJ_LCXX_FLAGS += $(LCXX_SARFLAGS)
+    PROJ_CXX_SRCLIB = -ljournal
 
 # version
-# $Id: Make.mm,v 1.1.1.1 2006-11-27 00:09:44 aivazis Exp $
+# $Id: local.def,v 1.1.1.1 2006-11-27 00:09:38 aivazis Exp $
 
+#
 # End of file

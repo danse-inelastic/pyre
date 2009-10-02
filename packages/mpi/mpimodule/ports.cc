@@ -115,7 +115,7 @@ PyObject * pympi_receiveString(PyObject *, PyObject * args)
         << journal::endl;
 
     // build the return value
-    PyObject * value = Py_BuildValue("s", str);
+    PyObject * value = Py_BuildValue("s#", str, len);
 
     // clean up
     delete [] str;

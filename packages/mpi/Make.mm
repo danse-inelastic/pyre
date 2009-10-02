@@ -15,11 +15,12 @@ PROJECT = mpi
 PACKAGE = mpi
 
 RECURSE_DIRS = \
+    libpyrempi \
     mpimodule \
     mpi \
     mpipython \
     tests \
-    examples
+    applications
 
 OTHERS = \
 
