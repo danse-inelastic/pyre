@@ -194,9 +194,6 @@ are added or modified:
   will say hello to the person defined by the variable "name"::
 
     print "Hello "+self.name+"!"
- 
-
-.. TODO: need a better introduction to pml files here...and utilities like inventory.py
 
 
 * __init__()
@@ -209,16 +206,16 @@ are added or modified:
 Although it is useful to have a system to manage commandline inputs, both to an application and to its components,
 wouldn't it be useful to have alternative ways to configure a program? Pyre allows xml input through the use of :ref:`pml files <pml-files>`, which are given the .pml ending. 
 
-.. Pml files are created by...(outline structure of pml file), discuss utitlies, 
+.. None of the following works because the user has not installed templates yet
 
-For example, we can use pml files
-to configure this demo pyre application.  Let us create a pml file by using one of the pyre :ref:`templates <templates>`::
+..For example, we can use pml files
+  to configure this demo pyre application.  Let us create a pml file by using one of the pyre :ref:`templates <templates>`::
 
-  $ inventory.py --name=hello2
-  creating inventory template in 'hello2.pml'
+    $ inventory.py --name=hello2
+    creating inventory template in 'hello2.pml'
 
-Now we edit the hello2.pml to look like ::
-
+.. Now we edit the hello2.pml to look like ::
+To try this feature out, create the following xml file and save it as hello2.pml::
   <!DOCTYPE inventory>
 
   <inventory>
@@ -454,7 +451,7 @@ be used as the "greeter" subcomponent of the main application.
 
 Although the above examples are primitive, their features are useful to scientific development as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/pyregui>`_ to such engines. 
 
-Where to go from here?  You could continue in the :ref:`first section<pyre-basics>` of the user's guide, which reviews much of what is taught here and illustrates it with a :ref:`science tutorial<mmtk>`, or you could jump straight into a discussion of :ref:`available pyre libraries<pyrePackages>` for use in your code, finishing with a tutorial about :ref:`how to create your own pyre project<createPyreProject>`, and another tutorial showing :ref:`how to create a virual neutron experiment<mcvine>`. 
+Where to go from here?  You could continue in the :ref:`first section<pyre-basics>` of the user's guide, which reviews much of what is taught here and illustrates it with a :ref:`science tutorial<mmtk>`, or you could jump straight into a discussion of :ref:`available pyre libraries<pyrePackages>` for use in your code, finishing with a tutorial about :ref:`how to create your own pyre project<createPyreProject>`, and another tutorial showing :ref:`how to create a virtual neutron experiment<mcvine>`. 
 
 .. For example, if you have an application that does parametric fitting and this application makes use of a optimizer, you can declare an "optimizer" facility and use pyre's internal component-handling machinery to tell the application to switch optimizers from the command line.
 

@@ -155,7 +155,9 @@ As a component, Sentry represents a "unit of functionality".  Note Inventory con
 `pyre.inventory <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
 package. 
 
-.. TODO: we need to link to an api discussion of inventory and move the link to the actual file to there
+
+
+.. automodule
 
 Sentry's Inventory class also contains a reference to a subcomponent called "ipa".  Such references are termed facilities.  
 
@@ -164,23 +166,24 @@ Facilities: including and configuring pyre subcomponents
 
 Users place subcomponents in their inventory by specifiying a name and factory function::
 
-	ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
+  ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
 
 The name "session" is the internal reference to ipa in the pyre framework. Facilities may be swapped in and out at run time using command line arguments or pml files as discussed in :ref:`odb-pml-files`.
 
-Another thing to note is methods such as _defaults, which communicate directly with the framework.  Examples of these include:
+Another thing to note is methods such as _defaults(), which communicate directly with the framework.  Examples of these include:
 
-__init__: the constructor
-^^^^^^^^^^^^^^^^^^^^^^^^^
+__init__(): the constructor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 The constructor must call the parent's constructor::
 
-            super(Sentry, self).__init__(name)
+  super(Sentry, self).__init__(name)
 
 Here the name argument specifies the name of this component (i.e. 'sentry'). 
 
 
-_defaults: setting default values
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_defaults(): setting default values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Each command-line configurable item in the inventory may be given a default value when declared in the Inventory class. 
 However, you may need to reset them based on some internal configuration within the component.  This maybe done in the _defaults method::
 
@@ -190,8 +193,8 @@ and this will override the default value. However, if users specify another valu
 for this property through command line or configuration files, it will be overriden.
 
 
-_configure: transfer user inputs to local variables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_configure(): transfer user inputs to local variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 During component configuration, external command-line or configuration file inputs are parsed by the framework,
 checked for errors and stored in the object "self.inventory".
 Any property or component is accessed as the attribute of this object.
@@ -207,8 +210,8 @@ In the _configure method, you can transfer this value to local variables of the 
 allowing the component to use these external application-level inputs.
 
 
-_init: initialization of computing engine
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_init(): initialization of computing engine
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This method will be called after every component is configured. 
 The method _configure() will already have been called at this time for all components.
 This is the place where the computing engine should be constructed.
@@ -227,13 +230,10 @@ A pyre application is simply the top-level component that can also be "executed"
 As such it can be run from the command line or started as a daemon.
 
 Constructions of pyre applications are very similar to constructions
-of pyre components. 
-Here is `an example <tutorials/greet.py>`_ .
-
-Instead of subclassing pyre.components.Component.Component, you need to
+of pyre components.  Instead of subclassing pyre.components.Component.Component, you need to
 subclass pyre.applications.Script.Script.
-Other than that, all pyre applications must declare a method called "main",
-which is called when one instantiates the application and calls its run() method.
+Also, all pyre applications must declare a method called "main",
+which is called when the user instantiates the application and calls its run() method.
 
 One of the strengths of pyre is a systematic way to configure and distribute from the command line all inventory items at run time.  As shown above, inventories are composed of both properties and facilities.  Changing a property on the command line is as simple as::
 
@@ -246,7 +246,7 @@ but changing the subcomponent of a facility requires the presence of odb files, 
 Swapping subcomponents
 ^^^^^^^^^^^^^^^^^^^^^^
 
-To swap subcomponents one must have a factory function in a python file ending in odb.  This factory returns an instance of the subcomponent to be swapped.  For example, suppose we have a greeter component in our GreetApp from the tutorial::
+To swap subcomponents one must have a factory function in a python file ending in odb.  This factory returns an instance of the subcomponent to be swapped.  For example, suppose we have a greeter component in :ref:`GreetApp <helloworld-greet.py>` from the tutorial::
 
      class GreetApp(Script):
      
@@ -256,7 +256,7 @@ To swap subcomponents one must have a factory function in a python file ending i
      
              ...
 
-And we want to change the default choice of greeter to a odb file called morning.odb::
+And we want to change the default choice of greeter to an odb file called morning.odb::
 
      # morning.odb
 
@@ -270,13 +270,10 @@ And we want to change the default choice of greeter to a odb file called morning
 
 By specifying a different greeter::
 
-  \--greeter=morning
+  $ python greet.py --greeter=morning
+  Good morning World!
 
-
-What we could do is to change the application pml file hello.pml::
-
-  <facility name="greeter">morning</facility>
-
+We swapped subcomponents dynamically.  
 
 A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
 
@@ -291,24 +288,22 @@ To change the values of a property simply hand-edit the value, which has the gen
 
     <property name='key'>value</property>
 
-The name of the .pml file must be <component_name>.pml. Facilities may also be configured ina  similar manner::
+The name of the .pml file must be <component_name>.pml. Facilities may also be configured in a  similar manner::
 
     <facility name='greeter'>morning</facility>
-
-
 
 .. _where-to-put-pml-odb:
 
 There are several places to put .pml files, depending on the scope you'd like them to have.
 
-   1. Files meant to override variables system-wide should be put with the pyre installation, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. Example: the system-wide .pml files for myApp with pythia-0.8 should be in directory $EXPORT_ROOT/etc/myApp
+   1. Files meant to override variables system-wide should be put with the pyre installation, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. For example, system-wide pml files for myApp.py should be in $EXPORT_ROOT/etc/myApp
+
    2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp
-   3. Files meant to be local overrides should go in the local directory: ./myApp.pml 
 
-3 beats the others, 2 beats 1, 1 beats whatever the default is. 
+   3. Files meant to be local overrides should go in the local directory.  For example, for myApp.py one should have myApp.pml in that directory. 
 
+The order of precedence is: 3 beats the others, 2 beats 1, and 1 beats whatever the default is. 
 
-(talk about depositories and configuring them in more detail...)
 
 .. _mmtk:
 

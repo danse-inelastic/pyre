@@ -5,30 +5,29 @@ Pyre libraries
 
 .. _pyre-units:
 
-pyre.units
-----------
+Automatic unit conversion: pyre.units
+-------------------------------------
 
-`pyre.units <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units>`_ provides developers an easy way to work with quantities with units. It is fairly easy and intuitive to use. For example, to create velocity quantity of 3000 meter/second, you will do ::
+`pyre.units <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units>`_ provides a no-brainer for unit conversion. For example, to create velocity quantity of 3000 meter/second, you will do ::
 
 
     from pyre.units import time, length
     velocity = 3000 * length.meter/time.second
-
-
-Modules
-^^^^^^^
 
 .. automodule:: pyre.units.SI
    :members:
 
 .. automodule:: pyre.components.Component
 
+.. module:: pyre.inventory.__init__
 
 .. autoclass:: Solver
    :members:
 
 .. autoclass:: Solver
 
+Modules
+^^^^^^^
 
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
@@ -45,7 +44,7 @@ Modules
  * `energy <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/energy.py>`_
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
-Hare some of the classes used by these data structures:
+Here are some of the classes used by these data structures:
 
 .. inheritance-diagram:: pyre.units
    :parts: 2

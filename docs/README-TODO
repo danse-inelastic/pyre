@@ -1,6 +1,12 @@
 Content TODO:
 
-get pyre on google wave?...or better yet get google docs to import the html and display it, then
+get doc strings from pyre/inventory/__init__.py
+
+fix how 'documentation' at the top of every page links to nothing and 'home' links to the documentation (need sphinx site)
+
+fix Index of science use cases so each entry display's section heading
+
+check out :func:
 
 
 do opal's class diagram?...or maybe make it a separate link...
@@ -88,3 +94,6 @@ and has been posted here:
 -google docs idea using html
 -how to get emacs support:
 http://docutils.sourceforge.net/tools/editors/emacs/README.html
+
+
+get pyre on google wave?...or better yet get google docs to import the html and display it, then
