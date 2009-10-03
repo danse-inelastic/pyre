@@ -65,6 +65,7 @@ You can find more builtin validators
 near the end of the file.
 
 
+
 A facility is how one component (let's call it A) specifies that it would like another 
 component to do some work for it. 
 It's a bit like a help-wanted ad. 
@@ -92,6 +93,13 @@ the default component is one single instance, like a singleton.
 This could lead to some strange behavior of your application if you
 don't design your application carefully. 
 On the other hand, using the first approach is a safe choice.
+
+A full list of all invenetory types are shown below:
+
+.. automodule:: pyre.inventory.__init__
+   :members:
+   :undoc-members:
+   :exclude-members: codecPML 
 
 
 .. _pyre-component:
