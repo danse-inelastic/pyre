@@ -26,19 +26,12 @@ Here, we cover in more depth these key concepts in pyre:
 .. _pyre-inventory:
 
 Inventory: properties and facilities
------------------------------------------
+------------------------------------
+
 In pyre, a component's inventory is the place where user inputs are 
-connected to a pyre component.
-In the inventory of a pyre component, all public configurable items
-are declared using descriptors (traits).
+connected to a pyre component.  In the inventory of a pyre component, all public configurable items
+are declared using `descriptors<http://users.rcn.com/python/download/Descriptor.htm>`_ (traits), are special python objects that describe attributes of a python instance.
 
-Descriptors are special python objects that describe attributes
-of a python instance.
-If you want to know more about descriptors, this is a good place to start
-http://users.rcn.com/python/download/Descriptor.htm. 
-
-For details of how pyre inventory works, please consult
-:ref:`pyre-inventory-implementation`.
 
 There are two kinds of descriptors for a pyre inventory: properties or facilities.
 All properties are instances of pyre.inventory.Property.Property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator. For example::
@@ -76,7 +69,7 @@ There are also factory functions which produce components themselves.  Here is a
 
 
 A facility is how one component (let's call it A) specifies that it would like another 
-component to do some work for it. It's a bit like a help-wanted ad. The curator looks through the :ref:`depositories <depositories>` and tries to wherekeeps track of the inventory items.  The registry
+component to do some work for it. It's a bit like a help-wanted ad. The curator looks through the :ref:`depositories <depositories>` where :ref:`xml data<>` about pyre components are kept in order to populate the inventory.   and tries to wherekeeps track of the inventory items.  The registry is simply the list of inventory items themselves. 
 
 
 Difference between factory and default keyword
@@ -107,16 +100,15 @@ This could lead to some strange behavior of your application if you
 don't design your application carefully. 
 On the other hand, using the first approach is a safe choice.
 
-A full list of all invenetory properties is shown below:
+A full list of all inventory properties is shown below:
 
 .. automodule:: pyre.inventory.__init__
    :members: array bool dimensional float inputFile int list outputFile preformatted slice str
    :undoc-members:
 
 
-
-
-   :exclude-members: codecPML 
+For more details of how pyre inventory works, please consult
+:ref:`pyre-inventory-implementation`.
 
 
 .. _pyre-component:
