@@ -19,7 +19,11 @@ Automatic unit conversion: pyre.units
 
 .. automodule:: pyre.components.Component
 
-.. module:: pyre.inventory.__init__
+.. automodule:: pyre.inventory.__init__
+   :members:
+   :undoc-members:
+
+.. autofunction:: pyre.inventory.__init__.array()
 
 .. autoclass:: Solver
    :members:
