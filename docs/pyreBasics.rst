@@ -65,10 +65,23 @@ You can find more builtin validators
 near the end of the file.
 
 
+Component factory functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are also factory functions which produce components themselves.  Here is a complete listing:
+
+.. automodule:: pyre.inventory.__init__
+   :members: facility curator registry
+   :undoc-members:
+
 
 A facility is how one component (let's call it A) specifies that it would like another 
-component to do some work for it. 
-It's a bit like a help-wanted ad. 
+component to do some work for it. It's a bit like a help-wanted ad. The curator looks through the :ref:`depositories <depositories>` and tries to wherekeeps track of the inventory items.  The registry
+
+
+Difference between factory and default keyword
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 As part of the facility declaration, A gets to recommend a default component to do the job,
 or it can recommend a way to build a component to do the job 
 (:ref:`factory <what-is-factory>`). 
@@ -100,9 +113,7 @@ A full list of all invenetory properties is shown below:
    :members: array bool dimensional float inputFile int list outputFile preformatted slice str
    :undoc-members:
 
-.. automodule:: pyre.inventory.__init__
-   :members: array bool dimensional float inputFile int list outputFile preformatted slice str
-   :undoc-members:
+
 
 
    :exclude-members: codecPML 
