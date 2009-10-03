@@ -94,11 +94,17 @@ This could lead to some strange behavior of your application if you
 don't design your application carefully. 
 On the other hand, using the first approach is a safe choice.
 
-A full list of all invenetory types are shown below:
+A full list of all invenetory properties is shown below:
 
 .. automodule:: pyre.inventory.__init__
-   :members:
+   :members: array bool dimensional float inputFile int list outputFile preformatted slice str
    :undoc-members:
+
+.. automodule:: pyre.inventory.__init__
+   :members: array bool dimensional float inputFile int list outputFile preformatted slice str
+   :undoc-members:
+
+
    :exclude-members: codecPML 
 
 
