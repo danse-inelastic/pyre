@@ -29,12 +29,20 @@ Inventory: properties and facilities
 ------------------------------------
 
 In pyre, a component's inventory is the place where user inputs are 
-connected to a pyre component.  In the inventory of a pyre component, all public configurable items
-are declared using `descriptors<http://users.rcn.com/python/download/Descriptor.htm>`_ (traits), are special python objects that describe attributes of a python instance.
+connected to a pyre component.  In the inventory of a pyre component, all publicly configurable items
+are declared using `descriptors <http://users.rcn.com/python/download/Descriptor.htm>`_ (traits), are special python objects that describe attributes of a python instance.
 
 
 There are two kinds of descriptors for a pyre inventory: properties or facilities.
-All properties are instances of pyre.inventory.Property.Property, and usually they are instances of a property subclass, such as int, float, str, etc. The programmer can specify the public name of a property, a default value, and a validator. For example::
+All properties are instances of pyre.inventory.Property.Property, and usually they are instances of a property subclass, such as int, float, str, etc. 
+
+A full list of all inventory properties is shown below:
+
+.. automodule:: __init__
+   :members: array bool dimensional float inputFile int list outputFile preformatted slice str
+   :undoc-members:
+
+The programmer can specify the public name of a property, a default value, and a validator. For example::
 
   import pyre.units.energy
   energy = pyre.inventory.dimensional(
@@ -45,31 +53,48 @@ All properties are instances of pyre.inventory.Property.Property, and usually th
 Here the factory 
 `pyre.inventory.dimensional </pyre/api/pyre.inventory-module.html#dimensional>`_
 is a factory method creating a property of dimensional type, and all user inputs
-for this property will be casted into this type.
-For more factories, please consult 
-`this page <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ .
-Keyword "name" specifies the name of the property, and this name will be
+for this property will be casted into this type.  Keyword "name" specifies the name of the property, and this name will be
 the key that pyre framework will use to find its user configuration.
 Keyword "default" specifies the default value;
-Keyword "validator" specifies a method that validate the user input.
-In this example, a pyre built-in validator pyre.inventory.less is used.
-You can find more builtin validators 
-`here <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
-near the end of the file.
+Keyword "validator" specifies a method that validate the user input. The following is a complete list of validators:
+
+.. autofunction:: __init__.less
+
+.. autofunction:: __init__.lessEqual
+
+.. autofunction:: __init__.greater
+
+.. autofunction:: __init__.greaterEqual
+
+.. autofunction:: __init__.range
+
+.. autofunction:: __init__.choice
 
 
-Component factory functions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In the above example, a pyre built-in validator pyre.inventory.less is used. Another useful validator is choice, which allows users to input only certain type of property::
 
-There are also factory functions which produce components themselves.  Here is a complete listing:
+  mdEngine = pyre.inventory.facility("mdEngine")
+  mdEngine.validator = pyre.inventory.choice('mmtk','gulp')
 
-.. automodule:: pyre.inventory.__init__
-   :members: facility curator registry
-   :undoc-members:
+and will throw an error if another is input. The above snippet also demonstrates the attribute method of specifying property information.
 
+Facility and other factory functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are also factory functions which produce pyre objects themselves.  Here is a complete listing:
+
+.. autofunction:: __init__.facility
+
+.. autofunction:: __init__.curator
+
+.. autofunction:: __init__.registry
+
+.. .. automodule:: pyre.inventory.__init__
+     :members: facility curator registry
+     :undoc-members:
 
 A facility is how one component (let's call it A) specifies that it would like another 
-component to do some work for it. It's a bit like a help-wanted ad. The curator looks through the :ref:`depositories <depositories>` where :ref:`xml data<>` about pyre components are kept in order to populate the inventory.   and tries to wherekeeps track of the inventory items.  The registry is simply the list of inventory items themselves. 
+component to do some work for it. It's a bit like a help-wanted ad. The curator looks through the :ref:`depositories <where-to-put-pml-odb>` where :ref:`xml data<pml-files>` about pyre components are kept in order to populate the inventory.   and tries to wherekeeps track of the inventory items.  The registry is simply the list of inventory items themselves. 
 
 
 Difference between factory and default keyword
@@ -99,12 +124,6 @@ the default component is one single instance, like a singleton.
 This could lead to some strange behavior of your application if you
 don't design your application carefully. 
 On the other hand, using the first approach is a safe choice.
-
-A full list of all inventory properties is shown below:
-
-.. automodule:: pyre.inventory.__init__
-   :members: array bool dimensional float inputFile int list outputFile preformatted slice str
-   :undoc-members:
 
 
 For more details of how pyre inventory works, please consult
@@ -168,26 +187,7 @@ Pyre component structure is relatively straightforward.  The component class is 
     
             return
 
-As a component, Sentry represents a "unit of functionality".  Note Inventory contains settings, such as username and password.  Allowed Inventory types are stored in the
-`pyre.inventory <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/inventory/__init__.py>`_ 
-package. 
-
-
-
-.. automodule
-
-Sentry's Inventory class also contains a reference to a subcomponent called "ipa".  Such references are termed facilities.  
-
-Facilities: including and configuring pyre subcomponents 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Users place subcomponents in their inventory by specifiying a name and factory function::
-
-  ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
-
-The name "session" is the internal reference to ipa in the pyre framework. Facilities may be swapped in and out at run time using command line arguments or pml files as discussed in :ref:`odb-pml-files`.
-
-Another thing to note is methods such as _defaults(), which communicate directly with the framework.  Examples of these include:
+As a component, Sentry represents a "unit of functionality".  Sentry's Inventory class also contains a facility to a session subcomponent called "ipa".  Another thing to note is methods such as _defaults(), which communicate directly with the framework.  Some of the more frequently-used methods include:
 
 __init__(): the constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -201,8 +201,7 @@ Here the name argument specifies the name of this component (i.e. 'sentry').
 
 _defaults(): setting default values
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Each command-line configurable item in the inventory may be given a default value when declared in the Inventory class. 
-However, you may need to reset them based on some internal configuration within the component.  This maybe done in the _defaults method::
+Each command-line configurable item in the inventory may be given a default value when declared in the Inventory.  If you need to give them a new default for whatever reason, use the _defaults() method:: 
 
   self.inventory.username = 'bob'
 
@@ -258,10 +257,11 @@ One of the strengths of pyre is a systematic way to configure and distribute fro
 
 but changing the subcomponent of a facility requires the presence of odb files, discussed next. 
 
+
 .. _odb-files:
 
-Swapping subcomponents
-^^^^^^^^^^^^^^^^^^^^^^
+Odb files: Swapping subcomponents
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To swap subcomponents one must have a factory function in a python file ending in odb.  This factory returns an instance of the subcomponent to be swapped.  For example, suppose we have a greeter component in :ref:`GreetApp <helloworld-greet.py>` from the tutorial::
 
@@ -309,9 +309,14 @@ The name of the .pml file must be <component_name>.pml. Facilities may also be c
 
     <facility name='greeter'>morning</facility>
 
+Pml files and odb files may be placed in a number of locations called depositories.
+
 .. _where-to-put-pml-odb:
 
-There are several places to put .pml files, depending on the scope you'd like them to have.
+Depositories
+------------
+
+There are several places to put pml and odb files, depending on the scope you'd like them to have.
 
    1. Files meant to override variables system-wide should be put with the pyre installation, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. For example, system-wide pml files for myApp.py should be in $EXPORT_ROOT/etc/myApp
 

@@ -18,6 +18,7 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('.'))
 #sys.path.append(os.path.abspath('../../pyreJiao/packages/pyre'))#this is a hack--it only works on Brandon's machine
+sys.path.insert(0,os.path.abspath('../packages/pyre/pyre/inventory'))
 sys.path.insert(0,os.path.abspath('../packages/pyre'))
 sys.path.append(os.path.abspath('sphinxext'))
 # -- General configuration -----------------------------------------------------
@@ -38,6 +39,9 @@ extensions = ['sphinx.ext.autodoc',
               'ipython_console_highlighting',
               #'inheritance_diagram',
               'numpydoc']#, 'sphinx.ext.jsmath']
+
+intersphinx_mapping = {'http://docs.danse.us/pyregui': None}
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

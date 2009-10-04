@@ -44,8 +44,6 @@ Here are some of the classes used by these data structures:
 .. inheritance-diagram:: pyre.units
    :parts: 2
 
-
-
 .. image:: images/PyreUnitsClassDiagram.png
 
 
