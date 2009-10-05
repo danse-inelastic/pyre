@@ -18,6 +18,7 @@ Contents:
    pyrePackages
    drchops
    advancedTopics
+   pyreApps
    templates
    pyreStyle
    pyreHistory
@@ -25,6 +26,7 @@ Contents:
    projectsUsingPyre
    additionalDocs
    usefulLinks
+   docsTodo
 
 ..   pyreInternals
 

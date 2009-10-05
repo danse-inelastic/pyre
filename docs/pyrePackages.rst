@@ -14,7 +14,9 @@ Automatic unit conversion: pyre.units
     from pyre.units import time, length
     velocity = 3000 * length.meter/time.second
 
-.. automodule:: pyre.units.SI
+A list of the units that are possible include:
+
+.. automodule:: pyre.units.angle
    :members:
    :undoc-members:
 
