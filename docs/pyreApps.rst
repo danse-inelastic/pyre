@@ -42,6 +42,11 @@ or xml-based configuration files:
 .. image:: http://drchops.caltech.edu/Docs/docs/reduction/DeveloperGuide/html/figures/reduction-package-layers-UIandComputation.png
    :width: 800px
 
+Opal
+----
+
+Opal
+
 
 .. _luban_include:
 

@@ -155,7 +155,7 @@ using a number of underlying rendering classes called "mills":
 .. inheritance-diagram:: pyre.weaver.mills.CMill pyre.weaver.mills.CshMill pyre.weaver.mills.CxxMill pyre.weaver.mills.Fortran77Mill pyre.weaver.mills.Fortran90Mill pyre.weaver.mills.HTMLMill pyre.weaver.mills.MakeMill pyre.weaver.mills.PerlMill pyre.weaver.mills.PythonMill pyre.weaver.mills.ShMill pyre.weaver.mills.TeXMill pyre.weaver.mills.XMLMill 
    :parts: 1
 
-Examples where this has been done include generating html pages in :ref:`opal<opal>` or gemetrical pml files in :ref:`pyre.geometry <pyre-geometry>`.
+Examples where this has been done include generating html pages in :ref:`opal<opal>` or geometrical pml files in :ref:`pyre.geometry <pyre-geometry>`.
 
 
 
