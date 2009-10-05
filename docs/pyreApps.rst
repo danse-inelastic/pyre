@@ -72,6 +72,11 @@ When a user creates a python class subclassing actor which contains these data s
 .. inheritance-diagram:: opal.weaver.BodyMill opal.weaver.ContentMill  opal.weaver.DocumentMill  opal.weaver.HeadMill  opal.weaver.PageMill  opal.weaver.StructuralMill  opal.weaver.TagMill 
    :parts: 1
 
+Opal demo
+^^^^^^^^^
+
+The best way to exlain opal is by executing it as a normal python application and then explaining how any server could run it.  To demonstrate the philosophy behind opal, we create the following subclass of opal.components.Actor::
+
 
 
 

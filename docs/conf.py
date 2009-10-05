@@ -34,9 +34,9 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.ifconfig',
               'sphinx.ext.graphviz',
               'sphinx.ext.inheritance_diagram',
-              #'sphinx.ext.intersphinx',
+              'sphinx.ext.intersphinx',
               #'matplotlib.sphinxext.mathmpl','matplotlib.sphinxext.only_directives','matplotlib.sphinxext.plot_directive',
-              'ipython_console_highlighting',
+              #'ipython_console_highlighting',
               #'inheritance_diagram',
               'numpydoc']#, 'sphinx.ext.jsmath']
 

@@ -95,10 +95,10 @@ This table describes cylinders with parameters height, innerradius, and outerrad
 
 Then users can store objects in the usual way::
 
-    >>> dbm = DbManager()
-    >>> dbm.createTable(Cylinder)
-    >>> cylinder = Cylinder()
-    >>> dbm.insertRow(cylinder)
+    dbm = DbManager()
+    dbm.createTable(Cylinder)
+    cylinder = Cylinder()
+    dbm.insertRow(cylinder)
 
 as well as execute other methods in the DbManager interface.
 
