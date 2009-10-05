@@ -240,13 +240,21 @@ component is depending on, etc.
 
 .. todo:: discuss the order in which component methods are called by the framework
 
+The class structure for Components is relatively simple:
+
+.. inheritance-diagram:: pyre.components.Component 
+   :parts: 3
+
 Applications
 ------------
 A pyre application is simply the top-level component that can also be "executed".  
 As such it can be run from the command line or started as a daemon.
 
 Constructions of pyre applications are very similar to constructions
-of pyre components.  Instead of subclassing pyre.components.Component.Component, you need to
+of pyre components, as shown in the class structure:
+
+
+Instead of subclassing pyre.components.Component.Component, you need to
 subclass pyre.applications.Script.Script.
 Also, all pyre applications must declare a method called "main",
 which is called when the user instantiates the application and calls its run() method.
@@ -257,13 +265,13 @@ One of the strengths of pyre is a systematic way to configure and distribute fro
 
 but changing the subcomponent of a facility requires the presence of odb files, discussed next. 
 
-.. todo:: do inheritance diagrams of everything in pyre.applications and pyre.components
+.. todo:: do inheritance diagrams of everything in pyre.applications--spread these throughout libraries
 
 
 .. _odb-files:
 
 Odb files: Swapping subcomponents
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------
 
 To swap subcomponents one must have a factory function in a python file ending in odb.  This factory returns an instance of the subcomponent to be swapped.  For example, suppose we have a greeter component in :ref:`GreetApp <helloworld-greet.py>` from the tutorial::
 

@@ -209,7 +209,7 @@ Here is the class diagram:
 Pyre server base: pyre.services
 -------------------------------
 
-Pyre services are useful when creating servers that need to provide a type of service, such as a `globally unique string creator daemon<idd>` or an `authentication daemon<ipa>`.
+Pyre services are useful when creating servers that need to provide a type of service, such as a :ref:`globally unique string creator daemon<idd>` or an :ref:`authentication daemon<ipa>`.
 
 Here is the class diagram for pyre's services base:
 
@@ -226,7 +226,7 @@ Generating globally unique identifiers: pyre.idd
 
 Idd is a daemon which issues globally unique identifiers.  Here is its class diagram:
 
-.. inheritance-diagram:: pyre.services.UDPService pyre.services.TCPService pyre.services.Evaluator pyre.services.Pickler pyre.services.TCPSession pyre.services.UDPSession pyre.services.ServiceRequest
+.. inheritance-diagram:: pyre.idd.IDDSession pyre.idd.IDDService pyre.idd.RecordLocator pyre.idd.Daemon pyre.idd.Token
    :parts: 1
 
 .. .. image:: images/PyreIddClassDiagram.png
@@ -253,8 +253,10 @@ Managing user sessions: pyre.ipa
 
 Ipa is a daemon which can manage user sessions by creating hashes, issuing tickets, and verifying passwords. Here is the class diagram:
 
-.. image:: images/PyreIpaClassDiagram.png
+.. .. image:: images/PyreIpaClassDiagram.png
 
+.. inheritance-diagram:: pyre.ipa.IPASession pyre.ipa.Authentication pyre.UserManager pyre.ipa.Daemon pyre.ipa.IPAService
+   :parts: 1
 
 .. todo:: discuss Sentry as an example of how ipa is used
 
@@ -277,13 +279,10 @@ Running and steering simulations in pyre: pyre.simulations
 
 Here are tools for running simulations with pyre (mostly finite element for now):
 
-.. image:: images/PyreSimulationsClassDiagram.png
+.. .. image:: images/PyreSimulationsClassDiagram.png
 
 .. inheritance-diagram:: pyre.simulations.SimpleSolver pyre.simulations.SimulationController
    :parts: 1
-
-
-
 
 .. _pyre-util:
 
@@ -292,7 +291,7 @@ Pyre utilities
 
 Here are various utilities, such as the base class, Singleton, for the singleton design pattern:
 
-.. image:: images/PyreUtilClassDiagram.png
+.. .. image:: images/PyreUtilClassDiagram.png
 
 .. inheritance-diagram:: pyre.util.Singleton pyre.util.ResourceManager pyre.util.Toggle
    :parts: 1

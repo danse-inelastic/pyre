@@ -48,9 +48,11 @@ or xml-based configuration files:
 Luban
 -----
 
-Luban is a generic user-interface specification language and builder. More information can be found in its documentation, which is linked to below.
+Luban is a generic user-interface specification language and builder. More information can be found in its `documentation <http://docs.danse.us/pyre/luban/sphinx/>`_.
 
-.. toctree::
+Here is a :ref:`test link<tutorials>` to its tutorials.
+
+.. .. toctree::
 
    luban/Introduction
    luban/Installation
