@@ -42,10 +42,37 @@ or xml-based configuration files:
 .. image:: http://drchops.caltech.edu/Docs/docs/reduction/DeveloperGuide/html/figures/reduction-package-layers-UIandComputation.png
    :width: 800px
 
+.. _opal:
+
 Opal
 ----
 
-Opal
+Opal is a basic web framework using pyre technology.  It's main application is Web Application:
+
+.. inheritance-diagram:: opal.applications.WebApplication
+   :parts: 1
+
+As a web framework, in it's inventory it has a special type of facility called opal.inventory.Actor:
+
+.. inheritance-diagram:: opal.inventory.Actor
+   :parts: 1
+
+which processes subcomponents inheriting from opal.components.Actor, one of many other components used in opal:
+
+.. inheritance-diagram:: opal.components.Actor opal.components.AuthenticatingActor opal.components.GenericActor opal.components.Login opal.components.Logout opal.components.NYI opal.components.Registrar opal.components.Sentry
+   :parts: 1
+
+As a web framework, opal produces html from each actor.  It's html data structures include:
+
+.. inheritance-diagram:: opal.content.Banner opal.content.Base opal.content.Body opal.content.Button opal.content.Checkbox opal.content.ControlBox opal.content.ControlBoxLine opal.content.CoreAttributes opal.content.Document opal.content.Element opal.content.ElementContainer opal.content.Form opal.content.FormControl opal.content.FormField opal.content.FormHiddenInput opal.content.Head opal.content.IncludedStyle opal.content.Input opal.content.KeyboardAttributes opal.content.LanguageAttributes opal.content.Link opal.content.Literal opal.content.LiteralFactory opal.content.Logo opal.content.Meta opal.content.Page opal.content.PageContent opal.content.PageCredits opal.content.PageFooter opal.content.PageHeader opal.content.PageLeftColumn opal.content.PageMain opal.content.PageRightColumn opal.content.PageSection opal.content.Paragraph opal.content.ParagraphFactory opal.content.PersonalTools opal.content.Portlet opal.content.PortletContent opal.content.PortletFactory opal.content.PortletLink opal.content.Preformatted opal.content.PreformattedFactory opal.content.Script opal.content.ScriptFactory opal.content.SearchBox opal.content.Selector opal.content.Style opal.content.TextArea opal.content.Title
+   :parts: 1
+
+When a user creates a python class subclassing actor which contains these data structures, weaver uses the visitor pattern to produce html from them using the following mills:
+
+.. inheritance-diagram:: opal.weaver.BodyMill opal.weaver.ContentMill  opal.weaver.DocumentMill  opal.weaver.HeadMill  opal.weaver.PageMill  opal.weaver.StructuralMill  opal.weaver.TagMill 
+   :parts: 1
+
+
 
 
 .. _luban_include:
