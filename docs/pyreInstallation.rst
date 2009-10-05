@@ -198,9 +198,9 @@ Pyre source including c extensions is available from various svn repositories.  
 Checking out the DANSE repo version of pyre
 """""""""""""""""""""""""""""""""""""""""""
 
-Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the "patches-from-jiao" branch which can be checked out from the danse.us/pyre repository.  For example, assuming read-only access::
+Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the trunk from the danse.us/pyre repository.  For example, assuming read-only access::
 
-  $ svn co svn://svn@danse.us/pyre/branches/patches-from-jiao
+  $ svn co svn://svn@danse.us/pyre/trunk
 
 Read and write access can be obtained by joining the DANSE project and by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.   
 

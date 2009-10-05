@@ -15,8 +15,7 @@ Contents:
    pyreTutorials
    pyreBasics
    pyreInstallation
-   pyrePackages
-   drchops
+   pyreLibraries
    advancedTopics
    pyreApps
    templates

@@ -318,7 +318,7 @@ Depositories
 
 There are several places to put pml and odb files, depending on the scope you'd like them to have.
 
-   1. Files meant to override variables system-wide should be put with the pyre installation, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. For example, system-wide pml files for myApp.py should be in $EXPORT_ROOT/etc/myApp
+   1. Files meant to override variables system-wide should be put with the :ref:`pyre installation<>`, in $EXPORT_ROOT/etc/<app_name>/<comp_name>.pml, where <app_name> is the name of the pyre app, and <comp_name> is the name of the component. For example, system-wide pml files for myApp.py should be in $EXPORT_ROOT/etc/myApp
 
    2. Files meant to override variables for just one user should be in a directory called .pyre immediately beneath the user's home directory. Example: /home/tim/.pyre/myApp
 

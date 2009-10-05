@@ -46,7 +46,7 @@ Here are some of the classes used by these data structures:
 .. inheritance-diagram:: pyre.units
    :parts: 2
 
-.. image:: images/PyreUnitsClassDiagram.png
+.. .. image:: images/PyreUnitsClassDiagram.png
 
 
 .. _pyre-db:
@@ -54,14 +54,24 @@ Here are some of the classes used by these data structures:
 Database access and object storage: pyre.db
 -------------------------------------------
 
-Pyre contains the groundwork for an Object Relational Mapper (ORM) in pyre.db.  A class diagram is:
+Pyre's base ORM (Object Relational Mapper) is pyre.db, which has the following types available:
 
-.. image:: images/PyreDbClassDiagram.png
+.. .. image:: images/PyreDbClassDiagram.png
 
-or 
+.. inheritance-diagram:: pyre.db.BigInt pyre.db.Boolean pyre.db.Char pyre.db.Date pyre.db.BigInt pyre.db.Double pyre.db.DoubleArray pyre.db.Integer pyre.db.IntegerArray pyre.db.Interval pyre.db.Real pyre.db.SmallInt pyre.db.Time pyre.db.Timestamp pyre.db.VarChar pyre.db.VarCharArray
+   :parts: 1
 
-.. inheritance-diagram:: pyre.db
-   :parts: 2
+which are inserted into a table:
+
+.. inheritance-diagram:: pyre.db.Table
+   :parts: 1
+
+The entity which does the insertions is the DBManager, which can be connected to either the Postgre bindings Psycopg (or Psycopg2), or to the SQLite bindings:
+
+.. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
+   :parts: 1
+
+It works by populating
 
 As apparent, pyre.db offers a number of variable types (inheriting from "Column"), which are part of "Table".  These are managed by a subclass of DBManager, currently implemented with a postgres db backend by "Psycopg2", for example, which overrides DBManager's commit() method.  This class name is also the name of the python wrapper for postgres.
 
@@ -100,44 +110,99 @@ Constructive solid geometry: pyre.geometry
 
 (note: the internal classes of the packages need to be removed)
 
-Pyre.geometry is a complex collection of geometry-related classes and utilities.  Let us examine the class structure.  Here is the top level diagram:
+Pyre.geometry is a complex collection of geometry-related classes and utilities.  It has a geometric modeler, a loader, and a mesh:
 
-.. image:: images/PyreGeometryClassDiagram.png
-
-In the solids package we see the differing geometrical solids available to pyre users:
-
-.. image:: images/PyreGeometrySolidsClassDiagram.png
-
-In the operations package we have:
-
-.. image:: images/PyreGeometryOperationsClassDiagram.png
-
-where we see the types of boolean operations that can be done on basic geometrical shapes.  In the pml package we have:
-
-.. image:: images/PyreGeometryPmlClassDiagram.png
-
-where we see classes related to rendering and parsing pml files for geometrical structure objects.  In the pml.parsing:
-
-.. image:: images/PyreGeometryPmlParserClassDiagram.png
-
-.. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
+.. inheritance-diagram:: pyre.geometry.GeometricalModeller pyre.geometry.Loader pyre.geometry.Mesh 
    :parts: 1
 
-there are :ref:`weaver-like<weaver>` classes using the visitor pattern to render and parse data in pml format about the geometrical objects.
+.. .. image:: images/PyreGeometryClassDiagram.png
 
+These can interact with a variety of solids:
+
+.. inheritance-diagram:: pyre.geometry.solids.Block pyre.geometry.solids.Body pyre.geometry.solids.Cone pyre.geometry.solids.Cylinder pyre.geometry.solids.GeneralizedCone pyre.geometry.solids.Primitive pyre.geometry.solids.Prism pyre.geometry.solids.Pyramid pyre.geometry.solids.Sphere pyre.geometry.solids.Torus 
+   :parts: 1
+
+.. .. image:: images/PyreGeometrySolidsClassDiagram.png
+
+One can then operate on these shapes with intersections, unions, etc:
+
+.. inheritance-diagram:: pyre.geometry.operations.Binary pyre.geometry.operations.Composition pyre.geometry.operations.Difference pyre.geometry.operations.Dilation pyre.geometry.operations.Intersection pyre.geometry.operations.Reflection pyre.geometry.operations.Reversal pyre.geometry.operations.Rotation pyre.geometry.operations.Transformation pyre.geometry.operations.Translation pyre.geometry.operations.Union 
+   :parts: 1
+
+Each of these geometric constructions can be serialized via a series of here are :ref:`weaver-like<weaver>` classes to pml format.
+
+.. 2) point me to some pyre.geometry use in your code so i can write a
+ brief script...
+ This might be helpful:
+ http://dev.danse.us/trac/common/browser/geometry/trunk/tests/geometry/geometry_TestCase.py
+ The geometry at danse common repo is an extension of pyre geometry.
+ Basically it implements some basic visitors. The one tested in that
+ testcase is "locate", which tells whether a point is outside, inside,
+ or on the border of a shape.
 
 
 .. _pyre-xml:
 
-Pyre's xml processor: pyre.xml
+pyre.xml: xml processor: 
 ------------------------------
+
+.. The xml parser in pyre works in a
 
 Here is the class diagram:
 
-.. image:: images/PyreXmlClassDiagram.png
+.. .. image:: images/PyreXmlClassDiagram.png
 
 .. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
    :parts: 1
+
+.. This luban0.1 code, http://dev.danse.us/trac/pyregui/browser/trunk/luban/luban/gml, uses
+  pyre.xml to parse xml files. The pyre xml mechanism allows you to
+  simplify the xml parsing to just define nodes for parsing (classes in
+  http://dev.danse.us/trac/pyregui/browser/trunk/luban/luban/gml/parser).
+  Maybe what you can do is to have a simple parser that parse xml
+  documents with only two types of nodes, one for a branch-like node,
+  one for a leaf-like node.
+
+.. I don't quite recall how to write this pyre xml parser. So the
+    following might not be all correct:
+    
+    1. you need to create a Parser class by inheriting from pyre.xml.Parser.Parser
+    2. the parse method of this new Parser class would look like this:
+     def parse(self, stream, parserFactory=None):
+           from parser.Document import Document
+           return BaseParser.parse(self, stream, Document(stream.name),
+    parserFactory)
+    3. You need a subpackage "parser".
+    4.  In subdir "parser",  there is a Document class that represents a
+    xml document. This Document class must has a property "tags", which is
+    a list of all supported tags
+    5. The Document class must have one method that is used to handle the
+    root node in the xml document. In this file
+    http://dev.danse.us/trac/pyregui/browser/trunk/luban/luban/gml/parser/Document.py
+    the root node is "Gui", so there is a method "onGui"
+    6. All other "nodes" will inherit from pyx.xml.Node.Node and needs to
+    override methods "notify", "content"
+    7. 'notify' is used to notify the parent this element is here, and
+    parent will takes it in
+    8. 'content' is used to deal with the plain data (not xml nodes) as
+    the content of the current node
+    
+    The result of parsing using pyre.xml is a tree structure of nodes (not
+    the pyre.xml.node nodes, but instances of the descriptive classes of
+    what really this xml means). So for example, if we are dealing with a
+    xml file that looks like
+    
+    <folder name="abc">
+     <file name='file1'/>
+     <folder name='folder1'>
+       <file name='file2'/>
+     </folder>
+    </folder>
+    
+    You need to create classes Folder and File to represent folders and
+    files. But you also need xml node classes Folder and File. This could
+    be confusing and difficult to explain (at least to me).
+
 
 
 
@@ -252,7 +317,7 @@ A pyre project typically contains a number of directories.  For example, supposi
 
 * etc/
 
-  This directory stores facility factory method files, called :ref:`odb files <odb-pml-files>`, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
+  This directory stores facility factory method files, called :ref:`odb files <odb-files>`, for switching facilities at run time.  The internal structure of etc/ mirrors the structure of the application and its components.  For example suppose the application is called MdApp with the inventory::
 
     class MdApp(Script):
     
