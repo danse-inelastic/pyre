@@ -229,23 +229,6 @@ Here are various utilities, such as the base class, Singleton, for the singleton
 .. inheritance-diagram:: pyre.util.Singleton pyre.util.ResourceManager pyre.util.Toggle
    :parts: 1
 
-.. _luban_include:
-
-Luban
------
-
-Luban is a generic user-interface specification language and builder.
-
-.. toctree::
-
-   luban/Introduction
-   luban/Installation
-   luban/Tutorials
-   luban/API
-   luban/LubanApp
-   luban/Gongshuzi
-   luban/History
-
 
 .. _createPyreProject:
 

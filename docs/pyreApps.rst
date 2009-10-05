@@ -8,7 +8,7 @@ A number of applications use the pyre framework and are good examples of how to 
 .. _drchopsandpyre:
 
 DrChops
-=======
+-------
 
 DrChops is a reduction package o reduce data from direct-geometry time-of-flight neutron chopper spectrometers. It benefits from pyre and is very flexible and meets needs of users of different
 levels. 
@@ -41,4 +41,22 @@ or xml-based configuration files:
 
 .. image:: http://drchops.caltech.edu/Docs/docs/reduction/DeveloperGuide/html/figures/reduction-package-layers-UIandComputation.png
    :width: 800px
+
+
+.. _luban_include:
+
+Luban
+-----
+
+Luban is a generic user-interface specification language and builder. More information can be found in its documentation, which is linked to below.
+
+.. toctree::
+
+   luban/Introduction
+   luban/Installation
+   luban/Tutorials
+   luban/API
+   luban/LubanApp
+   luban/Gongshuzi
+   luban/History
 

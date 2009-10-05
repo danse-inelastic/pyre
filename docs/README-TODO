@@ -84,6 +84,22 @@ and has been posted here:
  *get what's his name to do a flash intro to pyre (maybe a composite of various images and some animation...)
  *and a flash intro to vnf
 
+*include a discussion on reserved methods/names in pyre...maybe start with this discussion:
+
+Listing of reserved methods for pyre components and scripts
+-----------------------------------------------------------
+
+In reality, any method of a used by Component is "reserved", but here are some of the more obvious ones to avoid overriding (but instead use in your application):
+
+* _configure()
+* _defaults()
+* _init()
+* _fini()
+* configureComponent()
+* 
+
+(give some examples of how each of these may be used--start with vnf's redirect)
+
 
 
 

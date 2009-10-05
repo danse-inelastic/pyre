@@ -93,15 +93,11 @@ Inventory, Trait, and Notary
 ----------------------------
 
 Inventory has descriptors as its static members. 
-Descriptors are special python objects that defines __get__ (and __set__) methods. 
-(Note: they are not instances of pyre.inventory.Descriptor.Descriptor. 
-class pyre.inventory.Descriptor.Descriptor is not really a Descriptor class meant by
-http://users.rcn.com/python/download/Descriptor.htm. 
-In pyre, pyre.inventory.Trait.Trait is the real Descriptor class.) 
-An instance of descriptor describe a property of his parent, but does not hold the
-value of this property. 
-This is why you can inherit Inventory but its static members do not conflict in 
-different instances of Inventory classes.
+Descriptors are special python objects that define __get__ (and __set__) methods. 
+
+.. note:: Descriptors are not instances of pyre.inventory.Descriptor.Descriptor. The class pyre.inventory.Descriptor.Descriptor is not a real descriptor class in the sense of `this discussion <http://users.rcn.com/python/download/Descriptor.htm>`_. In pyre, pyre.inventory.Trait.Trait is the real descriptor class. 
+
+An instance of a descriptor describes a property of its parent, but **does not hold the value of this property**. This is why you can inherit Inventory but its static members do not conflict with different instances of Inventory classes.
 
 For example ::
 
@@ -139,52 +135,14 @@ In Notary's __init__, all traits of an Inventory class will be
 collected to two registries, one for properties, and one for facilities.
 
 
-Class Diagrams
-^^^^^^^^^^^^^^
-
-
-Here is how it handles internally inventory items:
-
-.. image:: images/PyreInventoryClassDiagram.png
-
-Here is how it handles the common parts of odb and db-type files:
-
-.. image:: images/PyreOdbCommonClassDiagram.png
-
-Here is how it handles odb files:
-
-.. image:: images/PyreOdbFsClassDiagram.png
-
-and db-type "files":
-
-.. image:: images/PyreOdbDbmClassDiagram.png
-
-
-.. This appears to be a stub.  Real db interaction is managed by :ref:`pyre.db <pyre-db>`.
-
-
-
-Listing of reserved methods for pyre components and scripts
------------------------------------------------------------
-
-In reality, any method of a used by Component is "reserved", but here are some of the more obvious ones to avoid overriding (but instead use in your application):
-
-* _configure()
-* _defaults()
-* _init()
-* _fini()
-* configureComponent()
-* 
-
-(give some examples of how each of these may be used--start with vnf's redirect)
-
-
 .. _weaver:
 
 Pyre rendering: Weaver
 ----------------------
 
 A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing data structures using a number of underlying rendering classes called "mills".  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
+
+.. todo::
 
 
 .. _mystic:

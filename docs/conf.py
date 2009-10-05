@@ -40,7 +40,7 @@ extensions = ['sphinx.ext.autodoc',
               #'inheritance_diagram',
               'numpydoc']#, 'sphinx.ext.jsmath']
 
-intersphinx_mapping = {'http://docs.danse.us/pyregui': None}
+intersphinx_mapping = {'http://docs.danse.us/pyre/luban/sphinx': None}
 
 
 # Add any paths that contain templates here, relative to this directory.
