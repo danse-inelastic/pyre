@@ -140,9 +140,24 @@ collected to two registries, one for properties, and one for facilities.
 Pyre rendering: Weaver
 ----------------------
 
-A typical pyre pattern is to move rendering methods to a class under the generic name "weaver", which makes use of the visitor pattern while traversing data structures using a number of underlying rendering classes called "mills".  Examples include generating html pages in opal or gemetrical pml files in pyre.geometry. (give example of pattern and postulate how to use it when basing one's code on pyre)
+A typical pyre pattern is to move rendering methods to a class which subclasses Weaver:
 
-.. todo::
+.. inheritance-diagram:: pyre.weaver.Weaver
+   :parts: 1
+
+which makes use of the visitor pattern while traversing data structures:
+
+.. inheritance-diagram:: pyre.weaver.components.BlockComments pyre.weaver.components.BlockMill pyre.weaver.components.CommentingStrategy pyre.weaver.components.Indenter pyre.weaver.components.LineComments  pyre.weaver.components.LineMill pyre.weaver.components.Mill pyre.weaver.components.Stationery
+   :parts: 1
+
+using a number of underlying rendering classes called "mills":  
+
+.. inheritance-diagram:: pyre.weaver.mills.CMill pyre.weaver.mills.CshMill pyre.weaver.mills.CxxMill pyre.weaver.mills.Fortran77Mill pyre.weaver.mills.Fortran90Mill pyre.weaver.mills.HTMLMill pyre.weaver.mills.MakeMill pyre.weaver.mills.PerlMill pyre.weaver.mills.PythonMill pyre.weaver.mills.ShMill pyre.weaver.mills.TeXMill pyre.weaver.mills.XMLMill 
+   :parts: 1
+
+Examples where this has been done include generating html pages in :ref:`opal<opal>` or gemetrical pml files in :ref:`pyre.geometry <pyre-geometry>`.
+
+
 
 
 .. _mystic:
