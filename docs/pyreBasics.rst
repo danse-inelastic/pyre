@@ -236,9 +236,9 @@ component is ready to run; for example, you may want to allocate memory,
 open input/output files, initiate c/c++/fortran engines that this
 component is depending on, etc.
 
-.. TODO: have a link to a complete listing of these overidable methods 
+.. todo:: have a link to a complete listing of overidable component methods 
 
-.. TODO: discuss the order in which these methods are called by the framework
+.. todo:: discuss the order in which component methods are called by the framework
 
 Applications
 ------------
@@ -256,6 +256,8 @@ One of the strengths of pyre is a systematic way to configure and distribute fro
   application.py --property=value
 
 but changing the subcomponent of a facility requires the presence of odb files, discussed next. 
+
+.. todo:: do inheritance diagrams of everything in pyre.applications and pyre.components
 
 
 .. _odb-files:

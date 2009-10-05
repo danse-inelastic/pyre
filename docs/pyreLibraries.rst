@@ -209,7 +209,7 @@ Here is the class diagram:
 Pyre server base: pyre.services
 -------------------------------
 
-Pyre services are useful when creating servers that need to provide a type of service, such as a `globally unique string creator daemon<pyre-idd>` or a .
+Pyre services are useful when creating servers that need to provide a type of service, such as a `globally unique string creator daemon<idd>` or an `authentication daemon<ipa>`.
 
 Here is the class diagram for pyre's services base:
 
@@ -219,8 +219,6 @@ Here is the class diagram for pyre's services base:
    :parts: 1
 
 
-
-
 .. _idd:
 
 Generating globally unique identifiers: pyre.idd
@@ -228,7 +226,10 @@ Generating globally unique identifiers: pyre.idd
 
 Idd is a daemon which issues globally unique identifiers.  Here is its class diagram:
 
-.. image:: images/PyreIddClassDiagram.png
+.. inheritance-diagram:: pyre.services.UDPService pyre.services.TCPService pyre.services.Evaluator pyre.services.Pickler pyre.services.TCPSession pyre.services.UDPSession pyre.services.ServiceRequest
+   :parts: 1
+
+.. .. image:: images/PyreIddClassDiagram.png
 
 Objects that need a unique identifier simply use this as a facility and configure it::
 
@@ -255,7 +256,7 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 .. image:: images/PyreIpaClassDiagram.png
 
 
-* need a good example of how Ipa is used...try Sentry here...
+.. todo:: discuss Sentry as an example of how ipa is used
 
 
 .. _ipc:
