@@ -253,6 +253,8 @@ As such it can be run from the command line or started as a daemon.
 Constructions of pyre applications are very similar to constructions
 of pyre components, as shown in the class structure:
 
+.. inheritance-diagram:: pyre.applications.Application pyre.application.ClientServer pyre.application.CommandlineParser pyre.application.ComponentHarness pyre.application.Daemon pyre.application.DynamicComonentHarness pyre.application.Executive pyre.application.Script pyre.application.ServiceDaemon pyre.application.ServiceHarness pyre.application.Stager
+   :parts: 1
 
 Instead of subclassing pyre.components.Component.Component, you need to
 subclass pyre.applications.Script.Script.

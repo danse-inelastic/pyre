@@ -108,14 +108,14 @@ as well as execute other methods in the DbManager interface.
 Constructive solid geometry: pyre.geometry
 ------------------------------------------
 
-Pyre.geometry is a complex collection of geometry-related classes and utilities.  It has a geometric modeler, a loader, and a mesh:
+Pyre.geometry is a complex collection of geometry-related classes and utilities.  A user employs the loader and mesh:
 
 .. inheritance-diagram:: pyre.geometry.Loader pyre.geometry.Mesh 
    :parts: 1
 
 .. .. image:: images/PyreGeometryClassDiagram.png
 
-These can interact with a variety of solids:
+to interact with a variety of basic shapes:
 
 .. inheritance-diagram:: pyre.geometry.solids.Block pyre.geometry.solids.Cone pyre.geometry.solids.Cylinder pyre.geometry.solids.GeneralizedCone pyre.geometry.solids.Prism pyre.geometry.solids.Pyramid pyre.geometry.solids.Sphere pyre.geometry.solids.Torus 
    :parts: 1
@@ -127,7 +127,7 @@ One can then operate on these shapes with intersections, unions, etc:
 .. inheritance-diagram:: pyre.geometry.operations.Difference pyre.geometry.operations.Dilation pyre.geometry.operations.Intersection pyre.geometry.operations.Reflection pyre.geometry.operations.Reversal pyre.geometry.operations.Rotation pyre.geometry.operations.Translation pyre.geometry.operations.Union 
    :parts: 1
 
-Each of these geometric constructions can be serialized via a series of here are :ref:`weaver-like<weaver>` classes to pml format.
+to form larger shapes quickly.  Each of these geometric constructions can be serialized via a series of :ref:`weaver-like<weaver>` classes to pml format.  An example of an application that uses pyer.geometry is the danse `geometry <http://dev.danse.us/trac/common/browser/geometry/trunk>`_ package.
 
 .. 2) point me to some pyre.geometry use in your code so i can write a
  brief script...
@@ -255,7 +255,7 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 
 .. .. image:: images/PyreIpaClassDiagram.png
 
-.. inheritance-diagram:: pyre.ipa.IPASession pyre.ipa.Authentication pyre.UserManager pyre.ipa.Daemon pyre.ipa.IPAService
+.. inheritance-diagram:: pyre.ipa.IPASession pyre.ipa.Authentication pyre.ipa.UserManager pyre.ipa.Daemon pyre.ipa.IPAService
    :parts: 1
 
 .. todo:: discuss Sentry as an example of how ipa is used
@@ -266,18 +266,19 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 Pyre.ipc
 --------
 
-Here is the class diagram for pyre.ipc:
+Ipc seems to provide ways to create services and clients so that you can pass messages. Here is the class diagram:
 
-.. image:: images/PyreIpcClassDiagram.png
+.. .. image:: images/PyreIpcClassDiagram.png
 
-
+.. inheritance-diagram:: pyre.ipc.Selector pyre.ipc.UDPMonitor pyre.ipc.TCPMonitor
+   :parts: 1
 
 .. _pyre-simulations: 
 
 Running and steering simulations in pyre: pyre.simulations
 ----------------------------------------------------------
 
-Here are tools for running simulations with pyre (mostly finite element for now):
+Here is a solver and simulation controller for running finite element simulations:
 
 .. .. image:: images/PyreSimulationsClassDiagram.png
 
