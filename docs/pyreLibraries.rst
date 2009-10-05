@@ -66,7 +66,7 @@ which are inserted into a table:
 .. inheritance-diagram:: pyre.db.Table
    :parts: 1
 
-The entity which does the insertions is the DBManager, which can be connected to either the Postgre bindings Psycopg (or Psycopg2), or to the SQLite bindings:
+The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
 
 .. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
    :parts: 1
@@ -108,25 +108,23 @@ as well as execute other methods in the DbManager interface.
 Constructive solid geometry: pyre.geometry
 ------------------------------------------
 
-(note: the internal classes of the packages need to be removed)
-
 Pyre.geometry is a complex collection of geometry-related classes and utilities.  It has a geometric modeler, a loader, and a mesh:
 
-.. inheritance-diagram:: pyre.geometry.GeometricalModeller pyre.geometry.Loader pyre.geometry.Mesh 
+.. inheritance-diagram:: pyre.geometry.Loader pyre.geometry.Mesh 
    :parts: 1
 
 .. .. image:: images/PyreGeometryClassDiagram.png
 
 These can interact with a variety of solids:
 
-.. inheritance-diagram:: pyre.geometry.solids.Block pyre.geometry.solids.Body pyre.geometry.solids.Cone pyre.geometry.solids.Cylinder pyre.geometry.solids.GeneralizedCone pyre.geometry.solids.Primitive pyre.geometry.solids.Prism pyre.geometry.solids.Pyramid pyre.geometry.solids.Sphere pyre.geometry.solids.Torus 
+.. inheritance-diagram:: pyre.geometry.solids.Block pyre.geometry.solids.Cone pyre.geometry.solids.Cylinder pyre.geometry.solids.GeneralizedCone pyre.geometry.solids.Prism pyre.geometry.solids.Pyramid pyre.geometry.solids.Sphere pyre.geometry.solids.Torus 
    :parts: 1
 
 .. .. image:: images/PyreGeometrySolidsClassDiagram.png
 
 One can then operate on these shapes with intersections, unions, etc:
 
-.. inheritance-diagram:: pyre.geometry.operations.Binary pyre.geometry.operations.Composition pyre.geometry.operations.Difference pyre.geometry.operations.Dilation pyre.geometry.operations.Intersection pyre.geometry.operations.Reflection pyre.geometry.operations.Reversal pyre.geometry.operations.Rotation pyre.geometry.operations.Transformation pyre.geometry.operations.Translation pyre.geometry.operations.Union 
+.. inheritance-diagram:: pyre.geometry.operations.Difference pyre.geometry.operations.Dilation pyre.geometry.operations.Intersection pyre.geometry.operations.Reflection pyre.geometry.operations.Reversal pyre.geometry.operations.Rotation pyre.geometry.operations.Translation pyre.geometry.operations.Union 
    :parts: 1
 
 Each of these geometric constructions can be serialized via a series of here are :ref:`weaver-like<weaver>` classes to pml format.
@@ -211,14 +209,16 @@ Here is the class diagram:
 Pyre server base: pyre.services
 -------------------------------
 
+Pyre services are useful when creating servers that need to provide a type of service, such as a `globally unique string creator daemon<pyre-idd>` or a .
+
 Here is the class diagram for pyre's services base:
 
-.. image:: images/PyreServicesClassDiagram.png
+.. .. image:: images/PyreServicesClassDiagram.png
 
-.. inheritance-diagram:: pyre.services.UDPService pyre.services.TCPService pyre.services.Evaluator pyre.services.Pickler pyre.services.TCPSession pyre.services.UDPSession
+.. inheritance-diagram:: pyre.services.UDPService pyre.services.TCPService pyre.services.Evaluator pyre.services.Pickler pyre.services.TCPSession pyre.services.UDPSession pyre.services.ServiceRequest
    :parts: 1
 
-These classes are useful when creating servers that need to provide a type of service, as shown for idd, ipa, and ipc in the next sections.
+
 
 
 .. _idd:
