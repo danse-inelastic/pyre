@@ -57,7 +57,7 @@ As a web framework, in it's inventory it has a special type of facility called o
 .. inheritance-diagram:: opal.inventory.Actor
    :parts: 1
 
-which processes subcomponents inheriting from opal.components.Actor, one of many other components used in opal:
+which processes subcomponents inheriting from opal.components.Actor, one of a few other components used in opal:
 
 .. inheritance-diagram:: opal.components.Actor opal.components.AuthenticatingActor opal.components.GenericActor opal.components.Login opal.components.Logout opal.components.NYI opal.components.Registrar opal.components.Sentry
    :parts: 1
@@ -75,7 +75,7 @@ When a user creates a python class subclassing opal.components.Actor which conta
 Opal demo
 ^^^^^^^^^
 
-The best way to exlain opal is by executing it as a normal python application and then explaining how any server could run it.  To demonstrate the philosophy behind opal, we create the following subclass of opal.components.Actor::
+The best way to exlain opal is by executing it as a normal python application and then explaining how any server could run it.  So we create the following subclass of opal.components.Actor::
 
 
 
@@ -85,9 +85,19 @@ The best way to exlain opal is by executing it as a normal python application an
 Luban
 -----
 
-Luban is a generic user-interface specification language and builder. More information can be found in its `documentation <http://docs.danse.us/pyre/luban/sphinx/>`_.
+Luban is a generic user-interface specification language and builder. More information can be found in its `documentation <http://docs.danse.us/pyre/luban/sphinx/>`_.  
 
-Here is a :ref:`test link<tutorials>` to its tutorials.
+It has been used for the Virtual Neutron Facility:
+
+.. image:: _static/vnf.png
+
+and has also been used to construct an interface builder called gongshuzhi:
+
+.. image:: _static/gongshuzhi.png
+
+
+
+.. Here is a :ref:`test link<tutorials>` to its tutorials.
 
 .. .. toctree::
 
