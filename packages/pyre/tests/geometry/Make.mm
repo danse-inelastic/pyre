@@ -11,26 +11,41 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = pyre
-PACKAGE = tests/applications
+PACKAGE = tests/geometry
 
-PROJ_TESTS = \
+all: export
 
-PROJ_TIDY += *.log geometry-test.pml
-PROJ_LIBRARIES = 
+#--------------------------------------------------------------------------
+# export
+
+EXPORT_PYTHON_MODULES = \
+    canister.odb \
+    mesh.py \
+    pickle.py \
+    unpickle.py \
+    __init__.py
+
+export:: export-package-python-modules
+
+
+#PROJ_TESTS = \
+
+#PROJ_TIDY += *.log geometry-test.pml
+#PROJ_LIBRARIES =
 
 #--------------------------------------------------------------------------
 #
 
-all: tidy
+#all: tidy
 
-test:
-	for test in $(PROJ_TESTS) ; do $${test}; done
+#test:
+#	for test in $(PROJ_TESTS) ; do $${test}; done
 
-release: tidy
-	cvs release .
+#release: tidy
+#	cvs release .
 
-update: clean
-	cvs update .
+#update: clean
+#	cvs update .
 
 # version
 # $Id: Make.mm,v 1.1.1.1 2006-11-27 00:10:10 aivazis Exp $

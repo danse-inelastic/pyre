@@ -32,17 +32,35 @@ RECURSE_DIRS = \
 #--------------------------------------------------------------------------
 #
 
-all:
-	BLD_ACTION="all" $(MM) recurse
+all: export
 
-clean::
-	BLD_ACTION="clean" $(MM) recurse
-
-distclean::
-	BLD_ACTION="clean" $(MM) recurse
 
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
+
+
+#--------------------------------------------------------------------------
+# export
+
+EXPORT_PYTHON_MODULES = \
+    run.py \
+    __init__.py
+
+export:: export-package-python-modules
+	BLD_ACTION="export" $(MM) recurse
+
+
+#all:
+#	BLD_ACTION="all" $(MM) recurse
+
+#clean::
+#	BLD_ACTION="clean" $(MM) recurse
+
+#distclean::
+#	BLD_ACTION="clean" $(MM) recurse
+
+#tidy::
+#	BLD_ACTION="tidy" $(MM) recurse
 
 # version
 # $Id: Make.mm,v 1.1.1.1 2006-11-27 00:10:10 aivazis Exp $

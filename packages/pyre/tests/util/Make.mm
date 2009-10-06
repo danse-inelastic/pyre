@@ -13,19 +13,30 @@
 PROJECT = pyre
 PACKAGE = tests/util
 
-PROJ_TESTS = \
+all: export
 
+#--------------------------------------------------------------------------
+# export
 
-PROJ_CLEAN =
-PROJ_LIBRARIES = 
+EXPORT_PYTHON_MODULES = \
+    expand.py \
+    timer.py \
+    __init__.py
+
+export:: export-package-python-modules
+
+#PROJ_TESTS = \
+
+#PROJ_CLEAN =
+#PROJ_LIBRARIES =
 
 #--------------------------------------------------------------------------
 #
 
-all: tidy
+#all: tidy
 
-test:
-	for test in $(PROJ_TESTS) ; do $${test}; done
+#test:
+#	for test in $(PROJ_TESTS) ; do $${test}; done
 
 # version
 # $Id: Make.mm,v 1.1.1.1 2006-11-27 00:10:13 aivazis Exp $

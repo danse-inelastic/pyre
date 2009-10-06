@@ -16,7 +16,7 @@ def test():
 
     from pyre.inventory.Trait import Trait
 
-    trait = Trait(name="trait")
+    trait = Trait("trait", "str")
 
     print "trait = %r" % trait
 

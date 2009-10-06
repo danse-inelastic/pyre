@@ -13,16 +13,39 @@
 PROJECT = pyre
 PACKAGE = tests/inventory
 
-PROJ_TESTS = \
+all: export
 
-PROJ_LIBRARIES = 
+#--------------------------------------------------------------------------
+# export
+
+EXPORT_PYTHON_MODULES = \
+    array.py \
+    bool.py \
+    component.py \
+    curator.py \
+    infile.py \
+    inventory.py \
+    list.py \
+    logicals.py \
+    odb.py \
+    outfile.py \
+    trait.py \
+    vectors.py \
+    __init__.py
+
+export:: export-package-python-modules
+
+
+#PROJ_TESTS = \
+
+#PROJ_LIBRARIES =
 
 #--------------------------------------------------------------------------
 #
 
-all: $(PROJ_TESTS)
+#all: $(PROJ_TESTS)
 
-test:
+#test:
 	for test in $(PROJ_TESTS) ; do $${test}; done
 
 # version
