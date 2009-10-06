@@ -20,7 +20,9 @@ A list of the units that are possible include:
    :members:
    :undoc-members:
 
-
+.. automodule:: pyre.units.unitparser
+   :members:
+   :undoc-members:
 
 
 Modules
@@ -40,13 +42,6 @@ Modules
  * `pressure <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/pressure.py>`_
  * `energy <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/energy.py>`_
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
-
-Here are some of the classes used by these data structures:
-
-.. inheritance-diagram:: pyre.units
-   :parts: 2
-
-.. .. image:: images/PyreUnitsClassDiagram.png
 
 
 .. _pyre-db:
@@ -141,8 +136,8 @@ to form larger shapes quickly.  Each of these geometric constructions can be ser
 
 .. _pyre-xml:
 
-pyre.xml: xml processor: 
-------------------------------
+pyre.xml: xml processor 
+-----------------------
 
 .. The xml parser in pyre works in a
 
@@ -263,7 +258,7 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 
 .. _ipc:
 
-Pyre.ipc
+pyre.ipc
 --------
 
 Ipc seems to provide ways to create services and clients so that you can pass messages. Here is the class diagram:
@@ -287,8 +282,8 @@ Here is a solver and simulation controller for running finite element simulation
 
 .. _pyre-util:
 
-Pyre utilities
---------------
+Pyre utilities: pyre.util
+-------------------------
 
 Here are various utilities, such as the base class, Singleton, for the singleton design pattern:
 
@@ -429,7 +424,9 @@ Another very useful device is a journal daemon.
 
 Journal daemon
 """"""""""""""
-It is also a good model of a pyre application as discussed in :ref:`a section on advanced pyre <journal-structure>`.  Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
+.. It is also a good model of a pyre application as discussed in :ref:`a section on advanced pyre <journal-structure>`.  
+
+Because journal is a daemon, it produces debugging info for all application types, whether distributed or local.
 
 To start using journal daemon, first execute the journal daemon by typing::
 
@@ -475,14 +472,18 @@ and make sure they turn "on" debug or info output for that component.  For examp
 
 .. _debugger:
 
-Debuggers
----------
+Other debuggers
+---------------
 
 In addition to journal, and especially for routine debugging of individual components, interactive debuggers (such as in Eclipse) may be useful.  Pyre is particularly amenable to this type of testing since all parameters may be input via the commandline, which in Eclipse may be stored as run configurations.  
 
 In Eclipse these run configuration can also be exported ("Shared File" under the "Common" tab) and archived or shared among developers.  Additionally, each time a developer changes the run configuration, Eclipse automatically updates the exported files.
 
 
+Create your app
+---------------
+
+Once you have created your directory structure and learned how to use a debugger, you are ready to go!  Just type 'mm' to install your resulting code into the pyre installation directory and it should be available on your python path.
 
 
 .. _mcvine:

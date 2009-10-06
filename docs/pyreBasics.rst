@@ -38,7 +38,7 @@ All properties are instances of pyre.inventory.Property.Property, and usually th
 
 A full list of all inventory properties is shown below:
 
-.. automodule:: __init__
+.. automodule:: pyre.inventory
    :members: array bool dimensional float inputFile int list outputFile preformatted slice str
    :undoc-members:
 
@@ -101,8 +101,7 @@ Difference between factory and default keyword
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As part of the facility declaration, A gets to recommend a default component to do the job,
-or it can recommend a way to build a component to do the job 
-(:ref:`factory <what-is-factory>`). 
+or it can recommend a way to build a component to do the job. 
 Users get the final decision: they can direct that a different component be used, 
 specifying that on the command line or through a configuration file (.pml).
 

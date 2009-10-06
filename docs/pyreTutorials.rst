@@ -37,14 +37,10 @@ First, download the `zip file <http://www.cacr.caltech.edu/projects/danse/pyre/p
 
 .. _pyre-tutorials:
 
-
 10-minute Tutorial
 ==================
 
-If you have not done so, please 
-:ref:`install <installation>`
-pythia-0.8 before you try out the following examples.
-
+If you have not done so, please :ref:`install <installation>` pythia-0.8 before you try out the following examples.
 
 This is the pyre version of hello world. It introduces some structures into the simple one-liner ::
 
@@ -215,7 +211,9 @@ wouldn't it be useful to have alternative ways to configure a program? Pyre allo
     creating inventory template in 'hello2.pml'
 
 .. Now we edit the hello2.pml to look like ::
+
 To try this feature out, create the following xml file and save it as hello2.pml::
+
   <!DOCTYPE inventory>
 
   <inventory>
@@ -226,8 +224,7 @@ To try this feature out, create the following xml file and save it as hello2.pml
 
   </inventory>
 
-With this file in your current directory, you will see something
-different::
+With this file in your current directory, you will see something different::
 
   $ python hello2.py
   Hello Alice!
