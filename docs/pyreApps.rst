@@ -87,13 +87,16 @@ Luban
 
 Luban is a generic user-interface specification language and builder. More information can be found in its `documentation <http://docs.danse.us/pyre/luban/sphinx/>`_.  
 
-It has been used for the Virtual Neutron Facility:
+It has been used for the `Virtual Neutron Facility <http://dev.danse.us/trac/VNET>`_:
 
 .. image:: _static/vnf.png
+   :scale: 50
 
-and has also been used to construct an interface builder called gongshuzhi:
+
+and has also been used to construct an interface builder called `Gongshuzhi <http://luban.danse.us/cgi-bin/gongshuzi/main.cgi>`_:
 
 .. image:: _static/gongshuzhi.png
+   :scale: 50
 
 
 
