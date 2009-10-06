@@ -262,7 +262,7 @@ Although there are a variety of applications in pyre:
 
 most users subclass pyre.applications.Script.Script.  This allows users to leverage one of the strengths of pyre, which is a systematic way to configure and distribute from the command line all inventory items at run time by simply passing them at the commandline of the application::
 
-  application.py --property=value1 --facility=value2
+  MyApp.py --property=value1 --facility=value2
 
 Although properties can be changed easily, for the above to work for facilities, an odb file must also be present, as discussed in the next section.
 
@@ -298,22 +298,20 @@ By specifying a different greeter::
   $ python greet.py --greeter=morning
   Good morning World!
 
-We swapped subcomponents dynamically.  
-
-A key strength of pyre is an automatic system to specify all user inputs (items stored in the inventory of each component application) from either the command line or from an xml file.  In pyre these are pml files, discussed next.
+We can swap subcomponents dynamically.  A user may also configure the application using xml input files.  These are called pml files, discussed next.
 
 .. _pml-files:
 
 Pyre pml files
 --------------
 
-A .pml file is an xml file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
+A pml file is an xml file that assigns values to properties, components, and facilities in an application, allowing a user to override the default values assigned in the respective inventories.
 
 To change the values of a property simply hand-edit the value, which has the general form::
 
     <property name='key'>value</property>
 
-The name of the .pml file must be <component_name>.pml. Facilities may also be configured in a  similar manner::
+The name of the pml file must be <component_name>.pml. Facilities may also be configured in a  similar manner::
 
     <facility name='greeter'>morning</facility>
 

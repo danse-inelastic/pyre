@@ -200,22 +200,22 @@ Checking out the DANSE repo version of pyre
 
 Developers participating in Distributed Analysis of Neutron Scattering Experiments (DANSE) should use the trunk from the danse.us/pyre repository.  For example, assuming read-only access::
 
-  $ svn co svn://svn@danse.us/pyre/trunk
+  $ svn co svn://svn@danse.us/pyre/pythia-0.8
 
-Read and write access can be obtained by joining the DANSE project and by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.   
+Write access can be obtained by joining the DANSE project and by filling out a `CACR Account request form <http://www.cacr.caltech.edu/main/?page_id=89>`_ for the DANSE project.   
 
-Now go to the base directory of pyre::
+Now go to the base directory and type 'mm'::
 
-  $ cd patches-from-jiao
+  $ cd pythia-0.8
   $ mm
 
-and type 'mm'.  To test the installation, change to the pyre tests directory::
+To test the installation, change to the pyre tests directory and run the hello.py test::
 
   $ cd $PYTHIA_DIR/packages/pyre/tests/applications 
   $ python hello.py --name=NewPyreUser
   Good morning NewPyreUser!
 
-and run the hello.py test.  If you have installed the pure python version of pyre from egg or zip previously, uninstall it before trying these tests.
+If you have installed the pure python version of pyre from egg or zip previously, uninstall it before trying these tests.
 
 
 Installing other pythia-0.8 packages
