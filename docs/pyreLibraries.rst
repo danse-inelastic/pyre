@@ -16,18 +16,6 @@ Automatic unit conversion: pyre.units
 
 A list of the units that are possible include:
 
-.. automodule:: pyre.units.angle
-   :members:
-   :undoc-members:
-
-.. automodule:: pyre.units.unitparser
-   :members:
-   :undoc-members:
-
-
-Modules
-^^^^^^^
-
  * `angle <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/angle.py>`_
  * `time <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/time.py>`_
  * `length <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/length.py>`_
@@ -42,6 +30,15 @@ Modules
  * `pressure <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/pressure.py>`_
  * `energy <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/energy.py>`_
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
+
+
+.. automodule:: pyre.units.angle
+   :members:
+   :undoc-members:
+
+.. automodule:: pyre.units.unitparser
+   :members:
+   :undoc-members:
 
 
 .. _pyre-db:
@@ -65,10 +62,6 @@ The entity which does the insertions is the DBManager, which can be connected to
 
 .. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
    :parts: 1
-
-It works by populating
-
-As apparent, pyre.db offers a number of variable types (inheriting from "Column"), which are part of "Table".  These are managed by a subclass of DBManager, currently implemented with a postgres db backend by "Psycopg2", for example, which overrides DBManager's commit() method.  This class name is also the name of the python wrapper for postgres.
 
 To store objects in a db, one must subclass "Table", such as::
 
@@ -95,7 +88,9 @@ Then users can store objects in the usual way::
     cylinder = Cylinder()
     dbm.insertRow(cylinder)
 
-as well as execute other methods in the DbManager interface.
+as well as execute other methods in the DbManager interface. 
+
+An extension to pyre.db, called dsaw, will soon be available.  It has an SQLAlchemy plugin.
 
 
 .. _pyre-geometry:
@@ -196,7 +191,7 @@ Here is the class diagram:
     files. But you also need xml node classes Folder and File. This could
     be confusing and difficult to explain (at least to me).
 
-
+.. testsnippet
 
 
 .. _pyre-services:
@@ -252,6 +247,61 @@ Ipa is a daemon which can manage user sessions by creating hashes, issuing ticke
 
 .. inheritance-diagram:: pyre.ipa.IPASession pyre.ipa.Authentication pyre.ipa.UserManager pyre.ipa.Daemon pyre.ipa.IPAService
    :parts: 1
+
+An example which uses pyre.ipa is the Sentry component, which performs the task of authenticating new users::
+
+    from pyre.components.Component import Component
+    
+    
+    class Sentry(Component):
+    
+    
+        class Inventory(Component.Inventory):
+    
+            import pyre.inventory
+    
+            username = pyre.inventory.str('username')
+            username.meta['tip'] = "the requestor's username"
+    
+            passwd = pyre.inventory.str('passwd')
+            passwd.meta['tip'] = "the requestor's passwd"
+    
+            ticket = pyre.inventory.str('ticket')
+            ticket.meta['tip'] = "the requestor's previously obtained ticket"
+    
+            attempts = pyre.inventory.int('attempts')
+            attempts.meta['tip'] = "the number of unsuccessful attempts to login"
+    
+            import pyre.ipa
+            ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
+            ipa.meta['tip'] = "the ipa session manager"
+    
+    
+        def authenticate(self):
+	    ...
+    
+    
+        def __init__(self, name=None):
+            if name is None:
+                name = 'sentry'
+    
+            super(Sentry, self).__init__(name)
+	    ...    
+    
+    
+        def _configure(self):
+            Component._configure(self)
+            self.username = self.inventory.username
+            self.passwd = self.inventory.passwd
+            self.ticket = self.inventory.ticket
+            self.attempts = self.inventory.attempts
+    
+            self.ipa = self.inventory.ipa
+    
+            return
+
+Sentry's Inventory class also contains a facility to a session subcomponent called "ipa".
+
 
 .. todo:: discuss Sentry as an example of how ipa is used
 

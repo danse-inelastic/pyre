@@ -38,7 +38,18 @@ All properties are instances of pyre.inventory.Property.Property, and usually th
 
 A full list of all inventory properties is shown below:
 
-.. automodule:: pyre.inventory
+.. autofunction:: pyre.inventory.array
+.. autofunction:: pyre.inventory.bool
+.. autofunction:: pyre.inventory.dimensional
+.. autofunction:: pyre.inventory.inputFile
+.. autofunction:: pyre.inventory.int
+.. autofunction:: pyre.inventory.list
+.. autofunction:: pyre.inventory.outputFile
+.. autofunction:: pyre.inventory.preformatted
+.. autofunction:: pyre.inventory.slice
+.. autofunction:: pyre.inventory.str
+
+.. .. automodule:: pyre.inventory
    :members: array bool dimensional float inputFile int list outputFile preformatted slice str
    :undoc-members:
 
@@ -58,17 +69,17 @@ the key that pyre framework will use to find its user configuration.
 Keyword "default" specifies the default value;
 Keyword "validator" specifies a method that validate the user input. The following is a complete list of validators:
 
-.. autofunction:: __init__.less
+.. autofunction:: pyre.inventory.less
 
-.. autofunction:: __init__.lessEqual
+.. autofunction:: pyre.inventory.lessEqual
 
-.. autofunction:: __init__.greater
+.. autofunction:: pyre.inventory.greater
 
-.. autofunction:: __init__.greaterEqual
+.. autofunction:: pyre.inventory.greaterEqual
 
-.. autofunction:: __init__.range
+.. autofunction:: pyre.inventory.range
 
-.. autofunction:: __init__.choice
+.. autofunction:: pyre.inventory.choice
 
 
 In the above example, a pyre built-in validator pyre.inventory.less is used. Another useful validator is choice, which allows users to input only certain type of property::
@@ -83,11 +94,11 @@ Facility and other factory functions
 
 There are also factory functions which produce pyre objects themselves.  Here is a complete listing:
 
-.. autofunction:: __init__.facility
+.. autofunction:: pyre.inventory.facility
 
-.. autofunction:: __init__.curator
+.. autofunction:: pyre.inventory.curator
 
-.. autofunction:: __init__.registry
+.. autofunction:: pyre.inventory.registry
 
 .. .. automodule:: pyre.inventory.__init__
      :members: facility curator registry
@@ -124,7 +135,6 @@ This could lead to some strange behavior of your application if you
 don't design your application carefully. 
 On the other hand, using the first approach is a safe choice.
 
-
 For more details of how pyre inventory works, please consult
 :ref:`pyre-inventory-implementation`.
 
@@ -134,59 +144,7 @@ For more details of how pyre inventory works, please consult
 Components
 ---------------
 
-Pyre component structure is relatively straightforward.  The component class is inherited from pyre.inventory.Component.  It should contain an inner class called Inventory, which usually subclasses the Inventory class of the parent.  An example is Sentry, which performs the task of authenticating new users::
-
-    from pyre.components.Component import Component
-    
-    
-    class Sentry(Component):
-    
-    
-        class Inventory(Component.Inventory):
-    
-            import pyre.inventory
-    
-            username = pyre.inventory.str('username')
-            username.meta['tip'] = "the requestor's username"
-    
-            passwd = pyre.inventory.str('passwd')
-            passwd.meta['tip'] = "the requestor's passwd"
-    
-            ticket = pyre.inventory.str('ticket')
-            ticket.meta['tip'] = "the requestor's previously obtained ticket"
-    
-            attempts = pyre.inventory.int('attempts')
-            attempts.meta['tip'] = "the number of unsuccessful attempts to login"
-    
-            import pyre.ipa
-            ipa = pyre.inventory.facility("session", factory=pyre.ipa.session)
-            ipa.meta['tip'] = "the ipa session manager"
-    
-    
-        def authenticate(self):
-	    ...
-    
-    
-        def __init__(self, name=None):
-            if name is None:
-                name = 'sentry'
-    
-            super(Sentry, self).__init__(name)
-	    ...    
-    
-    
-        def _configure(self):
-            Component._configure(self)
-            self.username = self.inventory.username
-            self.passwd = self.inventory.passwd
-            self.ticket = self.inventory.ticket
-            self.attempts = self.inventory.attempts
-    
-            self.ipa = self.inventory.ipa
-    
-            return
-
-As a component, Sentry represents a "unit of functionality".  Sentry's Inventory class also contains a facility to a session subcomponent called "ipa".  Another thing to note is methods such as _defaults(), which communicate directly with the framework.  Some of the more frequently-used methods include:
+Pyre component structure is relatively straightforward.  The component class is inherited from pyre.inventory.Component.  It should contain an inner class called Inventory, which usually subclasses the Inventory class of the parent.  It may also override a number of methods which are hooks in the framework to do certain tasks.  Some of the more frequently-used methods include:
 
 __init__(): the constructor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -243,6 +201,8 @@ The class structure for Components is relatively simple:
 
 .. inheritance-diagram:: pyre.components.Component 
    :parts: 3
+
+Frequently users would like to know which parts of their code to componentize.  The answer is that components represent a "unit of functionality" and so do not have to "wrap each class", but should wrap parts of the code which one would like to interchange, move around, etc.
 
 Applications
 ------------
