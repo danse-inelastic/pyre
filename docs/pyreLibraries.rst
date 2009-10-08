@@ -300,10 +300,7 @@ An example which uses pyre.ipa is the Sentry component, which performs the task 
     
             return
 
-Sentry's Inventory class also contains a facility to a session subcomponent called "ipa".
-
-
-.. todo:: discuss Sentry as an example of how ipa is used
+As apparent, Sentry's Inventory contains a facility for the factory function "session" which produces an instance of pyre.ipa.Session in the class diagram above.
 
 
 .. _ipc:

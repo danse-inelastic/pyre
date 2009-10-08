@@ -70,15 +70,10 @@ Keyword "default" specifies the default value;
 Keyword "validator" specifies a method that validate the user input. The following is a complete list of validators:
 
 .. autofunction:: pyre.inventory.less
-
 .. autofunction:: pyre.inventory.lessEqual
-
 .. autofunction:: pyre.inventory.greater
-
 .. autofunction:: pyre.inventory.greaterEqual
-
 .. autofunction:: pyre.inventory.range
-
 .. autofunction:: pyre.inventory.choice
 
 
@@ -95,9 +90,7 @@ Facility and other factory functions
 There are also factory functions which produce pyre objects themselves.  Here is a complete listing:
 
 .. autofunction:: pyre.inventory.facility
-
 .. autofunction:: pyre.inventory.curator
-
 .. autofunction:: pyre.inventory.registry
 
 .. .. automodule:: pyre.inventory.__init__
@@ -297,13 +290,7 @@ The order of precedence is: 3 beats the others, 2 beats 1, and 1 beats whatever 
 Science tutorial: swapping molecular dynamics engines
 =====================================================
 
-
-
-
-
-
-
-
+To understand more about how pyre allows component swapping while demonstrating a viable science use case, we study simple iron using molecular dynamics.  A full tutorial is given in the `documentation <http://docs.danse.us/MolDyn/sphinx>` of the pyre application AtomSim. 
 
 
 ..  also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
