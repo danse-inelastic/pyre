@@ -112,3 +112,13 @@ and has also been used to construct an interface builder called `Gongshuzhi <htt
    luban/Gongshuzi
    luban/History
 
+
+Cassandra
+---------
+
+Cassandra is a pyre taskmaster-worker service arrangement.  It takes a given task and divides up among N workers:
+
+.. image:: _static/tm-w.png
+
+It is currently used in the `Computational Infrastructure for Geodynamics <http://www.geodynamics.org/cig/>`_.  More documentation about it can be found `here <http://crust.geodynamics.org/~leif/presentations/cassandra>`_.
+
