@@ -186,16 +186,17 @@ component is ready to run; for example, you may want to allocate memory,
 open input/output files, initiate c/c++/fortran engines that this
 component is depending on, etc.
 
-.. todo:: have a link to a complete listing of overidable component methods 
-
 .. todo:: discuss the order in which component methods are called by the framework
 
 The class structure for Components is relatively simple:
 
 .. inheritance-diagram:: pyre.components.Component 
-   :parts: 3
+   :parts: 4
 
-Frequently users would like to know which parts of their code to componentize.  The answer is that components represent a "unit of functionality" and so do not have to "wrap each class", but should wrap parts of the code which one would like to interchange, move around, etc.
+Frequently users would like to know which parts of their code to componentize.  The answer is that components represent a "unit of functionality" and so do not have to "wrap each class", but should wrap parts of the code which one would like to interchange or develop separately.
+
+
+
 
 Applications
 ------------
