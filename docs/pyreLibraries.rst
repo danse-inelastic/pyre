@@ -135,15 +135,6 @@ to form larger shapes quickly.  Each of these geometric constructions can be ser
 Xml processor: pyre.xml  
 -----------------------
 
-.. The xml parser in pyre works in a
-
-Here is the class diagram:
-
-.. .. image:: images/PyreXmlClassDiagram.png
-
-.. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
-   :parts: 1
-
 .. This luban0.1 code, http://dev.danse.us/trac/pyregui/browser/trunk/luban/luban/gml, uses
   pyre.xml to parse xml files. The pyre xml mechanism allows you to
   simplify the xml parsing to just define nodes for parsing (classes in
@@ -152,34 +143,57 @@ Here is the class diagram:
   documents with only two types of nodes, one for a branch-like node,
   one for a leaf-like node.
 
-.. I don't quite recall how to write this pyre xml parser. So the
-    following might not be all correct:
-    
-    1. you need to create a Parser class by inheriting from pyre.xml.Parser.Parser
-    2. the parse method of this new Parser class would look like this:
-     def parse(self, stream, parserFactory=None):
+Pyre.xml allows one to simplify xml parsing by only having to define nodes for parsing.  This is how to proceed:
+
+    1. Create a Parser class by inheriting from pyre.xml.Parser.Parser.
+    2. The parse method of this new Parser class should be similar to::
+       
+        def parse(self, stream, parserFactory=None):
            from parser.Document import Document
-           return BaseParser.parse(self, stream, Document(stream.name),
-    parserFactory)
-    3. You need a subpackage "parser".
-    4.  In subdir "parser",  there is a Document class that represents a
-    xml document. This Document class must has a property "tags", which is
-    a list of all supported tags
-    5. The Document class must have one method that is used to handle the
-    root node in the xml document. In this file
-    http://dev.danse.us/trac/pyregui/browser/trunk/luban/luban/gml/parser/Document.py
-    the root node is "Gui", so there is a method "onGui"
-    6. All other "nodes" will inherit from pyx.xml.Node.Node and needs to
-    override methods "notify", "content"
-    7. 'notify' is used to notify the parent this element is here, and
-    parent will takes it in
-    8. 'content' is used to deal with the plain data (not xml nodes) as
-    the content of the current node
+           return BaseParser.parse(self, stream, Document(stream.name), parserFactory)
+       
+    3. Now create a subdirectory named "parser".
+    4. In parser, create a Document class that represents an xml document. This Document class must have a property "tags", which is a list of all supported tags.
+    5. The Document class must have one method that is used to handle the root node in the xml document. An example is the "onGui" method in::
     
-    The result of parsing using pyre.xml is a tree structure of nodes (not
-    the pyre.xml.node nodes, but instances of the descriptive classes of
-    what really this xml means). So for example, if we are dealing with a
-    xml file that looks like
+        from pyre.xml.Document import Document as DocumentNode
+    
+        class Document(DocumentNode):
+        
+            tags = [
+                "Gui", "MainApp", "MainFrame",
+                'MenuBar', 'Menu', 'MenuItem',
+                "Panel", "Splitter", "Notebook",
+                "Sizer",
+                "ListBox",
+                'HistogramFigure', 'PyShell',
+                "Section", "Note", "Paragraph", "Link",
+                'Button', 'TextField', 
+                "Table", "Row", "Cell",
+                'Emphasis',
+                "List", 'ListItem',
+                'Code',
+                'Figure',
+                'Dialog',
+                ]
+        
+            def onGui(self, gui):
+                self.document = gui
+                return
+
+    6. All other "nodes" inherit from pyre.xml.Node.Node:
+                
+       .
+    
+       .. literalinclude:: ../packages/pyre/pyre/xml/Node.py
+          :lines: 15-20
+            
+       and need to override methods "notify" and "content"
+    7. 'notify' is used to notify the parent this element is here, and parent will takes it in.
+    8. 'content' is used to deal with the plain data (not xml nodes) as
+       the content of the current node
+    
+The result of using pyre.xml is a tree structure of nodes (not the pyre.xml.node nodes, but instances of the descriptive classes of what really this xml means). So for example, if you are dealing with an xml file that looks like::
     
     <folder name="abc">
      <file name='file1'/>
@@ -188,11 +202,15 @@ Here is the class diagram:
      </folder>
     </folder>
     
-    You need to create classes Folder and File to represent folders and
-    files. But you also need xml node classes Folder and File. This could
-    be confusing and difficult to explain (at least to me).
+you need to create classes Folder and File to represent folders and files. But you also need xml node classes Folder and File. 
 
-.. testsnippet
+.. This could be confusing and difficult to explain (at least to me).
+
+
+Here is the class diagram:
+
+.. inheritance-diagram:: pyre.xml.Node pyre.xml.Parser pyre.xml.Document pyre.xml.DTDBuilder 
+   :parts: 1
 
 
 .. _pyre-services:
