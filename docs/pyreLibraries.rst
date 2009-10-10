@@ -32,15 +32,6 @@ A list of the units that are possible include:
  * `power <http://danse.us/trac/pyre/browser/pythia-0.8/packages/pyre/pyre/units/power.py>`_
 
 
-.. automodule:: pyre.units.angle
-   :members:
-   :undoc-members:
-
-.. automodule:: pyre.units.unitparser
-   :members:
-   :undoc-members:
-
-
 .. _pyre-db:
 
 Database access and object storage: pyre.db
@@ -90,7 +81,17 @@ Then users can store objects in the usual way::
 
 as well as execute other methods in the DbManager interface. 
 
-An extension to pyre.db, called dsaw, will soon be available.  It has an SQLAlchemy plugin.
+
+.. _dsaw:
+
+Extending the capabilities of pyre.db: dsaw.db
+----------------------------------------------
+
+An extension to pyre.db, called dsaw, has recently been developed.  It allows users to access the SQLAlchemy plugin.
+
+.. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
+   :parts: 1
+
 
 
 .. _pyre-geometry:
@@ -131,7 +132,7 @@ to form larger shapes quickly.  Each of these geometric constructions can be ser
 
 .. _pyre-xml:
 
-pyre.xml: xml processor 
+Xml processor: pyre.xml  
 -----------------------
 
 .. The xml parser in pyre works in a
