@@ -42,6 +42,7 @@ extensions = ['sphinx.ext.autodoc',
 
 intersphinx_mapping = {'http://docs.danse.us/pyre/luban/sphinx': None}
 todo_include_todos = False
+doctest_test_doctest_blocks = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
