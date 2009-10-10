@@ -181,19 +181,25 @@ Pyre.xml allows one to simplify xml parsing by only having to define nodes for p
                 self.document = gui
                 return
 
-    6. All other "nodes" inherit from pyre.xml.Node.Node:
+    6. All other nodes inherit from pyre.xml.Node.Node:
                 
-       .
-    
+       .. literalinclude:: ../packages/pyre/pyre/xml/Node.py
+          :lines: 15-20
+          
+       which inherits from pyre.xml.AbstractNode.AbstractNode:
+                
        .. literalinclude:: ../packages/pyre/pyre/xml/Node.py
           :lines: 15-20
             
-       and need to override methods "notify" and "content"
-    7. 'notify' is used to notify the parent this element is here, and parent will takes it in.
-    8. 'content' is used to deal with the plain data (not xml nodes) as
-       the content of the current node
+       and need to override methods notify() and content(). notify() should be used to notify the parent when each element arrives, and content() is supposed to deal with the plain data (not xml nodes) as the content of the current node
+
+      
+..        .. autoclass:: pyre.xml.Node.Node
+          :members:
+          :inherited-members:
+          :undoc-members:
     
-The result of using pyre.xml is a tree structure of nodes (not the pyre.xml.node nodes, but instances of the descriptive classes of what really this xml means). So for example, if you are dealing with an xml file that looks like::
+The result of using pyre.xml is a tree structure of nodes (not the pyre.xml.node nodes, but instances of the descriptive classes of what the xml means). So for example, if you are dealing with an xml file that looks like::
     
     <folder name="abc">
      <file name='file1'/>
@@ -204,7 +210,7 @@ The result of using pyre.xml is a tree structure of nodes (not the pyre.xml.node
     
 you need to create classes Folder and File to represent folders and files. But you also need xml node classes Folder and File. 
 
-.. This could be confusing and difficult to explain (at least to me).
+.. An example is the following: (look in luban)
 
 
 Here is the class diagram:
