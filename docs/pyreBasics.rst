@@ -9,9 +9,7 @@ Pyre basics: Inventory, Component, and Application
 
 .. Pyre is one package of pythia, a larger collection of related systems such as a distributed communication system (journal), code-generators (weaver), GUI generators (blade), and a build system (merlin).
 
-If you have not read :ref:`the tutorial <pyre-tutorials>`, please read it through
-and try out examples there to get a feeling of pyre components and pyre applications.
-Here, we cover in more depth these key concepts in pyre:
+If you have not read :ref:`the tutorial <pyre-tutorials>`, you may want to read it and try out the examples to get a feel for pyre components and applications. Here, we cover in more depth these key concepts:
 
  * Inventory
 
@@ -61,11 +59,8 @@ The programmer can specify the public name of a property, a default value, and a
       default=50*pyre.units.energy.meV, 
       validator=pyre.inventory.less(1*pyre.units.energy.eV))
 
-Here the factory 
-`pyre.inventory.dimensional </pyre/api/pyre.inventory-module.html#dimensional>`_
-is a factory method creating a property of dimensional type, and all user inputs
-for this property will be casted into this type.  Keyword "name" specifies the name of the property, and this name will be
-the key that pyre framework will use to find its user configuration.
+Here pyre.inventory.dimensional is a factory method creating a property of dimensional type, and all user inputs
+for this property will be casted into this type.  Keyword "name" specifies the name of the property, and this name will be the key that pyre framework will use to find its user configuration.
 Keyword "default" specifies the default value;
 Keyword "validator" specifies a method that validate the user input. The following is a complete list of validators:
 
@@ -291,7 +286,7 @@ The order of precedence is: 3 beats the others, 2 beats 1, and 1 beats whatever 
 Science tutorial: swapping molecular dynamics engines
 =====================================================
 
-To understand more about how pyre allows component swapping while demonstrating a viable science use case, we study simple iron using molecular dynamics.  A full tutorial is given in the `documentation <http://docs.danse.us/MolDyn/sphinx>` of the pyre application AtomSim. 
+To understand more about how pyre is useful, we illustrate component swapping with a small `molecular dynamics use case <http://docs.danse.us/MolDyn/sphinx>`_.. 
 
 
 ..  also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 
