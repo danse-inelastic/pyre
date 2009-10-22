@@ -1,7 +1,7 @@
 .. applications-that-use-pyre
 
-Applications that use pyre
-==========================
+Gallery of pyre applications
+============================
 
 A number of applications use the pyre framework and are good examples of how to effectively employ components to make developmenet of scientific applications easier, more cost-effective, and less prone to architectual design flaws.  We discuss a few of those here.
 
