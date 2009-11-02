@@ -44,7 +44,7 @@ Pyre's base ORM (Object Relational Mapper) is pyre.db, which has the following a
 .. inheritance-diagram:: pyre.db.BigInt pyre.db.Boolean pyre.db.Char pyre.db.Date pyre.db.BigInt pyre.db.Double pyre.db.DoubleArray pyre.db.Integer pyre.db.IntegerArray pyre.db.Interval pyre.db.Real pyre.db.SmallInt pyre.db.Time pyre.db.Timestamp pyre.db.VarChar pyre.db.VarCharArray
    :parts: 1
 
-These types are declared in an object inheriting from the 'Table' class.  For example, suppose our object represents cylindrical sample containers.  EachTo store objects in a db, one must subclass "Table", such as::
+These types are declared in an object inheriting from the 'Table' class.  For example, suppose our object represents cylindrical sample containers.  We create a class called 'Cylinder' which subclasses Table and make the attributes Column-derived objects, with names and, optionally, defaults::
 
     from Table import Table as base
     class Cylinder(base):
@@ -60,10 +60,13 @@ These types are declared in an object inheriting from the 'Table' class.  For ex
         innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
         outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 
-This table describes cylinders with parameters height, innerradius, and outerradius.
-
 .... inheritance-diagram:: pyre.db.Table
    :parts: 1
+   
+The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
+
+.. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
+   :parts: 1 
    
 Then users can store objects in the usual way::
 
@@ -72,10 +75,6 @@ Then users can store objects in the usual way::
     cylinder = Cylinder()
     dbm.insertRow(cylinder)
     
-The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
-
-.. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
-   :parts: 1 
 
 .. _dsaw:
 
