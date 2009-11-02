@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 #this script can be altered for whoever is transfering files to the server
 

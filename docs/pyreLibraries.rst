@@ -37,24 +37,14 @@ A list of the units that are possible include:
 Database access and object storage: pyre.db
 -------------------------------------------
 
-Pyre's base ORM (Object Relational Mapper) is pyre.db, which has the following types available:
+Pyre's base ORM (Object Relational Mapper) is pyre.db, which has the following available types, all inheriting from 'Column' class:
 
 .. .. image:: images/PyreDbClassDiagram.png
 
 .. inheritance-diagram:: pyre.db.BigInt pyre.db.Boolean pyre.db.Char pyre.db.Date pyre.db.BigInt pyre.db.Double pyre.db.DoubleArray pyre.db.Integer pyre.db.IntegerArray pyre.db.Interval pyre.db.Real pyre.db.SmallInt pyre.db.Time pyre.db.Timestamp pyre.db.VarChar pyre.db.VarCharArray
    :parts: 1
 
-which are inserted into a table:
-
-.. inheritance-diagram:: pyre.db.Table
-   :parts: 1
-
-The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
-
-.. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
-   :parts: 1
-
-To store objects in a db, one must subclass "Table", such as::
+These types are declared in an object inheriting from the 'Table' class.  For example, suppose our object represents cylindrical sample containers.  EachTo store objects in a db, one must subclass "Table", such as::
 
     from Table import Table as base
     class Cylinder(base):
@@ -70,17 +60,22 @@ To store objects in a db, one must subclass "Table", such as::
         innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
         outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 
-This table describes cylinders with parameters height, innerradius, and outerradius.  In the `pyre project dsaw <http://danse.us/trac/pyre/browser/branches/patches-from-jiao/packages/dsaw>`_, DbManager is overlaid with additional functionality for creating hierarchical data structures.  
+This table describes cylinders with parameters height, innerradius, and outerradius.
 
+.... inheritance-diagram:: pyre.db.Table
+   :parts: 1
+   
 Then users can store objects in the usual way::
 
     dbm = DbManager()
     dbm.createTable(Cylinder)
     cylinder = Cylinder()
     dbm.insertRow(cylinder)
+    
+The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
 
-as well as execute other methods in the DbManager interface. 
-
+.. inheritance-diagram:: pyre.db.Psycopg2 pyre.db.Psycopg pyre.db.SQLite
+   :parts: 1 
 
 .. _dsaw:
 
@@ -91,6 +86,16 @@ An extension to pyre.db, called dsaw, has recently been developed.  It allows us
 
 .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
+   
+Some goals for the interface might be:
+        
+#. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
+
+#. use decorators to signal attribute types
+
+#. store methods (as list of strings?) in addition to decorated attributes
+
+As development of this overlayer is ongoing, these features are not fully developed currently but will continue to grow.
 
 
 
