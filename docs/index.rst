@@ -26,6 +26,8 @@ Contents:
    additionalDocs
    usefulLinks
    docsTodo
+   
+.. Pyre application example: luban <http://docs.danse.us/pyre/luban/sphinx/index.html>
 
 ..   pyreInternals
 
