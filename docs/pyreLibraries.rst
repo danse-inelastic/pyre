@@ -60,7 +60,7 @@ These types are declared in an object inheriting from the 'Table' class.  For ex
         innerradius = pyre.db.real( name = 'innerradius', default = 0.0 )
         outerradius = pyre.db.real( name = 'outerradius', default = 0.002 )
 
-.... inheritance-diagram:: pyre.db.Table
+.. .. inheritance-diagram:: pyre.db.Table
    :parts: 1
    
 The entity which does the insertions is the DBManager, which can be connected to either the Postgres bindings Psycopg (or Psycopg2), or to the SQLite bindings:
