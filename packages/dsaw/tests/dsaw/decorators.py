@@ -101,6 +101,8 @@ class varChar(Column):
 #    from VarChar import VarChar
 #    return VarChar(**kwds)
 
+# the goal is to wrap cake with the varChar class attribute--just like def varchar would do...
+
 
 
 class myDecorator(object):
