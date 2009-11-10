@@ -90,9 +90,9 @@ Some goals for the interface might be:
         
 #. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
 
-#. use decorators to signal attribute types
+#. use some type of decorator-like mark-up to signal attribute types
 
-#. store methods (as list of strings?) in addition to decorated attributes
+#. store methods 
 
 As development of this overlayer is ongoing, these features are not fully developed currently but will continue to grow.
 

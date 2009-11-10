@@ -103,7 +103,8 @@ class varChar(Column):
 
 # the goal is to wrap cake with the varChar class attribute--just like def varchar would do...
 
-
+#@varChar
+myAttribute = 'cake'
 
 class myDecorator(object):
 
