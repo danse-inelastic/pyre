@@ -24,7 +24,7 @@ from pyre.db.Schemer import Schemer as base
 
 class Schemer(base):
     """scan the class record for implied attributes 
-    and put those in columns with matching names.
+    and put those in columnRegistry.
     
     if the attribute has a value, assign it a column type appropriate for that value:
     str goes to varChar in multiples of 256 (i.e. if str type atributes has length between 1-256,
@@ -42,10 +42,7 @@ class Schemer(base):
         # of classes should be combined
         
         #now we get the 'implied columns' (those without an explicit declaration)
-        #writeable = []
-        #columnRegistry = {}
-
-        # scan the class record for implied columns
+        #impliedTypes = {}
         for name, item in cls.__dict__.iteritems():
 
             # disregard entries that are already in the column registry
@@ -59,7 +56,7 @@ class Schemer(base):
                 continue
 
             # register it and apply automatic type detector
-            cls.columnRegistry[item.name] = item
+            cls.columnRegistry[item.name] = assignType(item)
             
             if not item.auto:
                 cls.writeable.append(item.name)
@@ -73,11 +70,19 @@ class Schemer(base):
 
         return
     
-    def assignType(self, name, item):
-        # for now just assign it as a string
-        name
-        if dir(item).__name__=='str':
-            cls.
+    def assignType(self, item):
+        # this could obviously be expanded
+        import dsaw.db
+        attributeType = dir(item).__name__
+        if attributeType=='int':
+            return dsaw.db.integer(name=item.name, default=item)
+        elif attributeType=='float':
+            return dsaw.db.double(name=item.name, default=item)
+        elif attributeType=='list' or attributeType=='tuple':
+            return dsaw.db.varcharArray(name=item.name, length=64, default=item)
+        else:
+            return dsaw.db.varchar(name=item.name, length=64, default=item)
+
             
             
             
