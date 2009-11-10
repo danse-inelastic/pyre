@@ -26,11 +26,6 @@ class Schemer(base):
     """scan the class record for implied attributes 
     and put those in columnRegistry.
     
-    if the attribute has a value, assign it a column type appropriate for that value:
-    str goes to varChar in multiples of 256 (i.e. if str type atributes has length between 1-256,
-    the varChar will be of 256, if it is 474 length, the varChar will be of length 512, etc.
-    int goes to 
-    
     todo: add possibility of getting table name from the class name.lower()
     """
 
@@ -56,13 +51,13 @@ class Schemer(base):
                 continue
 
             # register it and apply automatic type detector
-            cls.columnRegistry[item.name] = assignType(item)
+            cls._columnRegistry[item.name] = assignType(item)
             
-            if not item.auto:
+            if not cls._columnRegistry[item.name].auto:
                 cls.writeable.append(item.name)
         
         # now get each column and add a weak reference to it's table
-        for name, item in cls._columnRegistry:
+        for name, item in cls._columnRegistry.iteritems():
             # XXX: Jiao Lin:
             # added so that the column descriptor knows
             # the table it belongs to
@@ -70,18 +65,18 @@ class Schemer(base):
 
         return
     
-    def assignType(self, item):
-        # this could obviously be expanded
-        import dsaw.db
-        attributeType = dir(item).__name__
-        if attributeType=='int':
-            return dsaw.db.integer(name=item.name, default=item)
-        elif attributeType=='float':
-            return dsaw.db.double(name=item.name, default=item)
-        elif attributeType=='list' or attributeType=='tuple':
-            return dsaw.db.varcharArray(name=item.name, length=64, default=item)
-        else:
-            return dsaw.db.varchar(name=item.name, length=64, default=item)
+def assignType(cls, item):
+    # this could obviously be expanded
+    import dsaw.db
+    #attributeType = type(item).__name__ or for class do type(self).__name__
+    if isinstance(item,type(1)):
+        return dsaw.db.integer(name=item.name, default=item)
+    elif isinstance(item,type(1.0)):
+        return dsaw.db.double(name=item.name, default=item)
+    elif isinstance(item,type([])) or isinstance(item,type((1,))):
+        return dsaw.db.varcharArray(name=item.name, length=64, default=item)
+    else:
+        return dsaw.db.varchar(name=item.name, length=64, default=item)
 
             
             

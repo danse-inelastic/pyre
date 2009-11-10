@@ -24,26 +24,26 @@ class TestCase(unittest.TestCase):
     
 
     def test1(self):
-        'decorated attribute test'
+        'attribute type assignment test'
 
         db = self.dbManager()
 
         # declare tables
         from dsaw.db.WithID import WithID
-        class DecoratedAttributeTest(WithID):
-            #name = 'decoratedattributetest'
+        class AttributeTypeAssignmentTest(WithID):
+            name = 'attributetypeassignmenttest'
             #import dsaw.db
             
-            #@pyre.db.varChar
+            #pyre.db.varChar
             myattribute = 'cake'
             
             def sayhi(self):
                 print 'hi'
 
-        db.registerTable(DecoratedAttributeTest)
+        db.registerTable(AttributeTypeAssignmentTest)
         db.createAllTables()
 
-        t1 = DecoratedAttributeTest()
+        t1 = AttributeTypeAssignmentTest()
         t1.id = 't1'
         t1.myattribute = 'bigcake'
         db.insertRow(t1)
