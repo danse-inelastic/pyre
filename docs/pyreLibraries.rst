@@ -81,9 +81,15 @@ Then users can store objects in the usual way::
 Extending the capabilities of pyre.db: dsaw.db
 ----------------------------------------------
 
-An extension to pyre.db, called dsaw, has recently been developed.  It allows users to access the SQLAlchemy plugin.
+An extension to pyre.db, called dsaw, has recently been developed.  It allows users to access the SQLAlchemy plugin.  It also allows users to access all the types of pyre.db plus three others:
 
-.. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
+.. autofunction:: dsaw.db.reference
+.. autofunction:: dsaw.db.referenceSet
+.. autofunction:: dsaw.db.versatileReference
+
+which are used to refer to other objects, other tables, and other types of tables, respectively.  They are discussed more fully in :ref:``.  Other new features are discussed in the following sections.
+
+.. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
 Automatic creation of tables
@@ -110,6 +116,20 @@ The rules for converting an implied type to a database type are the following:
 * 'list' or 'tuple' --> dsaw.db.varcharArray(length=64)
 * 'dict' --> dsaw.db.varcharArray(length=64) for keys, dsaw.db.varcharArray(length=64) for values
 * a Table instance --> dsaw.db.reference()
+
+Optionally, a table name may be added within the class::
+
+	from dsaw.db.WithID import WithID
+	class Test(WithId):
+	
+		name = 'mytablename'
+		
+	    def sayhi(self):
+	        print 'hi'
+	        
+which must be all lowercase.  This name will be used instead of the class name as the table name.  
+	
+
 
 
 Advanced data objects with dsaw
