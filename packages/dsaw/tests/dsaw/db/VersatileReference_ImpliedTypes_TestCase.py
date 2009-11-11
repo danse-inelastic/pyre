@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
     def test1(self):
         'dsaw.db.VersatileReference: '
         import dsaw.db
-        
+        #db = dsaw.db.connect(db='sqlite:///mem')
         db = dsaw.db.connect(db='postgres:///test')
         db.autocommit(True)
 
