@@ -94,39 +94,11 @@ Dsaw implements some interesting additional features to pyre.db:
 * Dsaw starts to form a plug-in architecture for addtional backends such as SQLAlchemy.  This allows pyre developers to use additional features beyond those immediately available in pyre.db, such as filtering.
 
 * Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that gives any record (which inherits from GloballyReferrable) a unique identifier. With a global pointer esablished, any object that wants to refer to any other object can use this global pointer.  Thus it has two columns, one of the table name and another for the unique id. _____referenceset_____ is a "hidden" table. It allows a table to declare that it has an association with other things.  For example, the data object Instrument consists of a list of neutron components
-in table "instrument".  Its components are declared as a reference set listed in the _____referenceset_____ table, which basically has a pointer to the "parent" and a pointer to the "child".  Multiple rows with the same parent give a set. The table _____referenceset_____ uses the concept of a "versatile reference", which is a reference to a set of tables rather than to a specific table. , because, for example, the type of component is versatile
-also all "computationresult" tables have a pointer "origin", which is a versatile reference
-origin is the computation that the result is calculated from.
-PhononDispersion is derived from ComputationResult
-and there are other things.
- me:  ...and it's versatile because it can refer to more than one type of table...
- Jiao:  yes
-dispersion can be calculate from different computations
- me:  ...and neither sqlalchemy, storm, or any of the others do that?
-(i don't think they do)
-...but just checking...
- Jiao:  I think there is GlobalPointer in django orm
- me:  ok
-thanks--i'll put all this in the pyre libraries documentation, along with all my changes---thanks!
- Jiao:  but that is a lot of baggage
-sure
-thanks
- me:  (i'm almost done--just trying to get this reference fixed)
-baggage in django?
- Jiao:  yes
-if you would like to pull django in, I have no objection
- me:  no one has the implied types i want, so it's kind of good we're rolling our own...
-...making these changes now will sure simplify things in the future--won't have to have two copies of every data object for one thing...
-...less to keep track of...less hassle...just let the orm do all the work...
- Sent at 7:04 PM on Tuesday
- Jiao:  My main concern is that the object is too bound to db access. I would rather have a generic description of data object, and let the db access automatically generated with some rules applied to the transformation
- Sent at 7:06 PM on Tuesday
- me:  well, so far i can take care of anything in the data object i've been able to think of...it's all pretty natural...
-(i.e. it all has a fairly direct mapping of some sort....plus recall data objects aren't nearly as complex as other objects in general...)
-for example, i can map references to other objects, all primitive types, lists, dictionaries, anything else you can think of?
- Sent at 7:08 PM on Tuesday
- me:  ...functions of course, tuples of course...
- Jiao:  yes I fully understand this design can do a lot of things. it is just against the philosophy I have get used to: don't mix up things unless absolute necessary. I am not trying to persuade you from doing what you are doing. just to let you know my reservations. and the goal now is just to get vnf working, so I don't really care that much about design now.
+in table "instrument".  Its components are declared as a reference set listed in the _____referenceset_____ table, which basically has a pointer to the "parent" and a pointer to the "child".  Multiple rows with the same parent give a set. The table _____referenceset_____ uses the concept of a "versatile reference", which is a reference to a set of tables rather than to a specific table. For example, the Component reference in an Instrument record is versatile.  Also, all "computationresult" tables have a pointer "origin", which is a versatile reference.  Origin is the computation that the result is calculated from. PhononDispersion is derived from ComputationResult, as are many other types of computations. Thus a versatile reference is versatile because it can refer to more than one type of table, and it usually points to a superclass of a desired table.
+
+Consider the following example of how a reference works:
+
+
 
 
 
