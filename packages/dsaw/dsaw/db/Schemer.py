@@ -84,7 +84,7 @@ def assignType(cls, name, item):
     elif isinstance(item,type(1)):
         cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
     elif isinstance(item,type(1.0)):
-        cls._columnRegistry[name] = dsaw.db.double(name=name, default=item)
+        cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
     elif isinstance(item,type(True)):
         cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
     elif isinstance(item,type([])) or isinstance(item,type((1,))):

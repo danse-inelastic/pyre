@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
         'dsaw.db.VersatileReference: '
         import dsaw.db
         
-        db = dsaw.db.connect(db='postgres:///test-dsawdb')
+        db = dsaw.db.connect(db='postgres:///test')
         db.autocommit(True)
 
         print 'declare tables'
@@ -105,7 +105,7 @@ class TestCase(unittest.TestCase):
         'dsaw.db.GloballyReferrable: establish global pointer automatically'
         import dsaw.db
         
-        db = dsaw.db.connect(db='postgres:///test-dsawdb')
+        db = dsaw.db.connect(db='postgres:///test')
         db.autocommit(True)
 
         print 'declare tables'
