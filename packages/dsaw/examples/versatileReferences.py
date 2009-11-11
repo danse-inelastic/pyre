@@ -66,7 +66,7 @@ assertEqual(len(rows), 1)
 scatterer1r = rows[0]
 assertEqual(scatterer1r.shape.id, sphere1.globalpointer.id)
 
-def assertRaises(self, excClass, callableObj, *args, **kwargs):
+def assertRaises(excClass, callableObj, *args, **kwargs):
     """Fail unless an exception of class excClass is thrown
        by callableObj when invoked with arguments args and keyword
        arguments kwargs. If a different type of exception is
@@ -81,7 +81,7 @@ def assertRaises(self, excClass, callableObj, *args, **kwargs):
     else:
         if hasattr(excClass,'__name__'): excName = excClass.__name__
         else: excName = str(excClass)
-        raise self.failureException, "%s not raised" % excName
+        raise Exception, "%s not raised" % excName
 
 print "make sure we don't create dangling reference"
 assertRaises(db.RecordStillReferred, db.deleteRecord, sphere1)
