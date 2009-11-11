@@ -86,24 +86,15 @@ An extension to pyre.db, called dsaw, has recently been developed.  It allows us
 .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
+References
+^^^^^^^^^^
+   
 Dsaw implements some interesting additional features to pyre.db:
         
 * Dsaw starts to form a plug-in architecture for addtional backends such as SQLAlchemy.  This allows pyre developers to use additional features beyond those immediately available in pyre.db, such as filtering.
 
-* Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that give any record (whose table inherited from GloballyReferrable) a unique identifier
- me:  also, versatile reference is used with matter when referring to possibly polycrystal, disordered, or singleCrystal...where else is it used?
- Jiao:  with a global pointer esablished, anything that wants to refer to any other thing can use this global pointer.
- me:  so it basically has two columns?  table name and unique id?
- Sent at 6:49 PM on Tuesday
- Jiao:  yes
- me:  ...maybe you have some documentation on dsaw i'm not aware of...
-...and what does ____referenceset____ do?
- Jiao:  reference set is a "hidden" table
-a table can declare that it has an association with other things
- me:  i.e. 5 underscores surrounding name means "hidden"... lol
-what types of associations?
- Jiao:  for example, instrument consists of a list of neutron components
-in table "instrument", components is declared as a reference set
+* Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that gives any record (which inherits from GloballyReferrable) a unique identifier. With a global pointer esablished, any object that wants to refer to any other object can use this global pointer.  Thus it has two columns, one of the table name and another for the unique id. _____referenceset_____ is a "hidden" table. A table can declare that it has an association with other things.  For example, instrument consists of a list of neutron components
+in table "instrument".  Components is declared as a reference set
  Sent at 6:53 PM on Tuesday
  Jiao:  _referenceset_ basically has a pointer to the "parent" and a pointer to the "child"
 multiple rows with same parent give a set
@@ -143,19 +134,31 @@ for example, i can map references to other objects, all primitive types, lists, 
  Sent at 7:08 PM on Tuesday
  me:  ...functions of course, tuples of course...
  Jiao:  yes I fully understand this design can do a lot of things. it is just against the philosophy I have get used to: don't mix up things unless absolute necessary. I am not trying to persuade you from doing what you are doing. just to let you know my reservations. and the goal now is just to get vnf working, so I don't really care that much about design now.
- me:  ...sure, i understand...
-i'll finish within a half hour or so...then start documenting...
- Jiao:  cool thanks
- Sent at 7:13 PM on Tuesday
- 
 
+
+
+
+
+Implied types
+^^^^^^^^^^^^^
+
+A unique capability of dsaw compared to other Object Relational Mappers (ORMs) is the implied types.  These are a set of rules that allow users to create db-storable objects without having to explicitly declare types.  They are as follows
+ 
+An example of how to use dsaw when constructing data objects is the following.  Consider 
+ 
+Advanced data objects with dsaw
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
+
+*discuss how this works for structure classes
+
+*discuss how this works for vsat classes
 
    
 Some goals for the interface might be:
         
 #. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
-
-As development of this overlayer is ongoing, these features are not fully developed currently but will continue to grow.
 
 
 
