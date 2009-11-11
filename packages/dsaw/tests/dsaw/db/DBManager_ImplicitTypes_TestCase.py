@@ -24,44 +24,44 @@ class TestCase(unittest.TestCase):
         return db
     
 
-    def test1(self):
-        'dsaw.db.Psycopg2: connect'
-        from dsaw.db import connect
-        db = connect(db = 'postgres:///test')
-        return
-
-
-    def test2(self):
-        'dsaw.db.Psycopg2: normal implicit table'
-        db = self.dbManager()
-
-        # init system tables
-        db.createSystemTables()
-
-        from dsaw.db.WithID import WithID
-        class Table1(WithID):
-            name = 'table1'
-            greeting = 'hello'
-            
-        db.createTable(Table1)
-
-        # insert record
-        row = Table1()
-        row.greeting = 'hello'
-        row.id = 'first'
-        db.insertRow(row)
-
-        # fetch it
-        rows = db.fetchall(Table1, where="id='%s'" % row.id)
-        self.assertEqual(len(rows), 1)
-        row1 = rows[0]
-        self.assertEqual(row1.greeting, row.greeting)
-        
-        db.dropTable(Table1)
-
-        # remove system tables
-        db.destroySystemTables()
-        return
+#    def test1(self):
+#        'dsaw.db.Psycopg2: connect'
+#        from dsaw.db import connect
+#        db = connect(db = 'postgres:///test')
+#        return
+#
+#
+#    def test2(self):
+#        'dsaw.db.Psycopg2: normal implicit table'
+#        db = self.dbManager()
+#
+#        # init system tables
+#        db.createSystemTables()
+#
+#        from dsaw.db.WithID import WithID
+#        class Table1(WithID):
+#            name = 'table1'
+#            greeting = 'hello'
+#            
+#        db.createTable(Table1)
+#
+#        # insert record
+#        row = Table1()
+#        row.greeting = 'hello'
+#        row.id = 'first'
+#        db.insertRow(row)
+#
+#        # fetch it
+#        rows = db.fetchall(Table1, where="id='%s'" % row.id)
+#        self.assertEqual(len(rows), 1)
+#        row1 = rows[0]
+#        self.assertEqual(row1.greeting, row.greeting)
+#        
+#        db.dropTable(Table1)
+#
+#        # remove system tables
+#        db.destroySystemTables()
+#        return
     
     
     def test3(self):

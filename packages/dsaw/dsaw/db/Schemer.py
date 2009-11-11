@@ -96,7 +96,7 @@ def assignType(cls, name, item):
         #this is taken care of for now by the parent Schemer
         pass
     elif isinstance(item, Table):
-        cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item)
+        cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)
 
             
             
