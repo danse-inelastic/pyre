@@ -19,7 +19,6 @@ class TestCase(unittest.TestCase):
     def dbManager(self):
         from dsaw.db import connect
         db = connect(db ='postgres:///test')
-        db.destroyAllTables()
         db.autocommit(True)
         return db
     
@@ -28,7 +27,6 @@ class TestCase(unittest.TestCase):
         'attribute type assignment test'
 
         db = self.dbManager()
-        db.destroyAllTables()
         # declare tables
         from dsaw.db.WithID import WithID
         class AttributeTypeAssignmentTest(WithID):

@@ -86,6 +86,51 @@ An extension to pyre.db, called dsaw, has recently been developed.  It allows us
 .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
+Automatic creation of tables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In other ORMs, such as SQLAlchemy, Tables in which to store objects must be created "by hand", declaring each column and what type it is.  In Dsaw tables are created automatically from the class structure:
+
+
+   
+Implied types
+^^^^^^^^^^^^^
+
+Dsaw implements all the types of pyre.db with the additional feature of not having to explicitly declare these types.  This has the desirable feature of rapid prototyping of a dataobject.  An example is the following:
+
+.. literalinclude:: ../packages/dsaw/examples/impliedTypes.py
+
+The only restriction on a database-storable object is that it currently must inherit from pyre.db.Table, although this is more of a programming convenience than a necessity and will soon be relaxed.
+
+The rules for converting an implied type to a database type are the following:
+
+* 'str' --> dsaw.db.varchar(length=64)
+* 'int' --> dsaw.db.integer()
+* 'real' --> dsaw.db.real()
+* 'bool' --> dsaw.db.boolean()
+* 'list' or 'tuple' --> dsaw.db.varcharArray(length=64)
+* 'dict' --> dsaw.db.varcharArray(length=64) for keys, dsaw.db.varcharArray(length=64) for values
+* a Table instance --> dsaw.db.reference()
+
+
+Advanced data objects with dsaw
+"""""""""""""""""""""""""""""""
+
+Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
+
+*discuss how this works for structure classes
+
+*discuss how this works for vsat classes
+
+Some goals for the interface might be:
+        
+#. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
+
+
+Optional types and name declaration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Users may also explicitly declare types for 
+   
 References and versatile references
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    
@@ -98,35 +143,11 @@ in table "instrument".  Its components are declared as a reference set listed in
 
 Consider the following example of how a reference works:
 
+.. literalinclude:: ../packages/dsaw/examples/references.py
 
+A longer example of how a versatile reference works is the following:
 
-
-
-
-
-Implied types
-^^^^^^^^^^^^^
-
-A unique capability of dsaw compared to other Object Relational Mappers (ORMs) is the implied types.  These are a set of rules that allow users to create db-storable objects without having to explicitly declare types.  They are as follows
- 
-An example of how to use dsaw when constructing data objects is the following.  Consider 
-
- 
-Advanced data objects with dsaw
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
-
-*discuss how this works for structure classes
-
-*discuss how this works for vsat classes
-
-   
-Some goals for the interface might be:
-        
-#. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
-
-
+.. literalinclude:: ../packages/dsaw/examples/versatileReferences.py
 
 .. _pyre-geometry:
 
