@@ -87,16 +87,28 @@ An extension to pyre.db, called dsaw, has recently been developed.  It allows us
 .. autofunction:: dsaw.db.referenceSet
 .. autofunction:: dsaw.db.versatileReference
 
-which are used to refer to other objects, other tables, and other types of tables, respectively.  They are discussed more fully in :ref:`references`.  Other new features are discussed in the following sections.
+which are used to refer to other objects, other tables, and other types of tables, respectively.  They are discussed more fully in :ref:`references`.  A few convenience classes have also been added, such as 
+
+.. autoclass:: dsaw.db.WithId.WithId
+   :undoc-members:
+
+which creates a base object with a unique identifier acting as the primary key. Other new features are discussed in the following sections.
 
 .. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
 Automatic creation of tables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In other ORMs, such as SQLAlchemy, tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class source code::
+In other ORMs, such as SQLAlchemy, tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class itself::
 
-
+    from dsaw.db import connect
+    db = connect(db ='postgres:///test')
+    
+    from dsaw.db.WithID import WithID
+    class User(WithID):
+        username = 'bob'
+        
+    db.createTable(User)
    
 Implied types
 ^^^^^^^^^^^^^
@@ -116,40 +128,59 @@ The rules for converting an implied type to a database type are the following:
 * 'dict' --> dsaw.db.varcharArray(length=64) for keys, dsaw.db.varcharArray(length=64) for values
 * a Table instance --> dsaw.db.reference()
 
+Advanced data objects with dsaw
+"""""""""""""""""""""""""""""""
+
+Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
+
+* discuss how this works for `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class
+
+* discuss how this works for vsat classes
+        
+* discuss how works on modules, such as bvk module: http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
+
+
+Optional types and name declaration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Users may also explicitly declare types for types using standard factory functions::
+        
+    from dsaw.db.WithID import WithID
+    class DoubleArrayTest(WithID):
+        name = 'doublearraytest'
+        import dsaw.db
+        arr = dsaw.db.doubleArray(name='arr')
+        
+A complete list is given below:
+        
+.. autofunction:: dsaw.db.bigint
+.. autofunction:: dsaw.db.boolean
+.. autofunction:: dsaw.db.char
+.. autofunction:: dsaw.db.date
+.. autofunction:: dsaw.db.double
+.. autofunction:: dsaw.db.doubleArray
+.. autofunction:: dsaw.db.integer
+.. autofunction:: dsaw.db.integerArray
+.. autofunction:: dsaw.db.interval
+.. autofunction:: dsaw.db.real
+.. autofunction:: dsaw.db.smallint
+.. autofunction:: dsaw.db.time
+.. autofunction:: dsaw.db.timestamp
+.. autofunction:: dsaw.db.varchar
+.. autofunction:: dsaw.db.varcharArray
+   
 Optionally, a table name may be added within the class::
 
     from dsaw.db.WithID import WithID
     class Test(WithId):
     
         name = 'mytablename'
-    	
+        
         def sayhi(self):
             print 'hi'
-	        
+            
 which must be all lowercase.  This name will be used instead of the class name as the table name.  
-	
 
-
-
-Advanced data objects with dsaw
-"""""""""""""""""""""""""""""""
-
-Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
-
-*discuss how this works for structure classes
-
-*discuss how this works for vsat classes
-
-Some goals for the interface might be:
-        
-#. be able to serialize Plain Old Python Objects (POPOs), such as instantiations of the `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class.
-
-
-Optional types and name declaration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Users may also explicitly declare types for 
-   
 .. _references:
    
 References and versatile references
@@ -168,6 +199,8 @@ Consider the following example of how a reference works:
 A longer example of how a versatile reference works is the following:
 
 .. literalinclude:: ../packages/dsaw/examples/versatileReferences.py
+
+
 
 .. _pyre-geometry:
 
