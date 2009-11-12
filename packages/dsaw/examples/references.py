@@ -8,11 +8,9 @@ db.createSystemTables()
 
 from dsaw.db.WithID import WithID
 class User(WithID):
-    name = 'users'
     username = 'bob'
 
 class Greeting(WithID):
-    name = 'greetings'
     greeting = 'hi'
     who = User()
     

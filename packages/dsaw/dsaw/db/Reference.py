@@ -50,7 +50,8 @@ class Reference(Column):
             setattr(table, backref, br)
 
         # establish constraint
-        self.constraints = 'REFERENCES %s (id)' % table.name
+        name = self.getTableName(table)
+        self.constraints = 'REFERENCES %s (id)' % name
         
         return
 
@@ -93,6 +94,12 @@ class Reference(Column):
         return reference.id
 
 
+    def getTableName(self,table):
+        try:
+            name = table.name
+        except:
+            name = table.__name__.lower()
+        return name
 
 from _reference import reference
 
