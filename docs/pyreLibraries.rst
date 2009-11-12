@@ -87,14 +87,14 @@ An extension to pyre.db, called dsaw, has recently been developed.  It allows us
 .. autofunction:: dsaw.db.referenceSet
 .. autofunction:: dsaw.db.versatileReference
 
-which are used to refer to other objects, other tables, and other types of tables, respectively.  They are discussed more fully in :ref:``.  Other new features are discussed in the following sections.
+which are used to refer to other objects, other tables, and other types of tables, respectively.  They are discussed more fully in :ref:`references`.  Other new features are discussed in the following sections.
 
 .. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
 Automatic creation of tables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In other ORMs, such as SQLAlchemy, Tables in which to store objects must be created "by hand", declaring each column and what type it is.  In Dsaw tables are created automatically from the class structure:
+In other ORMs, such as SQLAlchemy, Tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class source code::
 
 
    
@@ -151,6 +151,8 @@ Optional types and name declaration
 
 Users may also explicitly declare types for 
    
+.. _references:
+   
 References and versatile references
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    
@@ -158,8 +160,7 @@ Dsaw implements some interesting additional features to pyre.db:
         
 * Dsaw starts to form a plug-in architecture for addtional backends such as SQLAlchemy.  This allows pyre developers to use additional features beyond those immediately available in pyre.db, such as filtering.
 
-* Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that gives any record (which inherits from GloballyReferrable) a unique identifier. With a global pointer esablished, any object that wants to refer to any other object can use this global pointer.  Thus it has two columns, one of the table name and another for the unique id. _____referenceset_____ is a "hidden" table. It allows a table to declare that it has an association with other things.  For example, the data object Instrument consists of a list of neutron components
-in table "instrument".  Its components are declared as a reference set listed in the _____referenceset_____ table, which basically has a pointer to the "parent" and a pointer to the "child".  Multiple rows with the same parent give a set. The table _____referenceset_____ uses the concept of a "versatile reference", which is a reference to a set of tables rather than to a specific table. For example, the Component reference in an Instrument record is versatile.  Also, all "computationresult" tables have a pointer "origin", which is a versatile reference.  Origin is the computation that the result is calculated from. PhononDispersion is derived from ComputationResult, as are many other types of computations. Thus a versatile reference is versatile because it can refer to more than one type of table, and it usually points to a superclass of a desired table.
+* Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that gives any record (which inherits from GloballyReferrable) a unique identifier. With a global pointer esablished, any object that wants to refer to any other object can use this global pointer.  Thus it has two columns, one of the table name and another for the unique id. _____referenceset_____ is a "hidden" table. It allows a table to declare that it has an association with other things.  For example, the data object Instrument consists of a list of neutron components in table "instrument".  Its components are declared as a reference set listed in the _____referenceset_____ table, which basically has a pointer to the "parent" and a pointer to the "child".  Multiple rows with the same parent give a set. The table _____referenceset_____ uses the concept of a "versatile reference", which is a reference to a set of tables rather than to a specific table. For example, the Component reference in an Instrument record is versatile.  Also, all "computationresult" tables have a pointer "origin", which is a versatile reference.  Origin is the computation that the result is calculated from. PhononDispersion is derived from ComputationResult, as are many other types of computations. Thus a versatile reference is versatile because it can refer to more than one type of table, and it usually points to a superclass of a desired table.
 
 Consider the following example of how a reference works:
 

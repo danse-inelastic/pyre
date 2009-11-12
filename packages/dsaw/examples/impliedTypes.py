@@ -4,18 +4,17 @@ db.autocommit(True)
 
 # declare tables
 from dsaw.db.WithID import WithID
-class AttributeTypeAssignmentTest(WithID):
-    name = 'attributetypeassignmenttest'
+class SomeClass(WithID):
     
     myattribute = 'cake'
     
     def sayhi(self):
         print 'hi'
 
-db.registerTable(AttributeTypeAssignmentTest)
+db.registerTable(SomeClass)
 db.createAllTables()
 
-t1 = AttributeTypeAssignmentTest()
+t1 = SomeClass()
 t1.id = 't1'
 t1.myattribute = 'bigcake'
 db.insertRow(t1)

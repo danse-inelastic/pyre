@@ -27,7 +27,10 @@ class TableRegistry:
 
 
     def register(self, table):
-        self._store[ table.name ] = table
+        try:
+            self._store[ table.name ] = table
+        except:
+            self._store[ table.__name__.lower()] = table
         return
 
 

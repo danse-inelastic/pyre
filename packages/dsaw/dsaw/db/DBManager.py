@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                                 Jiao Lin
 #                      California Institute of Technology
 #                      (C) 2006-2009  All Rights Reserved
 #
@@ -204,7 +203,11 @@ class DBManager(object):
     
         
     def createTable(self, table):
-        self.info.log('creating table %s...' % table.name)
+        try:
+            name = table.name
+        except:
+            name = table.__name__.lower()
+        self.info.log('creating table %s...' % name)
         satable = self.convertToSATable(table)
 
         import sqlalchemy.exc
@@ -212,7 +215,7 @@ class DBManager(object):
             satable.create(bind=self._saengine)
         except sqlalchemy.exc.ProgrammingError, e:
             if str(e).find('already exists') != -1:
-                self.info.log('failed to create table %s. Error: %s' % (table.name, e))
+                self.info.log('failed to create table %s. Error: %s' % (name, e))
             else:
                 raise
         #self._sametadata.create_all(self._saengine)
@@ -249,7 +252,11 @@ class DBManager(object):
 
     def dropTable(self, table):
         self.commit()
-        self.info.log('deleting table %s...' % table.name)
+        try:
+            name = table.name
+        except:
+            name = table.__name__.lower()
+        self.info.log('deleting table %s...' % name)
         satable = self.convertToSATable(table)
         satable.drop(bind=self._saengine)
         self.commit()
