@@ -15,6 +15,13 @@
 class Table2SATable(object):
 
     _cache = {}
+    
+    def getTableName(self,table):
+        try:
+            name = table.name
+        except:
+            name = table.__name__.lower()
+        return name
 
     def render(self, table, metadata=None):
         if table in self._cache:
@@ -33,7 +40,9 @@ class Table2SATable(object):
             sacols.append(sacol)
             continue
 
-        satable = sqlalchemy.Table(table.name, metadata, *sacols)
+        name = self.getTableName(table)
+
+        satable = sqlalchemy.Table(name, metadata, *sacols)
 
         from sqlalchemy.orm import mapper
         mapper(self._Object, satable, properties=self._props)
@@ -53,7 +62,9 @@ class Table2SATable(object):
     def onReference(self, col):
         name = col.name
         table = col.referred_table
-        tablename = table.name
+        
+        
+        tablename = self.getTableName(table)
         if not hasattr(table, 'primary_key_col'):
             self._cache[table] = Table2SATable().render(table, self._metadata)
             

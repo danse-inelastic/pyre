@@ -41,7 +41,7 @@ class TestCase(unittest.TestCase):
 
         from dsaw.db.WithID import WithID
         class Table1(WithID):
-            name = 'table1'
+
             greeting = 'hello'
             
         db.createTable(Table1)
