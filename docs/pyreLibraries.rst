@@ -129,15 +129,20 @@ The rules for converting an implied type to a database type are the following:
 * a Table instance --> dsaw.db.reference()
 
 Advanced data objects with dsaw
-"""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
 
 * discuss how this works for `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class
 
-* discuss how this works for vsat classes
+Example 2: Vsat classes
+"""""""""""""""""""""""
+
+
+Example 3: Bvk modules
+""""""""""""""""""""""
         
-* discuss how works on modules, such as bvk module: http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
+* such as bvk module: http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
 
 
 Optional types and name declaration
@@ -147,7 +152,6 @@ Users may also explicitly declare types for types using standard factory functio
         
     from dsaw.db.WithID import WithID
     class DoubleArrayTest(WithID):
-        name = 'doublearraytest'
         import dsaw.db
         arr = dsaw.db.doubleArray(name='arr')
         
@@ -169,7 +173,7 @@ A complete list is given below:
 .. autofunction:: dsaw.db.varchar
 .. autofunction:: dsaw.db.varcharArray
    
-Optionally, a table name may be added within the class::
+Optionally, a table name may be added within the class using the reserved keyword 'name' as an attribute::
 
     from dsaw.db.WithID import WithID
     class Test(WithId):
