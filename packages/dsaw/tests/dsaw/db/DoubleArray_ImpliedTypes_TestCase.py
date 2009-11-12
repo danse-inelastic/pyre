@@ -33,7 +33,6 @@ class TestCase(unittest.TestCase):
         # declare tables
         from dsaw.db.WithID import WithID
         class DoubleArrayTest(WithID):
-            name = 'doublearraytest'
 
             arr = [1.0, 2.0, 3.0]
 
