@@ -118,13 +118,13 @@ The rules for converting an implied type to a database type are the following:
 
 Optionally, a table name may be added within the class::
 
-	from dsaw.db.WithID import WithID
-	class Test(WithId):
-	
-		name = 'mytablename'
-		
-		def sayhi(self):
-	        print 'hi'
+    from dsaw.db.WithID import WithID
+    class Test(WithId):
+    
+        name = 'mytablename'
+    	
+        def sayhi(self):
+            print 'hi'
 	        
 which must be all lowercase.  This name will be used instead of the class name as the table name.  
 	
