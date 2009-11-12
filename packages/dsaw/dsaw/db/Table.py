@@ -18,6 +18,13 @@ class Table(base):
 
     from Schemer import Schemer
     __metaclass__ = Schemer
+    
+    def getTableName(self):
+        try:
+            name = self.name
+        except:
+            name = self.__class__.__name__.lower()
+        return name
 
 
 # version

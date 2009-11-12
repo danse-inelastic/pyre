@@ -94,13 +94,12 @@ which are used to refer to other objects, other tables, and other types of table
    
 Automatic creation of tables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In other ORMs, such as SQLAlchemy, Tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class source code::
+In other ORMs, such as SQLAlchemy, tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class source code::
 
 
    
 Implied types
 ^^^^^^^^^^^^^
-
 Dsaw implements all the types of pyre.db with the additional feature of not having to explicitly declare these types.  This has the desirable feature of rapid prototyping of a dataobject.  An example is the following:
 
 .. literalinclude:: ../packages/dsaw/examples/impliedTypes.py
@@ -124,7 +123,7 @@ Optionally, a table name may be added within the class::
 	
 		name = 'mytablename'
 		
-	    def sayhi(self):
+		def sayhi(self):
 	        print 'hi'
 	        
 which must be all lowercase.  This name will be used instead of the class name as the table name.  

@@ -15,13 +15,6 @@
 class Table2SATable(object):
 
     _cache = {}
-    
-    def getTableName(self,table):
-        try:
-            name = table.name
-        except:
-            name = table.__name__.lower()
-        return name
 
     def render(self, table, metadata=None):
         if table in self._cache:
@@ -40,7 +33,7 @@ class Table2SATable(object):
             sacols.append(sacol)
             continue
 
-        name = self.getTableName(table)
+        name = table.getTableName()
 
         satable = sqlalchemy.Table(name, metadata, *sacols)
 
