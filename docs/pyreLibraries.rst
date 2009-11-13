@@ -116,7 +116,7 @@ Dsaw implements all the types of pyre.db with the additional feature of not havi
 
 .. literalinclude:: ../packages/dsaw/examples/impliedTypes.py
 
-The only restriction on a database-storable object is that it currently must inherit from pyre.db.Table, although this is more of a programming convenience than a necessity and will soon be relaxed.
+The only restrictions are that all implied types of stored attributes *must be initialized in the constructor* with an appropriate primitive type, reference, or list of references (see list below).  A temporary restriction is that the object must also currently inherit from pyre.db.Table, although this is more of a programming convenience than a necessity and will soon be relaxed.  Users achieve this inheritance when they also inherit from dsaw.db.WithID.WithID.
 
 The rules for converting an implied type to a database type are the following:
 

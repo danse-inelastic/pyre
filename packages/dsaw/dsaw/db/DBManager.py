@@ -203,11 +203,6 @@ class DBManager(object):
     
         
     def createTable(self, table):
-#        try:
-#            name = table.name
-#        except:
-#            name = table.__name__.lower()
-#        self.info.log('creating table %s...' % name)
         self.info.log('creating table %s...' % table.getTableName())
         satable = self.convertToSATable(table)
 
@@ -216,7 +211,7 @@ class DBManager(object):
             satable.create(bind=self._saengine)
         except sqlalchemy.exc.ProgrammingError, e:
             if str(e).find('already exists') != -1:
-                self.info.log('failed to create table %s. Error: %s' % (name, e))
+                self.info.log('failed to create table %s. Error: %s' % (table.getTableName(), e))
             else:
                 raise
         #self._sametadata.create_all(self._saengine)
