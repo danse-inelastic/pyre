@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                                  Jiao Lin
 #                      California Institute of Technology
 #                      (C) 2006-2009  All Rights Reserved
 #
@@ -31,8 +30,6 @@ class Schemer(base):
     actual instances of int,str,float,list,tuple,dict, a subclasses of Column, or a 
     reference to an object that is a subclass of Table
     and then attempt to store them if their name matches up   
-    
-    todo: add possibility of getting table name from the class name.lower()
     """
 
     def __init__(cls, name, bases, dict):    
@@ -45,8 +42,7 @@ class Schemer(base):
         #now we get the 'implied columns' (those without an explicit declaration)
         for name, item in cls.__dict__.iteritems():
             
-#            if name in ('Schemer','_columnRegistry','_writeable','name','dsaw','VersatileReference'):
-#                continue
+            # disregard if parts of Schemer
             if name in ('_columnRegistry','_writeable','name'):
                 continue
             # disregard entries that are already in the column registry
@@ -79,17 +75,17 @@ def assignType(cls, name, item):
     # this could obviously be expanded
     import dsaw.db
     #attributeType = type(item).__name__ or for class do type(self).__name__
-    if isinstance(item,type('abc')):
+    if isinstance(item, type('abc')):
         cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
-    elif isinstance(item,type(1)):
+    elif isinstance(item, type(1)):
         cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
-    elif isinstance(item,type(1.0)):
+    elif isinstance(item, type(1.0)):
         cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
-    elif isinstance(item,type(True)):
+    elif isinstance(item, type(True)):
         cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
-    elif isinstance(item,type([])) or isinstance(item,type((1,))):
+    elif isinstance(item, type([])) or isinstance(item,type((1,))):
         cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
-    elif isinstance(item,type({})):
+    elif isinstance(item, type({})):
         cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())
         cls._columnRegistry[name+'_values'] = dsaw.db.varcharArray(name=name+'_values', length=64, default=item.values())
     elif isinstance(item, Column):
@@ -97,6 +93,8 @@ def assignType(cls, name, item):
         pass
     elif isinstance(item, Table):
         cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)
+#    elif isinstance(item, type(None)):
+#        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64)
 
             
             

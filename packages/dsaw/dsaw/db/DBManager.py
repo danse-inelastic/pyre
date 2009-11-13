@@ -203,11 +203,12 @@ class DBManager(object):
     
         
     def createTable(self, table):
-        try:
-            name = table.name
-        except:
-            name = table.__name__.lower()
-        self.info.log('creating table %s...' % name)
+#        try:
+#            name = table.name
+#        except:
+#            name = table.__name__.lower()
+#        self.info.log('creating table %s...' % name)
+        self.info.log('creating table %s...' % table.getTableName())
         satable = self.convertToSATable(table)
 
         import sqlalchemy.exc
@@ -252,11 +253,11 @@ class DBManager(object):
 
     def dropTable(self, table):
         self.commit()
-        try:
-            name = table.name
-        except:
-            name = table.__name__.lower()
-        self.info.log('deleting table %s...' % name)
+#        try:
+#            name = table.name
+#        except:
+#            name = table.__name__.lower()
+        self.info.log('deleting table %s...' % table.getTableName())
         satable = self.convertToSATable(table)
         satable.drop(bind=self._saengine)
         self.commit()

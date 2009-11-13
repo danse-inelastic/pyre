@@ -19,11 +19,12 @@ class Table(base):
     from Schemer import Schemer
     __metaclass__ = Schemer
     
-    def getTableName(self):
+    @classmethod
+    def getTableName(cls):
         try:
-            name = self.name
+            name = cls.name
         except:
-            name = self.__class__.__name__.lower()
+            name = cls.__name__.lower()
         return name
 
 

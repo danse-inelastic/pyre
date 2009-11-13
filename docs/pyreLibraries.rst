@@ -81,7 +81,7 @@ Then users can store objects in the usual way::
 Extending the capabilities of pyre.db: dsaw.db
 ----------------------------------------------
 
-An extension to pyre.db, called dsaw, has recently been developed.  It allows users to access the SQLAlchemy plugin.  It also allows users to access all the types of pyre.db plus three others:
+An extension to pyre.db, called dsaw, has recently been developed.  It allows users to access the SQLAlchemy engine for advanced SQL manipulations.  It also allows users to access all the types of pyre.db plus three others:
 
 .. autofunction:: dsaw.db.reference
 .. autofunction:: dsaw.db.referenceSet
@@ -127,22 +127,30 @@ The rules for converting an implied type to a database type are the following:
 * 'list' or 'tuple' --> dsaw.db.varcharArray(length=64)
 * 'dict' --> dsaw.db.varcharArray(length=64) for keys, dsaw.db.varcharArray(length=64) for values
 * a Table instance --> dsaw.db.reference()
+* a list/tuple of Table instances --> dsaw.db.referenceSet()
+
+The way this works is an on-the-fly conversion just before the object is serialized to the above dsaw types, then a just-in-time conversion back to typical python primitive types and references when the object is deserialized.  Additionally, users can mix normal python object representation with dsaw types as they desire (or for backwards compatibility).
 
 Advanced data objects with dsaw
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
 
-* discuss how this works for `Structure <http://danse.us/trac/inelastic/wiki/crystal>`_ class
+Example 1: matter classes
+"""""""""""""""""""""""""""
+The `matter data objects <http://danse.us/trac/inelastic/wiki/crystal>`_ are a complex set of classes for describing virtually any atomic structure, using (possibly) multiple lattices, space group symmetry, and look-up functions for atomic properties. However, even these complex data structures can be mapped automatically using dsaw's implied types, thereby allowing users to freely serialize their structures without inputing type information for all it's parameters and/or maintaining separate databasable objects for matter information.  Here is an example of how to database a lattice:
 
-Example 2: Vsat classes
+
+Example 2: vsat classes
 """""""""""""""""""""""
 
 
-Example 3: Bvk modules
+Example 3: bvk modules
 """"""""""""""""""""""
+
+     
         
-* such as bvk module: http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
+* an example is http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
 
 
 Optional types and name declaration
@@ -204,6 +212,11 @@ A longer example of how a versatile reference works is the following:
 
 .. literalinclude:: ../packages/dsaw/examples/versatileReferences.py
 
+Miscillaneous:
+
+One may use db.createTable() or db.registerTable(); db.createAllTables()...the second form is mandatory for versatile references. Some api changes might be:
+createTable() --> storeClass()
+insertRow() --> storeObject()
 
 
 .. _pyre-geometry:
