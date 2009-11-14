@@ -43,7 +43,7 @@ class Schemer(base):
         for name, item in cls.__dict__.iteritems():
             
             # disregard if parts of Schemer
-            if name in ('_columnRegistry','_writeable','name'):
+            if name in ('Schemer','_columnRegistry','_writeable','name'):
                 continue
             # disregard entries that are already in the column registry
             if name in cls._columnRegistry.keys():
