@@ -74,6 +74,7 @@ class Schemer(base):
 def assignType(cls, name, item):
     # this could obviously be expanded
     import dsaw.db
+    import numpy
     #attributeType = type(item).__name__ or for class do type(self).__name__
     if isinstance(item, type('abc')):
         cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
@@ -83,7 +84,7 @@ def assignType(cls, name, item):
         cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
     elif isinstance(item, type(True)):
         cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
-    elif isinstance(item, type([])) or isinstance(item,type((1,))):
+    elif isinstance(item, type([])) or isinstance(item, type(numpy.ndarray)) or isinstance(item,type((1,))):
         cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
     elif isinstance(item, type({})):
         cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())

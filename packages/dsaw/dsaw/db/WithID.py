@@ -22,6 +22,9 @@ class WithID(base):
     id = pyre.db.varchar(name="id", length=64)
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
+    
+    def __init__(self):
+        base.__init__(self)
 
 
 
