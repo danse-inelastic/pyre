@@ -57,7 +57,7 @@ class Schemer(base):
 #                continue
 
             # register it and apply automatic type detector
-            assignType(cls, name, item)
+            Schemer.assignType(cls, name, item)
             
             # i don't think we need this anymore so it's being commented out
 #            if not cls._columnRegistry[item.name].auto:
@@ -83,33 +83,33 @@ class Schemer(base):
             elif isinstance(arrayEl, type(True)):
                 return 'bool'
 
-
-def assignType(cls, name, item):
-    #attributeType = type(item).__name__ or for class do type(self).__name__
-    if isinstance(item, type('abc')):
-        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
-    elif isinstance(item, type(1)):
-        cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
-    elif isinstance(item, type(1.0)):
-        cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
-    elif isinstance(item, type(True)):
-        cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
-    elif isinstance(item, type([])) or isinstance(item, type(numpy.ndarray)) or isinstance(item,type((1,))):
-        #we support nested arrays
-#            if isinstance(item[0],type(list)):
-#  
-#            else: 
-        cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
-    elif isinstance(item, type({})):
-        cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())
-        cls._columnRegistry[name+'_values'] = dsaw.db.varcharArray(name=name+'_values', length=64, default=item.values())
-    elif isinstance(item, Column):
-        #this is taken care of for now by the parent Schemer
-        pass
-    elif isinstance(item, Table):
-        cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)
-#    elif isinstance(item, type(None)):
-#        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64)
+    @staticmethod
+    def assignType(cls, name, item):
+        #attributeType = type(item).__name__ or for class do type(self).__name__
+        if isinstance(item, type('abc')):
+            cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
+        elif isinstance(item, type(1)):
+            cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
+        elif isinstance(item, type(1.0)):
+            cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
+        elif isinstance(item, type(True)):
+            cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
+        elif isinstance(item, type([])) or isinstance(item, type(numpy.array([0]))) or isinstance(item,type((1,))):
+            #we support nested arrays
+    #            if isinstance(item[0],type(list)):
+    #  
+    #            else: 
+            cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
+        elif isinstance(item, type({})):
+            cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())
+            cls._columnRegistry[name+'_values'] = dsaw.db.varcharArray(name=name+'_values', length=64, default=item.values())
+        elif isinstance(item, Column):
+            #this is taken care of for now by the parent Schemer
+            pass
+        elif isinstance(item, Table):
+            cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)
+    #    elif isinstance(item, type(None)):
+    #        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64)
 
             
             
