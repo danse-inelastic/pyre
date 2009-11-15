@@ -19,7 +19,8 @@ from Column import Column
 from pyre.db.Table import Table
 import weakref
 
-
+import dsaw.db
+import numpy
 from pyre.db.Schemer import Schemer as base
 
 class Schemer(base):
@@ -68,13 +69,22 @@ class Schemer(base):
             # added so that the column descriptor knows
             # the table it belongs to
             item.parent_table = weakref.ref(cls)
+            
+    @classmethod
+    def getArrayType(cls, arrayAttr):
+        #decide type of array
+        def arrType(arrayEl):
+            if isinstance(arrayEl, type('abc')):
+                return 'str'
+            elif isinstance(arrayEl, type(1)):
+                return 'int'
+            elif isinstance(arrayEl, type(1.0)):
+                return 'float'
+            elif isinstance(arrayEl, type(True)):
+                return 'bool'
 
-        return
-    
+
 def assignType(cls, name, item):
-    # this could obviously be expanded
-    import dsaw.db
-    import numpy
     #attributeType = type(item).__name__ or for class do type(self).__name__
     if isinstance(item, type('abc')):
         cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
@@ -85,6 +95,10 @@ def assignType(cls, name, item):
     elif isinstance(item, type(True)):
         cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
     elif isinstance(item, type([])) or isinstance(item, type(numpy.ndarray)) or isinstance(item,type((1,))):
+        #we support nested arrays
+#            if isinstance(item[0],type(list)):
+#  
+#            else: 
         cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
     elif isinstance(item, type({})):
         cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())

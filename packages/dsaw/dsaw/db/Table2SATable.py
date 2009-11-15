@@ -57,7 +57,7 @@ class Table2SATable(object):
         table = col.referred_table
         
         
-        tablename = self.getTableName(table)
+        tablename = table.getTableName()
         if not hasattr(table, 'primary_key_col'):
             self._cache[table] = Table2SATable().render(table, self._metadata)
             
