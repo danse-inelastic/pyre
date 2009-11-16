@@ -90,7 +90,7 @@ class TestCase(unittest.TestCase):
         # create a user
         user = User()
         user.username = 'bob'
-        user.id = 'bob'
+        user.id = 'bob1'
         db.insertRow(user)
         
         # create a greeting

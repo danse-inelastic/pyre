@@ -247,7 +247,7 @@ class DBManager(object):
 
 
     def dropTable(self, table):
-        self.commit()
+#        self.commit()
 #        try:
 #            name = table.name
 #        except:
