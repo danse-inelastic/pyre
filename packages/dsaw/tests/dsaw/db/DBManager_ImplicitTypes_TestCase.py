@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
     def dbManager(self):
         from dsaw.db import connect
         #db = connect(db ='sqlite:///memory')
-        db = connect(db ='postgres:///test')
+        db = connect(db ='postgres:///test', echo = True)
         db.autocommit(True)
         return db
     

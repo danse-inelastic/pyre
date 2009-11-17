@@ -70,7 +70,8 @@ class Schemer(base):
             # the table it belongs to
             item.parent_table = weakref.ref(cls)
             
-    @classmethod
+    #note: this method currently isn't used
+    @staticmethod
     def getArrayType(cls, arrayAttr):
         #decide type of array
         def arrType(arrayEl):
@@ -88,11 +89,11 @@ class Schemer(base):
         #attributeType = type(item).__name__ or for class do type(self).__name__
         if isinstance(item, type('abc')):
             cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
-        elif isinstance(item, type(1)):
+        elif item.__class__.__name__=='int':#isinstance(item, type(3)):
             cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
         elif isinstance(item, type(1.0)):
             cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
-        elif isinstance(item, type(True)):
+        elif item.__class__.__name__=='bool':
             cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
         elif isinstance(item, type([])) or isinstance(item, type(numpy.array([0]))) or isinstance(item,type((1,))):
             #we support nested arrays
@@ -107,7 +108,7 @@ class Schemer(base):
             #this is taken care of for now by the parent Schemer
             pass
         elif isinstance(item, Table):
-            cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)
+            cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)#, default=item)
     #    elif isinstance(item, type(None)):
     #        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64)
 
