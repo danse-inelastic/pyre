@@ -37,6 +37,20 @@ class Schemer(base):
         # the base class will get all the publicly declared columns and make them
         # part of the registry
         base.__init__(cls, name, bases, dict)
+
+        #this should not go here--it should go in the dsaw-sqlalchemy converter
+        #Schemer.automaticallyAssign(cls, name, bases, dict)
+        
+        # now get each column and add a weak reference to its table
+        for name, item in cls._columnRegistry.iteritems():
+            # XXX: Jiao Lin:
+            # added so that the column descriptor knows
+            # the table it belongs to
+            item.parent_table = weakref.ref(cls)
+
+
+    @staticmethod
+    def automaticallyAssign(cls, name, bases, dict):
         # TODO: when this Schemer and pyre.db Schemer are combined, this registering
         # of classes should be combined
         
@@ -62,55 +76,45 @@ class Schemer(base):
             # i don't think we need this anymore so it's being commented out
 #            if not cls._columnRegistry[item.name].auto:
 #                cls.writeable.append(item.name)
-        
-        # now get each column and add a weak reference to it's table
-        for name, item in cls._columnRegistry.iteritems():
-            # XXX: Jiao Lin:
-            # added so that the column descriptor knows
-            # the table it belongs to
-            item.parent_table = weakref.ref(cls)
-            
-    #note: this method currently isn't used
-    @staticmethod
-    def getArrayType(cls, arrayAttr):
-        #decide type of array
-        def arrType(arrayEl):
-            if isinstance(arrayEl, type('abc')):
-                return 'str'
-            elif isinstance(arrayEl, type(1)):
-                return 'int'
-            elif isinstance(arrayEl, type(1.0)):
-                return 'float'
-            elif isinstance(arrayEl, type(True)):
-                return 'bool'
 
+
+    # for now just replace everything with a dsaw.db type...eventually use proxy class
     @staticmethod
     def assignType(cls, name, item):
         #attributeType = type(item).__name__ or for class do type(self).__name__
-        if isinstance(item, type('abc')):
-            cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64, default=item)
-        elif item.__class__.__name__=='int':#isinstance(item, type(3)):
-            cls._columnRegistry[name] = dsaw.db.integer(name=name, default=item)
-        elif isinstance(item, type(1.0)):
-            cls._columnRegistry[name] = dsaw.db.real(name=name, default=item)
+        if isinstance(item, basestring):
+            dict[name]=dsaw.db.varchar(name=name, length=64, default=item)
+            cls._columnRegistry[name] = dict[name]
+        elif item.__class__.__name__=='int' or item.__class__.__name__=='long':
+            cls.__dict__[name] = dsaw.db.integer(name=name, default=item)
+            cls._columnRegistry[name] = cls.__dict__[name]
+        elif isinstance(item, float):
+            cls.__dict__[name] = dsaw.db.real(name=name, default=item)
+            cls._columnRegistry[name] = cls.__dict__[name]
         elif item.__class__.__name__=='bool':
-            cls._columnRegistry[name] = dsaw.db.boolean(name=name, default=item)
-        elif isinstance(item, type([])) or isinstance(item, type(numpy.array([0]))) or isinstance(item,type((1,))):
+            cls.__dict__[name] = dsaw.db.boolean(name=name, default=item)
+            cls._columnRegistry[name] = cls.__dict__[name]
+        elif isinstance(item, list) or isinstance(item, numpy.ndarray) or isinstance(item, tuple):
             #we support nested arrays
     #            if isinstance(item[0],type(list)):
     #  
     #            else: 
-            cls._columnRegistry[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
-        elif isinstance(item, type({})):
+            cls.__dict__[name] = dsaw.db.varcharArray(name=name, length=64, default=item)
+            cls._columnRegistry[name] = cls.__dict__[name]
+        elif isinstance(item, dict):
             cls._columnRegistry[name+'_keys'] = dsaw.db.varcharArray(name=name+'_keys', length=64, default=item.keys())
+            cls._columnRegistry[name+'_keys'] = cls.__dict__[name+'_keys']
             cls._columnRegistry[name+'_values'] = dsaw.db.varcharArray(name=name+'_values', length=64, default=item.values())
+            cls._columnRegistry[name+'_values'] = cls.__dict__[name+'_values']
         elif isinstance(item, Column):
             #this is taken care of for now by the parent Schemer
             pass
         elif isinstance(item, Table):
-            cls._columnRegistry[name] = dsaw.db.reference(name=name, table=item.__class__)#, default=item)
+            cls.__dict__[name] = dsaw.db.reference(name=name, table=item.__class__)#, default=item)
+            cls._columnRegistry[name] = cls.__dict__[name]
     #    elif isinstance(item, type(None)):
     #        cls._columnRegistry[name] = dsaw.db.varchar(name=name, length=64)
+    
 
             
             
