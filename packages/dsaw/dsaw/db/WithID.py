@@ -23,8 +23,10 @@ class WithID(base):
     id.constraints = 'PRIMARY KEY'
     id.meta['tip'] = "the unique id"
     
-    def __init__(self):
+    def __init__(self, id = None):
         base.__init__(self)
+        self.id = id
+
 
 
 
