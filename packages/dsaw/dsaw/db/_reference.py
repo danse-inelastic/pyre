@@ -29,7 +29,7 @@ class reference:
     def __str__(self):
         table = self.table
         if not isinstance(table, basestring):
-            table = table.name
+            table = table.getTableName()
         return '%s%s%s' % (table, self.separator, self.id)
 
 

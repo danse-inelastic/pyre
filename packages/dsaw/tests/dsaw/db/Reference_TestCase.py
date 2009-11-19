@@ -60,6 +60,9 @@ class TestCase(unittest.TestCase):
         greeting.greeting = 'hello'
         greeting.id = 'greeting1'
         db.insertRow(greeting)
+        
+        print greeting.who
+        print greeting.who.dereference(db)
 
         #
         tables.reverse()
