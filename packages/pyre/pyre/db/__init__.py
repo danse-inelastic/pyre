@@ -82,9 +82,19 @@ def real(**kwds):
     return Real(**kwds)
 
 
+def reference(**kwds):
+    from Reference import Reference
+    return Reference(**kwds)
+
+
 def smallint(**kwds):
     from SmallInt import SmallInt
     return SmallInt(**kwds)
+
+
+def tableRegistry():
+    from VersatileReference  import tableRegistry
+    return tableRegistry()
 
 
 def time(**kwds):
@@ -105,7 +115,6 @@ def varchar(**kwds):
 def varcharArray(**kwds):
     from VarCharArray import VarCharArray
     return VarCharArray(**kwds)
-
 
 # version
 __id__ = "$Id: __init__.py,v 1.2 2008-04-04 08:37:14 aivazis Exp $"

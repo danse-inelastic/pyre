@@ -39,8 +39,9 @@ class wrapper(object):
         return
 
 
-    def __getattr__(self, name):
-        return getattr( self._core, name )
+    def __getattribute__(self, name):
+        try: return getattr( self._core, name )
+        except: return object.__getattribute__(self, name)
 
 
     def autocommit(self, on_off=1):
