@@ -155,6 +155,8 @@ class DBManager(object):
         debug.log( 'fetchall: sql=%r' % sql )
         c.execute(sql)
 
+        #print c.fetchall(),'<br>'
+        #print c.fetchall(),'<br>'
         # walk through the result of the query
         rows = c.fetchall()
         debug.log( 'query result: %r' % (rows,) )
@@ -179,6 +181,47 @@ class DBManager(object):
         return items
     
     
+#    def fetchAttributeFromAll(self, table, attribute, where=None, sort=None):
+#        columns = table._columnRegistry.keys()
+#        
+#        # build the sql statement
+#        sql = "SELECT %s FROM %s" % (attribute, table.name)
+#        if where:
+#            sql += " WHERE %s" % where
+#        if sort:
+#            sql += " ORDER BY %s" % sort
+#        
+#        # execute the sql statement
+#        c = self.db.cursor()
+#        debug.log( 'fetchAttributeFromAll: sql=%r' % sql )
+#        c.execute(sql)
+#
+#        #print c.fetchall(),'<br>'
+#        #print c.fetchall(),'<br>'
+#        # walk through the result of the query
+#        rows = c.fetchall()
+#        debug.log( 'query result: %r' % (rows,) )
+##        items = []
+##        for row in rows:
+##            # create the object
+##            item = table()
+##            item.locator = self.locator
+##            
+##            # build the dictionary with the column information
+##            values = {}
+##            for key, value in zip(columns, row):
+##            if value is not None:
+##                    values[key] = value
+##            # attach it to the object
+##            item._priv_columns = values
+##
+##            # add this object tothepile
+##            items.append(item)
+##
+##        debug.log( 'items: %r' % (items,) )
+#        return rows   
+
+
     def __init__(self, name, **kwds):
         self.db = self.connect(database=name, **kwds)
 
