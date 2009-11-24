@@ -35,22 +35,6 @@ class Form(ElementContainer, ParagraphFactory, LiteralFactory):
         field = FormField(control)
         self.contents.append(field)
         return control
-    
-    def checkbox(self, **kwds):
-        from Checkbox import Checkbox
-        control = Checkbox(**kwds)
-        from FormField import FormField
-        field = FormField(control)
-        self.contents.append(field)
-        return control
-    
-    def button(self, **kwds):
-        from Button import Button
-        control = Button(**kwds)
-        from FormField import FormField
-        field = FormField(control)
-        self.contents.append(field)
-        return control
 
     def checkbox(self, **kwds):
         from Checkbox import Checkbox
