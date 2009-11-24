@@ -113,7 +113,6 @@ class Facility(Trait):
                 locator = pyre.parsing.locators.simple('imported')
             else:
                 locator = pyre.parsing.locators.simple('not found')
-
                 try:
                     failed = self.failed_component_retrievals
                 except AttributeError:
