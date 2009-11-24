@@ -100,9 +100,9 @@ class Configurable(Traceable):
         return self.inventory.getDepositories()
 
     # single component management
-    def retrieveComponent(self, name, factory, args=(), encoding='odb', vault=[], extras=[]):
+    def retrieveComponent(self, name, factory, args=(), kwds={}, encoding='odb', vault=[], extras=[]):
         """retrieve component <name> from the persistent store"""
-        return self.inventory.retrieveComponent(name, factory, args, encoding, vault, extras)
+        return self.inventory.retrieveComponent(name, factory, args, kwds=kwds, encoding=encoding, vault=vault, extraDepositories=extras)
 
 
     def configureComponent(self, component, registry=None):

@@ -48,7 +48,7 @@ class Curator(Base):
 
 
     def retrieveComponent(
-        self, name, facility, args=(), encoding='odb', vault=[], extraDepositories=[]):
+        self, name, facility, args=(), kwds={}, encoding='odb', vault=[], extraDepositories=[]):
         """construct a component by locating and invoking a component factory"""
 
         # get the requested codec
@@ -60,7 +60,7 @@ class Curator(Base):
         else:
             location = [name]
 
-        # loop over my depositories looking for apprpriate factories
+        # loop over my depositories looking for appropriate factories
         for factory, locator in self.loadSymbol(
             tag=name,
             codec=codec, address=location, symbol=facility, extras=extraDepositories,
@@ -72,10 +72,12 @@ class Curator(Base):
                 continue
 
             try:
-                component = factory(*args)
+                component = factory(*args, **kwds)
             except TypeError, message:
+                import traceback
+                tb = traceback.format_exc()
                 self._recordComponentLookup(
-                    name, locator, "error invoking '%s': %s" % (facility, message))
+                    name, locator, "error invoking '%s': %s" % (facility, tb))
                 continue
 
             # set the locator
@@ -178,26 +180,29 @@ class Curator(Base):
         return self.systemDepository
 
 
-    def dump(self, extras=None):
-        print "curator info:"
-        print "    depositories:", [d.name for d in self.depositories]
+    def dump(self, extras=None, stream=None):
+        if not stream:
+            import sys
+            stream = sys.stdout
+        print >>stream, "curator info:"
+        print >>stream, "    depositories:", [d.name for d in self.depositories]
 
         if extras:
-            print "    local depositories:", [d.name for d in extras]
+            print >>stream, "    local depositories:", [d.name for d in extras]
 
         if self._traitRequests:
-            print "    trait requests:"
+            print >>stream, "    trait requests:"
             for trait, record in self._traitRequests.iteritems():
-                print "        trait='%s'" % trait
+                print >>stream, "        trait='%s'" % trait
                 for entry in record:
-                    print "            %s: %s" % entry
+                    print >>stream, "            %s: %s" % entry
 
         if self._componentRequests:
-            print "    component requests:"
+            print >>stream, "    component requests:"
             for trait, record in self._componentRequests.iteritems():
-                print "        component='%s'" % trait
+                print >>stream, "        component='%s'" % trait
                 for entry in record:
-                    print "            %s: %s" % entry
+                    print >>stream, "            %s: %s" % entry
             
         return
 

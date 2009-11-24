@@ -56,6 +56,7 @@ class Registry(object):
             return self
         
         for name, descriptor in registry.properties.iteritems():
+            # print "pyre.inventory.odb.Registry:", name, descriptor.value, descriptor.locator
             self.setProperty(name, descriptor.value, descriptor.locator)
 
         for name, node in registry.facilities.iteritems():

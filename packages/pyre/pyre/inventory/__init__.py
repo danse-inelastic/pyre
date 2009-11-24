@@ -217,7 +217,7 @@ def str(name, **kwds):
     return String(name, **kwds)
 
 
-# bultin validators
+# built-in validators
 def less(value):
     from validators.Less import Less
     return Less(value)

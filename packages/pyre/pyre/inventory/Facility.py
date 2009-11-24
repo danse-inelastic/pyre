@@ -119,7 +119,6 @@ class Facility(Trait):
                 except AttributeError:
                     failed = self.failed_component_retrievals = []
                     failed.append( (componentName, args) )
-
                 return None, locator
 
         # adjust the names by which this component is known

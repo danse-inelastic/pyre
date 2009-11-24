@@ -52,7 +52,6 @@ class Weaver(Component):
         if stream is None:
             import sys
             stream = sys.stdout
-
         print >> stream, "\n".join(text)
 
         return

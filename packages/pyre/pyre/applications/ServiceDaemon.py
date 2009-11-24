@@ -80,7 +80,9 @@ class ServiceDaemon(Application, Stager, ComponentHarness):
             
         return
 
-
+    def _init(self):
+        Application._init(self)
+        return
 
 # version
 __id__ = "$Id: ServiceDaemon.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"

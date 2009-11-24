@@ -161,9 +161,15 @@ class Application(Component, Executive):
         return
 
 
+#    def _saveConfiguration(self):
+#        registry = self.createRegistry()
+#        registry = retrieveConfiguration( self.inventory, registry )
+#        stream = open( '%s.pml' % self.name, 'w' )
+#        self.weaver.weave( registry, stream )
+#        return
+
     def _getPrivateDepositoryLocations(self):
         return []
-
 
 
 
@@ -209,9 +215,6 @@ def retrieveConfiguration(inventory, registry, excludes = None):
         continue
 
     return registry
-
-
-
 
 # version
 __id__ = "$Id: Application.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
