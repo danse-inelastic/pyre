@@ -148,6 +148,14 @@ class DocumentMill(ContentMill):
 
     def onSelector(self, selector):
 
+#        text = [ '<div>' ]
+#        if selector.label:
+#            text.append('<label for="%s">%s</label>' % (selector.attributes["id"], selector.label))
+#        text += [ '</div>' ]
+#
+#        text += [
+#            self.tagger.onElementBegin(selector)
+#            ]
         text = [
             self.tagger.onElementBegin(selector)
             ]

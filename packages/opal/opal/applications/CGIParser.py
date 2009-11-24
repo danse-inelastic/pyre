@@ -24,6 +24,9 @@ class CGIParser(object):
 
         for field in arg.split(self.argsep):
             tokens = field.split(self.assignment)
+            key = tokens[0]
+            value = self.assignment.join(tokens[1:])
+            if not key: continue
             try:
                 key, value = tokens
             except ValueError:
@@ -67,7 +70,7 @@ class CGIParser(object):
         fields = key.split(self.fieldsep)
 
         children = []
-        for level, field in enumerate(fields):
+        for field in fields:
             if field[0] == '[' and field[-1] == ']':
                 candidates = field[1:-1].split(',')
             else:
@@ -87,12 +90,12 @@ class CGIParser(object):
             return
 
         for key in children[0]:
-            self._storeValue(node.getNode(key), children[1:], urllib.unquote(value))
+            self._storeValue(node.getNode(key), children[1:], value)
 
         return
 
 
 # version
-__id__ = "$Id: CGIParser.py,v 1.1.1.1 2006-11-27 00:09:46 aivazis Exp $"
+__id__ = "$Id: CGIParser.py,v 1.3 2008-08-21 17:44:56 pyre Exp $"
 
 #  End of file 

@@ -43,6 +43,7 @@ class Document(ElementContainer, LiteralFactory, ParagraphFactory, PreformattedF
         LiteralFactory.__init__(self)
         ParagraphFactory.__init__(self)
         PreformattedFactory.__init__(self)
+        # PreformattedFactory could possibly be combined with ParagraphFactory
 
         self.title = title
         self.description = description

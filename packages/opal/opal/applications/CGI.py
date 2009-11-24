@@ -74,6 +74,12 @@ class CGI(Script):
             headers['content-length'] = os.environ['CONTENT_LENGTH']
         except KeyError:
             pass
+
+
+        # process arguments from cookie
+        cookie = os.environ.get('HTTP_COOKIE')
+        if cookie:
+            self._parseCookieToQuery(cookie)
         
         # process arguments from query string
         if method == 'GET' or method == 'HEAD':

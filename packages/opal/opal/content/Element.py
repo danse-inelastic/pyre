@@ -20,6 +20,10 @@ class Element(object):
 
 
     def __init__(self, tag, **attributes):
+        id = attributes.get('id')
+        if not id:
+            attributes['id'] = __builtins__['id'](self)
+            
         self.tag = tag
         self.attributes = attributes
         return
