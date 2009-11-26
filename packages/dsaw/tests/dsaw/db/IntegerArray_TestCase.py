@@ -19,39 +19,32 @@ class TestCase(unittest.TestCase):
 
     def dbManager(self):
         from dsaw.db import connect
-        db = connect(db ='postgres:///test') #, echo=True)
+        db = connect(db ='postgres:///test')
         db.autocommit(True)
         return db
     
 
     def test1(self):
-        'dsaw.db.Psycopg2: double array type'
+        'dsaw.db.Psycopg2: integer array type'
 
         db = self.dbManager()
 
         # declare tables
         from dsaw.db.WithID import WithID
-        class DoubleArrayTest(WithID):
-            name = 'doublearraytest'
+        class IntegerArrayTest(WithID):
+            name = 'integerarraytest'
             import dsaw.db
-            arr = dsaw.db.doubleArray(name='arr')
-            m = dsaw.db.doubleArray(name='m', shape=(2,3))
+            arr = dsaw.db.integerArray(name='arr')
 
-        db.registerTable(DoubleArrayTest)
+        db.registerTable(IntegerArrayTest)
         db.createAllTables()
 
-        t1 = DoubleArrayTest()
+        t1 = IntegerArrayTest()
         t1.id = 't1'
-        t1.arr = [1.,2.]
+        t1.arr = [1,2]
         db.insertRow(t1)
 
-        t1.arr = [3.,4.]
-        db.updateRecord(t1)
-
-        t1.arr = [5.,6.]
-        t1.m = [ [0,1,2], [3,4,5] ]
-        self.assertEqual(t1.m.shape, (2,3))
-        
+        t1.arr = [3,4]
         db.updateRecord(t1)
         
         db.destroyAllTables()

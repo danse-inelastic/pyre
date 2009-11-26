@@ -27,6 +27,10 @@ class referenceset:
         return
 
 
+    def count(self, db):
+        return self._count_referencetable_records(db) or 0
+
+
     def dereference(self, db):
         records = self._get_referencetable_records( db )
         ret = []
@@ -38,6 +42,54 @@ class referenceset:
         return ret
 
 
+    def getElement(self, key, db):
+        q = self._queryall(db)
+        if q is None: return None
+        r = q.filter_by(elementlabel=key).one()
+        return r.element.dereference(db)
+    
+
+    def setElement(self, key, element, db):
+        'set element. this only changes pointer, does not change the old or new element'
+        q = self._queryall(db)
+        if q:
+            rs = q.filter_by(elementlabel=key).all()
+            if len(rs)>1: raise RuntimeError, 'this referenceset does not behave like a dictionary'
+        else:
+            rs = []
+
+        if len(rs)==0:
+            self.add(element, db, name=key)
+        else:
+            r = rs[0]
+            r.element = element
+            db.updateRecord(r)
+            
+        return element
+        
+
+    def delElement(self, key, db):
+        'delete element. this only changes pointer, does not change the element'
+        q = self._queryall(db)
+        if q:
+            rs = q.filter_by(elementlabel=key).all()
+            if len(rs)>1: raise RuntimeError, 'this referenceset does not behave like a dictionary'
+        else:
+            rs = []
+
+        if len(rs)==0:
+            raise KeyError, key
+
+        r = rs[0]
+
+        # the element record deleted
+        record = r.element.dereference(db)
+
+        # remove the association record
+        db.deleteRecord(r)
+        
+        return record
+        
 
     def clear(self, db):
         '''clear all references to my elements.
@@ -139,12 +191,24 @@ class referenceset:
         return gptr.id
 
 
-    def _get_referencetable_records(self, db):
+    def _queryall(self, db):
         container_gid = self._container_gid(db)
-        if not container_gid: return []
+        if not container_gid: return
         refset_table = self._refsetTable()
         return db.query(refset_table).filter_by(
-            containerlabel=self.name, container=container_gid).all()
+            containerlabel=self.name, container=container_gid)
+
+
+    def _get_referencetable_records(self, db):
+        q = self._queryall(db)
+        if q is None: return
+        return q.all()
+
+
+    def _count_referencetable_records(self, db):
+        q = self._queryall(db)
+        if q is None: return
+        return q.count()
 
 
     def _refsetTable(self):

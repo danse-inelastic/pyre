@@ -33,10 +33,7 @@ class GloballyReferrable(Table):
         # create a new global_pointer
         gptr = global_pointer()
         # the type of the pointer
-        try:
-            gptr.type = self.name
-        except:
-            gptr.type = self.__class__.__name__.lower()
+        gptr.type = self.__class__.getTableName()
         # insert it to db to have a new id
         gptr = db.insertRow(gptr)
         db.commit()

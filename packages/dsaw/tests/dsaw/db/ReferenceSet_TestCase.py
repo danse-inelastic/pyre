@@ -88,7 +88,7 @@ class TestCase(unittest.TestCase):
         print 'users: %s' % (users,)
 
         print '> add one user' 
-        refset.add( userbob, db )
+        refset.add( userbob, db, name='1' )
         users = refset.dereference( db )
         self.assertEqual(len(users), 1)
 
@@ -106,6 +106,38 @@ class TestCase(unittest.TestCase):
         self.assert_('bob' in ids)
         self.assert_('alice' in ids)
 
+        print '> remove all users'
+        refset.clear( db )
+        users = refset.dereference( db )
+        self.assertEqual(len(users), 0)
+
+
+        print '> getElement and setElement'
+        refset.setElement('1', userbob, db )
+        refset.setElement('2', useralice, db )
+        self.assertEqual(refset.getElement('1', db).id, userbob.id)
+        
+        users = refset.dereference( db )
+        self.assertEqual(len(users), 2)
+        
+        ids = [row.id for label, row in users]
+        self.assert_('bob' in ids)
+        self.assert_('alice' in ids)
+
+        refset.setElement('2', userbob, db )
+        users = refset.dereference( db )
+        self.assertEqual(len(users), 2)
+        
+        ids = [row.id for label, row in users]
+        self.assert_('bob' in ids)
+        self.assert_('alice' not in ids)
+
+        print '> delElement'
+        deleted = refset.delElement('1', db)
+        self.assertEqual(deleted.id, 'bob')
+        self.assertEqual(len(refset.dereference(db)), 1)
+        self.assertRaises(KeyError, refset.delElement, '1', db)
+        
         print '> remove all users'
         refset.clear( db )
         users = refset.dereference( db )

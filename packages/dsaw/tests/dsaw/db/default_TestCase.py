@@ -19,45 +19,51 @@ class TestCase(unittest.TestCase):
 
     def dbManager(self):
         from dsaw.db import connect
-        db = connect(db ='postgres:///test') #, echo=True)
+        db = connect(db ='postgres:///test')
         db.autocommit(True)
         return db
-    
+
 
     def test1(self):
-        'dsaw.db.Psycopg2: double array type'
-
+        'dsaw.db.ReferenceSet: '
         db = self.dbManager()
 
-        # declare tables
-        from dsaw.db.WithID import WithID
-        class DoubleArrayTest(WithID):
-            name = 'doublearraytest'
+        defaults = {
+            'boolean': True,
+            'integer': 10,
+            'real': 100.,
+            'char': 'abc',
+            #'doubleArray': [1,2,3],
+            }
+        initkwds = {
+            'char': {'length': 10},
+            }
+
+        from dsaw.db.Table import Table
+        class Test(Table):
+
+            name = "test"
+
             import dsaw.db
-            arr = dsaw.db.doubleArray(name='arr')
-            m = dsaw.db.doubleArray(name='m', shape=(2,3))
 
-        db.registerTable(DoubleArrayTest)
-        db.createAllTables()
+            for type, default in defaults.iteritems():
+                kwds = initkwds.get(type) or {}
+                name = '%svar' % type
+                code = '%s = dsaw.db.%s(name="%s", default=%r, **kwds)' % (
+                    name, type, name, default)
+                exec code
+                continue
 
-        t1 = DoubleArrayTest()
-        t1.id = 't1'
-        t1.arr = [1.,2.]
-        db.insertRow(t1)
+        t = Test()
 
-        t1.arr = [3.,4.]
-        db.updateRecord(t1)
+        for type, default in defaults.iteritems():
+            varname = '%svar' % type
+            self.assertEqual(getattr(t, varname), default)
+            continue
 
-        t1.arr = [5.,6.]
-        t1.m = [ [0,1,2], [3,4,5] ]
-        self.assertEqual(t1.m.shape, (2,3))
-        
-        db.updateRecord(t1)
-        
-        db.destroyAllTables()
         return
     
-
+    
     pass # end of TestCase
 
 

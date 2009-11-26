@@ -22,7 +22,6 @@ class DBManager(object):
 
     class RecordStillReferred(Exception): pass
     
-
     def deleteRecord(self, record):
         import sqlalchemy.exc
         
@@ -60,6 +59,7 @@ class DBManager(object):
 
 
     def updateRecord(self, record):
+        obj = self.recordToObject(record)
 
         from Reference import Reference
         from VersatileReference import VersatileReference
@@ -76,56 +76,18 @@ class DBManager(object):
             if record_is_globallyreferrable \
                and colname == GloballyReferrable.globalpointer.name: continue
 
-            # fetch the value
-            #value = record._getFormattedColumnValue(colname)
-            value = col.__get__(record)
-
             # if this col is the primary key, then set up "where"
             if col is primary_key_col:
+                value = getattr(obj, colname)
                 where = "%s='%s'" % (colname, value)
                 continue
-
-            # special handler for versatile reference
-            if isinstance(col, VersatileReference):
-
-                value = value and value.id
-                
-                if isinstance(value, basestring) and value:
-                    value = self.dereference(value)
-
-                if isinstance(value, GloballyReferrable):
-                    # the value is given as the record that this col
-                    # refers to. we need to check if the record has a
-                    # global id, and if not, establish it.
-
-                    target = value
-
-                    # target's globally unique id in global_pointers table
-                    gptr = target.globalpointer
-
-                    # if that id has not been established,
-                    # establish that
-                    if gptr is None or not gptr.id:
-                        target.establishGlobalPointer(self)
-                        gid = target.globalpointer.id
-                        col.__set__(record, gid)
-                    else:
-                        gid = gptr.id
-
-                    # the value is the gid
-                    value = gid
-
-                else:
-                    # assume the value is OK?
-                    pass
-                
-            elif isinstance(col, Reference):
-                value = value and value.id
-                        
+            value = getattr(obj, colname)
+            
             assignment = colname, value
             assignments.append(assignment)
             continue
         self.updateRow(record.__class__, assignments, where=where)
+        self.commit()
         return
     
 
@@ -148,6 +110,7 @@ class DBManager(object):
             if not gptr or not gptr.id:
                 row.establishGlobalPointer(self)
         
+        self.commit()
         return row
 
 
@@ -156,6 +119,7 @@ class DBManager(object):
         q = self._sasession.query(Object)
         q.filter(where).delete()
         #exec 'q.filter(%s).delete()' % where
+        self.commit()
         return
 
 
@@ -171,6 +135,7 @@ class DBManager(object):
         conn = self._saengine.connect()
         conn.execute(u)
 
+        self.commit()
         return
 
 
@@ -343,6 +308,7 @@ class DBManager(object):
         #import _referenceset
         import journal
         self.info = journal.info('dsaw.db.DBManager')
+        self.debug = journal.debug('dsaw.db.DBManager')
         return
 
 
@@ -438,6 +404,16 @@ class DeReferencer(object):
         return db.query(srctable).filter_by(**opts).all()
 
 
+    def onreferenceset(self, rset):
+        db = self.db()
+        return rset.dereference(db)
+
+
+    def onNoneType(self, ref):
+        assert ref is None
+        return None
+
+
 
 class RecordMap(object):
 
@@ -511,12 +487,12 @@ class RecordMap(object):
 
 
         def convertReference(self, ref, col, record):
-            if not ref: raise self.Skip
+            if not ref: return
             id = ref.id
-            if id is None: raise self.Skip
+            if id is None: return
             return id
         def convertVersatileReference(self, vref, col, record):
-            if vref is None: raise self.Skip
+            if vref is None: return
 
             db = self.db()
             
@@ -546,7 +522,7 @@ class RecordMap(object):
                 value = vref.id
 
             elif vref.id is None:
-                raise self.Skip
+                return
 
             else:
                 raise ValueError, '%s(%s)' % (vref.__class__.__name__, vref)
@@ -557,11 +533,27 @@ class RecordMap(object):
             # value, skip it
             if not value: raise self.Skip
             return value
+        def convertDoubleArray(self, value, col, record):
+            if value is None: return
+            if col.shape:
+                import numpy
+                value = numpy.copy(value)
+                value.shape = -1,
+            return list(value)
+        def convertIntegerArray(self, value, col, record):
+            if col.shape:
+                import numpy
+                value = numpy.copy(value)
+                value.shape = -1,
+            return list(value)
+
         def convertDefault(self, value, col, record):
             return value
         
                 
     def _createRecord2ObjectConverter(self, table):
+        from pyre.db.DoubleArray import DoubleArray
+        from pyre.db.IntegerArray import IntegerArray
         from Reference import Reference
         from VersatileReference import VersatileReference, global_pointer
         
@@ -576,6 +568,10 @@ class RecordMap(object):
                 converter.setConverter(name, converter.convertVersatileReference)
             elif isinstance(col, Reference):
                 converter.setConverter(name, converter.convertReference)
+            elif isinstance(col, DoubleArray):
+                converter.setConverter(name, converter.convertDoubleArray)
+            elif isinstance(col, IntegerArray):
+                converter.setConverter(name, converter.convertIntegerArray)
             elif hasattr(col, 'primary_key') and col.primary_key:
                 # if is primary key and user does not assign the primary key any
                 # value, skip it

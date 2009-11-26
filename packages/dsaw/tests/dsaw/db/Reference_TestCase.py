@@ -16,82 +16,71 @@ import unittest
 
 class TestCase(unittest.TestCase):
 
-
-    def dbManager(self):
-        from dsaw.db import connect
-        db = connect(db ='postgres:///test')
+    def test1(self):
+        'dsaw.db.Reference: '
+        import dsaw.db
+        
+        db = dsaw.db.connect(db='postgres:///test')
         db.autocommit(True)
-        return db
-    
-    
-    def test3(self):
-        'dsaw.db.Psycopg2: table with reference'
-        db = self.dbManager()
 
+        print 'declare tables'
         from dsaw.db.WithID import WithID
-        class User(WithID):
-            name = 'users'
-            import dsaw.db
-            username = dsaw.db.varchar(name='username', length=100)
-
-        class Greeting(WithID):
-            name = 'greetings'
-            import dsaw.db
-            greeting = dsaw.db.varchar(name='greeting', length=100)
-            who = dsaw.db.reference(name='who', table=User)
+        class Cylinder(WithID):
+            name = 'cylinders'
+            radius = dsaw.db.real(name='radius')
+            height = dsaw.db.real(name='height')
             
-        tables = [User, Greeting]
-
-        # init system tables
-        db.createSystemTables()
-
-        #
-        for table in tables: db.createTable(table)
-
-        # create a user
-        user = User()
-        user.username = 'bob'
-        user.id = 'bob1'
-        db.insertRow(user)
+        class Scatterer(WithID):
+            name = 'scatterers'
+            shape = dsaw.db.reference(name='shape', table=Cylinder)
+            
+        tables = [
+            Cylinder,
+            Scatterer,
+            ]
+        for table in tables:
+            db.registerTable(table)
+            
+        db.createAllTables()
         
-        # create a greeting
-        greeting = Greeting()
-        greeting.who = user
-        greeting.greeting = 'hello'
-        greeting.id = 'greeting1'
-        db.insertRow(greeting)
+        print 'insert records'
+        cylinder1 = Cylinder()
+        cylinder1.id = 'cylinder1'
+        cylinder1.radius = 5
+        cylinder1.height = 10
         
-        print greeting.who
-        print greeting.who.dereference(db)
-
-        #
-        tables.reverse()
-        for table in tables: db.dropTable(table)
-
-        #
-        db.destroySystemTables()
+        scatterer1 = Scatterer()
+        scatterer1.id = 'scatterer1'
+        scatterer1.shape = cylinder1
+        
+        rows = [
+            cylinder1,
+            scatterer1,
+            ]
+        for row in rows: db.insertRow(row)
+        
+        print 'dereference'
+        shape1 = scatterer1.shape.dereference(db)
+        self.assertEqual( shape1.__class__, Cylinder)
+        self.assertEqual(shape1.id, cylinder1.id)
+        
+        print "make sure we don't create dangling reference"
+        self.assertRaises(db.RecordStillReferred, db.deleteRecord, cylinder1)
+        
+        print 'updateRecord 3: switch to None'
+        scatterer1.shape = None
+        db.updateRecord(scatterer1)
+        shape1 = scatterer1.shape
+        self.assertEqual(shape1, None)
+        
+        print 'remove tables'
+        db.destroyAllTables()
         return
     
-
-# init system tables
-def create_system_tables(db):
-    from dsaw.db import systemTables
-    system_tables = systemTables()
-    for table in system_tables.itertables():
-        db.createTable(table)
-        continue
-    return
-
-# fini system tables
-def destroy_system_tables(db):
-    from dsaw.db import systemTables
-    system_tables = systemTables()
-    for table in system_tables.itertables():
-        db.dropTable(table)
-        continue
-    return
-
     
+    pass # end of TestCase
+
+
 def pysuite():
     suite1 = unittest.makeSuite(TestCase)
     return unittest.TestSuite( (suite1,) )

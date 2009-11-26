@@ -96,6 +96,12 @@ class TestCase(unittest.TestCase):
         self.assertEqual(shape1.__class__, sphere1.__class__)
         self.assertEqual(shape1.id, sphere1.id)
         
+        print 'updateRecord 3: switch to None'
+        scatterer1.shape = None
+        db.updateRecord(scatterer1)
+        shape1 = scatterer1.shape.dereference(db)
+        self.assertEqual(shape1, None)
+        
         print 'remove tables'
         db.destroyAllTables()
         return

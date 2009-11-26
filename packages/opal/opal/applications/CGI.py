@@ -282,6 +282,25 @@ class CGI(Script):
         return
 
 
+    def _parseCookieToQuery(self, cookie):
+        # parse cookie to look like query string
+        cookies = cookie.split(';')
+        cookies = [cookie.strip() for cookie in cookies]
+        cookie = '&'.join(cookies)
+
+        # add it into the query string
+        import os
+        query = os.environ.get('QUERY_STRING')
+        if not query:
+            query = cookie
+        else:
+            query = cookie+'&'+query
+        os.environ['QUERY_STRING'] = query
+
+        self._cgi_inputs['QUERY_STRING_MODIFIED'] = query
+        return
+    
+
     def _createCGIParser(self):
         import opal.applications
         return opal.applications.cgiParser()
