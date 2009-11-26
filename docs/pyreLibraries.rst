@@ -97,6 +97,8 @@ which creates a base object with a unique identifier acting as the primary key. 
 .. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
+Object relational mapper
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Dsaw's orm can handle simple data objects easily, and also provide powerful ways
 to fine tune the mapping from data object to database.
@@ -144,7 +146,7 @@ defaults to 'H', and attribute 'xyz' is a float array and defaults to
 
 You may notice that in this simple class, the attributes are "public", and are
 settable by the constructor __init__. If your class does not use this convention, 
-for example, the Atom class may be implemented this way:
+for example, the Atom class may be implemented this way::
 
 	class Atom:
 	
@@ -218,23 +220,8 @@ For such an implementation, we need one more method __restoreFromInventory__::
 	    self.setxyz(inventory.xyz)
 
 
-Up to now, we us class attributes to establish the "essential attributes".
+Up to now, we use class attributes to establish the "essential attributes".
 This might turn out to be not good. For example, the following implementation::
-
-	clas Atom:
-	  def __init__(self): self._symbol = None; self._xyz = None
-	  def _getSymbol(self): return self._symbol
-	  def _setSymbol(self, symbol): self._symbol = symbol
-	  symbol = property(_getSymbol, _setSymbol)
-	  def _getxyz(self): return self._xyz
-	  def _setxyz(self, xyz): self._xyz = xyz
-	  xyz = property(_getxyz, _setxyz)
-
-In this example, the original class already declares symbol and xyz to be 
-"properties". 
-
-There are other examples where simply defined class attributes won't work well.
-The solution to this problem is to define an "Inventory" class:
 
 	class Atom:
 	  def __init__(self): self._symbol = None; self._xyz = None
@@ -244,6 +231,23 @@ The solution to this problem is to define an "Inventory" class:
 	  def _getxyz(self): return self._xyz
 	  def _setxyz(self, xyz): self._xyz = xyz
 	  xyz = property(_getxyz, _setxyz)
+
+declares symbol and xyz to be 
+"properties" using `python "property" <http://docs.python.org/library/functions.html#property>`_. 
+
+There are other examples where simply defined class attributes won't work well.
+The solution to this problem is to define an "Inventory" class::
+
+	class Atom:
+	  def __init__(self): self._symbol = None; self._xyz = None
+	  def _getSymbol(self): return self._symbol
+	  def _setSymbol(self, symbol): self._symbol = symbol
+	  symbol = property(_getSymbol, _setSymbol)
+	  def _getxyz(self): return self._xyz
+	  def _setxyz(self, xyz): self._xyz = xyz
+	  xyz = property(_getxyz, _setxyz)
+
+	  # additional definitions so that dsaw-orm works
 	  from dsaw.model.Inventory import Inventory as InvBase
 	  class Inventory(InvBase):
 	    symbol = InvBase.d.str(name='symbol')
@@ -251,17 +255,17 @@ The solution to this problem is to define an "Inventory" class:
 
 A manually-defined Inventory class (which is the "portal" to your data object)
 allows you to fine-tune the properties of the attributes.
-For example, yOu can define validator of each attribute. 
+For example, you can define validator of each attribute. 
 In the following you can also see how to define references of different
 types of associations by using Inventory.
 
 
 
 References
-^^^^^^^^^^^^^^
+""""""""""
 
 A reference is used to describe an association of two data objects.
-You can establish a reference just using the class attribute:
+You can establish a reference just using the class attribute::
 
 	class Lattice: ...
 	class Structure:
@@ -273,29 +277,29 @@ In this example, a structure always owns a lattice, which means
 the lattice instance referred by the structure instance will be
 destroyed when the structure instance is gone.
 You can have better control of the type of the association by
-explicitly declare it in the Inventory:
+explicitly declare it in the Inventory::
 
 	class Structure:
 	  ...
 	  from dsaw.model.Inventory import Inventory as InvBase
 	  class Inventory(InvBase):
-	    latice = InvBase.d.reference(name='lattice', targettype=..., owned=...)
+	    lattice = InvBase.d.reference(name='lattice', targettype=..., owned=...)
 
 
 
 ReferenceSet
-^^^^^^^^^^^^^^
+""""""""""""
 
 ReferenceSet is used to describe aggregation or composition.
 
-Again, you could use class attributes to describe the "essential attributes":
+Again, you could use class attributes to describe the "essential attributes"::
 
 	class Atom: ...
 	class Structure:
 	  ...
 	  atoms = [Atom(...)]
 	
-	or you could declare the attribute in the inventory:
+or you could declare the attribute in the inventory::
 	
 	class Atom: ...
 	class Structure:
@@ -308,7 +312,7 @@ Again, you could use class attributes to describe the "essential attributes":
 
 
 Subtle issues
-^^^^^^^^^^^^^^
+"""""""""""""
 
 If you create a data object, save it to the db, and then use
 orm.load to load it back, the data object is a new data object that
@@ -320,29 +324,26 @@ and just work on the new one just loaded.
 
 
 OrmManager
-^^^^^^^^^^
+""""""""""
 
 Create OrmManager
-"""""""""""""""""""
+~~~~~~~~~~~~~~~~~
 
-_id = 0
-def guid():
-    global _id
-    _id += 1
-    return str(_id)
-from dsaw.db import connect
-db = connect(db ='postgres:///test')
-db.autocommit(True)
-from dsaw.model.visitors.OrmManager import OrmManager
-return OrmManager(db, guid)
+
+ >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
+ >>> from dsaw.db import connect
+ >>> db = connect(db ='postgres:///test')
+ >>> from dsaw.model.visitors.OrmManager import OrmManager
+ >>> orm = OrmManager(db, guid)
 
 
 Use OrmManager
-"""""""""""""""""""
+~~~~~~~~~~~~~~
 
-orm.save(obj)
-orm.load(type, id)
-orm.destroy(obj)
+
+ >>> orm.save(obj)
+ >>> orm.load(type, id)
+ >>> orm.destroy(obj)
 
 
 

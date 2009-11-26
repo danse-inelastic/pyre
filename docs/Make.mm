@@ -46,7 +46,7 @@ sphinx-build: Makefile $(EXPORT_DOCDIR)
 	$(RSYNC_A) _build/html/ $(EXPORT_DOCDIR)/
 
 
-export-tutorials: tutorials
+export-tutorials: tutorials  $(EXPORT_DOCDIR)
 	$(RSYNC_A) tutorials/ $(EXPORT_DOCDIR)/tutorials/
 
 # version
