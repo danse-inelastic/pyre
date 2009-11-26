@@ -39,7 +39,7 @@ class TestCase(unittest.TestCase):
         Dummy = dataobjects.Dummy
         
         # create a data object instance
-        dummy = Dummy(a='hello', x=2., i=2, b=False, vec=range(10), mat=range(12))
+        dummy = Dummy(a='hello', x=2., i=2, b=False, vec=range(3), mat=range(12))
         
         # orm manager
         orm = self.ormManager()
@@ -64,7 +64,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(type(dummy2.b), bool)
 
         vec = dummy2.vec
-        for i in range(10):
+        for i in range(3):
             self.assertEqual(vec[i],i)
 
         mat = dummy2.mat

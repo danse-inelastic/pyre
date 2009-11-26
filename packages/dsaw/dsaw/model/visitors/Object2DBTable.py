@@ -89,6 +89,11 @@ class Object2DBTable(object):
             for col in cols:
                 exec '%s=col' % col.name
                 continue
+
+            try:
+                del col
+            except:
+                pass
             
         return _
 
@@ -138,6 +143,13 @@ class Object2DBTable(object):
         return dsaw.db.varcharArray(
             name=descriptor.name, default=descriptor.default,
             shape=descriptor.shape, length=length,
+            )
+    
+
+    def _onBoolArray(self, descriptor, rules):
+        return dsaw.db.booleanArray(
+            name=descriptor.name, default=descriptor.default,
+            shape=descriptor.shape
             )
     
 

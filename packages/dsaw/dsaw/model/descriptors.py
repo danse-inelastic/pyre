@@ -66,17 +66,20 @@ class Property(base):
 import numpy
 class Array(base):
 
-    def __init__(self, name, elementtype=None, default=None, validator=None, elementconverter=None, shape=None, **kwds):
+    def __init__(self, name, elementtype=None, default=None, validator=None, elementconverter=None, elementvalidator=None, shape=None, **kwds):
         if elementtype not in ['str', 'bool', 'int', 'float']:
             raise NotImplementedError
         
         if not elementconverter:
             elementconverter = __builtins__[elementtype]
 
-        self.elementconverter = elementconverter
+        self.elementconverter = elementconverter # this is not in use yet. should be useful when elementtype is not limited to basic types str, bool, int, float
+        
         self.elementtype = elementtype
-
+        self.elementvalidator = elementvalidator
         self.shape = shape
+
+        validator = self._createValidator(validator, elementvalidator)
         
         super(Array, self).__init__(
             name, "array",
@@ -84,6 +87,23 @@ class Array(base):
             **kwds
             )
         return
+
+
+    def _createValidator(self, validator, elementvalidator):
+        if elementvalidator:
+            vev = numpy.vectorize(elementvalidator)
+        else:
+            vev = None
+        if validator:
+            if vev:
+                def _(value):
+                    return validator(vev(value))
+                return _
+            else:
+                return validator
+        else:
+            return vev
+        raise RuntimeError        
 
         
     def _cast(self, text):
@@ -106,7 +126,11 @@ class Array(base):
                 self.name, text, self.elementtype, tb.format_exc()))
 
         if self.shape:
-            value.shape = self.shape
+            try:
+                value.shape = self.shape
+            except:
+                raise ValueError, "shape mismatch: cannot cast %r to an array of shape %s" % (
+                    value, self.shape)
         return value
         
         

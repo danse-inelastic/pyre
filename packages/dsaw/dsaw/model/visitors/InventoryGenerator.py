@@ -72,6 +72,11 @@ class InventoryGenerator(object):
         class _(Inventory):
             for descriptor in descriptors:
                 exec '%s=descriptor' % descriptor.name
+            # clean up
+            try:
+                del descriptor
+            except:
+                pass
                 
         return _
 
@@ -106,8 +111,6 @@ class InventoryGenerator(object):
         if not elementtype:
             return self._onReferenceSet(name, value)
         shape = _getShape(value)
-        # for 1D array, usually no need to fix shape
-        if len(shape) == 1: shape = None
         return Inventory.descriptors.array(
             name=name, default=value,
             elementtype=elementtype,

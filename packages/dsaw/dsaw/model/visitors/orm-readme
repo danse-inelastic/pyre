@@ -59,7 +59,7 @@ Here the essential attributes 'symbol' and 'xyz' are saved as "private" data mem
 an instance of "Atom".
 
 This is just one of many ways how these essential attributes could be stored.
-How can the orm know where to find those essential data to be saved in db?
+How can orm knows where to find those essential data to be saved in db?
 Dsaw-orm provides one simple API to solve this problem.
 To make such data objects orm-able, you will need one 
 additional method "__establishInventory__".
@@ -133,7 +133,7 @@ This might turn out to be not good. For example, the following implementation::
 	  def _setxyz(self, xyz): self._xyz = xyz
 	  xyz = property(_getxyz, _setxyz)
 
-In this example, the original class already declares symbol and xyz to be 
+In this example, the original class already declare symbol and xyz to be 
 "properties". 
 
 There are other examples where simply defined class attributes won't work well.

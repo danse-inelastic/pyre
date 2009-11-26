@@ -27,7 +27,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(I.a.default, 'aa')
         self.assertEqual(I.vec.name, 'vec')
         self.assertEqual(I.vec.type, 'array')
-        self.assertEqual(I.vec.shape, None)
+        self.assertEqual(I.vec.shape, (3,))
         self.assertEqual(I.vec.elementtype, 'float')
         i = I()
         i.vec = 1, 0, 0
