@@ -1,5 +1,5 @@
 DSAW Object Relational Mapper (ORM)
-===================================
+-----------------------------------
 
 Dsaw's orm can handle simple data objects easily, and also provide powerful ways
 to fine tune the mapping from data object to database.
@@ -161,7 +161,7 @@ types of associations by using Inventory.
 
 
 References
-----------
+^^^^^^^^^^^^^^
 
 A reference is used to describe an association of two data objects.
 You can establish a reference just using the class attribute:
@@ -187,7 +187,7 @@ explicitly declare it in the Inventory:
 
 
 ReferenceSet
-------------
+^^^^^^^^^^^^^^
 
 ReferenceSet is used to describe aggregation or composition.
 
@@ -211,19 +211,19 @@ Again, you could use class attributes to describe the "essential attributes":
 
 
 Subtle issues
--------------
+^^^^^^^^^^^^^^
 
 If you create a data object, save it to the db, and then use
 orm.load to load it back, the data object is a new data object that
 represents what is in the database and is a different instance than
-the original one you created. YOu probably should not have two
-of them floating around. YOu should remove the original instance
+the original one you created. You probably should not have two
+of them floating around. You should remove the original instance
 and just work on the new one just loaded.
 
 
 
 OrmManager
-----------
+^^^^^^^^^^
 
 Create OrmManager
 """""""""""""""""""

@@ -97,126 +97,255 @@ which creates a base object with a unique identifier acting as the primary key. 
 .. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
    
-Automatic creation of tables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In other ORMs, such as SQLAlchemy, tables in which to store objects must be created "by hand", declaring each column and what type it is.  In dsaw tables are created automatically from the class itself::
 
-    from dsaw.db import connect
-    db = connect(db ='postgres:///test')
-    
-    from dsaw.db.WithID import WithID
-    class User(WithID):
-        username = 'bob'
-        
-    db.createTable(User)
-   
-Implied types
-^^^^^^^^^^^^^
-Dsaw implements all the types of pyre.db with the additional feature of not having to explicitly declare these types.  This has the desirable feature of rapid prototyping of a dataobject.  An example is the following:
+Dsaw's orm can handle simple data objects easily, and also provide powerful ways
+to fine tune the mapping from data object to database.
 
-.. literalinclude:: ../packages/dsaw/examples/impliedTypes.py
+The purpose of this orm is to allow developers to decorate their data objects
+so that they can be stored in a db. There are limitations of what this orm can do,
+but hopefully it can cover most of the well-designed data objects that have no
+cyclic references. 
 
-The only restrictions are that all implied types of stored attributes *must be initialized in the constructor* with an appropriate primitive type, reference, or list of references (see list below).  A temporary restriction is that the object must also currently inherit from pyre.db.Table, although this is more of a programming convenience than a necessity and will soon be relaxed.  Users achieve this inheritance when they also inherit from dsaw.db.WithID.WithID.
+Dsaw-orm allows this decoration of data objects to be
+non-intrusive: you will only need to add a few things to the implementation
+of your classes, and do not need to modify any members or methods of your data objects.
+You can instantiate and use your data objects as normal after retrieving them from the db.
+And in many cases, it is very simple to decorate your data objects.
 
-The rules for converting an implied type to a database type are the following:
+Dsaw-orm tries to map essential attributes of data objects to db tables.
+"Essential" means that when restoring a data object from db, those attributes
+form a complete set that fully recover the data object.
 
-* 'str' --> dsaw.db.varchar(length=64)
-* 'int' --> dsaw.db.integer()
-* 'real' --> dsaw.db.real()
-* 'bool' --> dsaw.db.boolean()
-* 'list' or 'tuple' --> dsaw.db.varcharArray(length=64)
-* 'dict' --> dsaw.db.varcharArray(length=64) for keys, dsaw.db.varcharArray(length=64) for values
-* a Table instance --> dsaw.db.reference()
-* a list/tuple of Table instances --> dsaw.db.referenceSet()
+For simple data objects that only have attributes of simple types such
+as int, str, float, etc, it is very easy to make the data object recognizable
+by dsaw-orm. For example, suppose we have a data object::
 
-The way this works is an on-the-fly conversion just before the object is serialized to the above dsaw types, then a just-in-time conversion back to typical python primitive types and references when the object is deserialized.  Additionally, users can mix normal python object representation with dsaw types as they desire (or for backwards compatibility).
+	class Atom:
+	
+	  def __init__(self, symbol, xyz):
+	    self.symbol = symbol
+	    self.xyz = xyz
 
-Advanced data objects with dsaw
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The essential attributes for Atom objects are "symbol" and "xyz",
+and we can make it orm-able by adding class attributes "symbol" and "xyz"::
 
-Dsaw is very powerful when implementing data objects.  By simply iheriting from Table, data objects can now not only refer to an instance of a given class, but also a *specific* instance (using the globally unique identifier).  As before, data objects do not have to declare data members with specific type information, as this will be inferred by the dsaw db manager.  
+	class Atom:
+	  
+	  def __init__(self, symbol, xyz):
+	    self.symbol = symbol
+	    self.xyz = xyz
+	
+	  symbol = 'H'
+	  xyz = [0.,0.,0.]
 
-Example 1: matter classes
-"""""""""""""""""""""""""""
-The `matter data objects <http://danse.us/trac/inelastic/wiki/crystal>`_ are a complex set of classes for describing virtually any atomic structure, using (possibly) multiple lattices, space group symmetry, and look-up functions for atomic properties. However, even these complex data structures can be mapped automatically using dsaw's implied types, thereby allowing users to freely serialize their structures without inputing type information for all it's parameters and/or maintaining separate databasable objects for matter information.  Here is an example of how to database a lattice:
+Dsaw-orm automatically recognizes the attribute 'symbol' is a string and
+defaults to 'H', and attribute 'xyz' is a float array and defaults to 
+[0.,0.,0.]. They will be mapped to two columns "symbol" and "xyz", correspondingly.
+
+You may notice that in this simple class, the attributes are "public", and are
+settable by the constructor __init__. If your class does not use this convention, 
+for example, the Atom class may be implemented this way:
+
+	class Atom:
+	
+	  def __init__(self, symbol):
+	    self._symbol = symbol
+	    self._xyz = xyz
+
+Here the essential attributes 'symbol' and 'xyz' are saved as "private" data members of
+an instance of "Atom".
+
+This is just one of many ways how these essential attributes could be stored.
+How can the orm know where to find those essential data to be saved in db?
+Dsaw-orm provides one simple API to solve this problem.
+To make such data objects orm-able, you will need one 
+additional method "__establishInventory__".
+For this second Atom class implementation, we decorate it to be::
+
+	class Atom:
+	
+	  def __init__(self, symbol):
+	    self._symbol = symbol
+	    self._xyz = xyz
+	
+	  # symbol and xyz are the essential attributes
+	  symbol = 'H'
+	  xyz = [0.,0.,0.]
+	
+	  def __establishInventory__(self, inventory):
+	    "Transfers my essential attributes to an inventory, so that they can be stored into db"
+	    inventory.symbol = self._symbol
+	    inventory.xyz = self._xyz
+
+In the __establishInventory__ method, you will need to establish 
+in the given inventory the values of the essential attributes.
 
 
-Example 2: vsat classes
-"""""""""""""""""""""""
+When restoring a data object from a db, we need to be able to construct
+the data object from the values of the essential attributes stored in the db.
+The constructor in the above implementations of the Atom class is good because it
+takes the essential attributes as the arguments.
+But what if the constructor of the data object does not initialize anything::
+
+	class Atom:
+	
+	  def __init__(self): self._symbol = None; self._xyz = None
+	
+	  def setSymbol(self, symbol): self._symbol = symbol
+	  def setxyz(self, xyz): self._xyz = xyz
+
+For such an implementation, we need one more method __restoreFromInventory__::
+
+	class Atom:
+	
+	  def __init__(self): self._symbol = None; self._xyz = None
+	
+	  def setSymbol(self, symbol): self._symbol = symbol
+	  def setxyz(self, xyz): self._xyz = xyz
+	
+	  # symbol and xyz are the essential attributes
+	  symbol = 'H'
+	  xyz = [0.,0.,0.]
+	
+	  def __establishInventory__(self, inventory):
+	    "Transfers my essential attributes to an inventory, so that they can be stored into db"
+	    inventory.symbol = self._symbol
+	    inventory.xyz = self._xyz
+	
+	  def __restoreFromInventory__(self, inventory):
+	    "Restore myself by retrieving my essential attributes from the given inventory"
+	    self.setSymbol(inventory.symbol)
+	    self.setxyz(inventory.xyz)
 
 
-Example 3: bvk modules
-""""""""""""""""""""""
+Up to now, we us class attributes to establish the "essential attributes".
+This might turn out to be not good. For example, the following implementation::
 
-     
-        
-* an example is http://danse.us/trac/VNET/browser/vnf/trunk/content/data/bvkmodels/bvk_ag_293.py
+	clas Atom:
+	  def __init__(self): self._symbol = None; self._xyz = None
+	  def _getSymbol(self): return self._symbol
+	  def _setSymbol(self, symbol): self._symbol = symbol
+	  symbol = property(_getSymbol, _setSymbol)
+	  def _getxyz(self): return self._xyz
+	  def _setxyz(self, xyz): self._xyz = xyz
+	  xyz = property(_getxyz, _setxyz)
+
+In this example, the original class already declares symbol and xyz to be 
+"properties". 
+
+There are other examples where simply defined class attributes won't work well.
+The solution to this problem is to define an "Inventory" class:
+
+	class Atom:
+	  def __init__(self): self._symbol = None; self._xyz = None
+	  def _getSymbol(self): return self._symbol
+	  def _setSymbol(self, symbol): self._symbol = symbol
+	  symbol = property(_getSymbol, _setSymbol)
+	  def _getxyz(self): return self._xyz
+	  def _setxyz(self, xyz): self._xyz = xyz
+	  xyz = property(_getxyz, _setxyz)
+	  from dsaw.model.Inventory import Inventory as InvBase
+	  class Inventory(InvBase):
+	    symbol = InvBase.d.str(name='symbol')
+	    xyz = InvBase.d.array(name='xyz', elementtype='float')
+
+A manually-defined Inventory class (which is the "portal" to your data object)
+allows you to fine-tune the properties of the attributes.
+For example, yOu can define validator of each attribute. 
+In the following you can also see how to define references of different
+types of associations by using Inventory.
 
 
-Optional types and name declaration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Users may also explicitly declare types for types using standard factory functions::
-        
-    from dsaw.db.WithID import WithID
-    class DoubleArrayTest(WithID):
-        import dsaw.db
-        arr = dsaw.db.doubleArray(name='arr')
-        
-A complete list is given below:
-        
-.. autofunction:: dsaw.db.bigint
-.. autofunction:: dsaw.db.boolean
-.. autofunction:: dsaw.db.char
-.. autofunction:: dsaw.db.date
-.. autofunction:: dsaw.db.double
-.. autofunction:: dsaw.db.doubleArray
-.. autofunction:: dsaw.db.integer
-.. autofunction:: dsaw.db.integerArray
-.. autofunction:: dsaw.db.interval
-.. autofunction:: dsaw.db.real
-.. autofunction:: dsaw.db.smallint
-.. autofunction:: dsaw.db.time
-.. autofunction:: dsaw.db.timestamp
-.. autofunction:: dsaw.db.varchar
-.. autofunction:: dsaw.db.varcharArray
-   
-Optionally, a table name may be added within the class using the reserved keyword 'name' as an attribute::
+References
+^^^^^^^^^^^^^^
 
-    from dsaw.db.WithID import WithID
-    class Test(WithId):
-    
-        name = 'mytablename'
-        
-        def sayhi(self):
-            print 'hi'
-            
-which must be all lowercase.  This name will be used instead of the class name as the table name.  
+A reference is used to describe an association of two data objects.
+You can establish a reference just using the class attribute:
 
-.. _references:
-   
-References and versatile references
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   
-Dsaw implements some interesting additional features to pyre.db:
-        
-* Dsaw starts to form a plug-in architecture for addtional backends such as SQLAlchemy.  This allows pyre developers to use additional features beyond those immediately available in pyre.db, such as filtering.
+	class Lattice: ...
+	class Structure:
+	  ...
+	  lattice = Lattice(...)
 
-* Dsaw implements two system-wide tables, called _____referenceset_____ and global_pointers, which aid in linking objects. Global_pointers is a table that gives any record (which inherits from GloballyReferrable) a unique identifier. With a global pointer esablished, any object that wants to refer to any other object can use this global pointer.  Thus it has two columns, one of the table name and another for the unique id. _____referenceset_____ is a "hidden" table. It allows a table to declare that it has an association with other things.  For example, the data object Instrument consists of a list of neutron components in table "instrument".  Its components are declared as a reference set listed in the _____referenceset_____ table, which basically has a pointer to the "parent" and a pointer to the "child".  Multiple rows with the same parent give a set. The table _____referenceset_____ uses the concept of a "versatile reference", which is a reference to a set of tables rather than to a specific table. For example, the Component reference in an Instrument record is versatile.  Also, all "computationresult" tables have a pointer "origin", which is a versatile reference.  Origin is the computation that the result is calculated from. PhononDispersion is derived from ComputationResult, as are many other types of computations. Thus a versatile reference is versatile because it can refer to more than one type of table, and it usually points to a superclass of a desired table.
+References established this way always describe a "ownership". 
+In this example, a structure always owns a lattice, which means
+the lattice instance referred by the structure instance will be
+destroyed when the structure instance is gone.
+You can have better control of the type of the association by
+explicitly declare it in the Inventory:
 
-Consider the following example of how a reference works:
+	class Structure:
+	  ...
+	  from dsaw.model.Inventory import Inventory as InvBase
+	  class Inventory(InvBase):
+	    latice = InvBase.d.reference(name='lattice', targettype=..., owned=...)
 
-.. literalinclude:: ../packages/dsaw/examples/references.py
 
-A longer example of how a versatile reference works is the following:
 
-.. literalinclude:: ../packages/dsaw/examples/versatileReferences.py
+ReferenceSet
+^^^^^^^^^^^^^^
 
-Miscillaneous:
+ReferenceSet is used to describe aggregation or composition.
 
-One may use db.createTable() or db.registerTable(); db.createAllTables()...the second form is mandatory for versatile references. Some api changes might be:
-createTable() --> storeClass()
-insertRow() --> storeObject()
+Again, you could use class attributes to describe the "essential attributes":
+
+	class Atom: ...
+	class Structure:
+	  ...
+	  atoms = [Atom(...)]
+	
+	or you could declare the attribute in the inventory:
+	
+	class Atom: ...
+	class Structure:
+	  ...
+	  from dsaw.model.Inventory import Inventory as InvBase
+	  class Inventory(InvBase):
+	    atoms = InvBase.d.referenceSet(name='atoms', owned=...)
+
+
+
+
+Subtle issues
+^^^^^^^^^^^^^^
+
+If you create a data object, save it to the db, and then use
+orm.load to load it back, the data object is a new data object that
+represents what is in the database and is a different instance than
+the original one you created. You probably should not have two
+of them floating around. You should remove the original instance
+and just work on the new one just loaded.
+
+
+
+OrmManager
+^^^^^^^^^^
+
+Create OrmManager
+"""""""""""""""""""
+
+_id = 0
+def guid():
+    global _id
+    _id += 1
+    return str(_id)
+from dsaw.db import connect
+db = connect(db ='postgres:///test')
+db.autocommit(True)
+from dsaw.model.visitors.OrmManager import OrmManager
+return OrmManager(db, guid)
+
+
+Use OrmManager
+"""""""""""""""""""
+
+orm.save(obj)
+orm.load(type, id)
+orm.destroy(obj)
+
+
+
 
 
 .. _pyre-geometry:
