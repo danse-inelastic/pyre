@@ -96,7 +96,8 @@ which creates a base object with a unique identifier acting as the primary key. 
 
 .. .. inheritance-diagram:: dsaw.db.BackReference dsaw.db.Column dsaw.db.DBManager dsaw.db.GloballyReferrable dsaw.db.QueryProxy dsaw.db.Reference dsaw.db.ReferenceSet dsaw.db.restore dsaw.db.Schemer dsaw.db.Table dsaw.db.Table2SATable dsaw.db.TableRegistry dsaw.db.Time dsaw.db.Time dsaw.db.VersatileReference dsaw.db.WithID
    :parts: 1
-   
+  
+
 Object relational mapper
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -196,7 +197,7 @@ But what if the constructor of the data object does not initialize anything::
 	  def setSymbol(self, symbol): self._symbol = symbol
 	  def setxyz(self, xyz): self._xyz = xyz
 
-For such an implementation, we need one more method __restoreFromInventory__::
+For such an implementation, we need the methods __establishInventory__ amd __restoreFromInventory__::
 
 	class Atom:
 	
@@ -329,24 +330,23 @@ OrmManager
 Create OrmManager
 ~~~~~~~~~~~~~~~~~
 
+::
 
- >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
- >>> from dsaw.db import connect
- >>> db = connect(db ='postgres:///test')
- >>> from dsaw.model.visitors.OrmManager import OrmManager
- >>> orm = OrmManager(db, guid)
+	 >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
+	 >>> from dsaw.db import connect
+	 >>> db = connect(db ='postgres:///test')
+	 >>> from dsaw.model.visitors.OrmManager import OrmManager
+	 >>> orm = OrmManager(db, guid)
 
 
 Use OrmManager
 ~~~~~~~~~~~~~~
 
+::
 
- >>> orm.save(obj)
- >>> orm.load(type, id)
- >>> orm.destroy(obj)
-
-
-
+	 >>> orm.save(obj)
+	 >>> orm.load(type, id)
+	 >>> orm.destroy(obj)
 
 
 .. _pyre-geometry:
