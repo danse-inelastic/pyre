@@ -187,11 +187,16 @@ class Registry(object):
     def __init__(self):
         self._object2table = {}
         self._table2object = {}
+        self._name2object = {}
         return
 
 
     def iterTables(self):
         return self._table2object.iterkeys()
+
+
+    def getObjectFromName(self, name):
+        return self._name2object.get(name)
 
 
     def getTable(self, object):
@@ -205,6 +210,7 @@ class Registry(object):
     def register(self, object, table):
         self._object2table[object] = table
         self._table2object[table] = object
+        self._name2object[object.__name__] = object
         return
     
 

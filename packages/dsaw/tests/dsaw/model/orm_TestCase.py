@@ -58,6 +58,9 @@ class TestCase(unittest.TestCase):
         sample = do.Sample()
         sample.shape = do.Cylinder(r=1, h=5)
         orm.save(sample)
+
+        # getObjectTypeFromName
+        self.assertEqual(orm.getObjectTypeFromName('Sample'), do.Sample)
        
         self.orm2.registerObjectType(do.Cylinder)
         sample2 = self.orm2.load(do.Sample, id=orm.object2record(sample).id)

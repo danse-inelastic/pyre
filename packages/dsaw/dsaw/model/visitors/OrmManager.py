@@ -48,6 +48,10 @@ class OrmManager(object):
         return
 
 
+    def getObjectTypeFromName(self, name):
+        return self.object2record.object2dbtable.registry.getObjectFromName(name)
+
+
     def save(self, object):
         if object is None: return
         record = self.object2record(object)

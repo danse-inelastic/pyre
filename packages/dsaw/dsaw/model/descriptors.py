@@ -145,7 +145,8 @@ class ReferenceSet(Property):
         super(ReferenceSet, self).__init__(
             name, "referenceset",
             default=default, validator=validator,
-            targettype=targettype, owned=owned,
+            targettype=targettype,
+            owned=owned,
             **kwds
             )
         return
@@ -160,12 +161,13 @@ class ReferenceSet(Property):
 class Reference(Property):
 
 
-    def __init__(self, name=None, targettype=None, owned=False,
+    def __init__(self, name=None, targettype=None, targettypes=[], owned=False,
                  default=None, validator=None, **kwds):
         super(Reference, self).__init__(
             name, "reference",
             default=default, validator=validator,
-            targettype=targettype, owned=owned,
+            targettype=targettype, targettypes=targettypes,
+            owned=owned,
             **kwds
             )
         
