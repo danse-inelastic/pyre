@@ -102,7 +102,12 @@ class Registry(object):
 
 
     def getRecord(self, obj):
-        return self._obj2rec.get(obj)
+        try:
+            return self._obj2rec.get(obj)
+        except TypeError:
+            import traceback
+            raise RuntimeError, "Cannot retrieve record for object %r:\n%s" % (
+                obj, traceback.format_exc())
 
 
     def getObject(self, rec):

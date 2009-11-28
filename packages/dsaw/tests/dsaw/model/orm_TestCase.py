@@ -54,14 +54,26 @@ class TestCase(unittest.TestCase):
 
         struct2.shape = do.Box(x=1,y=1,z=1)
         orm.save(struct2)
+
+        sample = do.Sample()
+        sample.shape = do.Cylinder(r=1, h=5)
+        orm.save(sample)
+       
+        self.orm2.registerObjectType(do.Cylinder)
+        sample2 = self.orm2.load(do.Sample, id=orm.object2record(sample).id)
+        self.assertEqual(sample2.shape.__class__, do.Cylinder)
+        self.assertEqual(sample2.shape.r, sample.shape.r)
         return
 
 
     def setUp(self):
         self.orm = self._ormManager()
+        self.orm2 = self._ormManager()
 
 
     def tearDown(self):
+        del self.orm2
+        
         db = self.orm.db
         db.destroyAllTables()
         return

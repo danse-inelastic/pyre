@@ -83,6 +83,12 @@ class Structure:
     
 
 
+# class without ctor
+class Sample:
+
+    shape = AbstractShape()
+    
+
 # This example demonstrates __establishInventory__ and __restoreFromInventory__
 class Position:
     def __init__(self): self._x = self._y = self._z = 0

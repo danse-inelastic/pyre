@@ -36,12 +36,12 @@ class DBRecord2Object(object):
 
 
     def _createObject(self, record, klass):
-        kwds = self._kwdsFromRecord(record, klass.Inventory)
         # try creating the instance without any arguments
         try:
             instance = klass()
         except:
             try:
+                kwds = self._kwdsFromRecord(record, klass.Inventory)
                 return klass(**kwds)
             except:
                 raise RuntimeError, 'Cannot create new instance of type %s. Please adapt the constructor of %s class to be able to either take no argument, or arguments in the inventory'
@@ -51,10 +51,11 @@ class DBRecord2Object(object):
 
 
     def _createInventoryFromRecord(self, record, klass):
+        kwds = self._kwdsFromRecord(record, klass.Inventory)
         inventory = klass.Inventory()
         for descriptor in klass.Inventory.getDescriptors():
             name = descriptor.name
-            value = getattr(record, name)
+            value = kwds[name]
             setattr(inventory, name, value)
             continue
         return inventory

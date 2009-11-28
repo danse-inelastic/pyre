@@ -43,6 +43,11 @@ class OrmManager(object):
         return
 
 
+    def registerObjectTypes(self, types):
+        for type in types: self.registerObjectType(type)
+        return
+
+
     def save(self, object):
         if object is None: return
         record = self.object2record(object)
