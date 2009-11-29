@@ -169,6 +169,7 @@ class DBManager(object):
 
     def createAllTables(self):
         self._sametadata.create_all()
+        self.commit()
         #self.createSystemTables()
         #self.createUserTables()
         return
@@ -201,6 +202,7 @@ class DBManager(object):
             else:
                 raise
         #self._sametadata.create_all(self._saengine)
+        self.commit()
         return
 
 
