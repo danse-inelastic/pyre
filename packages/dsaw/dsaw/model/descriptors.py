@@ -170,10 +170,13 @@ class Reference(Property):
             owned=owned,
             **kwds
             )
-        
         return
-
-
+    
+    
+    def isPolymorphic(self):
+        return self.targettype is None or self.targettype.__name__.startswith('Abstract')
+    
+    
     def _cast(self, value):
         # 
         return value

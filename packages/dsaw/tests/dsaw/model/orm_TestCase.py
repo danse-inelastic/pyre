@@ -37,6 +37,21 @@ class TestCase(unittest.TestCase):
         return
 
 
+    def test1a(self):
+        'simple data object: orm.__call__'
+        orm = self.orm
+
+        dummy = do.Dummy(a='whatever', x=2., i=2, b=False)
+        record = orm(dummy)
+
+        from dsaw.db.Table import Table
+        self.assert_(isinstance(record, Table))
+
+        table = orm(do.Dummy)
+        self.assert_(issubclass(table, Table))
+        return
+
+
     def test2(self):
         'data object with reference and referenceset'
         orm = self.orm

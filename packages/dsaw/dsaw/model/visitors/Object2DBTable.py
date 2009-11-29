@@ -162,7 +162,7 @@ class Object2DBTable(object):
 
     def _onReference(self, descriptor, rules):
         targettype = descriptor.targettype
-        if targettype is None:
+        if descriptor.isPolymorphic():
             return self._onPolymorphicReference(descriptor, rules)
 
         table = self(targettype)

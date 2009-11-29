@@ -28,7 +28,8 @@ class DBManager(object):
         from GloballyReferrable import GloballyReferrable
         if isinstance(record, GloballyReferrable):
             # need to delete the global index first
-            gid = record.globalpointer.id
+            gptr = record.globalpointer
+            gid = gptr and gptr.id
             #
             if gid:
                 # there is a global index

@@ -119,14 +119,16 @@ class InventoryGenerator(object):
 
 
     def _onReference(self, name, value):
-        if value.__class__.__name__.startswith('Abstract'):
+        if value.__class__.__name__.startswith('Abstract') or value is None:
             return self._onPolymorphicReference(name, value)
         owned = self.opts['references-are-owned']
         return Inventory.descriptors.reference(name=name, default=value, targettype=value.__class__, owned=owned)
 
 
     def _onPolymorphicReference(self, name, value):
-        return Inventory.descriptors.reference(name=name, default=value, targettype=None, owned=1)
+        if value is None: targettype = None
+        else: targettype = value.__class__
+        return Inventory.descriptors.reference(name=name, default=value, targettype=targettype, owned=1)
 
     def _onReferenceSet(self, name, value):
         assert len(value)==1
