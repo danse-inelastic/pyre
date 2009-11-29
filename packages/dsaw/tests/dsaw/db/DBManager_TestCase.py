@@ -259,6 +259,38 @@ class TestCase(unittest.TestCase):
         return
     
 
+    def test4(self):
+        'dsaw.db: DBManager.getUniqueIdentifierStr and DBManager.fetchRecordUsingUniqueIdentifierStr'
+
+        db = self.dbManager()
+
+        # declare tables
+        from dsaw.db.WithID import WithID
+        class User(WithID):
+            name = 'users'
+            import dsaw.db
+            username = dsaw.db.varchar(name='username', length=100)
+
+        # register and initialize
+        tables = [User]
+        for table in tables: db.registerTable(table)
+        db.createAllTables()
+
+        # insert a record
+        bob = User()
+        bob.id = bob.username = 'bob'
+        db.insertRow(bob)
+        
+        #
+        uidstr = db.getUniqueIdentifierStr(bob)
+        bob1 = db.fetchRecordUsingUniqueIdentifierStr(uidstr)
+        assert bob1.id == bob.id
+        assert bob1.username == bob.username
+        
+        # destroy
+        db.destroyAllTables()
+        return
+        
     pass # end of TestCase
 
 

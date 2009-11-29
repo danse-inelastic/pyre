@@ -21,6 +21,26 @@ class DBManager(object):
     class ProgrammingError(Exception): pass
 
     class RecordStillReferred(Exception): pass
+
+
+    def getUniqueIdentifierStr(self, record):
+        '''return a unique identifier string for a db record which can be used to
+        recover the record from database. it will be some sort of combination
+        of table name and record id
+        '''
+        from _reference import reference
+        return str(reference(record.id, record.__class__))
+
+
+    def fetchRecordUsingUniqueIdentifierStr(self, uidstr):
+        '''This method is coupled to method "getUniqueIdentifierStr".
+        Fetch a record from db using the unique identifier string.
+        '''
+        from _reference import reference
+        name, id = uidstr.split(reference.separator)
+        table = self.getTable(name)
+        return self.query(table).filter_by(id=id).one()
+        
     
     def deleteRecord(self, record):
         import sqlalchemy.exc
