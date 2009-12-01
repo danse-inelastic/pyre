@@ -99,7 +99,10 @@ class Object2DBTable(object):
 
 
     def _onStr(self, descriptor, rules):
-        length = rules['str']['max-length']
+        if hasattr(descriptor, 'max_length'):
+            length = descriptor.max_length
+        else:
+            length = rules['str']['max-length']
         return dsaw.db.varchar(name=descriptor.name, length=length, default=descriptor.default)
 
 
@@ -139,7 +142,10 @@ class Object2DBTable(object):
 
 
     def _onStrArray(self, descriptor, rules):
-        length = rules['str']['max-length']
+        if hasattr(descriptor, 'string_max_length'):
+            length = descriptor.string_max_length
+        else:
+            length = rules['str']['max-length']
         return dsaw.db.varcharArray(
             name=descriptor.name, default=descriptor.default,
             shape=descriptor.shape, length=length,

@@ -48,6 +48,30 @@ class TestCase(unittest.TestCase):
         return
     
     
+    def test1a(self):
+        'str type: max_length'
+        # create a simple data object type
+        class Dummy:
+
+            a = ''
+
+        # add inventory
+        from dsaw.model.Inventory import Inventory as base
+        class Inventory(base):
+
+            a = base.descriptors.str(name='a', max_length=99)
+
+        Dummy.Inventory = Inventory
+        
+        # convert Dummy class to a db table
+        from dsaw.model.visitors.Object2DBTable import Object2DBTable
+        o2t = Object2DBTable()
+        Table = o2t(Dummy)
+
+        self.assertEqual(Table.a.length, Inventory.a.max_length)
+        return
+    
+    
     def test2(self):
         'object with reference'
 

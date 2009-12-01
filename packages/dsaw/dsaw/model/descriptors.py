@@ -13,6 +13,11 @@
 
 
 def array(**kwds):
+    """array(name, elementtype=, default=, validator=,
+    elementconverter=, elementvalidator=, shape=, string_max_length=)
+
+    string_max_length: only good when elementtype is str
+    """
     return Array(**kwds)
 
 def reference(**kwds):
@@ -23,12 +28,20 @@ def referenceSet(**kwds):
 
 import pyre.inventory
 def str(**kwds):
+    '''str(name, default=, validator=, max_length=)
+    '''
     return _hackProperty(pyre.inventory.str, **kwds)
 def float(**kwds):
+    '''float(name, default=, validator=)
+    '''
     return _hackProperty(pyre.inventory.float, **kwds)
 def bool(**kwds):
+    '''bool(name, default=, validator=)
+    '''
     return _hackProperty(pyre.inventory.bool, **kwds)
 def int(**kwds):
+    '''int(name, default=, validator=)
+    '''
     return _hackProperty(pyre.inventory.int, **kwds)
 
 
@@ -49,7 +62,7 @@ def _hackProperty(factory, **kwds):
         continue
     r = factory(**kwds2)
     for k, v in others.iteritems():
-        setattr(self, k, v)
+        setattr(r, k, v)
     return r
     
 
@@ -139,19 +152,19 @@ class Array(base):
 class ReferenceSet(Property):
 
     
-    def __init__(self, name=None, targettype=None, owned=False,
+    def __init__(self, name=None, targettype=None, targettypes=[], owned=False,
                  default=None, validator=None, **kwds):
         default = self._cast(default)
         super(ReferenceSet, self).__init__(
             name, "referenceset",
             default=default, validator=validator,
-            targettype=targettype,
+            targettype=targettype, targettypes=targettypes,
             owned=owned,
             **kwds
             )
         return
-
-
+    
+    
     def _cast(self, value):
         value = value or []
         return value
