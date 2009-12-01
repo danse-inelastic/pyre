@@ -99,15 +99,26 @@ class Registry(object):
     def __init__(self):
         self._obj2rec = {}
         self._rec2obj = {}
+        self._objid2rec = {}
+        return
 
 
     def getRecord(self, obj):
-        try:
-            return self._obj2rec.get(obj)
-        except TypeError:
-            import traceback
-            raise RuntimeError, "Cannot retrieve record for object %r:\n%s" % (
-                obj, traceback.format_exc())
+        if not self.isRegistered(obj): return
+        objid = id(obj)
+        if objid in self._objid2rec:
+            return self._objid2rec[objid]
+        return self._obj2rec[obj]
+
+
+    def isRegistered(self, obj):
+        objid = id(obj)
+        if objid in self._objid2rec: return True
+        try: return obj in self._obj2rec
+        except TypeError, e:
+            if str(e).find('unhashable')!=-1: return False
+            raise
+        raise RuntimeError, "should not reach here"
 
 
     def getObject(self, rec):
@@ -126,7 +137,13 @@ class Registry(object):
     
 
     def register(self, obj, rec):
-        self._obj2rec[obj] = rec
+        try:
+            self._obj2rec[obj] = rec
+        except TypeError, err:
+            if str(err).find('unhashable') != -1:
+                self._objid2rec[id(obj)] = rec
+            else:
+                raise
         self._rec2obj[rec] = obj
         return
 
@@ -134,11 +151,16 @@ class Registry(object):
     def remove(self, obj=None, rec=None):
         if obj is None and rec is None: raise RuntimeError, 'neither object nor record is supplied'
         if obj is not None and rec is not None:
-            assert self._obj2rec[obj] is rec, "object %s and record %s does not match" % (
-                obj, rec)
+            record = self.getRecord(obj)
+            assert record is rec, \
+                   "object %s and record %s does not match" % (obj, rec)
 
         if obj:
-            del self._obj2rec[obj]
+            objid = id(obj)
+            if objid in self._objid2rec:
+                del self._objid2rec[objid]
+            else:
+                del self._obj2rec[obj]
             
         if rec:
             del self._rec2obj[rec]
