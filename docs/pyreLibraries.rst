@@ -312,25 +312,11 @@ or you could declare the attribute in the inventory::
 
 
 
-Subtle issues
-"""""""""""""
-
-If you create a data object, save it to the db, and then use
-orm.load to load it back, the data object is a new data object that
-represents what is in the database and is a different instance than
-the original one you created. You probably should not have two
-of them floating around. You should remove the original instance
-and just work on the new one just loaded.
-
-
-
 OrmManager
 """"""""""
 
 Create OrmManager
 ~~~~~~~~~~~~~~~~~
-
-::
 
 	 >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
 	 >>> from dsaw.db import connect
@@ -342,11 +328,45 @@ Create OrmManager
 Use OrmManager
 ~~~~~~~~~~~~~~
 
-::
+Save to db
+ >>> orm.save(obj)
 
-	 >>> orm.save(obj)
-	 >>> orm.load(type, id)
-	 >>> orm.destroy(obj)
+Load from db
+ >>> orm.load(type, id)
+
+Destroy an object
+ >>> orm.destroy(obj)
+
+Convert an object to a db record
+ >>> record = orm(obj)
+
+Convert an object type to a table class
+ >>> Table = orm(Obj)
+
+Convert a db record to an object
+ >>> obj = orm.record2object(record)
+
+
+Limitations of current implementation
+"""""""""""""""""""""""""""""""""""""
+
+Ownership
+"""""""""
+If an object is owned by another object, this object cannot be referred to by
+other objects. To establish many-many relationship, you will
+need to use not-owned reference.
+
+
+Multiple instances of one db record
+"""""""""""""""""""""""""""""""""""
+If you create a data object, save it to the db, and then use
+orm.load to load it back, the data object is a new data object that
+represents what is in the database and is a different instance than
+the original one you created. You probably should not have two
+of them floating around. You should remove the original instance
+and just work on the new one just loaded.
+
+
 
 
 .. _pyre-geometry:
