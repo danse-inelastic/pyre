@@ -52,6 +52,17 @@ class TestCase(unittest.TestCase):
         return
 
 
+    def test1b(self):
+        'simple data object with attribute "name"'
+        orm = self.orm
+        class User:
+            name = ''
+
+        user = User(); user.name = 'abc'
+        orm.save(user)
+        return
+
+
     def test2(self):
         'data object with reference and referenceset'
         orm = self.orm

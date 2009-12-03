@@ -84,7 +84,7 @@ class Object2DBTable(object):
         from dsaw.db.WithID import WithID
         from dsaw.db.GloballyReferrable import GloballyReferrable
         class _(WithID, GloballyReferrable):
-            name = tname
+            pyredbtablename = tname
 
             for col in cols:
                 exec '%s=col' % col.name

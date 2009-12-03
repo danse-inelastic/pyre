@@ -129,8 +129,9 @@ class Registry(object):
         # find the object give a record. this record might not
         # be registered. but we can find the corresponding object by
         # using the type and id of the record
+        tablename = rec.getTableName()
         for record in self._rec2obj.iterkeys():
-            if record.name == rec.name and record.id == rec.id:
+            if record.getTableName() == tablename and record.id == rec.id:
                 return self._rec2obj[record]
             continue
         return

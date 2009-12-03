@@ -90,6 +90,9 @@ class OrmManager(object):
             if type == 'referenceset':
                 value = getattr(object.inventory, name)
                 refset = getattr(record, name)
+                # the implementation here is not efficient and
+                # dictates that no referred items to be referred
+                # by other objects. 
                 for elem in value:
                     elemrec = self.object2record(elem)
                     # remove the associateion

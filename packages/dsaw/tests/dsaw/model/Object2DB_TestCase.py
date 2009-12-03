@@ -44,7 +44,7 @@ class TestCase(unittest.TestCase):
         record = o2r(dummy)
 
         self.assertEqual(record.a, dummy.a)
-        self.assertEqual(record.name, 'dummy')
+        self.assertEqual(record.getTableName(), 'dummy')
         return
     
     
@@ -111,7 +111,7 @@ class TestCase(unittest.TestCase):
         record = o2r(job)
 
         self.assertEqual(job.server, record.server)
-        self.assertEqual(record.name, 'job')
+        self.assertEqual(record.getTableName(), 'job')
         print record.computation
         return
     
@@ -132,7 +132,7 @@ class TestCase(unittest.TestCase):
         record = o2r(job)
 
         self.assertEqual(job.server, record.server)
-        self.assertEqual(record.name, 'job')
+        self.assertEqual(record.getTableName(), 'job')
         print record.computation
         return
     
