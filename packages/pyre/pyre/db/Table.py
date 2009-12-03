@@ -81,6 +81,17 @@ class Table(Traceable):
     from Schemer import Schemer
     __metaclass__ = Schemer
 
+    
+    @classmethod
+    def getTableName(cls):
+        if hasattr(cls, 'pyredbtablename'):
+            return cls.pyredbtablename
+        try:
+            name = cls.name
+        except:
+            name = cls.__name__.lower()
+        return name
+
 
 # version
 __id__ = "$Id: Table.py,v 1.5 2008-04-21 03:08:46 aivazis Exp $"

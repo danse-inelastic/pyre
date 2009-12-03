@@ -75,7 +75,7 @@ class DBManager(object):
             continue
         
         expr = ", ".join(["%s=%%s" % column for column in columns])
-        sql = "UPDATE %s\n    SET %s" % (table.name, expr)
+        sql = "UPDATE %s\n    SET %s" % (table.getTableName(), expr)
         if where:
             sql += "\n    WHERE %s" % where
 
@@ -93,7 +93,7 @@ class DBManager(object):
 
 
     def deleteRow(self, table, where=None):
-        sql = "DELETE FROM %s" % table.name
+        sql = "DELETE FROM %s" % table.getTableName()
         if where:
             sql += "\n    WHERE %s" % where
 
@@ -113,7 +113,7 @@ class DBManager(object):
             fields.append(text)
 
         # build the query
-        sql = "CREATE TABLE %s (\n%s\n    )" % (table.name, ",\n".join(fields))
+        sql = "CREATE TABLE %s (\n%s\n    )" % (table.getTableName(), ",\n".join(fields))
 
         # execute the sql statement
         c = self.db.cursor()
@@ -129,7 +129,7 @@ class DBManager(object):
 
 
     def dropTable(self, table, cascade=False):
-        sql = "DROP TABLE %s" % table.name
+        sql = "DROP TABLE %s" % table.getTableName()
         if cascade:
             sql += " CASCADE"
 
@@ -144,7 +144,7 @@ class DBManager(object):
         columns = table._columnRegistry.keys()
         
         # build the sql statement
-        sql = "SELECT %s FROM %s" % (", ".join(columns), table.name)
+        sql = "SELECT %s FROM %s" % (", ".join(columns), table.getTableName())
         if where:
             sql += " WHERE %s" % where
         if sort:
