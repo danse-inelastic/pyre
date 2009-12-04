@@ -165,6 +165,10 @@ class ReferenceSet(Property):
         return
     
     
+    def isPolymorphic(self):
+        return self.targettype is None or self.targettype.__name__.startswith('Abstract')
+
+
     def _cast(self, value):
         value = value or []
         return value
