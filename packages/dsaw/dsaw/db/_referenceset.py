@@ -42,14 +42,83 @@ class referenceset:
         return ret
 
 
-    def getElement(self, key, db):
+    def clear(self, db):
+        '''clear all references to my elements.
+        The elements themselves are not removed. You will need to remove them manually.
+        '''
+        name = self.name
+        container_gid = self._container_gid(db)
+        if not container_gid: return
+        
+        where = "containerlabel='%s' and container='%s'" % (name, container_gid)
+        db.deleteRow(self._refsetTable(), where = where)
+        return
+
+
+    # access element
+    def getElement(self, key=None, db=None, index=None):
+        if key is not None: return self.getElementByKey(key, db)
+        if index is not None: return self.getElementByIndex(index, db)
+        raise ValueError, 'must supply a way to identify the element to delete: key or index'
+    
+
+    def setElement(self, key=None, element=None, db=None, index=None):
+        if key is not None: return self.setElementByKey(key, element, db)
+        if index is not None: return self.setElementByIndex(index, element, db)
+        raise ValueError, 'must supply a way to identify the element to delete: key or index'
+    
+
+    def delElement(self, key=None, db=None, index=None, element=None):
+        if key is not None: return self.delElementByKey(key, db)
+        if index is not None: return self.delElementByIndex(index, db)
+        if element:
+            return self.delete(element, db)
+        raise ValueError, 'must supply a way to identify the element to delete: key, index, or element record'
+
+
+
+    # list-like access
+    def getElementByIndex(self, index, db):
+        q = self._queryall(db)
+        if q is None: return None
+        r = q.filter_by(elementindex=index).one()
+        return r.element.dereference(db)
+    
+
+    def setElementByIndex(self, index, element, db):
+        'set element. this only changes pointer, does not change the old or new element'
+        q = self._queryall(db)
+        r = q.filter_by(elementindex=index).one()
+        r.element = element
+        db.updateRecord(r)
+        return element
+
+
+    def delElementByIndex(self, index, db):
+        'delete element. this only changes pointer, does not change the element'
+        q = self._queryall(db)
+        r = q.filter_by(elementindex=index).one()
+
+        # remove from the set
+        refset_table = self._refsetTable()
+        where = self._where(db, elementindex=index)
+        db.deleteRow(refset_table, where = where)
+        
+        # shift left
+        self._shiftIndexes(db, startindex=index+1, shift=-1)
+
+        return r.element.dereference(db)
+        
+
+    # dict-like access
+    def getElementByKey(self, key, db):
         q = self._queryall(db)
         if q is None: return None
         r = q.filter_by(elementlabel=key).one()
         return r.element.dereference(db)
-    
 
-    def setElement(self, key, element, db):
+
+    def setElementByKey(self, key, element, db):
         'set element. this only changes pointer, does not change the old or new element'
         q = self._queryall(db)
         if q:
@@ -66,9 +135,9 @@ class referenceset:
             db.updateRecord(r)
             
         return element
-        
 
-    def delElement(self, key, db):
+
+    def delElementByKey(self, key, db):
         'delete element. this only changes pointer, does not change the element'
         q = self._queryall(db)
         if q:
@@ -82,49 +151,56 @@ class referenceset:
 
         r = rs[0]
 
-        # the element record deleted
-        record = r.element.dereference(db)
-
-        # remove the association record
-        db.deleteRecord(r)
+        # remove from the set
+        refset_table = r.__class__
+        where = self._where(db, elementkey=key)
+        db.deleteRow(refset_table, where = where)
         
-        return record
+        # shift left
+        self._shiftIndexes(db, startindex=r.elementindex+1, shift=-1)
         
-
-    def clear(self, db):
-        '''clear all references to my elements.
-        The elements themselves are not removed. You will need to remove them manually.
-        '''
-        name = self.name
-        container_gid = self._container_gid(db)
-        if not container_gid: return
-        
-        where = "containerlabel='%s' and container='%s'" % (name, container_gid)
-        db.deleteRow(self._refsetTable(), where = where)
-        return
+        return r.element.dereference(db)
 
 
+    #
     def delete(self, record, db):
         # here, the record is a db record that this reference set
         # refers to.
         # The record itself is not removed. it should be manually removed if necessary.
 
+        # check if container is really referred
         container_gid = self._container_gid(db)
         if not container_gid: return
-        
+
+        # check if element is really referred
         element_gptr = record.globalpointer
         if not element_gptr: return
-        element_gid = element_gptr.id
-        
+
+        # the index of this record
+        index = self._find_referencetable_record(record, db).elementindex
+
+        # remove from the set
         refset_table = self._refsetTable()
-
-        where = "containerlabel='%s' and container='%s' and element='%s'" % (
-            self.name, container_gid, element_gid)
+        where = self._where(db, element=record)
         db.deleteRow( refset_table, where = where)
-        return
+        
+        # shift left
+        self._shiftIndexes(db, startindex=index+1, shift=-1)
+        return record
 
 
-    def add(self, record, db, name = ''):
+    def add(self, record, db, name='', key='', index=None):
+        """add a record to the set.
+        key: key of the new element
+        name: alias of key
+        index: index of new element. !!! make sure index is unique! If index is None, it will be appended to the end of the set
+        """
+        if key and name:
+            raise ValueError, "both name and key are supplied: name:%s, key:%s" % (name, key)
+        if name: key=name
+
+        if index is None: index = self.count(db)
+        
         container = self._container(db)
 
         refset_table = self._refsetTable()
@@ -132,8 +208,9 @@ class referenceset:
         row.containerlabel = self.name
         row.container = container
         row.element = record
-        row.elementlabel = name
-        row = db.insertRow( row )
+        row.elementlabel = key
+        row.elementindex = index
+        row = db.insertRow(row)
 
         return db.query(record.__class__).filter_by(id=record.id).one()
 
@@ -141,7 +218,6 @@ class referenceset:
     def insert(self, record, before=None, after=None, db=None, name=''):
         "insert a record"
         
-        # slow implementation
         newrecord = record
         newname = name
         
@@ -150,12 +226,7 @@ class referenceset:
         if not ref: raise RuntimeError
 
         #
-        elements = self.dereference(db)
-        found = None
-        for index, (name, record) in enumerate(elements):
-            if record.id == ref.id: found = index; break
-            continue
-
+        found = self._find_referencetable_record(ref, db).elementindex
         if found is None: raise RuntimeError, 'Cannot find %s in [%s]' % (
             ref.id, ', '.join([ '%s###%s' % (r.name, r.id) for d, r in elements]),
             )
@@ -163,15 +234,28 @@ class referenceset:
         if after: index = found + 1
         else: index = found
 
-        for name, record in elements[index:]:
-            self.delete(record, db)
-            continue
+        # shift right
+        self._shiftIndexes(db, startindex=index, shift=1)
 
-        self.add(newrecord, db, name=newname)
+        # add
+        self.add(newrecord, db, key=newname, index=index)
+        return
 
-        for name, record in elements[index:]:
-            self.add(record, db)
-            continue
+
+    # helpers
+    def _shiftIndexes(self, db, startindex=None, endindex=None, shift=1):
+        filter = []
+        if startindex: filter.append('elementindex>=%s' % startindex)
+        if endindex: filter.append('elementindex<%s' % endindex)
+        filter = ' and '.join(filter)
+        
+        rs = self._queryall(db).filter(filter).order_by('elementindex').all()
+        for r in rs:
+            oldindex = r.elementindex
+            newindex = oldindex + shift
+            elementgid = r.element.id
+            self._update_referencetable_record(
+                [('elementindex', newindex)], db, elementgid=elementgid)
         return
 
 
@@ -199,10 +283,45 @@ class referenceset:
             containerlabel=self.name, container=container_gid)
 
 
+    def _find_referencetable_record(self, record, db):
+        container_gid = self._container_gid(db)
+        if not container_gid: return
+        refset_table = self._refsetTable()
+        where = self._where(db, element=record)
+        return db.query(refset_table).filter(where).one()
+    #containerlabel=self.name, container=container_gid, element=record.globalpointer)\
+    #       .one()
+
+
+    def _where(self, db, elementindex=None, elementkey=None, element=None, elementgid=None):
+        if element and elementgid is not None:
+            raise ValueError, "both element and elementgid are supplied: element: %s, elementgid: %s" % (element, elementgid)
+        
+        container_gid = self._container_gid(db)
+        w  = [
+            "containerlabel='%s'" % self.name,
+            "container=%s" % container_gid,
+            ]
+        if elementindex is not None: w.append('elementindex=%s' % elementindex)
+        if elementkey is not None: w.append("elementlabel='%s'" % elementkey)
+        if element is not None: w.append("element=%s" % element.globalpointer.id)
+        if elementgid is not None: w.append("element=%s" % elementgid)
+        return ' and '.join(w)
+
+
+    def _update_referencetable_record(self, assignments, db, elementindex=None, elementkey=None, element=None, elementgid=None):
+        where = self._where(
+            db,
+            elementindex=elementindex, elementkey=elementkey,
+            element=element, elementgid=elementgid)
+        db.updateRow(self._refsetTable(), assignments, where=where)
+        return
+
+
     def _get_referencetable_records(self, db):
         q = self._queryall(db)
         if q is None: return
-        return q.all()
+        return q.order_by('elementindex').all()
 
 
     def _count_referencetable_records(self, db):
@@ -232,6 +351,7 @@ class _ReferenceSetTable(Table):
         name = 'containerlabel', length = 64 )
     elementlabel = dsaw.db.varchar(
         name = "elementlabel", length = 64 )
+    elementindex = dsaw.db.integer(name = 'elementindex') 
 
     from VersatileReference import VersatileReference
     container = VersatileReference(name = 'container')
