@@ -35,6 +35,14 @@ class DBRecord2Object(object):
         return ret
 
 
+    def findObject(self, record):
+        '''find the object in the registry that corresponds to this record
+        This is different from the __call__ method since
+        the record might not be in the registry.
+        '''
+        return self.registry.findObject(record)
+
+
     def _createObject(self, record, klass):
         # try creating the instance without any arguments
         try:
