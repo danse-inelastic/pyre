@@ -32,6 +32,8 @@ class referenceset:
 
 
     def dereference(self, db):
+        self._establishIndexes(db)
+        
         records = self._get_referencetable_records( db )
         ret = []
         for record in records:
@@ -57,18 +59,24 @@ class referenceset:
 
     # access element
     def getElement(self, key=None, db=None, index=None):
+        self._establishIndexes(db)
+
         if key is not None: return self.getElementByKey(key, db)
         if index is not None: return self.getElementByIndex(index, db)
         raise ValueError, 'must supply a way to identify the element to delete: key or index'
     
 
     def setElement(self, key=None, element=None, db=None, index=None):
+        self._establishIndexes(db)
+
         if key is not None: return self.setElementByKey(key, element, db)
         if index is not None: return self.setElementByIndex(index, element, db)
         raise ValueError, 'must supply a way to identify the element to delete: key or index'
     
 
     def delElement(self, key=None, db=None, index=None, element=None):
+        self._establishIndexes(db)
+
         if key is not None: return self.delElementByKey(key, db)
         if index is not None: return self.delElementByIndex(index, db)
         if element:
@@ -164,6 +172,8 @@ class referenceset:
 
     #
     def delete(self, record, db):
+        self._establishIndexes(db)
+
         # here, the record is a db record that this reference set
         # refers to.
         # The record itself is not removed. it should be manually removed if necessary.
@@ -195,6 +205,8 @@ class referenceset:
         name: alias of key
         index: index of new element. !!! make sure index is unique! If index is None, it will be appended to the end of the set
         """
+        self._establishIndexes(db)
+
         if key and name:
             raise ValueError, "both name and key are supplied: name:%s, key:%s" % (name, key)
         if name: key=name
@@ -218,6 +230,8 @@ class referenceset:
     def insert(self, record, before=None, after=None, db=None, name=''):
         "insert a record"
         
+        self._establishIndexes(db)
+
         newrecord = record
         newname = name
         
@@ -243,6 +257,25 @@ class referenceset:
 
 
     # helpers
+    
+    #  for backward compatibilities
+    def _establishIndexes(self, db):
+        n = self.count(db)
+        if n==0: return
+
+        rs = self._get_referencetable_records(db)
+        r0 = rs[0]
+
+        if r0.elementindex is not None: return
+
+        for i, r in enumerate(rs):
+            r.elementindex = i
+            self._update_referencetable_record(
+                [('elementindex', i)], db=db, element=r.element.dereference(db))
+            
+        return
+
+    
     def _shiftIndexes(self, db, startindex=None, endindex=None, shift=1):
         filter = []
         if startindex: filter.append('elementindex>=%s' % startindex)
