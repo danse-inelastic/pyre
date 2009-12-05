@@ -20,6 +20,7 @@ RECURSE_DIRS = \
     fuego \
     merlin \
     opal \
+    dsaw \
 
 ifdef MPI_DIR
 RECURSE_DIRS += \
