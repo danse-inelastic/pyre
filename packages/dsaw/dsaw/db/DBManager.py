@@ -647,6 +647,8 @@ class TableMap(object):
 
 
     def TableToObject(self, table):
+        if table not in self._table2obj:
+            self.registerTable(table)
         return self._table2obj[table]
 
 
