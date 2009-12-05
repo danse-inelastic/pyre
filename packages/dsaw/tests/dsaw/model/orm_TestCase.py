@@ -95,6 +95,20 @@ class TestCase(unittest.TestCase):
         return
 
 
+    def test3(self):
+        'save data object with a not-owned referenceset'
+        orm = self.orm
+
+        leaf1 = do.Leaf3(name='leaf1'); orm.save(leaf1)
+        leaf2 = do.Leaf3(name='leaf2'); orm.save(leaf2)
+        leaves = [leaf1, leaf2]
+
+        root = do.Branch3(name='root', nodes=[leaf1, leaf2])
+        tree = do.Tree3(root=root)
+        orm.save(tree)
+        return
+
+
     def setUp(self):
         self.orm = self._ormManager()
         self.orm2 = self._ormManager()
