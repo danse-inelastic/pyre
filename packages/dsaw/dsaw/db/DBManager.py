@@ -57,7 +57,7 @@ class DBManager(object):
                 table = record.__class__
                 satable = self._tablemap.TableToSATable(table)
                 u = satable.update().where("id='%s'" % record.id).values(globalpointer=None)
-                conn = self._saengine.connect()
+                conn = self._get_saconnection()
                 conn.execute(u)
 
                 from VersatileReference import global_pointer
@@ -153,7 +153,7 @@ class DBManager(object):
             continue
 
         u = satable.update().where(where).values(**opts)
-        conn = self._saengine.connect()
+        conn = self._get_saconnection()
         conn.execute(u)
 
         self.commit()
@@ -340,6 +340,12 @@ class DBManager(object):
         self._sasession.close()
         return
 
+
+    def _get_saconnection(self):
+        key = '_saconnection'
+        if not hasattr(self, key):
+            setattr(self, key, self._saengine.connect())
+        return getattr(self, key)
 
 
 

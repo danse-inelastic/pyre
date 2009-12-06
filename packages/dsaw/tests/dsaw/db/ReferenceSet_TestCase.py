@@ -201,91 +201,38 @@ class TestCase(unittest.TestCase):
         return
 
 
-
-    def testMixed(self):
-        'dsaw.db.ReferenceSet: mixed'
+    def test5(self):
+        'insert'
         db = self.db
-
+        
         # insert records
         userbob = User()
-        userbob.id = userbob.username = 'bobMixed'
+        userbob.id = userbob.username = 'bob5'
         db.insertRow(userbob)
         
         useralice = User()
-        useralice.id = useralice.username = 'aliceMixed'
+        useralice.id = useralice.username = 'alice5'
         db.insertRow(useralice)
-        db.commit()
 
         group = Group()
-        group.id = 'groupMixed'
+        group.id = 'group5'
         db.insertRow(group)
         db.commit()
 
         refset = group.users
-        print 'referenceset instance: %s' % refset
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 0)
-        print 'users: %s' % (users,)
 
-        print '> add one user' 
-        refset.add( userbob, db, name='1' )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 1)
+        # bob
+        refset.add(userbob, db=db)
 
-        print '> delete one user'
-        refset.delete( userbob, db )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 0)
-
-        print '> add two users'
-        refset.add( userbob, db )
-        refset.add( useralice, db )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 2)
-        ids = [row.id for label, row in users]
-        self.assert_('bobMixed' in ids)
-        self.assert_('aliceMixed' in ids)
-
-        print '> remove all users'
-        refset.clear( db )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 0)
-
-
-        print '> getElement and setElement'
-        refset.setElement('1', userbob, db )
-        refset.setElement('2', useralice, db )
-        self.assertEqual(refset.getElement('1', db).id, userbob.id)
-        
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 2)
-        
-        ids = [row.id for label, row in users]
-        self.assert_('bobMixed' in ids)
-        self.assert_('aliceMixed' in ids)
-
-        refset.setElement('2', userbob, db )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 2)
-        
-        ids = [row.id for label, row in users]
-        self.assert_('bobMixed' in ids)
-        self.assert_('aliceMixed' not in ids)
-
-        print '> delElement'
-        deleted = refset.delElement('1', db)
-        self.assertEqual(deleted.id, 'bobMixed')
-        self.assertEqual(len(refset.dereference(db)), 1)
-        self.assertRaises(KeyError, refset.delElement, '1', db)
-        
-        print '> remove all users'
-        refset.clear( db )
-        users = refset.dereference( db )
-        self.assertEqual(len(users), 0)
-
+        # alice, bob
+        refset.insert(useralice, before=userbob, db=db)
+        #
+        self.assertEqual(refset.getElement(index=0, db=db).id, useralice.id)
+        self.assertEqual(refset.getElement(index=1, db=db).id, userbob.id)
         return
-    
-    
+
+
+
     def dbManager(self):
         from dsaw.db import connect
         db = connect(db ='postgres:///test')

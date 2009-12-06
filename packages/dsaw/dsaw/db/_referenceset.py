@@ -281,8 +281,13 @@ class referenceset:
         if startindex: filter.append('elementindex>=%s' % startindex)
         if endindex: filter.append('elementindex<%s' % endindex)
         filter = ' and '.join(filter)
+
+        q = self._queryall(db)
+        if filter:
+            q = q.filter(filter)
+        q = q.order_by('elementindex')
         
-        rs = self._queryall(db).filter(filter).order_by('elementindex').all()
+        rs = q.all()
         for r in rs:
             oldindex = r.elementindex
             newindex = oldindex + shift
