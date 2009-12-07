@@ -42,7 +42,7 @@ class OrmManager(object):
 
 
     def __call__(self, obj):
-        if isClass(obj):
+        if inspect.isclass(obj):
             self.registerObjectType(obj)
             return self.object2record.object2dbtable(obj)
         return self.object2record(obj)
@@ -244,10 +244,7 @@ class OrmManager(object):
         return
 
 
-import types
-ClassTypes = [types.ClassType, types.TypeType]
-def isClass(candidate):
-    return type(candidate) in ClassTypes
+import inspect
 
 
 # version

@@ -79,6 +79,19 @@ class TestCase(unittest.TestCase):
         return
 
 
+    def test1b2(self):
+        'simple data object that has meta class'
+        class Meta(type): pass
+        class User2:
+            name = ''
+            __metaclass__ = Meta
+        orm = self.orm
+
+        from dsaw.db.Table import Table
+        self.assert_( issubclass(orm(User2), Table))
+        return
+
+
     def test1c(self):
         'data objec with a non-polymorphic reference. try saving and loading an object with none reference'
         orm = self.orm
