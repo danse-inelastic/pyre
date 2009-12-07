@@ -22,7 +22,7 @@ import unittest
 class TestCase(unittest.TestCase):
 
 
-    def _test1(self):
+    def test1(self):
         'simple data object'
         orm = self.orm
 
@@ -37,7 +37,7 @@ class TestCase(unittest.TestCase):
         return
 
 
-    def _test1a(self):
+    def test1a(self):
         'simple data object: orm.__call__'
         orm = self.orm
 
@@ -52,7 +52,7 @@ class TestCase(unittest.TestCase):
         return
 
 
-    def _test1b(self):
+    def test1b(self):
         'simple data object with attribute "name"'
         orm = self.orm
         class User:
@@ -73,7 +73,7 @@ class TestCase(unittest.TestCase):
         return
 
 
-    def _test2(self):
+    def test2(self):
         'data object with reference and referenceset'
         orm = self.orm
 
@@ -105,7 +105,7 @@ class TestCase(unittest.TestCase):
         return
 
 
-    def _test3(self):
+    def test3(self):
         'save data object with a not-owned referenceset'
         orm = self.orm
 
