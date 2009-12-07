@@ -63,6 +63,22 @@ class TestCase(unittest.TestCase):
         return
 
 
+    def test1b1(self):
+        'simple data object. define table name by setting Inventory'
+        orm = self.orm
+
+        from dsaw.model.Inventory import Inventory as InvBase
+        class User:
+            name = ''
+            class Inventory(InvBase):
+                name = InvBase.d.str(name='name')
+                dbtablename = 'users'
+
+        table = orm(User)
+        self.assertEqual( table.getTableName(), 'users' )
+        return
+
+
     def test1c(self):
         'data objec with a non-polymorphic reference. try saving and loading an object with none reference'
         orm = self.orm

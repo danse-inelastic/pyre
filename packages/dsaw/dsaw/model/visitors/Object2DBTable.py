@@ -80,7 +80,10 @@ class Object2DBTable(object):
 
 
     def _createTable(self, object, cols, rules):
-        tname = object.__name__.lower()
+        if 'dbtablename' in object.Inventory.__dict__:
+            tname = object.Inventory.dbtablename
+        else:
+            tname = object.__name__.lower()
         from dsaw.db.WithID import WithID
         from dsaw.db.GloballyReferrable import GloballyReferrable
         class _(WithID, GloballyReferrable):
@@ -194,6 +197,7 @@ class Registry(object):
         self._object2table = {}
         self._table2object = {}
         self._name2object = {}
+        self._tablename2object = {}
         return
 
 
@@ -203,6 +207,10 @@ class Registry(object):
 
     def getObjectFromName(self, name):
         return self._name2object.get(name)
+
+
+    def getObjectFromTableName(self, name):
+        return self._tablename2object.get(name)
 
 
     def getTable(self, object):
@@ -217,6 +225,7 @@ class Registry(object):
         self._object2table[object] = table
         self._table2object[table] = object
         self._name2object[object.__name__] = object
+        self._tablename2object[table.getTableName()] = object
         return
     
 

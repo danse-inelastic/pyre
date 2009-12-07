@@ -18,10 +18,10 @@ debug = journal.debug('dsaw.model')
 
 class OrmManager(object):
 
-    def __init__(self, db, guid, object2record = None, record2object = None):
+    def __init__(self, db, guid, object2record = None, record2object = None, object2table=None):
         if object2record is None:
             from Object2DBRecord import Object2DBRecord
-            object2record = Object2DBRecord()
+            object2record = Object2DBRecord(object2dbtable=object2table)
         self.object2record = object2record
 
         if record2object is None:
@@ -48,6 +48,24 @@ class OrmManager(object):
         return self.object2record(obj)
 
 
+    def createInventory(self, obj):
+        'create inventory for an data object'
+        from dsaw.model.Inventory import establishInventoryFromObject
+        i = obj.Inventory()
+        return establishInventoryFromObject(i, obj)
+    inv = createInventory
+
+
+    def setObjectAttribute(self, obj, key, value):
+        # ! slow !
+        assert key in [d.name for d in obj.Inventory.getDescriptors()]
+        inv = self.inv(obj)
+        setattr(inv, key, value)
+        from dsaw.model.Inventory import restoreObjectFromInventory
+        restoreObjectFromInventory(obj, inv)
+        return
+
+
     def registerObjectType(self, type):
         self.object2record.object2dbtable(type)
         self._registerTables()
@@ -61,6 +79,8 @@ class OrmManager(object):
 
     def getObjectTypeFromName(self, name):
         return self.object2record.object2dbtable.registry.getObjectFromName(name)
+    def getObjectTypeFromTableName(self, name):
+        return self.object2record.object2dbtable.registry.getObjectFromTableName(name)
 
 
     def save(self, object):
