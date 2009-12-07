@@ -68,28 +68,9 @@ class Object2DBRecord(object):
     def _createInventory(self, obj):
         '''create the inventory instance for the given object'''
         i = obj.Inventory()
-
-        # if the object has the facility to do the conversion, just do that
-        if '__establishInventory__' in obj.__class__.__dict__:
-            obj.__establishInventory__(i)
-            return i
-
-        # otherwise, try to introspect the inventory and assume the
-        # attributes are public attributes of the object and copy the
-        # values into the inventory.
-        for descriptor in obj.Inventory.getDescriptors():
-            name = descriptor.name
-            value = getattr(obj,name)
-            type = descriptor.type
-            try:
-                setattr(i, name, value)
-            except:
-                import traceback as tb
-                raise RuntimeError, 'unable to set %s to %s: %s' % (
-                    name, value, tb.format_exc())
-            continue
-
-        return i
+        
+        from dsaw.model.Inventory import establishInventoryFromObject
+        return establishInventoryFromObject(i, obj)
         
         
 

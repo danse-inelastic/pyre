@@ -29,6 +29,10 @@ class OrmManager(object):
             record2object = DBRecord2Object(object2record, db)
         self.record2object = record2object
 
+        from ObjectFactory import ObjectFactory
+        self.objectFactory = ObjectFactory(
+            object2record.object2dbtable.object_inventory_generator)
+
         self.db = db
         self.guid = guid
 
@@ -150,7 +154,8 @@ class OrmManager(object):
                     # if this referred object is actually owned, more work is needed
                     if descriptor.owned:
                         # find the old referred db record
-                        oldrecord1 = getattr(oldrecord, name).dereference(db)
+                        oldreference = getattr(oldrecord, name)
+                        oldrecord1 = oldreference and oldreference.dereference(db)
                         # if the old record is the same as the new record,
                         # means the reference has not pointed to a new object,
                         # and we don't need to do extra things. Otherwise,
@@ -161,8 +166,9 @@ class OrmManager(object):
                             db.updateRecord(oldrecord)
                             # remove the record
                             self._removeRecordFromDB(oldrecord1)
-                self.save(value)
-                setattr(record, name, self.object2record(value))
+                if value is not None:
+                    self.save(value)
+                setattr(record, name, value and self.object2record(value))
             elif type == 'referenceset':
                 if oldrecord and descriptor.owned:
                     ref = getattr(oldrecord, name)

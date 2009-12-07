@@ -43,6 +43,7 @@ EXPORT_PYTHON_MODULES = \
 	InventoryGenerator.py \
 	Object2DBTable.py \
 	Object2DBRecord.py \
+	ObjectFactory.py \
 	OrmManager.py \
 	__init__.py \
 

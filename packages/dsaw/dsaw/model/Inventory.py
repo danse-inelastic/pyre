@@ -35,6 +35,43 @@ class Inventory(base):
     pass
 
 
+
+def restoreObjectFromInventory(obj, inventory):
+    if hasattr(obj, '__restoreFromInventory__'):
+        obj.__restoreFromInventory__(inventory)
+        return obj
+
+    for descriptor in inventory.getDescriptors():
+        name = descriptor.name
+        setattr(obj, name, getattr(inventory, name))
+        continue
+    
+    return obj
+
+
+def establishInventoryFromObject(inventory, obj):
+    # if the object has the facility to do the conversion, just do that
+    if hasattr(obj, '__establishInventory__'):
+        obj.__establishInventory__(inventory)
+        return inventory
+
+    # otherwise, try to introspect the inventory and assume the
+    # attributes are public attributes of the object and copy the
+    # values into the inventory.
+    for descriptor in obj.Inventory.getDescriptors():
+        name = descriptor.name
+        value = getattr(obj,name)
+        type = descriptor.type
+        try:
+            setattr(inventory, name, value)
+        except:
+            import traceback as tb
+            raise RuntimeError, 'unable to set %s of type %s to %s\n%s' % (
+                name, type, value, tb.format_exc())
+        continue
+    return inventory
+
+
 # version
 __id__ = "$Id$"
 

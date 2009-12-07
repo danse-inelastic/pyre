@@ -79,7 +79,10 @@ class DBRecord2Object(object):
             if type =='reference':
                 if value is not None:
                     record1 = value.dereference(db)
-                    value = self(record1)
+                    if record1 is not None:
+                        value = self(record1)
+                    else:
+                        value = None
             elif type == 'referenceset':
                 value = [self(v) for k,v in value.dereference(db)]
             kwds[name] = value
@@ -94,14 +97,8 @@ class DBRecord2Object(object):
     def _updateObject(self, instance, record):
         klass = instance.__class__
         inventory = self._createInventoryFromRecord(record, klass)
-        if '__restoreFromInventory__' in klass.__dict__:
-            instance.__restoreFromInventory__(inventory)
-            return instance
-        for descriptor in klass.Inventory.getDescriptors():
-            name = descriptor.name
-            setattr(instance, name, getattr(inventory, name))
-            continue
-        return instance
+        from dsaw.model.Inventory import restoreObjectFromInventory
+        return restoreObjectFromInventory(instance, inventory)
 
 
 # version

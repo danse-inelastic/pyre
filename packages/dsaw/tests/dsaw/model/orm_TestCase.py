@@ -64,12 +64,22 @@ class TestCase(unittest.TestCase):
 
 
     def test1c(self):
-        'data objec with a reference. try saving and loading an object with none reference'
+        'data objec with a non-polymorphic reference. try saving and loading an object with none reference'
         orm = self.orm
         job = do.Job(server='', computation=None)
         orm.save(job)
         job2 = orm.load(do.Job, orm(job).id)
         self.assertEqual(job2.computation, None)
+        return
+
+
+    def test1d(self):
+        'data objec with a polymorphic reference. try saving and loading an object with none reference'
+        orm = self.orm
+        struct = do.Structure(shape=None, atoms=[])
+        orm.save(struct)
+        struct2 = orm.load(do.Structure, orm(struct).id)
+        self.assertEqual(struct2.shape, None)
         return
 
 
