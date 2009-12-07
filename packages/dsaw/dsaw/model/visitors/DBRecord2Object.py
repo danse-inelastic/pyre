@@ -77,8 +77,9 @@ class DBRecord2Object(object):
             value = getattr(record, name)
             type = descriptor.type
             if type =='reference':
-                record1 = value.dereference(db)
-                value = self(record1)
+                if value is not None:
+                    record1 = value.dereference(db)
+                    value = self(record1)
             elif type == 'referenceset':
                 value = [self(v) for k,v in value.dereference(db)]
             kwds[name] = value
