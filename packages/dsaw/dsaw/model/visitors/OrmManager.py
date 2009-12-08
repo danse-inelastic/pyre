@@ -36,6 +36,9 @@ class OrmManager(object):
         self.db = db
         self.guid = guid
 
+
+        # types that are registered
+        self._registered_types = []
         # tables that are registered with db manager
         self._registered_tables = []
         return
@@ -67,8 +70,25 @@ class OrmManager(object):
 
 
     def registerObjectType(self, type):
+        if type in self._registered_types: return
+        
         self.object2record.object2dbtable(type)
         self._registerTables()
+        self._registered_types.append(type)
+
+        for descriptor in type.Inventory.getDescriptors():
+            if descriptor.type in ['reference', 'referenceset']:
+
+                # not polymorphic
+                if not descriptor.isPolymorphic():
+                    self.registerObjectType(descriptor.targettype)
+                    continue
+
+                # polymorphic
+                if not descriptor.targettypes: continue
+                map(self.registerObjectType, descriptor.targettypes)
+                
+            continue
         return
 
 
