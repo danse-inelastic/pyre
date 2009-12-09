@@ -18,6 +18,26 @@ class Table(base):
 
     from Schemer import Schemer
     __metaclass__ = Schemer
+
+
+    @classmethod
+    def addColumn(cls, col):
+        """add a new column to the table
+        """
+        # cf. pyre.db.Schemer
+
+        #
+        setattr(cls, col.name, col)
+        
+        # the registry
+        colreg = cls._columnRegistry
+        colreg[col.name] = col
+
+        # the writables
+        if not col.auto:
+            writeable = cls._writeable
+            writeable.append(col.name)
+        return
     
 
 # version
