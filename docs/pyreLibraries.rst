@@ -278,7 +278,7 @@ In this example, a structure always owns a lattice, which means
 the lattice instance referred by the structure instance will be
 destroyed when the structure instance is gone.
 You can have better control of the type of the association by
-explicitly declare it in the Inventory::
+explicitly declaring it in the Inventory::
 
 	class Structure:
 	  ...
