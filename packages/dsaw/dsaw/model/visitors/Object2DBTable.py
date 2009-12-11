@@ -151,7 +151,8 @@ class Object2DBTable(object):
             length = rules['str']['max-length']
         return dsaw.db.varcharArray(
             name=descriptor.name, default=descriptor.default,
-            shape=descriptor.shape, length=length,
+            #shape=descriptor.shape,
+            length=length,
             )
     
 
