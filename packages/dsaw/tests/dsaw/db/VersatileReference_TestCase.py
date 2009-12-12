@@ -107,7 +107,7 @@ class TestCase(unittest.TestCase):
         return
     
     
-    def test2(self):
+    def _test2(self):
         'dsaw.db.GloballyReferrable: establish global pointer automatically'
         import dsaw.db
         

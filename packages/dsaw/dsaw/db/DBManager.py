@@ -125,11 +125,11 @@ class DBManager(object):
             raise self.IntegrityError, str(e)
 
         # establish global identity if necessary
-        from GloballyReferrable import GloballyReferrable
-        if isinstance(row, GloballyReferrable):
-            gptr = row.globalpointer
-            if not gptr or not gptr.id:
-                row.establishGlobalPointer(self)
+##         from GloballyReferrable import GloballyReferrable
+##         if isinstance(row, GloballyReferrable):
+##             gptr = row.globalpointer
+##             if not gptr or not gptr.id:
+##                 row.establishGlobalPointer(self)
         
         self.commit()
         return row
@@ -568,13 +568,15 @@ class RecordMap(object):
                 import numpy
                 value = numpy.copy(value)
                 value.shape = -1,
-            return list(value)
+            return map(float, value)
         def convertIntegerArray(self, value, col, record):
             if col.shape:
                 import numpy
                 value = numpy.copy(value)
                 value.shape = -1,
-            return list(value)
+            return map(int, value)
+        def convertVarCharArray(self, value, col, record):
+            return map(str, value)
 
         def convertDefault(self, value, col, record):
             return value
@@ -583,6 +585,7 @@ class RecordMap(object):
     def _createRecord2ObjectConverter(self, table):
         from pyre.db.DoubleArray import DoubleArray
         from pyre.db.IntegerArray import IntegerArray
+        from pyre.db.VarCharArray import VarCharArray
         from Reference import Reference
         from VersatileReference import VersatileReference, global_pointer
         
@@ -601,6 +604,8 @@ class RecordMap(object):
                 converter.setConverter(name, converter.convertDoubleArray)
             elif isinstance(col, IntegerArray):
                 converter.setConverter(name, converter.convertIntegerArray)
+            elif isinstance(col, VarCharArray):
+                converter.setConverter(name, converter.convertVarCharArray)
             elif hasattr(col, 'primary_key') and col.primary_key:
                 # if is primary key and user does not assign the primary key any
                 # value, skip it

@@ -291,6 +291,37 @@ class TestCase(unittest.TestCase):
         db.destroyAllTables()
         return
         
+    def test5(self):
+        'dsaw.db: make sure globalpointer is left blank when a record is created'
+
+        db = self.dbManager()
+
+        # declare tables
+        from dsaw.db.WithID import WithID
+        from dsaw.db.GloballyReferrable import GloballyReferrable
+        class User(WithID, GloballyReferrable):
+            name = 'users'
+            import dsaw.db
+            username = dsaw.db.varchar(name='username', length=100)
+
+        # register and initialize
+        tables = [User]
+        for table in tables: db.registerTable(table)
+        db.createAllTables()
+
+        # insert a record
+        bob = User()
+        bob.id = bob.username = 'bob'
+        db.insertRow(bob)
+
+        # read
+        bob1 = db.query(User).filter_by(id=bob.id).one()
+        self.assertEqual(bob1.globalpointer, None)
+        
+        # destroy
+        db.destroyAllTables()
+        return
+        
     pass # end of TestCase
 
 

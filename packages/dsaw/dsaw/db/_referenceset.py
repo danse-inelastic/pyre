@@ -35,6 +35,7 @@ class referenceset:
         self._establishIndexes(db)
         
         records = self._get_referencetable_records( db )
+        if not records: return []
         ret = []
         for record in records:
             key = record.elementlabel
