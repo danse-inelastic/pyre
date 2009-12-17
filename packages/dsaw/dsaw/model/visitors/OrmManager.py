@@ -244,9 +244,14 @@ class OrmManager(object):
                 value = getattr(object.inventory, name)
                 refset = getattr(self.object2record(object), name)
                 for elem in value:
-                    record = self.object2record(elem)
-                    refset.add(record, db)
+                    elemrecord = self.object2record(elem)
+                    refset.add(elemrecord, db)
                     continue
+                # may establish global pointer in the process, so let us get it
+                if not record.globalpointer:
+                    # fetch the record from db
+                    r1 = db.query(record.__class__).filter_by(id=record.id).one()
+                    record.globalpointer = r1.globalpointer
         return
 
 

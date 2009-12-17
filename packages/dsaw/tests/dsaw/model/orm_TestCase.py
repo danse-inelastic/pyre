@@ -155,7 +155,10 @@ class TestCase(unittest.TestCase):
 
         root = do.Branch3(name='root', nodes=[leaf1, leaf2])
         tree = do.Tree3(root=root)
+
+        self.assertEqual(orm(tree.root).globalpointer, None)
         orm.save(tree)
+        self.assert_(orm(tree.root).globalpointer is not None)
 
         # now we change leaf1 and save tree.
         # orm.save will not automatically save not-owned reference
