@@ -150,11 +150,21 @@ class TestCase(unittest.TestCase):
 
         leaf1 = do.Leaf3(name='leaf1'); orm.save(leaf1)
         leaf2 = do.Leaf3(name='leaf2'); orm.save(leaf2)
+        leaf1record = orm(leaf1)
         leaves = [leaf1, leaf2]
 
         root = do.Branch3(name='root', nodes=[leaf1, leaf2])
         tree = do.Tree3(root=root)
         orm.save(tree)
+
+        # now we change leaf1 and save tree.
+        # orm.save will not automatically save not-owned reference
+        leaf1.name = 'leaf1-new'
+        orm.save(tree, save_not_owned_referred_object=0)
+        self.assertNotEqual(orm.load(leaf1.__class__, leaf1record.id).name, leaf1.name)
+        # save the leaf manually
+        orm.save(tree)
+        self.assertEqual(orm.load(leaf1.__class__, leaf1record.id).name, leaf1.name)
         return
 
 

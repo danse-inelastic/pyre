@@ -96,6 +96,7 @@ class TestCase(unittest.TestCase):
         orm = self.ormManager()
 
         # save to db
+        orm.save(computation)
         orm.save(job)
 
         # load from db and compare

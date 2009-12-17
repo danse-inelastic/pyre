@@ -103,11 +103,11 @@ class OrmManager(object):
         return self.object2record.object2dbtable.registry.getObjectFromTableName(name)
 
 
-    def save(self, object):
+    def save(self, object, save_not_owned_referred_object=1):
         if object is None: return
         record = self.object2record(object)
         self._registerTables()
-        self._saveRecordRecursively(object, record)
+        self._saveRecordRecursively(object, record, save_not_owned_referred_object=save_not_owned_referred_object)
         return
 
 
@@ -176,7 +176,7 @@ class OrmManager(object):
         return 
 
 
-    def _saveRecordRecursively(self, object, record):
+    def _saveRecordRecursively(self, object, record, save_not_owned_referred_object=1):
         db = self.db
         table = self.object2record.object2dbtable(object.__class__)
         
@@ -206,21 +206,25 @@ class OrmManager(object):
                             db.updateRecord(oldrecord)
                             # remove the record
                             self._removeRecordFromDB(oldrecord1)
-                if value is not None:
-                    self.save(value)
+                if value is not None and (save_not_owned_referred_object or descriptor.owned):
+                    self.save(value, save_not_owned_referred_object=save_not_owned_referred_object)
                 setattr(record, name, value and self.object2record(value))
             elif type == 'referenceset':
-                if oldrecord and descriptor.owned:
+                if oldrecord:
                     ref = getattr(oldrecord, name)
                     for k,v in ref.dereference(db):
                         # remove item from the refset.
                         # must do this otherwise the record cannot be removed
                         ref.delete(v, db)
                         # remove the record
-                        self._removeRecordFromDB(v)
+                        if descriptor.owned:
+                            self._removeRecordFromDB(v)
                 value = getattr(object.inventory, name)
-                for elem in value:
-                    self.save(elem)
+                if save_not_owned_referred_object or descriptor.owned:
+                    for elem in value:
+                        self.save(elem, save_not_owned_referred_object=save_not_owned_referred_object)
+                # the code to reestablish the reference set is at the end of
+                # this method
                 
             continue
         # debug.log('object: %s, %s; record: %s, %s' % (
