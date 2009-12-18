@@ -115,6 +115,7 @@ class OrmManager(object):
         self.registerObjectType(Object)
         Table = self.object2record.object2dbtable(Object)
         record = self.db.query(Table).filter_by(id=id).one()
+        self.db.commit()
         obj = self.record2object(record)
         return obj
 
@@ -170,6 +171,7 @@ class OrmManager(object):
         id = record.id
         db = self.db
         rs = db.query(table).filter_by(id=id).all()
+        db.commit()
         n = len(rs)
         if n>1: raise RuntimeError
         if n==1: return rs[0]
@@ -251,6 +253,7 @@ class OrmManager(object):
                 if not record.globalpointer:
                     # fetch the record from db
                     r1 = db.query(record.__class__).filter_by(id=record.id).one()
+                    db.commit()
                     record.globalpointer = r1.globalpointer
         return
 
