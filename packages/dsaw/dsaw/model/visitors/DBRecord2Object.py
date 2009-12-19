@@ -12,6 +12,10 @@
 #
 
 
+import journal
+warning = journal.warning('object2dbtable')
+
+
 class DBRecord2Object(object):
 
 

@@ -11,6 +11,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
+import journal
+warning = journal.warning('dsaw.Inventory')
+warning.deactivate()
+
+
+from pyre.inventory.Facility import Facility
+
 from pyre.inventory.Inventory import Inventory as base
 
 
@@ -29,7 +37,21 @@ class Inventory(base):
     # help methods for visitors. not for users to use
     def getDescriptors(cls):
         # return a list of descriptors
-        return cls._traitRegistry.values()
+
+        # don't want to deal with descriptor with charactor '-'
+        # also don't want to deal with facility 
+        candidates = cls._traitRegistry.values()
+        ret = []
+        for c in candidates:
+            if c.name.find('-')!=-1:
+                warning.log('descriptor name contains "-": %s. skip' % c.name)
+                continue
+            if isinstance(c, Facility):
+                warning.log('descriptor is a facility: %s. skip' % c.name)
+                continue
+            ret.append(c)
+        return ret
+
     getDescriptors = classmethod(getDescriptors)
 
     pass

@@ -15,6 +15,11 @@
 convert an object type to a db table type.
 '''
 
+
+import journal
+warning = journal.warning('object2dbtable')
+
+
 class Object2DBTable(object):
 
     rules = {
@@ -62,8 +67,12 @@ class Object2DBTable(object):
         
         Inventory = obj.Inventory
 
-        cols = [self._createColumn(descriptor, rules)
-                for descriptor in Inventory.getDescriptors()]
+        cols = []
+        for descriptor in Inventory.getDescriptors():
+            col = self._createColumn(descriptor, rules)
+            if col:
+                cols.append(col)
+            continue
             
         # create a table class
         table = self._createTable(obj, cols, rules)
@@ -90,7 +99,12 @@ class Object2DBTable(object):
             pyredbtablename = tname
 
             for col in cols:
-                exec '%s=col' % col.name
+                cmd = '%s=col' % col.name
+                try:
+                    exec cmd
+                except:
+                    import traceback
+                    raise RuntimeError, "failed to exec %s\n%s" % (cmd, traceback.format_exc())
                 continue
 
             try:
@@ -185,6 +199,10 @@ class Object2DBTable(object):
 
     def _onReferenceset(self, descriptor, rules):
         return dsaw.db.referenceSet(name=descriptor.name)
+
+
+    def _onFacility(self, descriptor, rules):
+        return
 
 
             
