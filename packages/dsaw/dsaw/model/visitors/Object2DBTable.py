@@ -19,6 +19,9 @@ convert an object type to a db table type.
 import journal
 warning = journal.warning('object2dbtable')
 
+from dsaw.db.WithID import WithID
+from dsaw.db.GloballyReferrable import GloballyReferrable
+class TableBase(WithID, GloballyReferrable): pass
 
 class Object2DBTable(object):
 
@@ -26,6 +29,7 @@ class Object2DBTable(object):
         'str': {
           'max-length': 64,
         },
+        'subclassFrom': TableBase,
         }
 
     def __init__(self, registry=None, rules=None, object_inventory_generator=None):
@@ -38,7 +42,9 @@ class Object2DBTable(object):
             object_inventory_generator = InventoryGenerator()
         self.object_inventory_generator = object_inventory_generator
 
-        if rules: self.rules = rules
+        self.rules = self.__class__.rules.copy()
+        if rules:
+            self.rules.update(rules)
         return
 
 
@@ -89,13 +95,16 @@ class Object2DBTable(object):
 
 
     def _createTable(self, object, cols, rules):
+        myrules = self.rules.copy()
+        myrules.update(rules)
+        
         if 'dbtablename' in object.Inventory.__dict__:
             tname = object.Inventory.dbtablename
         else:
             tname = object.__name__.lower()
-        from dsaw.db.WithID import WithID
-        from dsaw.db.GloballyReferrable import GloballyReferrable
-        class _(WithID, GloballyReferrable):
+
+        subclassFrom = myrules['subclassFrom']
+        class _(subclassFrom):
             pyredbtablename = tname
 
             for col in cols:
