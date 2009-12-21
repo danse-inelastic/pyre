@@ -24,7 +24,11 @@ class GloballyReferrable(Table):
 
 
     def getReferences(self, db, table, refname, **kwds):
-        opts = {refname: self.globalpointer.id}
+        # no references
+        gp = self.globalpointer
+        if gp is None: return []
+        # 
+        opts = {refname: gp.id}
         opts.update(kwds)
         return db.query(table).filter_by(**opts).all()
 
