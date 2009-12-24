@@ -66,14 +66,15 @@ class DBManager(object):
                 except sqlalchemy.exc.IntegrityError:
                     self._sasession.rollback()
                     # bring back the reference
-                    u = satable.update().where("id='%s'"%record.id).values(global_pointer=gid)
-                    raise self.RecordStillReferred, "Unable to delete record %s, it is still referred by someone" % record
+                    u = satable.update().where("id='%s'"%record.id).values(globalpointer=gid)
+                    conn.execute(u)
+                    raise self.RecordStillReferred, "Unable to delete record %s:%s, it is still referred by someone" % (record.getTableName(), record.id)
 
         try:
             self.deleteRow(record.__class__, where="id='%s'" % record.id)
         except sqlalchemy.exc.IntegrityError:
             self._sasession.rollback()
-            raise self.RecordStillReferred, "Unable to delete record %s, it is still referred by someone" % record
+            raise self.RecordStillReferred, "Unable to delete record %s:%s, it is still referred by someone" % (record.getTableName(), record.id)
 
         self.commit()
         return
@@ -418,7 +419,10 @@ class DeReferencer(object):
         # get the table class
         table = db.getTable(type)
         #
-        return db.query(table).filter_by(globalpointer=id).one()
+        try:
+            return db.query(table).filter_by(globalpointer=id).one()
+        except:
+            raise RuntimeError, 'failed to retrieve record: table %s, globalpointer %s' % (table.getTableName(), id)
 
 
     def onbackref(self, backref, **kwds):
