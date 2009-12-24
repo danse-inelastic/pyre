@@ -233,6 +233,10 @@ class Registry(object):
         return self._table2object.iterkeys()
 
 
+    def iterObjects(self):
+        return self._object2table.iterkeys()
+
+
     def getObjectFromName(self, name):
         return self._name2object.get(name)
 

@@ -248,6 +248,10 @@ class DBManager(object):
         return
 
 
+    def iterAllTables(self):
+        return self._tableregistry.itertables()
+
+
     def getTable(self, name):
         return self._tableregistry.get(name)
 
