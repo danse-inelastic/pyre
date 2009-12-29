@@ -11,6 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import journal
+debug = journal.debug('dsaw.db')
+
 
 class Table2SATable(object):
 
@@ -34,7 +37,6 @@ class Table2SATable(object):
             continue
 
         name = table.getTableName()
-
         satable = sqlalchemy.Table(name, metadata, *sacols)
 
         from sqlalchemy.orm import mapper

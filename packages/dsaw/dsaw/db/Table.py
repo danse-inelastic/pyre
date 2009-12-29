@@ -38,6 +38,16 @@ class Table(base):
             writeable = cls._writeable
             writeable.append(col.name)
         return
+
+
+
+    def __str__(self):
+        t = []
+        for name, col in self._columnRegistry.iteritems():
+            val = col.__get__(self)
+            t.append('%s=%s' % (name, val))
+            continue
+        return '%s %s(%s)'% (self.getTableName(), self.id, ', '.join(t))
     
 
 # version
