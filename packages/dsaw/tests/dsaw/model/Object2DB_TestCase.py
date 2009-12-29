@@ -72,6 +72,18 @@ class TestCase(unittest.TestCase):
         return
     
     
+    def test1b(self):
+        'rules-dbtablename'
+        # create a simple data object type
+        class Dummy:
+            a = 3
+
+        from dsaw.model.visitors.Object2DBTable import Object2DBTable
+        t = Object2DBTable()(Dummy, rules={'dbtablename': 'abc'})
+        self.assertEqual(t.getTableName(), 'abc')
+        return
+                           
+
     def test2(self):
         'object with reference'
 

@@ -97,8 +97,10 @@ class Object2DBTable(object):
     def _createTable(self, object, cols, rules):
         myrules = self.rules.copy()
         myrules.update(rules)
-        
-        if 'dbtablename' in object.Inventory.__dict__:
+
+        if 'dbtablename' in myrules:
+            tname = myrules['dbtablename']
+        elif 'dbtablename' in object.Inventory.__dict__:
             tname = object.Inventory.dbtablename
         else:
             tname = object.__name__.lower()
