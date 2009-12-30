@@ -155,6 +155,7 @@ class ReferenceSet(Property):
     def __init__(self, name=None, targettype=None, targettypes=[], owned=False,
                  default=None, validator=None, **kwds):
         default = self._cast(default)
+        self._checkTargetTypes(targettypes)
         super(ReferenceSet, self).__init__(
             name, "referenceset",
             default=default, validator=validator,
@@ -174,12 +175,19 @@ class ReferenceSet(Property):
         return value
 
 
+    def _checkTargetTypes(self, targettypes):
+        import inspect
+        for t in targettypes:
+            assert inspect.isclass(t), "%s is not a type" % (t,)
+
+
 
 class Reference(Property):
 
 
     def __init__(self, name=None, targettype=None, targettypes=[], owned=False,
                  default=None, validator=None, **kwds):
+        self._checkTargetTypes(targettypes)
         super(Reference, self).__init__(
             name, "reference",
             default=default, validator=validator,
@@ -197,6 +205,12 @@ class Reference(Property):
     def _cast(self, value):
         # 
         return value
+
+
+    def _checkTargetTypes(self, targettypes):
+        import inspect
+        for t in targettypes:
+            assert inspect.isclass(t), "%s is not a type" % (t,)
 
 
 import _validators as validators
