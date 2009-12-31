@@ -128,6 +128,9 @@ class OrmManager(object):
             name = descriptor.name
             if type == 'reference':
                 value = getattr(object.inventory, name)
+                if value is None:
+                    # reference does not have value, skip
+                    continue
                 setattr(record, name, None)
                 self.db.updateRecord(record)
                 if descriptor.owned:

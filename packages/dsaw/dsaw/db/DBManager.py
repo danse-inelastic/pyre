@@ -426,7 +426,8 @@ class DeReferencer(object):
         try:
             return db.query(table).filter_by(globalpointer=id).one()
         except:
-            raise RuntimeError, 'failed to retrieve record: table %s, globalpointer %s' % (table.getTableName(), id)
+            import traceback
+            raise RuntimeError, 'failed to retrieve record: table %s, globalpointer %s. Traceback:\n%s' % (table.getTableName(), id, traceback.format_exc())
 
 
     def onbackref(self, backref, **kwds):
