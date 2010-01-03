@@ -30,8 +30,14 @@ class OrmManager(object):
         self.record2object = record2object
 
         from ObjectFactory import ObjectFactory
-        self.objectFactory = ObjectFactory(
-            object2record.object2dbtable.object_inventory_generator)
+        object_inventory_generator = object2record.object2dbtable.object_inventory_generator
+        self.objectFactory = ObjectFactory(object_inventory_generator)
+
+        from DeepCopier import DeepCopier
+        self.deepcopier = DeepCopier(
+            object_inventory_generator = object_inventory_generator,
+            object_factory = self.objectFactory,
+            )
 
         self.db = db
         self.guid = guid
@@ -49,6 +55,10 @@ class OrmManager(object):
             self.registerObjectType(obj)
             return self.object2record.object2dbtable(obj)
         return self.object2record(obj)
+
+
+    def deepcopy(self, obj):
+        return self.deepcopier(obj)
 
 
     def createInventory(self, obj):
