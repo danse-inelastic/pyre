@@ -11,7 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+
 class ObjectFactory(object):
+
+    '''component to create an instance of a data object
+    '''
 
     def __init__(self, inventoryGenerator):
         self.inventoryGenerator = inventoryGenerator

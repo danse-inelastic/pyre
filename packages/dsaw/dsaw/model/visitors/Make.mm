@@ -40,6 +40,7 @@ distclean::
 
 EXPORT_PYTHON_MODULES = \
 	DBRecord2Object.py \
+	DeepCopier.py \
 	InventoryGenerator.py \
 	Object2DBTable.py \
 	Object2DBRecord.py \
