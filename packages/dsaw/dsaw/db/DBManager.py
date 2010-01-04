@@ -108,8 +108,9 @@ class DBManager(object):
             assignment = colname, value
             assignments.append(assignment)
             continue
-        self.updateRow(record.__class__, assignments, where=where)
-        self.commit()
+        if assignments:
+            self.updateRow(record.__class__, assignments, where=where)
+            self.commit()
         return
     
 
