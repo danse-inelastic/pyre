@@ -21,6 +21,15 @@ class Table(base):
 
 
     @classmethod
+    def tablenameIsDefined(cls):
+        '''check if this table has a user-defined name
+
+        XXX: for backward compatibility, this also checks attribute "name".
+        '''
+        return hasattr(cls, 'dbtablename') or hasattr(cls, 'name')
+
+
+    @classmethod
     def addColumn(cls, col):
         """add a new column to the table
         """
