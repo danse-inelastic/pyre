@@ -122,7 +122,7 @@ class Object2DBTable(object):
                 del col
             except:
                 pass
-            
+        _.__name__ = object.__name__
         return _
 
 
