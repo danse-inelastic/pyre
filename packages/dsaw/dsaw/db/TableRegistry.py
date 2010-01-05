@@ -32,6 +32,11 @@ class TableRegistry:
         return
 
 
+    def registered(self, table):
+        # check if a table is already registered
+        return table.getTableName() in self._store
+
+
     def get(self, name):
         ret = self._store.get( name )
         if ret is None:

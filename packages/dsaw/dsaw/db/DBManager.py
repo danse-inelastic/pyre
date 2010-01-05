@@ -258,6 +258,10 @@ class DBManager(object):
 
 
     def registerTable(self, table):
+        if self._tableregistry.registered(table):
+            table1 = self._tableregistry.get(table.getTableName())
+            if table1 is table: return
+            raise RuntimeError, 'table %s already registered. previous registration: %s' % (table, table1)
         self._tableregistry.register(table)
         self._tablemap.registerTable(table)
         return
