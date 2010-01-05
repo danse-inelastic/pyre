@@ -20,6 +20,11 @@ def array(**kwds):
     """
     return Array(**kwds)
 
+def date(**kwds):
+    '''str(name, default=, validator=)
+    '''
+    return Date(**kwds)
+
 def reference(**kwds):
     return Reference(**kwds)
 
@@ -67,14 +72,19 @@ def _hackProperty(factory, **kwds):
     
 
 from pyre.inventory.Property import Property as base
-class Property(base):
 
-    def __init__(self, name, type, default=None, validator=None, **kwds):
-        super(Property, self).__init__(name, type, default, validator)
-        for k, v in kwds.iteritems():
-            setattr(self, k, v)
+class Date(base):
+    
+    def __init__(self, name, default=None, meta=None, validator=None):
+        base.__init__(self, name, "date", default, meta)
         return
 
+    def __get__(self, instance, cls=None):
+        ret = base.__get__(self, instance, cls = cls)
+        if ret is None:
+            import time
+            return time.ctime()
+        return ret
 
 import numpy
 class Array(base):
@@ -145,8 +155,15 @@ class Array(base):
                 raise ValueError, "shape mismatch: cannot cast %r to an array of shape %s" % (
                     value, self.shape)
         return value
+   
         
-        
+class Property(base):
+
+    def __init__(self, name, type, default=None, validator=None, **kwds):
+        super(Property, self).__init__(name, type, default, validator)
+        for k, v in kwds.iteritems():
+            setattr(self, k, v)
+        return
 
 
 class ReferenceSet(Property):

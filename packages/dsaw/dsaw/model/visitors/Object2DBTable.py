@@ -134,6 +134,10 @@ class Object2DBTable(object):
         return dsaw.db.varchar(name=descriptor.name, length=length, default=descriptor.default)
 
 
+    def _onDate(self, descriptor, rules):
+        return dsaw.db.date(name=descriptor.name, default=descriptor.default)
+
+
     def _onFloat(self, descriptor, rules):
         return dsaw.db.real(name=descriptor.name, default=descriptor.default)
 
