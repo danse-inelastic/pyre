@@ -188,13 +188,6 @@ class Object2DBTable(object):
             )
     
 
-    def _onBoolArray(self, descriptor, rules):
-        return dsaw.db.booleanArray(
-            name=descriptor.name, default=descriptor.default,
-            shape=descriptor.shape
-            )
-    
-
     def _onReference(self, descriptor, rules):
         targettype = descriptor.targettype
         if descriptor.isPolymorphic():
