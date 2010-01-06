@@ -15,10 +15,10 @@
 class Object2DBRecord(object):
 
 
-    def __init__(self, object2dbtable=None, registry=None):
+    def __init__(self, object2dbtable=None, registry=None, rules=None):
         if object2dbtable is None:
             from Object2DBTable import Object2DBTable
-            object2dbtable = Object2DBTable()
+            object2dbtable = Object2DBTable(rules=rules)
         self.object2dbtable = object2dbtable
 
         if not registry:
@@ -28,19 +28,19 @@ class Object2DBRecord(object):
         return
 
 
-    def __call__(self, obj):
+    def __call__(self, obj, rules=None):
         if obj is None: return
         ret = self.registry.getRecord(obj)
         if not ret: 
-            table = self._getTable(obj)
+            table = self._getTable(obj, rules=rules)
             ret = table()
             self.registry.register(obj, ret)
         self._updateRecord(obj, ret)
         return ret
 
 
-    def _getTable(self, obj):
-        return self.object2dbtable(obj.__class__)
+    def _getTable(self, obj, rules=None):
+        return self.object2dbtable(obj.__class__, rules=rules)
 
 
     def _updateRecord(self, obj, record):

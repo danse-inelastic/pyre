@@ -21,6 +21,7 @@ warning = journal.warning('object2dbtable')
 
 from dsaw.db.WithID import WithID
 from dsaw.db.GloballyReferrable import GloballyReferrable
+class GlobalRefBase(GloballyReferrable): pass
 class TableBase(WithID, GloballyReferrable): pass
 
 class Object2DBTable(object):
@@ -53,9 +54,8 @@ class Object2DBTable(object):
 
 
     def __call__(self, object, rules=None):
-        t = self.registry.getTable(object)
-        if t: return t
-        return self.createTable(object, rules=rules)
+        return self.registry.getTable(object) or self.createTable(object, 
+                                                    rules=rules)
         
 
     def createTable(self, obj, rules=None):

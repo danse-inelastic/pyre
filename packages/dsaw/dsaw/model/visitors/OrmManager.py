@@ -18,10 +18,11 @@ debug = journal.debug('dsaw.model')
 
 class OrmManager(object):
 
-    def __init__(self, db, guid, object2record = None, record2object = None, object2table=None):
+    def __init__(self, db, guid, object2record = None, record2object = None, 
+                 object2table = None, rules = None):
         if object2record is None:
             from Object2DBRecord import Object2DBRecord
-            object2record = Object2DBRecord(object2dbtable=object2table)
+            object2record = Object2DBRecord(object2dbtable=object2table, rules=rules)
         self.object2record = object2record
 
         if record2object is None:
@@ -50,11 +51,11 @@ class OrmManager(object):
         return
 
 
-    def __call__(self, obj):
+    def __call__(self, obj, rules=None):
         if inspect.isclass(obj):
             self.registerObjectType(obj)
-            return self.object2record.object2dbtable(obj)
-        return self.object2record(obj)
+            return self.object2record.object2dbtable(obj, rules=rules)
+        return self.object2record(obj, rules=rules)
 
 
     def deepcopy(self, obj):
@@ -113,11 +114,12 @@ class OrmManager(object):
         return self.object2record.object2dbtable.registry.getObjectFromTableName(name)
 
 
-    def save(self, object, save_not_owned_referred_object=1):
+    def save(self, object, save_not_owned_referred_object=1, id=None, rules=None):
         if object is None: return
-        record = self.object2record(object)
+        record = self.object2record(object, rules=rules)
         self._registerTables()
-        self._saveRecordRecursively(object, record, save_not_owned_referred_object=save_not_owned_referred_object)
+        self._saveRecordRecursively(object, record, 
+                    save_not_owned_referred_object=save_not_owned_referred_object, id=id)
         return
 
 
@@ -191,9 +193,9 @@ class OrmManager(object):
         return 
 
 
-    def _saveRecordRecursively(self, object, record, save_not_owned_referred_object=1):
+    def _saveRecordRecursively(self, object, record, save_not_owned_referred_object=1, id=None):
         db = self.db
-        table = self.object2record.object2dbtable(object.__class__)
+        #table = self.object2record.object2dbtable(object.__class__)
         
         # the old record in the database
         oldrecord = self._getRecordFromDB(record)
@@ -245,9 +247,14 @@ class OrmManager(object):
         # debug.log('object: %s, %s; record: %s, %s' % (
         #   id(object), object, id(record), record.id))
         
+        # it needs an id and needs to be inserted in db
         if not record.id:
-            record.id = self.guid()
+            if id:
+                record.id = id
+            else:
+                record.id = self.guid()
             db.insertRow(record)
+        # it has an id and a previous record
         else:
             db.updateRecord(record)
 
