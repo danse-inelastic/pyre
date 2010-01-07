@@ -26,7 +26,7 @@ class Table(base):
 
         XXX: for backward compatibility, this also checks attribute "name".
         '''
-        return hasattr(cls, 'dbtablename') or hasattr(cls, 'name')
+        return hasattr(cls, 'pyredbtablename') or hasattr(cls, 'name')
 
 
     @classmethod
