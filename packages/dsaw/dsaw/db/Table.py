@@ -42,6 +42,8 @@ class Table(base):
         colreg = cls._columnRegistry
         colreg[col.name] = col
 
+        col.parent_table = weakref.ref(cls)
+
         # the writables
         if not col.auto:
             writeable = cls._writeable
@@ -58,6 +60,8 @@ class Table(base):
             continue
         return '%s %s(%s)'% (self.getTableName(), self.id, ', '.join(t))
     
+
+import weakref
 
 # version
 __id__ = "$Id$"
