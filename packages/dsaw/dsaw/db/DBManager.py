@@ -19,6 +19,7 @@ class DBManager(object):
 
     class IntegrityError(Exception): pass
     class ProgrammingError(Exception): pass
+    class InvalidRequestError(Exception): pass
 
     class RecordStillReferred(Exception): pass
 
@@ -269,6 +270,10 @@ class DBManager(object):
         
     def commit(self, *args, **kwds):
         return self._sasession.commit()
+
+
+    def rollback(self):
+        return self._sasession.rollback()
     
 
     def fetchall(self, table, where=None):
@@ -282,7 +287,11 @@ class DBManager(object):
     def query(self, table, **kwds):
         Obj = self._tablemap.TableToObject(table)
         from QueryProxy import QueryProxy
-        return QueryProxy(self._sasession.query(Obj,**kwds), self)
+        import sqlalchemy.exceptions as sa_exc
+        try:
+            return QueryProxy(self._sasession.query(Obj,**kwds), self)
+        except sa_exc.InvalidRequestError, e:
+            raise self.InvalidRequestError, str(e)
 
 
     def convertToSATable(self, table):
