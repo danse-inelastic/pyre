@@ -171,6 +171,12 @@ class referenceset:
         return r.element.dereference(db)
 
 
+    def getIndex(self, record, db):
+        'get index of given record in the set'
+        self._establishIndexes(db)
+        return self._find_referencetable_record(record, db).elementindex
+
+
     #
     def delete(self, record, db):
         self._establishIndexes(db)
