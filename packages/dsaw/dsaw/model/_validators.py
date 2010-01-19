@@ -37,6 +37,16 @@ def notempty(s):
     return s
 
 
+def variablename(s):
+    'make sure string s can be a varaible name'
+    if not s: raise ValueError, 'must be not empty'
+    import re
+    p = re.compile('\A[a-z]\w*\Z')
+    s1 = s.lower()
+    if not p.match(s1): raise ValueError, "must be a valid varaible name that starts with an alphabet character, with no space and special characters. examples: a, a3, a_3, abc"
+    return s
+
+
 def range(low, high, brackets='[)'):
     leftb = brackets[0]
     rightb = brackets[1]
