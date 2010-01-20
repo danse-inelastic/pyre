@@ -58,6 +58,10 @@ class OrmManager(object):
         return self.object2record(obj, rules=rules)
 
 
+    def createAllTables(self):
+        return self.db.createAllTables()
+
+
     def deepcopy(self, obj):
         return self.deepcopier(obj)
 
@@ -173,7 +177,6 @@ class OrmManager(object):
             db.registerTable(t)
             self._registered_tables.append(t)
             continue
-        db.createAllTables()
         return
 
 
