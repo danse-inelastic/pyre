@@ -56,7 +56,7 @@ class DBRecord2Object(object):
                 kwds = self._kwdsFromRecord(record, klass.Inventory)
                 return klass(**kwds)
             except:
-                raise RuntimeError, 'Cannot create new instance of type %s. Please adapt the constructor of %s class to be able to either take no argument, or arguments in the inventory'
+                raise RuntimeError, 'Cannot create new instance of type %s. Please adapt the constructor of %s class to be able to either take no argument, or arguments in the inventory' % (klass, klass and klass.__name__)
         else:
             self._updateObject(instance, record)
             return instance
