@@ -201,7 +201,12 @@ class OrmManager(object):
         #table = self.object2record.object2dbtable(object.__class__)
         
         # the old record in the database
-        oldrecord = self._getRecordFromDB(record)
+        try:
+            oldrecord = self._getRecordFromDB(record)
+        except:
+#            import traceback
+#            print traceback.print_exc()
+            pass
 
         for descriptor in object.Inventory.getDescriptors():
             type = descriptor.type
