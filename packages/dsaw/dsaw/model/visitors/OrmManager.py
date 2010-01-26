@@ -206,7 +206,8 @@ class OrmManager(object):
         except:
 #            import traceback
 #            print traceback.print_exc()
-            pass
+            #needs to create the table here!!!!!!!!!!!!!
+            oldrecord = None
 
         for descriptor in object.Inventory.getDescriptors():
             type = descriptor.type
