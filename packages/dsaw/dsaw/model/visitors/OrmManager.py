@@ -122,9 +122,19 @@ class OrmManager(object):
         if object is None: return
         record = self.object2record(object, rules=rules)
         self._registerTables()
-        self._saveRecordRecursively(object, record, 
-                    save_not_owned_referred_object=save_not_owned_referred_object, id=id)
-        return
+
+        try:
+            self._saveRecordRecursively(
+                object, record, 
+                save_not_owned_referred_object=save_not_owned_referred_object, id=id)
+        except self.db.DBEngineError, e:
+            # probably this is due to the table is not created. so let us create tables
+            # and try again.
+            self.createAllTables()
+            self._saveRecordRecursively(
+                object, record, 
+                save_not_owned_referred_object=save_not_owned_referred_object, id=id)
+            return
 
 
     def load(self, Object, id):
@@ -258,11 +268,15 @@ class OrmManager(object):
         
         # it needs an id and needs to be inserted in db
         if not record.id:
-            if id:
-                record.id = id
-            else:
-                record.id = self.guid()
-            db.insertRow(record)
+            if not id:
+                id = self.guid()
+            record.id = id
+            try:
+                db.insertRow(record)
+            except:
+                # if insertion failed, we should remove id from record (restore)
+                record.id = None
+                raise
         # it has an id and a previous record
         else:
             db.updateRecord(record)

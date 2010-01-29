@@ -17,9 +17,11 @@ from Table import Table as TableBase
 class DBManager(object):
 
 
-    class IntegrityError(Exception): pass
-    class ProgrammingError(Exception): pass
-    class InvalidRequestError(Exception): pass
+    class DBEngineError(Exception): pass
+    class IntegrityError(DBEngineError): pass
+    class ProgrammingError(DBEngineError): pass
+    class InvalidRequestError(DBEngineError): pass
+    class InternalError(DBEngineError): pass
 
     class RecordStillReferred(Exception): pass
 
@@ -126,6 +128,12 @@ class DBManager(object):
         except sqlalchemy.exc.IntegrityError, e:
             self._sasession.rollback()
             raise self.IntegrityError, str(e)
+        except sqlalchemy.exc.InternalError, e:
+            self._sasession.rollback()
+            raise self.InternalError, str(e)
+        except sqlalchemy.exc.ProgrammingError, e:
+            self._sasession.rollback()
+            raise self.ProgrammingError, str(e)
 
         # establish global identity if necessary
 ##         from GloballyReferrable import GloballyReferrable

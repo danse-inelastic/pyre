@@ -67,12 +67,13 @@ class TestCase(unittest.TestCase):
         orm = self.ormManager()
         # save
         orm.save(dummy)
-        
+
         # new orm
         orm2 = self.ormManager()
         # load
         orm2.registerObjectType(Dummy)
         id = orm.object2record(dummy).id
+        
         #id = '1'
         dummy2 = orm2.load(Dummy, id)
         #self.assertEqual(dummy2.a, 'hello')
