@@ -54,7 +54,7 @@ class referenceset:
         if not container_gid: return
         
         where = "containerlabel='%s' and container='%s'" % (name, container_gid)
-        db.deleteRow(self._refsetTable(), where = where)
+        db.deleteRow(self._refsetTableFactory(), where = where)
         return
 
 
@@ -109,7 +109,7 @@ class referenceset:
         r = q.filter_by(elementindex=index).one()
 
         # remove from the set
-        refset_table = self._refsetTable()
+        refset_table = self._refsetTableFactory()
         where = self._where(db, elementindex=index)
         db.deleteRow(refset_table, where = where)
         
@@ -197,7 +197,7 @@ class referenceset:
         index = self._find_referencetable_record(record, db).elementindex
 
         # remove from the set
-        refset_table = self._refsetTable()
+        refset_table = self._refsetTableFactory()
         where = self._where(db, element=record)
         db.deleteRow( refset_table, where = where)
         
@@ -218,16 +218,16 @@ class referenceset:
             raise ValueError, "both name and key are supplied: name:%s, key:%s" % (name, key)
         if name: key=name
 
-        if index is None: index = self.count(db)
+        if index is None: index = self.count(db) # this works because the index starts at 0
         
         container = self._container(db)
 
-        refset_table = self._refsetTable()
-        row = refset_table()
+        refsetTable = self._refsetTableFactory()
+        row = refsetTable()
         row.containerlabel = self.name
         row.container = container
         row.element = record
-        row.elementlabel = key
+        row.elementlabel = key# or record.getTableName()
         row.elementindex = index
         row = db.insertRow(row)
 
@@ -323,7 +323,7 @@ class referenceset:
     def _queryall(self, db):
         container_gid = self._container_gid(db)
         if not container_gid: return
-        refset_table = self._refsetTable()
+        refset_table = self._refsetTableFactory()
         return db.query(refset_table).filter_by(
             containerlabel=self.name, container=container_gid)
 
@@ -331,7 +331,7 @@ class referenceset:
     def _find_referencetable_record(self, record, db):
         container_gid = self._container_gid(db)
         if not container_gid: return
-        refset_table = self._refsetTable()
+        refset_table = self._refsetTableFactory()
         where = self._where(db, element=record)
         return db.query(refset_table).filter(where).one()
     #containerlabel=self.name, container=container_gid, element=record.globalpointer)\
@@ -359,7 +359,7 @@ class referenceset:
             db,
             elementindex=elementindex, elementkey=elementkey,
             element=element, elementgid=elementgid)
-        db.updateRow(self._refsetTable(), assignments, where=where)
+        db.updateRow(self._refsetTableFactory(), assignments, where=where)
         return
 
 
@@ -375,7 +375,7 @@ class referenceset:
         return q.count()
 
 
-    def _refsetTable(self):
+    def _refsetTableFactory(self):
         return _ReferenceSetTable
 
 
