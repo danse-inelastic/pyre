@@ -25,7 +25,11 @@ class NetRenderer(object):
         import socket
 
         self._localhost = socket.getfqdn()
-        self._localip = socket.gethostbyname(self._localhost)
+        try:
+            self._localip = socket.gethostbyname(self._localhost)
+        except:
+            self._localhost = 'localhost'
+            self._localip = socket.gethostbyname(self._localhost)
 
         return
             
