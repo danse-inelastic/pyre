@@ -56,8 +56,8 @@ class backref(object):
         self.refcolname = refcolname
 
 
-    def dereference(self, db):
-        return db.dereference(self)
+    def dereference(self, db, **kwds):
+        return db.dereference(self, **kwds)
 
 
 

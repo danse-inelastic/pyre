@@ -392,7 +392,7 @@ class DeReferencer(object):
     def __call__(self, ref, **kwds):
         type = ref.__class__.__name__
         handler = 'on'+type
-        return getattr(self, handler)(ref)
+        return getattr(self, handler)(ref, **kwds)
 
 
     def onstr(self, ref, **kwds):
@@ -453,6 +453,11 @@ class DeReferencer(object):
 
 
     def onbackref(self, backref, **kwds):
+        '''dereference a back reference
+
+        **kwds are additional filtering
+            eg username=demo
+        '''
         targetrow = backref.targetrow
         srctable = backref.srctable
         refcolname = backref.refcolname
@@ -461,7 +466,8 @@ class DeReferencer(object):
         opts.update(kwds)
 
         db = self.db()
-        return db.query(srctable).filter_by(**opts).all()
+        q = db.query(srctable)
+        return q.filter_by(**opts).all()
 
 
     def onreferenceset(self, rset):
