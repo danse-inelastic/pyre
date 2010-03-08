@@ -446,7 +446,7 @@ is the *facility name* this component will plug into.
 Thus the method "greeter" returns a pyre component which will 
 be used as the "greeter" subcomponent of the main application.
 
-Although the above examples are primitive, their features are useful to scientific development as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/pyregui>`_ to such engines. 
+Although the above examples are primitive, their features are useful to scientific development as shown in the :ref:`science use cases <indexScienceUseCases>`.  They help automate tasks such as switching computational engines at runtime, coupling different time/length scale physics engines, abstracting parallelism, and more. Pyre is extremely versatile.  It can also be used to create `web and desktop user interfaces <http://dev.danse.us/trac/luban>`_ to such engines. 
 
 Where to go from here?  You could continue in the :ref:`first section<pyre-basics>` of the user's guide, which reviews much of what is taught here and illustrates it with a :ref:`science tutorial<mmtk>`, or you could jump straight into a discussion of :ref:`available pyre libraries<pyrePackages>` for use in your code, finishing with a tutorial about :ref:`how to create your own pyre project<createPyreProject>`, and another tutorial showing :ref:`how to create a virtual neutron experiment<mcvine>`. 
 
