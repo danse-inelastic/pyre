@@ -39,6 +39,7 @@ A full list of all inventory properties is shown below:
 .. autofunction:: pyre.inventory.array
 .. autofunction:: pyre.inventory.bool
 .. autofunction:: pyre.inventory.dimensional
+.. autofunction:: pyre.inventory.float
 .. autofunction:: pyre.inventory.inputFile
 .. autofunction:: pyre.inventory.int
 .. autofunction:: pyre.inventory.list

@@ -11,7 +11,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
 '''
 It is assumed that all tables that can be referred to have
 a column "id" and it is the primary key for that table.
@@ -20,7 +19,6 @@ Refer to Table.
 '''
 
 from Column import Column
-
 
 class Reference(Column):
 
