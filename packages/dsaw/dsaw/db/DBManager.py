@@ -446,10 +446,11 @@ class DeReferencer(object):
         table = db.getTable(type)
         #
         try:
-            return db.query(table).filter_by(globalpointer=id).one()
+            ret = db.query(table).filter_by(globalpointer=id).one()
         except:
             import traceback
             raise RuntimeError, 'failed to retrieve record: table %s, globalpointer %s. Traceback:\n%s' % (table.getTableName(), id, traceback.format_exc())
+        return ret
 
 
     def onbackref(self, backref, **kwds):
@@ -667,6 +668,7 @@ class TableMap(object):
         self._sa2table = {}
         self._table2obj = {}
         self._obj2table = {}
+        self._names2table = {}
         
         from Table2SATable import Table2SATable
         self._table2sa_converter = Table2SATable()
@@ -675,12 +677,17 @@ class TableMap(object):
 
     def registerTable(self, table):
         if table in self._table2sa: return
-        
+        name = table.getTableName()
+        if name in self._names2table:
+            raise RuntimeError, 'table %s already mapped. old table class: %s, new table class: %s' % (name, self._names2table[name], table)
+
         satable, Object = self._table2sa_converter.render(table, self.sametadata)
+
         self._table2sa[table] = satable
         self._sa2table[satable] = table
         self._table2obj[table] = Object
         self._obj2table[Object] = table
+        self._names2table[name] = table
         return
     
 
