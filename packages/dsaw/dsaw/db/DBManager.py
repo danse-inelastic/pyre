@@ -22,6 +22,7 @@ class DBManager(object):
     class ProgrammingError(DBEngineError): pass
     class InvalidRequestError(DBEngineError): pass
     class InternalError(DBEngineError): pass
+    class OperationalError(DBEngineError): pass
 
     class RecordStillReferred(Exception): pass
 
@@ -134,6 +135,9 @@ class DBManager(object):
         except sqlalchemy.exc.ProgrammingError, e:
             self._sasession.rollback()
             raise self.ProgrammingError, str(e)
+        except sqlalchemy.exc.OperationalError, e:
+            self._sasession.rollback()
+            raise self.OperationalError, str(e)
 
         # establish global identity if necessary
 ##         from GloballyReferrable import GloballyReferrable
