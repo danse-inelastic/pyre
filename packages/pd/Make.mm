@@ -10,31 +10,11 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PROJECT = pyre
-PACKAGE = pyre
+PROJECT = pd
+PACKAGE = pd
 
 RECURSE_DIRS = \
-    journal \
-    pyre \
-    blade \
-    fuego \
-    merlin \
-    opal \
-    dsaw \
-    pd \
-
-ifdef MPI_DIR
-RECURSE_DIRS += \
-    mpi \
-    elc \
-    pulse \
-    rigid
-endif
-
-ifdef ACIS_DIR
-RECURSE_DIRS += acis
-endif
-
+	pd \
 
 OTHERS = \
 
