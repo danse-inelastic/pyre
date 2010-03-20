@@ -10,8 +10,8 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PROJECT = pd
-PACKAGE = pd
+#PROJECT = pd
+#PACKAGE = pd
 
 RECURSE_DIRS = \
 	pd \

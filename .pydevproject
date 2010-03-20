@@ -7,5 +7,6 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/pyreTrunk/packages/dsaw</path>
 <path>/pyreTrunk/packages/journal</path>
+<path>/pyreTrunk/packages/pd</path>
 </pydev_pathproperty>
 </pydev_project>

@@ -68,17 +68,17 @@ def real(**kwds):
     return Real(**kwds)
 
 
-def reference(**kwds):
+def ref(**kwds):
     from Reference import Reference
     return Reference(**kwds)
 
 
-def versatileReference(**kwds):
+def versatileRef(**kwds):
     from VersatileReference import VersatileReference
     return VersatileReference(**kwds)
 
 
-def referenceSet(**kwds):
+def refSet(**kwds):
     from ReferenceSet import ReferenceSet
     return ReferenceSet(**kwds)
 
@@ -98,16 +98,13 @@ def timestamp(**kwds):
     return Timestamp(**kwds)
 
 
-def varchar(**kwds):
+def str(**kwds):
     from VarChar import VarChar
     return VarChar(**kwds)
 
 
-def varcharArray(**kwds):
+def strArray(**kwds):
     from VarCharArray import VarCharArray
     return VarCharArray(**kwds)
-
-
-from TableRegistry import tableRegistry
 
 # End of file 

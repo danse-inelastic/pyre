@@ -19,49 +19,40 @@ Refer to Table.
 '''
 
 from Column import Column
+from _reference import reference
 
 class Reference(Column):
 
 
-    def __init__(self, name, table, backref=None, default=None, **kwds):
+    def __init__(self, table, name=None,  backref=None, default=None, **kwds):
         '''a reference column
         
-        - name: name of this reference
         - table: the table this reference refers to
+        - name: name of this reference
         '''
-        
         # length is not a valid input
         length = kwds.get('length')
         if length: raise ValueError, "'length' is not a valid keyword for 'Reference'"
-        
         # 
         self._checkReferredTable(table)
-
+        if name is None:
+            name = table.__class__.__name__
         Column.__init__(self, name, default, **kwds)
-
         # 
         self.referred_table = table
-
         if backref:
             from BackReference import BackReference
             br = BackReference(self)
             setattr(table, backref, br)
-
         # establish constraint
-        name = table.getTableName()
-        self.constraints = 'REFERENCES %s (id)' % name
-        
-        return
-
+        tablename = table.getTableName()
+        self.constraints = 'REFERENCES %s (id)' % tablename
 
     def __get__(self, instance, cls = None):
         ret = Column.__get__(self, instance, cls = cls)
-        
         # class variable request
         if ret is self: return self
-
         return self._cast( ret )
-
 
     def _checkReferredTable(self, table):
         try: table.id
@@ -73,7 +64,6 @@ class Reference(Column):
         #assert isinstance(table.id, VarChar), "'id' column of table %r is not a varchar" %(
         #    table)
         return
-
 
     def _cast(self, value):
         #allowed values should be: 
@@ -88,14 +78,10 @@ class Reference(Column):
             return reference( value, self.referred_table )
         raise ValueError, "%s(%s)" % (type(value), value)
 
-
     def _format(self, value):
         reference = self._cast( value )
         if reference is None: return
         return reference.id
-
-from _reference import reference
-
 
 # version
 __id__ = "$Id$"
