@@ -26,15 +26,14 @@ class Reference(Column):
 
     def __init__(self, table, name=None,  backref=None, default=None, **kwds):
         '''a reference column
-        
         - table: the table this reference refers to
         - name: name of this reference
         '''
         # length is not a valid input
         length = kwds.get('length')
         if length: raise ValueError, "'length' is not a valid keyword for 'Reference'"
-        # 
-        self._checkReferredTable(table)
+        # we don't want to check for id
+        #self._checkReferredTable(table)
         if name is None:
             name = table.__class__.__name__
         Column.__init__(self, name, default, **kwds)
@@ -45,7 +44,10 @@ class Reference(Column):
             br = BackReference(self)
             setattr(table, backref, br)
         # establish constraint
-        tablename = table.getTableName()
+        try:
+            tablename = table.getTableName()
+        except:
+            tablename = table.__class__.__name__
         self.constraints = 'REFERENCES %s (id)' % tablename
 
     def __get__(self, instance, cls = None):

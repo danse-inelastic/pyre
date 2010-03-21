@@ -19,7 +19,7 @@ class Boolean(Column):
 
 
     def type(self):
-        return "boolean"
+        return "bool"
 
 
     def _cast(self, value):

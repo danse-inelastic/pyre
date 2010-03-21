@@ -11,19 +11,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
 # "array" types are only supported by psycopg2 (postgresql)
-
-
 
 from Column import Column
 
 class VarCharArray(Column):
 
-
     def type(self):
         return "character varying(%d)[]" % self.length
-
 
     def declaration(self):
         default = self.default
@@ -32,12 +27,9 @@ class VarCharArray(Column):
         self.default = default
         return ret
 
-
-    def __init__(self, name, length, **kwds):
-        Column.__init__(self, name, **kwds)
+    def __init__(self, name=None, length=48, default=[], **kwds):
+        Column.__init__(self, name, default, **kwds)
         self.length = length
-        return
-
 
     def _format(self, value):
         if value is None: value = []

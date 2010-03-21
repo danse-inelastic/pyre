@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                             Michael A.G. Aivazis
 #                      California Institute of Technology
 #                      (C) 1998-2005  All Rights Reserved
 #
@@ -23,7 +22,7 @@ def bigint(**kwds):
     return BigInt(**kwds)
 
 
-def boolean(**kwds):
+def bool(**kwds):
     from Boolean import Boolean
     return Boolean(**kwds)
 
@@ -48,12 +47,12 @@ def doubleArray(**kwds):
     return DoubleArray(**kwds)
 
 
-def integer(**kwds):
+def int(**kwds):
     from Integer import Integer
     return Integer(**kwds)
 
 
-def integerArray(**kwds):
+def intArray(**kwds):
     from IntegerArray import IntegerArray
     return IntegerArray(**kwds)
 
@@ -63,7 +62,7 @@ def interval(**kwds):
     return Interval(**kwds)
 
 
-def real(**kwds):
+def float(**kwds):
     from Real import Real
     return Real(**kwds)
 

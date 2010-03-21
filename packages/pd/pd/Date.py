@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                             Michael A.G. Aivazis
 #                      California Institute of Technology
 #                      (C) 1998-2005  All Rights Reserved
 #
@@ -10,7 +9,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-
 
 from Column import Column
 
@@ -22,7 +20,7 @@ class Date(Column):
         return "date"
 
 
-    def __init__(self, name, **kwds):
+    def __init__(self, name=None, **kwds):
         Column.__init__(self, name, **kwds)
         return
 
