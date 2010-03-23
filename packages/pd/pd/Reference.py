@@ -36,6 +36,7 @@ class Reference(Column):
         #self._checkReferredTable(table)
         if name is None:
             name = table.__class__.__name__
+            name = table.__name__
         Column.__init__(self, name, default, **kwds)
         # 
         self.referred_table = table
@@ -68,11 +69,12 @@ class Reference(Column):
         return
 
     def _cast(self, value):
-        #allowed values should be: 
-        #1) instance of referred class (with or w/o db id set)
-        #2) Class + 
+        """allowed values are: 
+        1) instance of referred class (with or w/o db id set)
+        2) Class itself...desired id must be set later
+        """
         if not value: return None
-        if isinstance( value, reference ): return value #this should be removed
+        if isinstance( value, reference ): return value
         if isinstance( value, self.referred_table ): 
             return reference( value.id, self.referred_table )
         #value is the id of a row in the referred table
