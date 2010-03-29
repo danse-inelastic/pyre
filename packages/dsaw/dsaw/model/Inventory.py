@@ -35,6 +35,7 @@ class Inventory(base):
 
 
     # help methods for visitors. not for users to use
+    @classmethod
     def getDescriptors(cls):
         # return a list of descriptors
 
@@ -51,11 +52,6 @@ class Inventory(base):
                 continue
             ret.append(c)
         return ret
-
-    getDescriptors = classmethod(getDescriptors)
-
-    pass
-
 
 
 def restoreObjectFromInventory(obj, inventory):
