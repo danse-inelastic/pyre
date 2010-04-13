@@ -178,8 +178,8 @@ class DBManager(object):
     def getSystemTables(self):
         from pd.VersatileReference import global_pointer
         import pd.ReferenceSet
-        #from pd._system_tables import tables as systables
-        #return [global_pointer] + list(systables.itertables())
+        from pd._system_tables import tables as systables
+        return [global_pointer] + list(systables.itertables())
 
 
     def createAllTables(self):
@@ -380,7 +380,7 @@ class DBManager(object):
 
 
 
-from VersatileReference import global_pointer
+from pd.VersatileReference import global_pointer
 class DeReferencer(object):
 
 
@@ -400,7 +400,7 @@ class DeReferencer(object):
 
 
     def onstr(self, ref, **kwds):
-        from _reference import reference
+        from pd.Reference import reference
         tablename, id = ref.split(reference.separator)
         db = self.db()
 
@@ -498,7 +498,7 @@ class RecordMap(object):
         return
 
 
-    from Table import Table as DBTableBase
+    from pd.Table import Table as DBTableBase
     def recordToObject(self, record):
         if isinstance(record, self.DBTableBase):
             converter = self._record2obj_converters.get(record.__class__)
@@ -570,7 +570,7 @@ class RecordMap(object):
             if isinstance(vref.id, basestring):
                 vref.id = db.dereference(vref.id)
                     
-            from GloballyReferrable import GloballyReferrable
+            from pd.GloballyReferrable import GloballyReferrable
             if isinstance(vref.id, GloballyReferrable):
                 target = vref.id
 
@@ -889,7 +889,7 @@ def test4():
 
         name = 'comp1s'
 
-        id = pyre.db.varchar(name='id', length=100)
+        id = pd.str(name='id', length=100)
         id.constraints = 'PRIMARY KEY'
 
         
@@ -897,7 +897,7 @@ def test4():
 
         name = 'comp2s'
 
-        id = pyre.db.varchar(name='id', length=100)
+        id = pd.str(name='id', length=100)
         id.constraints = 'PRIMARY KEY'
 
         
@@ -905,7 +905,7 @@ def test4():
         
         name = 'gjobs'
 
-        id = pyre.db.varchar(name='id', length=100)
+        id = pd.str(name='id', length=100)
         id.constraints = 'PRIMARY KEY'
 
         from pd.VersatileReference import VersatileReference
