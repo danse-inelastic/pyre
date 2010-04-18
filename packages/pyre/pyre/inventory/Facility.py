@@ -107,12 +107,13 @@ class Facility(Trait):
             locator = component.getLocator()
         else:
             import pyre.parsing.locators
-            component = self._import(componentName)
+            component, file = self._import(componentName)
 
             if component:
-                locator = pyre.parsing.locators.simple('imported')
+                locator = pyre.parsing.locators.simple('imported from %s' % file)
             else:
                 locator = pyre.parsing.locators.simple('not found')
+
                 return None, locator
 
         # adjust the names by which this component is known
@@ -122,8 +123,12 @@ class Facility(Trait):
 
 
     def _import(self, name):
+        # convert 'a/b/c' to 'a.b.c' so we can directly import the module
+        # 'a/b/c' is better than 'a.b.c' because command line configuration in pyre 0.8
+        # won't work for components with names including dots.
+        name  = name.replace('/', '.')
         try:
-            module = __import__(name, {}, {})
+            module = __import__(name, {}, {}, [None])
         except ImportError:
             import traceback
             tb = traceback.format_exc()
@@ -151,7 +156,7 @@ class Facility(Trait):
                 "no factory for facility '%s' in '%s'" % (self.name, module.__file__))
             return
 
-        return item
+        return item, module.__file__
 
 
     # interface registry
