@@ -107,7 +107,11 @@ class Facility(Trait):
             locator = component.getLocator()
         else:
             import pyre.parsing.locators
-            component, file = self._import(componentName)
+            imported = self._import(componentName)
+            if imported:
+                component, file = imported
+            else:
+                component = None
 
             if component:
                 locator = pyre.parsing.locators.simple('imported from %s' % file)
@@ -130,6 +134,16 @@ class Facility(Trait):
         try:
             module = __import__(name, {}, {}, [None])
         except ImportError:
+            import traceback
+            tb = traceback.format_exc()
+            
+            import journal
+            journal.error("pyre.inventory").log(
+                "could not bind facility '%s': component '%s' not found:\n%s" % (
+                self.name, name, tb)
+                )
+            return
+        except ValueError:
             import traceback
             tb = traceback.format_exc()
             
