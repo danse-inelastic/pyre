@@ -133,6 +133,12 @@ class Table2SATable(object):
 
 
     # specific to postgres
+    def onDouble(self, col):
+        name = col.name
+        from sqlalchemy.databases import postgres
+        return sqlalchemy.Column(name, postgres.PGDoublePrecision)
+    
+
     def onDoubleArray(self, col):
         name = col.name
         from sqlalchemy.databases import postgres
