@@ -193,24 +193,52 @@ class UserManager(Component):
         return crypt.crypt(cleartext, cryptotext[:2]) == cryptotext
             
 
-    def _md5Encoder(self, cleartext):
-        import md5
-        return md5.new(cleartext).hexdigest()
+    import sys
+    vinfo = sys.version_info; del sys
+    if vinfo[0] == 2:
+        if vinfo[1] < 5:
+            
+            def _md5Encoder(self, cleartext):
+                import md5
+                return md5.new(cleartext).hexdigest()
 
 
-    def _md5Decoder(self, cleartext, cryptotext):
-        import md5
-        return md5.new(cleartext).hexdigest() == cryptotext
+            def _md5Decoder(self, cleartext, cryptotext):
+                import md5
+                return md5.new(cleartext).hexdigest() == cryptotext
 
 
-    def _shaEncoder(self, cleartext):
-        import sha
-        return sha.new(cleartext).hexdigest()
+            def _shaEncoder(self, cleartext):
+                import sha
+                return sha.new(cleartext).hexdigest()
 
 
-    def _shaDecoder(self, cleartext, cryptotext):
-        import sha
-        return sha.new(cleartext).hexdigest() == cryptotext
+            def _shaDecoder(self, cleartext, cryptotext):
+                import sha
+                return sha.new(cleartext).hexdigest() == cryptotext
+            
+        else:
+            def _md5Encoder(self, cleartext):
+                import hashlib
+                return hashlib.md5(cleartext).hexdigest()
+
+
+            def _md5Decoder(self, cleartext, cryptotext):
+                import hashlib
+                return hashlib.md5(cleartext).hexdigest() == cryptotext
+
+
+            def _shaEncoder(self, cleartext):
+                import hashlib
+                return hashlib.sha1(cleartext).hexdigest()
+
+
+            def _shaDecoder(self, cleartext, cryptotext):
+                import hashlib
+                return hashlib.sha1(cleartext).hexdigest() == cryptotext
+    else:
+        raise NotImplementedError
+    del vinfo
 
 
 # version
