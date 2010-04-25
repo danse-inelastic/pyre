@@ -55,8 +55,9 @@ class Object2DBRecord(object):
                 if value:
                     value = self(value)
             elif type == 'referenceset':
-                for element in value:
-                    elementrecord = self(element)
+                if value:
+                    for element in value:
+                        elementrecord = self(element)
                 continue
                 
             setattr(record, name, value)

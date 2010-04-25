@@ -118,7 +118,7 @@ class OrmManager(object):
         return self.object2record.object2dbtable.registry.getObjectFromTableName(name)
 
 
-    def save(self, object, save_not_owned_referred_object=1, id=None, rules=None):
+    def save(self, object, save_not_owned_referred_object=True, id=None, rules=None):
         if object is None: return
         record = self.object2record(object, rules=rules)
         self._registerTables()
