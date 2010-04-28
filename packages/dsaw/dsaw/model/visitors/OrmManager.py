@@ -182,6 +182,8 @@ class OrmManager(object):
 
     def _registerTables(self):
         db = self.db
+#        print self.object2record.object2dbtable.registry._object2table
+#        print self.object2record.object2dbtable.registry._table2object
         for t in self.object2record.object2dbtable.registry.iterTables():
             if t in self._registered_tables: continue
             db.registerTable(t)
