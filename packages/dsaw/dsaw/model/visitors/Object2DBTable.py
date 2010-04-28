@@ -167,7 +167,7 @@ class Object2DBTable(object):
 
 
     def _onIntArray(self, descriptor, rules):
-        return dsaw.db.doubleArray(
+        return dsaw.db.integerArray(
             name=descriptor.name, default=descriptor.default,
             shape = descriptor.shape
             )
