@@ -327,12 +327,13 @@ Create OrmManager
 
 Use OrmManager
 ~~~~~~~~~~~~~~
+Taking obj to be an instance of the data object, Obj to be its class, record to be an instance of the pyre.db object, and Table its class, we may use the orm manager to do the following:
 
 Save to db
  >>> orm.save(obj)
 
 Load from db
- >>> orm.load(type, id)
+ >>> obj = orm.load(Obj, id)
 
 Destroy an object
  >>> orm.destroy(obj)
@@ -351,14 +352,14 @@ Limitations of current implementation
 """""""""""""""""""""""""""""""""""""
 
 Ownership
-"""""""""
+~~~~~~~~~~~~~~
 If an object is owned by another object, this object cannot be referred to by
 other objects. To establish many-many relationship, you will
 need to use not-owned reference.
 
 
 Multiple instances of one db record
-"""""""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If you create a data object, save it to the db, and then use
 orm.load to load it back, the data object is a new data object that
 represents what is in the database and is a different instance than
