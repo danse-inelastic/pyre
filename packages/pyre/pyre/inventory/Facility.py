@@ -132,7 +132,7 @@ class Facility(Trait):
         # won't work for components with names including dots.
         name  = name.replace('/', '.')
         try:
-            module = __import__(name, {}, {}, [None])
+            module = __import__(name, {}, {}, [''])
         except ImportError:
             import traceback
             tb = traceback.format_exc()
