@@ -39,7 +39,9 @@ class Application(Component, Executive):
         dumpconfiguration = pyre.inventory.bool( 'dumpconfiguration', default = 0 )
         dumpconfiguration.meta['tip'] = 'If set, dump configuration to a pml file'
         dumpconfiguration.meta['opacity'] = 100000
+        
         dumpconfiguration_output = pyre.inventory.str( 'dumpconfiguration-output', default = '' )
+        dumpconfiguration_output.meta['tip'] = 'Output file path of dumped configuration file (pml)'
 
 
     def run(self, *args, **kwds):
@@ -199,7 +201,11 @@ def retrieveConfiguration(inventory, registry, excludes = None):
         if name in excludes: continue
         #if isinstance(prop, Property) and value == prop.default: continue
         if isinstance(prop, Facility) and isinstance(value, Journal): continue
-        if value and isinstance(prop, Facility): value = value.name
+        if value and isinstance(prop, Facility): 
+            if hasattr(value, 'uri'):
+                value = value.uri
+            else:
+                value = value.name
 
         node.setProperty(name, value, locator)
         continue
