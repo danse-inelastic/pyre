@@ -25,7 +25,7 @@ namespace journal {
 
 // injection operator
 template <typename item_t>
-inline journal::Diagnostic & operator<< (journal::Diagnostic &, item_t);
+inline journal::Diagnostic & operator<< (journal::Diagnostic &, const item_t &);
 
 
 class journal::Diagnostic {
@@ -62,7 +62,7 @@ public:
 
     // builtin data type injection
     template <typename item_t> 
-    inline Diagnostic & inject(item_t datum);
+    inline Diagnostic & inject(const item_t & datum);
 
 // meta-methods
 public:

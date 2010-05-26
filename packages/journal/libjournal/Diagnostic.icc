@@ -39,14 +39,14 @@ journal::Diagnostic::string_t journal::Diagnostic::str() const {
 }
 
 template <typename item_t>
-journal::Diagnostic & journal::Diagnostic::inject(item_t item) {
+journal::Diagnostic & journal::Diagnostic::inject(const item_t & item) {
     _buffer << item;
     return *this;
 }
 
 // the injection operator
 template <typename item_t>
-journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, item_t item) {
+journal::Diagnostic & operator<< (journal::Diagnostic & diagnostic, const item_t & item) {
     return diagnostic.inject(item);
 }
 

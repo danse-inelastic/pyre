@@ -50,7 +50,7 @@ template <typename arg1_t>
 class journal::manip_1 {
 
     friend journal::Diagnostic &
-    ::operator<< <> (journal::Diagnostic &, journal::manip_1<arg1_t>);
+    ::operator<< <arg1_t> (journal::Diagnostic &, journal::manip_1<arg1_t>);
 
 // types
 public:
@@ -73,7 +73,7 @@ template <typename arg1_t, typename arg2_t>
 class journal::manip_2 {
 
     friend journal::Diagnostic & 
-    ::operator<< <> (journal::Diagnostic &, journal::manip_2<arg1_t, arg2_t>);
+    ::operator<< <arg1_t, arg2_t> (journal::Diagnostic &, journal::manip_2<arg1_t, arg2_t>);
 
 // types
 public:
@@ -97,7 +97,7 @@ template <typename arg1_t, typename arg2_t, typename arg3_t>
 class journal::manip_3 {
 
     friend journal::Diagnostic & 
-    ::operator<< <> (journal::Diagnostic &, journal::manip_3<arg1_t, arg2_t, arg3_t>);
+    ::operator<< <arg1_t, arg2_t, arg3_t> (journal::Diagnostic &, journal::manip_3<arg1_t, arg2_t, arg3_t>);
 
 // types
 public:
