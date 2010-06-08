@@ -681,7 +681,10 @@ class TableMap(object):
 
     def registerTable(self, table):
         if table in self._table2sa: return
-        name = table.getTableName()
+        try:
+            name = table.getTableName()
+        except:
+            name = table.__name__.lower()
         if name in self._names2table:
             raise RuntimeError, 'table %s already mapped. old table class: %s, new table class: %s' % (name, self._names2table[name], table)
 
