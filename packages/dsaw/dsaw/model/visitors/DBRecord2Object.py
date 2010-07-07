@@ -68,7 +68,15 @@ class DBRecord2Object(object):
         for descriptor in klass.Inventory.getDescriptors():
             name = descriptor.name
             value = kwds[name]
-            setattr(inventory, name, value)
+            try:
+                setattr(inventory, name, value)
+            except:
+                import traceback
+                tb = traceback.format_exc()
+                msg = 'failed to set attribute %r to value %s for record %s' % (
+                    name, value, record)
+                msg += '\nOriginal error: %s' % tb
+                raise RuntimeError, msg
             continue
         return inventory
 
