@@ -10,11 +10,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
 def tableRegistry( ):
     return TableRegistry()
-
-
 
 class TableRegistry:
 
@@ -57,7 +54,6 @@ class TableRegistry:
 
     def itertables(self):
         return self._store.itervalues()
-
 
 
 # version
