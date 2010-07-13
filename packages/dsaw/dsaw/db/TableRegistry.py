@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                                   Jiao Lin
 #                      California Institute of Technology
 #                        (C) 2008  All Rights Reserved
 #
@@ -27,14 +26,21 @@ class TableRegistry:
 
 
     def register(self, table):
-        name = table.getTableName()
+        try:
+            name = table.getTableName()
+        except:
+            name = table.__class__.__name__
         self._store[ name ] = table
         return
 
 
     def registered(self, table):
         # check if a table is already registered
-        return table.getTableName() in self._store
+        try:
+            name = table.getTableName()
+        except:
+            name = table.__class__.__name__
+        return name in self._store
 
 
     def get(self, name):
