@@ -172,11 +172,47 @@ class OrmManager(object):
                     # remove the associateion
                     refset.delete(elemrec, db)
                     # destroy the element
-                    self.destroy(elem)
+                    if descriptor.owned:
+                        self.destroy(elem)
                     continue
             continue
         self.db.deleteRecord(record)
         self.object2record.registry.remove(obj=object, rec=record)
+        return
+
+
+    def _findAllOwnedRecords(self, object):
+        '''recursively find all db records that are referenced and owned by the
+        given object.
+        '''
+        db = self.db
+        record = self.object2record(object)
+        for descriptor in object.Inventory.getDescriptors():
+            
+            # skip any reference that is not owned
+            if hasattr(descriptor, 'owned') and not descriptor.owned:
+                continue
+            
+            type = descriptor.type
+            name = descriptor.name
+            if type == 'reference':
+                value = getattr(object.inventory, name)
+                if value is None:
+                    # reference does not have value, skip
+                    continue
+                yield self.object2record(value)
+                for t in self._findAllOwnedRecords(value): yield t
+            if type == 'referenceset':
+                value = getattr(object.inventory, name)
+                # the implementation here is not efficient and
+                # dictates that no referred items to be referred
+                # by other objects. 
+                for elem in value:
+                    elemrec = self.object2record(elem)
+                    yield elemrec
+                    for t in self._findAllOwnedRecords(elem): yield t
+                    continue
+            continue
         return
 
 
