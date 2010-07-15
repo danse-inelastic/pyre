@@ -35,6 +35,25 @@ class Simulation(Table):
     creator = dsaw.db.reference(name='creator', table=User)
 
 
+from dsaw.db.GloballyReferrable import GloballyReferrable, global_pointer
+class Cylinder(GloballyReferrable):
+
+    name = 'cylinders'
+
+    id = dsaw.db.integer(name='id')
+    id.constraints = 'PRIMARY KEY'
+
+
+class Sample(Table):
+
+    name = 'samples'
+
+    id = dsaw.db.integer(name='id')
+    id.constraints = 'PRIMARY KEY'
+
+    shape = dsaw.db.versatileReference(name='shape')
+    
+
 import unittest, os, shutil
 
 class TestCase(unittest.TestCase):
@@ -65,13 +84,11 @@ class TestCase(unittest.TestCase):
         db.createTable(User)
         db.insertRow(user1)
         db.commit()
-        del db
 
         from dsaw.db.Pickler import Pickler
         outdir = 'pickle-test1-out'
         if os.path.exists(outdir):
            shutil.rmtree(outdir)
-        db = self.dbManager()
         pickler = Pickler(db, outdir)
         pickler.dump(User)
 
@@ -83,6 +100,10 @@ class TestCase(unittest.TestCase):
         self.assertEqual(fields, tuple(user1.getColumnNames()))
         self.assertEqual(records[0][0], user1.getColumnValue(user1.getColumnNames()[0]))
         
+        # resolve order
+        resolve_order = open(os.path.join(outdir, Pickler.resolve_order_filename)).read()
+        resolve_order = resolve_order.splitlines()
+        self.assertEqual(resolve_order, ['users']) 
         return
     
 
@@ -131,8 +152,67 @@ class TestCase(unittest.TestCase):
         self.assertEqual(records[0][0], sim1.id)
         self.assertEqual(records[0][1], user1.id)
         
+        # resolve order
+        resolve_order = open(os.path.join(outdir, Pickler.resolve_order_filename)).read()
+        resolve_order = resolve_order.splitlines()
+        self.assertEqual(resolve_order, ['users', 'simulations']) 
         return
     
+
+    def test3(self):
+        'dsaw.db.pickler: table with a column being versatile reference'
+        self.removeDB()
+
+        # create tables and insert rows
+        tables = [global_pointer, Cylinder, Sample]
+        cyl1 = Cylinder(); cyl1.id = 3; cyl1.cylname = 'cyl1'
+        sample1 = Sample(); sample1.shape = cyl1; sample1.id = 5
+        records = [
+            cyl1,
+            sample1,
+            ]
+
+        db = self.dbManager()
+        for t in tables:
+            db.createTable(t)
+        for r in records:
+            db.insertRow(r)
+        db.commit()
+
+        # pickle
+        from dsaw.db.Pickler import Pickler
+        outdir = 'pickle-test3-out'
+        if os.path.exists(outdir):
+           shutil.rmtree(outdir)
+        pickler = Pickler(db, outdir)
+        pickler.dump(tables=tables)
+
+        # load and compare
+        import pickle
+        #  Cylinder
+        pkl = os.path.join(outdir, Cylinder.getTableName())
+        tablename, fields, records = pickle.load(open(pkl))
+        
+        self.assertEqual(tablename, Cylinder.getTableName())
+        self.assertEqual(fields, tuple(cyl1.getColumnNames()))
+        self.assertEqual(records[0][0], cyl1.globalpointer.id)
+        
+        #  Sample
+        pkl = os.path.join(outdir, Sample.getTableName())
+        tablename, fields, records = pickle.load(open(pkl))
+
+        self.assertEqual(tablename, Sample.getTableName())
+        self.assertEqual(fields, tuple(sample1.getColumnNames()))
+        self.assertEqual(records[0][1], sample1.id)
+        self.assertEqual(records[0][0], cyl1.globalpointer.id)
+
+        # resolve order
+        resolve_order = open(os.path.join(outdir, Pickler.resolve_order_filename)).read()
+        resolve_order = resolve_order.splitlines()
+        self.assertEqual(resolve_order, ['global_pointers', 'cylinders', 'samples'])
+        return
+    
+
     pass # end of TestCase
 
 

@@ -26,12 +26,19 @@ class Pickler(object):
         return
     
 
-    def dump(self, table):
-        deps = self._findDeps(table)
-        all = [table] + deps
+    def dump(self, table=None, tables=None):
+        if tables:
+            if table: tables.append(table)
+        else:
+            tables = [table]
+
+        all = _order(tables)
+        all.reverse()
+        
         self._saveResolveOrder(all)
         for t in all:
             self._save(t)
+            
         return
 
 
@@ -53,11 +60,14 @@ class Pickler(object):
         r0 = records[0]
         names = r0.getColumnNames()
         tname = table.getTableName()
+        db = self.db
         def _v(r, name):
             col = r._columnRegistry[name]
             v = r.getColumnValue(name)
             if isinstance(col, Reference):
                 return v and v.id
+            elif isinstance(col, VersatileReference):
+                return v
             return v
         def _T(r):
             l = [_v(r,n) for n in names]
@@ -85,16 +95,27 @@ class Pickler(object):
 
 import os
 from Reference import Reference
+from VersatileReference import VersatileReference
 
 def _findDeps(table, deps):
     colreg = table._columnRegistry
     for k, v in colreg.iteritems():
         if isinstance(v, Reference):
             t = v.referred_table
-            deps.append(t)
             _findDeps(t, deps)
+            if t not in deps:
+                deps.append(t)
         continue
     return                
+
+
+def _order(tables):
+    r = []
+    for t in tables:
+        if t in r: continue
+        _findDeps(t, r)
+        r.append(t)
+    return r
 
 
 # version
