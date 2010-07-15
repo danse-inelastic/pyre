@@ -14,6 +14,7 @@ PROJECT = dsaw
 PACKAGE = db
 
 BUILD_DIRS = \
+	components \
 
 OTHER_DIRS = \
 
@@ -42,6 +43,7 @@ EXPORT_PYTHON_MODULES = \
 	Column.py \
 	DBManager.py \
 	GloballyReferrable.py \
+	Pickler.py \
 	QueryProxy.py \
 	Reference.py \
 	ReferenceSet.py \
