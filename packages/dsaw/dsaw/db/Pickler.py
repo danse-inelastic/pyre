@@ -53,8 +53,14 @@ class Pickler(object):
         r0 = records[0]
         names = r0.getColumnNames()
         tname = table.getTableName()
+        def _v(r, name):
+            col = r._columnRegistry[name]
+            v = r.getColumnValue(name)
+            if isinstance(col, Reference):
+                return v and v.id
+            return v
         def _T(r):
-            l = [r.getColumnValue(n) for n in names]
+            l = [_v(r,n) for n in names]
             return tuple(l)
         return tname, tuple(names), map(_T, records)
 
@@ -78,9 +84,9 @@ class Pickler(object):
 
 
 import os
+from Reference import Reference
 
 def _findDeps(table, deps):
-    from Reference import Reference
     colreg = table._columnRegistry
     for k, v in colreg.iteritems():
         if isinstance(v, Reference):

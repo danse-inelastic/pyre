@@ -12,6 +12,29 @@
 #
 
 
+
+import dsaw.db
+from dsaw.db.Table import Table
+class User(Table):
+
+    name = 'users'
+
+    id = dsaw.db.integer(name='id')
+    id.constraints = 'PRIMARY KEY'
+
+    username = dsaw.db.varchar(name='username', length=32)
+
+
+class Simulation(Table):
+
+    name = 'simulations'
+
+    id = dsaw.db.integer(name='id')
+    id.constraints = 'PRIMARY KEY'
+
+    creator = dsaw.db.reference(name='creator', table=User)
+
+
 import unittest, os, shutil
 
 class TestCase(unittest.TestCase):
@@ -33,19 +56,9 @@ class TestCase(unittest.TestCase):
     
 
     def test1(self):
+        'dsaw.db.pickler: basic table'
         self.removeDB()
         
-        from dsaw.db.Table import Table
-        class User(Table):
-
-            name = 'users'
-            
-            import dsaw.db
-            username = dsaw.db.varchar(name='username', length=32)
-
-            id = dsaw.db.integer(name='id')
-            id.constraints = 'PRIMARY KEY'
-
         user1 = User(); user1.id = 1; user1.username = 'user1'
 
         db = self.dbManager()
@@ -69,6 +82,54 @@ class TestCase(unittest.TestCase):
         self.assertEqual(tablename, User.getTableName())
         self.assertEqual(fields, tuple(user1.getColumnNames()))
         self.assertEqual(records[0][0], user1.getColumnValue(user1.getColumnNames()[0]))
+        
+        return
+    
+
+    def test2(self):
+        'dsaw.db.pickler: table with a column being reference'
+        self.removeDB()
+
+        tables = [User, Simulation]
+        user1 = User(); user1.id = 1; user1.username = 'user1'
+        sim1 = Simulation(); sim1.creator = user1; sim1.id = 5
+        records = [
+            user1,
+            sim1,
+            ]
+
+        db = self.dbManager()
+        for t in tables:
+            db.createTable(t)
+        for r in records:
+            db.insertRow(r)
+        db.commit()
+
+        from dsaw.db.Pickler import Pickler
+        outdir = 'pickle-test2-out'
+        if os.path.exists(outdir):
+           shutil.rmtree(outdir)
+        pickler = Pickler(db, outdir)
+        pickler.dump(Simulation)
+
+        # load and compare
+        import pickle
+        #  User
+        pkl = os.path.join(outdir, User.getTableName())
+        tablename, fields, records = pickle.load(open(pkl))
+
+        self.assertEqual(tablename, User.getTableName())
+        self.assertEqual(fields, tuple(user1.getColumnNames()))
+        self.assertEqual(records[0][0], user1.getColumnValue(user1.getColumnNames()[0]))
+
+        #  Simulation
+        pkl = os.path.join(outdir, Simulation.getTableName())
+        tablename, fields, records = pickle.load(open(pkl))
+
+        self.assertEqual(tablename, Simulation.getTableName())
+        self.assertEqual(fields, tuple(sim1.getColumnNames()))
+        self.assertEqual(records[0][0], sim1.id)
+        self.assertEqual(records[0][1], user1.id)
         
         return
     
