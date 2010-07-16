@@ -52,6 +52,7 @@ EXPORT_PYTHON_MODULES = \
 	Table2SATable.py \
 	TableRegistry.py \
 	Time.py \
+	Unpickler.py \
 	VersatileReference.py \
 	WithID.py \
 	__init__.py \

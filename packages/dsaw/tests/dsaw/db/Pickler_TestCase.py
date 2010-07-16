@@ -15,46 +15,9 @@
 
 import dsaw.db
 from dsaw.db.Table import Table
-class User(Table):
-
-    name = 'users'
-
-    id = dsaw.db.integer(name='id')
-    id.constraints = 'PRIMARY KEY'
-
-    username = dsaw.db.varchar(name='username', length=32)
-
-
-class Simulation(Table):
-
-    name = 'simulations'
-
-    id = dsaw.db.integer(name='id')
-    id.constraints = 'PRIMARY KEY'
-
-    creator = dsaw.db.reference(name='creator', table=User)
-
-
-from dsaw.db.GloballyReferrable import GloballyReferrable, global_pointer
-class Cylinder(GloballyReferrable):
-
-    name = 'cylinders'
-
-    id = dsaw.db.integer(name='id')
-    id.constraints = 'PRIMARY KEY'
-
-
-class Sample(Table):
-
-    name = 'samples'
-
-    id = dsaw.db.integer(name='id')
-    id.constraints = 'PRIMARY KEY'
-
-    shape = dsaw.db.versatileReference(name='shape')
-    
-
+from tables import *
 import unittest, os, shutil
+
 
 class TestCase(unittest.TestCase):
 
@@ -165,7 +128,7 @@ class TestCase(unittest.TestCase):
 
         # create tables and insert rows
         tables = [global_pointer, Cylinder, Sample]
-        cyl1 = Cylinder(); cyl1.id = 3; cyl1.cylname = 'cyl1'
+        cyl1 = Cylinder(); cyl1.id = 3
         sample1 = Sample(); sample1.shape = cyl1; sample1.id = 5
         records = [
             cyl1,
