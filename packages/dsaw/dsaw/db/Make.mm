@@ -60,7 +60,6 @@ EXPORT_PYTHON_MODULES = \
 	_referenceset.py \
 	_referencetypes.py \
 	_system_tables.py \
-	restore.py \
 
 
 export:: export-package-python-modules

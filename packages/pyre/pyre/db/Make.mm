@@ -46,7 +46,6 @@ EXPORT_PYTHON_MODULES = \
 	VarChar.py \
 	VarCharArray.py \
 	__init__.py \
-	dump.py \
 
 
 export:: export-package-python-modules
