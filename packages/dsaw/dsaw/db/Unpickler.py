@@ -53,6 +53,8 @@ class Unpickler(object):
 
         #
         pkl = os.path.join(inputdir, table.getTableName())
+        if not os.path.exists(pkl):
+            return
         tablename, fields, records = pickle.load(open(pkl))
         for r in records:
             row = table()
