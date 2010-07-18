@@ -309,21 +309,30 @@ or you could declare the attribute in the inventory::
 	  class Inventory(InvBase):
 	    atoms = InvBase.d.referenceSet(name='atoms', owned=...)
 
-
-
-
 OrmManager
 """"""""""
+
+To serialize these data objects to an actual database one must (1) connect to a database and (2) instantiate an OrmManager.  To serialize each data object, a primary key must be assigned and OrmManager has two ways to do this:
+
+	1) Each data object must be assigned an 'id' attribute explicitly.  This is used as the primary key.
+	2) The OrmManager class must be passed a function which produces unique strings for use as primary keys.  
+	
+Whereas the first approach is more convenient for scripter users, the second approach is frequently useful in a web application which must automatically assign unique ids to each object.  
 
 Create OrmManager
 ~~~~~~~~~~~~~~~~~
 
-	 >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
+Creating an OrmManager in the first way is:
+
 	 >>> from dsaw.db import connect
 	 >>> db = connect(db ='postgres:///test')
 	 >>> from dsaw.model.visitors.OrmManager import OrmManager
-	 >>> orm = OrmManager(db, guid)
+	 >>> orm = OrmManager(db)
+	 
+Recall that if this way is used, each object must explicitly be given an id as shown in the `matter package tutorial <http://docs.danse.us/inelastic/matter/sphinx/tutorial.html>`_. The second way just requires an additional function in the constructor:
 
+	 >>> guid = ... # need to be a function that take no argument and returns a unique ID every time called
+	 >>> orm = OrmManager(db, guid)
 
 Use OrmManager
 ~~~~~~~~~~~~~~
