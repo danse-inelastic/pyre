@@ -54,8 +54,8 @@ class Object2DBTable(object):
 
 
     def __call__(self, object, rules=None):
-        return self.registry.getTable(object) or self.createTable(object, 
-                                                    rules=rules)
+        return self.registry.getTable(object) or \
+               self.createTable(object, rules=rules)
         
 
     def createTable(self, obj, rules=None):

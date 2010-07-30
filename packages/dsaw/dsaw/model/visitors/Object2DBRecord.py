@@ -52,7 +52,7 @@ class Object2DBRecord(object):
             type = descriptor.type
             value = descriptor.__get__(inventory)
             if type == 'reference':
-                if value:
+                if value is not None:
                     value = self(value)
             elif type == 'referenceset':
                 if value:

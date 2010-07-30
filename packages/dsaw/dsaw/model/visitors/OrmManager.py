@@ -282,7 +282,9 @@ class OrmManager(object):
                             self._removeRecordFromDB(oldrecord1)
                 if value is not None and (save_not_owned_referred_object or descriptor.owned):
                     self.save(value, save_not_owned_referred_object=save_not_owned_referred_object)
-                setattr(record, name, value and self.object2record(value))
+                if value is not None:
+                    value = self.object2record(value)
+                setattr(record, name, value)
             elif type == 'referenceset':
                 if oldrecord:
                     ref = getattr(oldrecord, name)
