@@ -131,7 +131,12 @@ class Object2DBTable(object):
             length = descriptor.max_length
         else:
             length = rules['str']['max-length']
-        return dsaw.db.varchar(name=descriptor.name, length=length, default=descriptor.default)
+        if hasattr(descriptor, 'constraints'):
+            constraints = descriptor.constraints
+        else:
+            constraints = None
+        return dsaw.db.varchar(name=descriptor.name, length=length, default=descriptor.default, 
+                               constraints=constraints, meta=descriptor.meta)
 
 
     def _onDate(self, descriptor, rules):

@@ -370,9 +370,14 @@ class referenceset:
 
 
     def _count_referencetable_records(self, db):
-        q = self._queryall(db)
-        if q is None: return
-        return q.count()
+        try:
+            q = self._queryall(db)
+            return q.count()
+        except:
+            return
+#            q = None
+#        if q is None: return
+#        return q.count()
 
 
     def _refsetTableFactory(self):

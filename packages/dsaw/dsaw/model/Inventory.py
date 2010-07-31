@@ -78,7 +78,11 @@ def establishInventoryFromObject(inventory, obj):
     # values into the inventory.
     for descriptor in obj.Inventory.getDescriptors():
         name = descriptor.name
-        value = getattr(obj,name)
+        value = getattr(obj, name)
+#        try:
+#            value = getattr(obj, name)
+#        except:
+#            value = None
         type = descriptor.type
         try:
             setattr(inventory, name, value)

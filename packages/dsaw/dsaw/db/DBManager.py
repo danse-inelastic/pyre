@@ -278,6 +278,19 @@ class DBManager(object):
         self._tableregistry.register(table)
         self._tablemap.registerTable(table)
         return
+    
+    
+    def registerObject(self, object):
+        from dsaw.model.visitors.Object2DBTable import Object2DBTable
+        o2t = Object2DBTable()
+        table = o2t(object) #eventually add the possiblity of keywords, like "inherit from" etc.
+        if self._tableregistry.registered(table):
+            table1 = self._tableregistry.get(table.getTableName())
+            if table1 is table: return
+            raise RuntimeError, 'table %s already registered. previous registration: %s' % (table, table1)
+        self._tableregistry.register(table)
+        self._tablemap.registerTable(table)
+        return
         
         
     def commit(self, *args, **kwds):
@@ -606,11 +619,11 @@ class RecordMap(object):
             return value
         def convertDoubleArray(self, value, col, record):
             if value is None: return
-            if col.shape:
-                import numpy
-                value = numpy.copy(value)
-                value.shape = -1,
-            return map(float, value)
+            import numpy
+            value = numpy.copy(numpy.array(value))
+            value.shape = -1,
+            vecFloat = numpy.vectorize(float)#, otypes=[float(value[0])])
+            return vecFloat(value)
         def convertIntegerArray(self, value, col, record):
             if col.shape:
                 import numpy

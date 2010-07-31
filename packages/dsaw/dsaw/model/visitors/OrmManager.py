@@ -18,7 +18,7 @@ debug = journal.debug('dsaw.model')
 
 class OrmManager(object):
 
-    def __init__(self, db, guid, object2record = None, record2object = None, 
+    def __init__(self, db, guid = None, object2record = None, record2object = None, 
                  object2table = None, rules = None):
         if object2record is None:
             from Object2DBRecord import Object2DBRecord
@@ -60,6 +60,10 @@ class OrmManager(object):
 
     def createAllTables(self):
         return self.db.createAllTables()
+
+
+    def destroyAllTables(self):
+        return self.db.destroyAllTables()
 
 
     def deepcopy(self, obj):
@@ -127,13 +131,18 @@ class OrmManager(object):
             self._saveRecordRecursively(
                 object, record, 
                 save_not_owned_referred_object=save_not_owned_referred_object, id=id)
-        except self.db.DBEngineError, e:
+        except: #self.db.DBEngineError:
+            raise
+            import traceback
+            debug.log('from ormManager: '+traceback.format_exc())
+            #pass
+            #this is old--tables are now created within saveRecordRecursively()
             # probably this is due to the table is not created. so let us create tables
             # and try again.
-            self.createAllTables()
-            self._saveRecordRecursively(
-                object, record, 
-                save_not_owned_referred_object=save_not_owned_referred_object, id=id)
+#            self.createAllTables()  #this could be much more efficient by only creating the table that is missing...or better yet the table could be created right after a failed insertion instead of here and then inserted
+#            self._saveRecordRecursively(
+#                object, record, 
+#                save_not_owned_referred_object=save_not_owned_referred_object, id=id)
             return
 
 
@@ -228,13 +237,19 @@ class OrmManager(object):
         return
 
 
-    def _getRecordFromDB(self, record):
+    def _getRecordFromDB(self, record, object):
         # an object and its corresponding record are cached in the object2record
         # registry. but this record usually is not the same as the one
         # saved in database
         # this method retrieves the record from the database
+        
+        #first, get the id from the record or object
+        if hasattr(record, 'id') and record.id!=None and len(record.id)>0: 
+            id = record.id
+        elif hasattr(object, 'id') and object.id!=None and len(object.id)>0: 
+            id = object.id
+        
         table = record.__class__
-        id = record.id
         db = self.db
         rs = db.query(table).filter_by(id=id).all()
         db.commit()
@@ -244,17 +259,16 @@ class OrmManager(object):
         return 
 
 
-    def _saveRecordRecursively(self, object, record, save_not_owned_referred_object=1, id=None):
+    def _saveRecordRecursively(self, object, record, save_not_owned_referred_object=True, id=None):
         db = self.db
         #table = self.object2record.object2dbtable(object.__class__)
         
         # the old record in the database
         try:
-            oldrecord = self._getRecordFromDB(record)
+            oldrecord = self._getRecordFromDB(record, object)
         except:
 #            import traceback
 #            print traceback.print_exc()
-            #needs to create the table here!!!!!!!!!!!!!
             oldrecord = None
 
         for descriptor in object.Inventory.getDescriptors():
@@ -307,16 +321,30 @@ class OrmManager(object):
         #   id(object), object, id(record), record.id))
         
         # it needs an id and needs to be inserted in db
-        if not record.id:
-            if not id:
-                id = self.guid()
-            record.id = id
+        if not oldrecord:
+            #first try passed id
+            if id: record.id = id
+            #then try obj.id
+            elif hasattr(object, 'id'): record.id = object.id
+            #then try guid
+            elif self.guid: record.id = self.guid()
+            #then throw error
+            else: raise Exception('no guid supplied')
             try:
                 db.insertRow(record)
-            except:
+            except self.db.DBEngineError:
+                db._sasession.rollback()
+                self.createAllTables()
+                db.insertRow(record)
+#                import traceback
+#                print traceback.format_exc()
+               
+                
+                
                 # if insertion failed, we should remove id from record (restore)
-                record.id = None
-                raise
+#                record.id = None
+#                import traceback
+#                raise self.db.DBEngineError, str(record) + 'not inserted in db; error: \n\n'+traceback.format_exc()
         # it has an id and a previous record
         else:
             db.updateRecord(record)

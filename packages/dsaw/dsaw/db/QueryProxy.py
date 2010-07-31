@@ -50,9 +50,13 @@ class QueryCallProxy(object):
             try:
                 return self.db.objectToRecord(ret)
             except:
+                import traceback
+                debug.log('from QueryCallProxy: \n'+traceback.format_exc())
+                
                 return ret
 
-
+import journal
+debug = journal.debug('dsaw.db.QueryProxy')
 from sqlalchemy.orm.query import Query as SAQuery
 
 # version
