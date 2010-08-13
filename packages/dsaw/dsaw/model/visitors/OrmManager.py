@@ -323,11 +323,16 @@ class OrmManager(object):
         # it needs an id and needs to be inserted in db
         if not oldrecord:
             #first try passed id
-            if id: record.id = id
+            if id: 
+                record.id = id
+                object.id = id
             #then try obj.id
-            elif hasattr(object, 'id'): record.id = object.id
+            elif hasattr(object, 'id'): 
+                record.id = object.id
             #then try guid
-            elif self.guid: record.id = self.guid()
+            elif self.guid: 
+                record.id = self.guid()
+                object.id = record.id
             #then throw error
             else: raise Exception('no guid supplied')
             try:
