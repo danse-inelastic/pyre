@@ -26,7 +26,7 @@ class Daemon(Stager):
             spawn = self.kwds['spawn']
         except KeyError:
             spawn = True
-        
+
         if not spawn:
             print " ** daemon %r in debug mode" % self.name
             self.daemon(0)
@@ -81,10 +81,36 @@ class Daemon(Stager):
 
         # close all ties with the parent process, unless in debug mode
         if pid:
-            os.close(2)
-            os.close(1)
-            os.close(0)
+            import sys
+            sys.stdout.flush()
+            sys.stderr.flush()
+            
+            stdin = self.kwds.get('stdin')
+            stdout = self.kwds.get('stdout')
+            stderr = self.kwds.get('stderr')
 
+            # close or redirect standard file descriptors
+            if stdin is None:
+                os.close(0)
+            else:
+                if not isinstance(stdin, file):
+                    stdin = file(stdin, 'r')
+                os.dup2(stdin.fileno(), sys.stdin.fileno())
+                
+            if stdout is None:
+                os.close(1)
+            else:
+                if not isinstance(stdout, file):
+                    stdout = file(stdout, 'a+')
+                os.dup2(stdout.fileno(), sys.stdout.fileno())
+                
+            if stderr is None:
+                os.close(2)
+            else:
+                if not isinstance(stderr, file):
+                    stderr = file(stderr, 'a+', 0)
+                os.dup2(stderr.fileno(), sys.stderr.fileno())
+                
         # launch the application
         self.main(*self.args, **self.kwds)
 
