@@ -344,8 +344,6 @@ class OrmManager(object):
 #                import traceback
 #                print traceback.format_exc()
                
-                
-                
                 # if insertion failed, we should remove id from record (restore)
 #                record.id = None
 #                import traceback
