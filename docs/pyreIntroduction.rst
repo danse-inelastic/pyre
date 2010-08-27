@@ -3,7 +3,7 @@ Pyre overview
 
 Pyre is an integration framework for high-performance computing based on `python <http://www.python.org>`_.  
 
-Pyre provides developers of scientific computing software with a set of tools, such as :ref:`easy specification <pyre-inventory>` of user inputs for computing engines, :ref:`a decomposition scheme<pyre-component>` to construct sophisticated scientific software in a layered architecture, and :ref:`distributed debugging support <journal>`. Pyre also promotes **intellitgent software development** through patterns of componentization, reusability, and application of design patterns. 
+Pyre provides developers of scientific computing software with a set of tools, such as :ref:`easy specification <pyre-inventory>` of user inputs for computing engines, :ref:`a decomposition scheme<pyre-component>` to construct sophisticated scientific software in a layered architecture, and :ref:`distributed debugging support <journal>`. Pyre also promotes **intelligent software development** through patterns of componentization, reusability, and application of design patterns. 
 
 .. Pyre also provides a variety of useful tools, following are some of them:
  * :ref:`Units <pyre-units>`
