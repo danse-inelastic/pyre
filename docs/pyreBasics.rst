@@ -284,10 +284,10 @@ The order of precedence is: 3 beats the others, 2 beats 1, and 1 beats whatever 
 
 .. _mmtk:
 
-Science tutorial: swapping molecular dynamics engines
-=====================================================
+Science example: swapping molecular dynamics engines
+-----------------------------------------------------
 
-To understand more about how pyre is useful, we illustrate component swapping with a small `molecular dynamics use case <http://docs.danse.us/MolDyn/sphinx>`_.
+To understand more about how pyre is useful, we illustrate component swapping with a small `molecular dynamics code <http://docs.danse.us/MolDyn/sphinx>`_ which uses pyre to dynamically change md engine components at run time.
 
 
 ..  also The inventory stores all the settings for the component as properties, as well as additional subcomponents as facilities.  Each of these may have multiple options.  For example, in the 

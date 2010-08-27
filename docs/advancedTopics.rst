@@ -162,8 +162,8 @@ Examples where this has been done include generating html pages in :ref:`opal<op
 
 .. _mystic:
 
-Science tutorial: Distributed optimization
-==========================================
+.. Science tutorial: Distributed optimization
+.. ==========================================
 
 
 

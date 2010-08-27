@@ -845,10 +845,10 @@ Once you have created your directory structure and learned how to use a debugger
 
 .. _mcvine:
 
-Science Tutorial: Conducting a virtual neutron experiment
-=========================================================
+.. Science Tutorial: Conducting a virtual neutron experiment
+.. =========================================================
 
-An interesting problem in scattering science is how to simulate neutron scattering.  Typically this is done via a large number virtual neutrons randomly being projected toward a virtual sample represented by a scattering kernel.
+.. An interesting problem in scattering science is how to simulate neutron scattering.  Typically this is done via a large number virtual neutrons randomly being projected toward a virtual sample represented by a scattering kernel.
 
 
 

@@ -21,14 +21,14 @@ Contents:
    templates
    pyreStyle
    pyreHistory
-   indexOfScienceUseCases
+
    projectsUsingPyre
    additionalDocs
    usefulLinks
    docsTodo
    
 .. Pyre application example: luban <http://docs.danse.us/pyre/luban/sphinx/index.html>
-
+..   indexOfScienceUseCases
 ..   pyreInternals
 
 Indices and tables
