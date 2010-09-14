@@ -142,7 +142,7 @@ class Table2SATable(object):
     def onDoubleArray(self, col):
         name = col.name
         from sqlalchemy.databases import postgres
-        return sqlalchemy.Column(name, postgres.PGArray(postgres.PGFloat))
+        return sqlalchemy.Column(name, postgres.PGArray(postgres.PGDoublePrecision))
     
 
     def onIntegerArray(self, col):

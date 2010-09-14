@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
 
     def dbManager(self):
         from dsaw.db import connect
-        db = connect(db ='postgres:///test') #, echo=True)
+        db = connect(db ='postgres:///test-pyre-db') #, echo=True)
         db.autocommit(True)
         return db
     
@@ -46,6 +46,7 @@ class TestCase(unittest.TestCase):
         t1.r = t1.d = math.pi
         db.insertRow(t1)
 
+        print t1.r, t1.d
         self.assertAlmostEqual(t1.r, math.pi, 5)
         self.assertNotAlmostEqual(t1.r, math.pi, 10)
         self.assertAlmostEqual(t1.d, math.pi, 10)

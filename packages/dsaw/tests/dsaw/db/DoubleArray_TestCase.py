@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
 
     def dbManager(self):
         from dsaw.db import connect
-        db = connect(db ='postgres:///test') #, echo=True)
+        db = connect(db ='postgres:///test-pyre-db') #, echo=True)
         db.autocommit(True)
         return db
     
@@ -52,7 +52,12 @@ class TestCase(unittest.TestCase):
         t1.m = [ [0,1,2], [3,4,5] ]
         self.assertEqual(t1.m.shape, (2,3))
         
+        t1.m = [ [0,1./3,2], [3,4,5] ]
         db.updateRecord(t1)
+        self.assert_(abs(t1.m[0,1]-1./3)<1e-12)
+
+        t1a = db.query(DoubleArrayTest).filter_by(id='t1').one()
+        self.assert_(abs(t1a.m[0,1]-1./3)<1e-12)
         
         db.destroyAllTables()
         return
