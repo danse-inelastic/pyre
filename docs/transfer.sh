@@ -10,4 +10,4 @@ then
 fi
 svn up
 make html
-scp -r _build/html/ jbrkeith@login.cacr.caltech.edu:projects/danse/docs.danse.us/docroot/pyre/sphinx
+scp -r _build/html/* jbrkeith@login.cacr.caltech.edu:projects/danse/docs.danse.us/docroot/pyre/sphinx
