@@ -85,7 +85,7 @@ class Parser(xml.sax.ContentHandler):
 
             import journal
             error = journal.error("pyre.xml.parsing")
-            error.log("%s: line %s, column %s: %s" % (l.filename, l.line, l.column, text))
+            error.log("%s: line %s, column %s: %s" % (l.source, l.line, l.column, text))
 
         return
 
