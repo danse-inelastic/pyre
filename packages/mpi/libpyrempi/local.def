@@ -21,6 +21,8 @@
     PROJ_LCXX_FLAGS += $(LCXX_SARFLAGS)
     PROJ_CXX_SRCLIB = -ljournal
 
+PROJ_CXX_INCLUDES += $(MPI_INCDIR)
+
 # version
 # $Id: local.def,v 1.1.1.1 2006-11-27 00:09:38 aivazis Exp $
 
