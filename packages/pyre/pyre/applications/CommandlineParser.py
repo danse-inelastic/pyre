@@ -68,9 +68,9 @@ class CommandlineParser(object):
             self._debug.line("    tokens: %s" % `candidate`)
 
             # dangling =
-            if len(tokens) > 1 and not tokens[1]:
-                self._debug.log("tokens: bad expression: %s" % arg)
-                raise CommandlineParser.CommandlineException("bad expression: '%s': no rhs" % arg)
+            # if len(tokens) > 1 and not tokens[1]:
+            #    self._debug.log("tokens: bad expression: %s" % arg)
+            #    raise CommandlineParser.CommandlineException("bad expression: '%s': no rhs" % arg)
 
             # lhs, rhs
             lhs = tokens[0]
