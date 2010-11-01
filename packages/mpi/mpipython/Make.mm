@@ -32,6 +32,9 @@ export:: export-binaries
 install: $(PROJ_BIN)
 	$(CP_F) $(PROJ_BIN) $(TOOLS_DIR)/bin
 
+
+CXX=mpicxx
+
 $(PROJ_BIN): $(MPIPYTHON)
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LCXXFLAGS) $(LIBRARIES)
 
