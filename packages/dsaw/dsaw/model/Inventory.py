@@ -10,17 +10,12 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-
-
 import journal
 warning = journal.warning('dsaw.Inventory')
 warning.deactivate()
 
-
 from pyre.inventory.Facility import Facility
-
 from pyre.inventory.Inventory import Inventory as base
-
 
 class Inventory(base):
 
@@ -28,11 +23,8 @@ class Inventory(base):
     d = descriptors
     v = descriptors.validators
 
-
     def __init__(self, name=None):
         super(Inventory, self).__init__(name)
-        return
-
 
     # help methods for visitors. not for users to use
     @classmethod
@@ -53,7 +45,6 @@ class Inventory(base):
             ret.append(c)
         return ret
 
-
 def restoreObjectFromInventory(obj, inventory):
     if hasattr(obj, '__restoreFromInventory__'):
         obj.__restoreFromInventory__(inventory)
@@ -65,7 +56,6 @@ def restoreObjectFromInventory(obj, inventory):
         continue
     
     return obj
-
 
 def establishInventoryFromObject(inventory, obj):
     # if the object has the facility to do the conversion, just do that
@@ -92,7 +82,6 @@ def establishInventoryFromObject(inventory, obj):
                 name, type, value, tb.format_exc())
         continue
     return inventory
-
 
 # version
 __id__ = "$Id$"

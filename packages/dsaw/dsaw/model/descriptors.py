@@ -80,19 +80,15 @@ from pyre.inventory.Property import Property as base
 
 class Date(base):
     
-    
     def __init__(self, name, default=None, meta=None, validator=None):
         import time
         base.__init__(self, name, "date", time.ctime(), meta)
-        return
     
 class Timestamp(base):
-    
     
     def __init__(self, name, default=None, meta=None, validator=None):
         import datetime
         base.__init__(self, name, "timestamp", datetime.datetime.now(), meta)
-        return
 
 #    def __get__(self, instance, cls=None):
 #        ret = base.__get__(self, instance, cls = cls)
