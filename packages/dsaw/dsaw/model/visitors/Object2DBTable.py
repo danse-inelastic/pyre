@@ -75,6 +75,7 @@ class Object2DBTable(object):
 
         cols = []
         for descriptor in Inventory.getDescriptors():
+            #print descriptor
             col = self._createColumn(descriptor, rules)
             if col:
                 cols.append(col)
@@ -141,6 +142,10 @@ class Object2DBTable(object):
 
     def _onDate(self, descriptor, rules):
         return dsaw.db.date(name=descriptor.name, default=descriptor.default)
+
+
+    def _onTimestamp(self, descriptor, rules):
+        return dsaw.db.timestamp(name=descriptor.name, default=descriptor.default)
 
 
     def _onFloat(self, descriptor, rules):
