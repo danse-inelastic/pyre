@@ -466,6 +466,10 @@ class DeReferencer(object):
             ret = db.query(table).filter_by(globalpointer=id).one()
         except:
             import traceback
+#            print traceback.format_exc()
+#            print table
+#            print table.getTableName()
+#            print 'failed to retrieve record: table %s, globalpointer %s. Traceback:\n%s' % (table.getTableName(), id, traceback.format_exc())
             raise RuntimeError, 'failed to retrieve record: table %s, globalpointer %s. Traceback:\n%s' % (table.getTableName(), id, traceback.format_exc())
         return ret
 
