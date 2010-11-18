@@ -25,6 +25,7 @@ all: export
 EXPORT_PYTHON_MODULES = \
 	BigInt.py \
 	Boolean.py \
+	BooleanArray.py \
 	Char.py \
 	Column.py \
 	Date.py \
