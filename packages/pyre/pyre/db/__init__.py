@@ -41,6 +41,9 @@ def boolean(**kwds):
     from Boolean import Boolean
     return Boolean(**kwds)
 
+def booleanArray(**kwds):
+    from BooleanArray import BooleanArray
+    return BooleanArray(**kwds)
 
 def char(**kwds):
     from Char import Char
