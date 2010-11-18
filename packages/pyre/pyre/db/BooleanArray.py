@@ -18,7 +18,7 @@
 from Column import Column
 
 
-class IntegerArray(Column):
+class BooleanArray(Column):
 
 
     def type(self):

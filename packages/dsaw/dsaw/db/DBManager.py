@@ -636,6 +636,12 @@ class RecordMap(object):
             return map(int, value)
         def convertVarCharArray(self, value, col, record):
             return map(str, value)
+        def convertBooleanArray(self, value, col, record):
+            if col.shape:
+                import numpy
+                value = numpy.copy(value)
+                value.shape = -1,
+            return map(bool, value)
 
         def convertDefault(self, value, col, record):
             return value
@@ -645,6 +651,7 @@ class RecordMap(object):
         from pyre.db.DoubleArray import DoubleArray
         from pyre.db.IntegerArray import IntegerArray
         from pyre.db.VarCharArray import VarCharArray
+        from pyre.db.BooleanArray import BooleanArray
         from Reference import Reference
         from VersatileReference import VersatileReference, global_pointer
         
@@ -665,6 +672,8 @@ class RecordMap(object):
                 converter.setConverter(name, converter.convertIntegerArray)
             elif isinstance(col, VarCharArray):
                 converter.setConverter(name, converter.convertVarCharArray)
+            elif isinstance(col, BooleanArray):
+                converter.setConverter(name, converter.convertBooleanArray)
             elif hasattr(col, 'primary_key') and col.primary_key:
                 # if is primary key and user does not assign the primary key any
                 # value, skip it

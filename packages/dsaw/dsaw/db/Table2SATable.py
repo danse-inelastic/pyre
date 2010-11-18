@@ -150,7 +150,11 @@ class Table2SATable(object):
         from sqlalchemy.databases import postgres 
         return sqlalchemy.Column(name, postgres.PGArray(postgres.PGInteger))
     
-
+    def onBooleanArray(self, col):
+        name = col.name
+        from sqlalchemy.databases import postgres 
+        return sqlalchemy.Column(name, postgres.PGArray(postgres.PGBoolean))
+    
     def onVarCharArray(self, col):
         name = col.name
         length = col.length
