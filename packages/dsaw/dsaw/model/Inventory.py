@@ -45,6 +45,12 @@ class Inventory(base):
             ret.append(c)
         return ret
 
+
+    @classmethod
+    def getDescriptor(cls, name):
+        return cls._traitRegistry.get(name)
+    
+
 def restoreObjectFromInventory(obj, inventory):
     if hasattr(obj, '__restoreFromInventory__'):
         obj.__restoreFromInventory__(inventory)
