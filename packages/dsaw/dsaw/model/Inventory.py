@@ -10,6 +10,33 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+
+
+'''
+Why Inventory:
+  Inventory is used to decorate a data object with meta data.
+
+Usage:
+  Subclass Inventory class and assign it as the "Inventory" attribute
+  of the class you want to decorate.
+
+Descriptors:
+  Add descriptors to describe data members inside an Inventory
+  E.g.:
+    class Inventory(InvBase):
+       a = InvBase.d.float(name='a', default=1.0)
+  
+Common meta data for descriptors:
+  d.help:      string. help message.
+  d.tip:       string. tip.
+  (following are experimental)
+  d.expert:    boolean. If true, it is a data member only useful for experts.
+  d.readonly:  boolean. If true, the data member is read only. This is useful
+               for attributes that are set elsewhere (not by users).
+               If an attribute is readonly, it is not necessary to create
+               input field in the form of UI for the object, for example.
+'''
+
 import journal
 warning = journal.warning('dsaw.Inventory')
 warning.deactivate()
