@@ -12,6 +12,12 @@
 #
 
 
+strategies = {
+    'o': 'overwrite',
+    's': 'skip',
+    }
+
+
 class Unpickler(object):
 
 
@@ -23,7 +29,14 @@ class Unpickler(object):
         return
     
 
-    def load(self, tables):
+    def load(self, tables, strategy=None):
+        """load the given tables to the db
+
+        strategy:
+          - overwrite: overwrite the existing records
+          - prompt: prompt user for action when there is existing record with the same id
+          - skip: skip the record that has an existing record wiith the same idin the db
+        """
         inputdir = self.inputdir
         db = self.db
 
@@ -34,13 +47,13 @@ class Unpickler(object):
         
         for name in order:
             table = name2table[name]
-            self._load(table)
+            self._load(table, strategy=strategy)
             continue
         
         return
 
 
-    def _load(self, table):
+    def _load(self, table, strategy=None):
         db = self.db
         inputdir = self.inputdir
 
@@ -62,6 +75,27 @@ class Unpickler(object):
                 col = table._columnRegistry[field]
                 row._setColumnValue(field, value)
                 continue
+            # try to see if there is an existing record
+            rowsindb = db.query(table).filter_by(id=row.id).all()
+            # if yes, we need to apply a strategy
+            if rowsindb:
+                if strategy == 'prompt':
+                    while 1:
+                        p = raw_input('Record %s, overwrite(o)/skip(s)? ' % row)
+                        if p in ['o', 's']:
+                            break
+                        continue
+                    strategy = strategies[p]
+                    
+                if strategy == 'overwrite':
+                    db.updateRecord(row)
+                    continue
+
+                if strategy == 'skip':
+                    continue
+
+                raise RuntimeError, "Record %s already exists in db %s: %s, but you did not specify a strategy to deal with this" % (row, rowsindb, db)
+
             db.insertRow(row)
             continue
         return

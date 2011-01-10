@@ -379,6 +379,10 @@ class DBManager(object):
         return
 
 
+    def __str__(self):
+        return "dsaw.db.DBManager(%s)" % (self._saengine.url, )
+
+
     def __del__(self):
         self.commit()
         self._sasession.close()
