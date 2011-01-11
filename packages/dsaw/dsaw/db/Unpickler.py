@@ -12,6 +12,11 @@
 #
 
 
+"""
+Limitation: only works with tables with one key column
+"""
+
+
 strategies = {
     'o': 'overwrite',
     's': 'skip',
@@ -29,9 +34,10 @@ class Unpickler(object):
         return
     
 
-    def load(self, tables, strategy=None):
+    def load(self, tables, strategy=None, idcol='id'):
         """load the given tables to the db
 
+        idcol: the name of column that identify the record.
         strategy:
           - overwrite: overwrite the existing records
           - prompt: prompt user for action when there is existing record with the same id
@@ -47,13 +53,13 @@ class Unpickler(object):
         
         for name in order:
             table = name2table[name]
-            self._load(table, strategy=strategy)
+            self._load(table, strategy=strategy, idcol=idcol)
             continue
         
         return
 
 
-    def _load(self, table, strategy=None):
+    def _load(self, table, strategy=None, idcol='id'):
         db = self.db
         inputdir = self.inputdir
 
@@ -76,7 +82,8 @@ class Unpickler(object):
                 row._setColumnValue(field, value)
                 continue
             # try to see if there is an existing record
-            rowsindb = db.query(table).filter_by(id=row.id).all()
+            filterkwds = {idcol:getattr(row, idcol)}
+            rowsindb = db.query(table).filter_by(**filterkwds).all()
             # if yes, we need to apply a strategy
             if rowsindb:
                 if strategy == 'prompt':
