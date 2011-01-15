@@ -639,6 +639,7 @@ class RecordMap(object):
                 value.shape = -1,
             return map(int, value)
         def convertVarCharArray(self, value, col, record):
+            if value is None: return
             return map(str, value)
         def convertBooleanArray(self, value, col, record):
             if col.shape:
