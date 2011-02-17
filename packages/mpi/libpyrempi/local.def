@@ -17,6 +17,9 @@
 
 # C++
 
+
+CXX = mpicxx
+
 PROJ_CXX_INCLUDES += $(MPI_INCDIR)
 
     PROJ_CXX_FLAGS += $(CXX_SOFLAGS)
