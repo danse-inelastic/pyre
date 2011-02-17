@@ -18,7 +18,7 @@ EXTERNAL_INCLUDES += $(MPI_INCDIR)
 
 EXTERNAL_LIBS += -L$(MPI_LIBDIR)
 ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
-    EXTERNAL_LIBS += -lmpich -lrt
+    EXTERNAL_LIBS += -lmpich -lrt -lz
     EXTERNAL_DEFINES += MPICH_SKIP_MPICXX
 endif
 ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})

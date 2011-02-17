@@ -28,12 +28,6 @@ PROJ_CXX_INCLUDES += $(MPI_INCDIR)
 
 PROJ_LCXX_FLAGS += -L$(MPI_LIBDIR)
 
-ifeq (mpich, ${findstring mpich, $(MPI_VERSION)})
-    PROJ_LCXX_FLAGS += -lmpich
-endif
-ifeq (openmpi, ${findstring openmpi, $(MPI_VERSION)})
-    PROJ_LCXX_FLAGS += -lmpi
-endif
 
 # version
 # $Id: local.def,v 1.1.1.1 2006-11-27 00:09:38 aivazis Exp $

@@ -45,9 +45,7 @@ bool pympi_initialize()
 
     if (!isInitialized) {
       // init mpi
-      int *argc = NULL;
-      char ***argv = NULL;
-      MPI_Init(argc, argv);
+      MPI_Init(NULL, NULL);
       // really initialized?
       status = MPI_Initialized(&isInitialized);
       if (status != MPI_SUCCESS) {
@@ -55,7 +53,7 @@ bool pympi_initialize()
         return false;
       }
       if (!isInitialized) {
-        PyErr_SetString(PyExc_ImportError, "Should not reach here.");
+        PyErr_SetString(PyExc_ImportError, "MPI Initialization failed");
         return false;
       }
       // all good, and register mpi_finalize
