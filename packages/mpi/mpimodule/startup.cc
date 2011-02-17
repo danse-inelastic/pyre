@@ -20,6 +20,17 @@
 #include "startup.h"
 
 
+namespace pyrempi{
+  
+  // wrap MPI_Finalize
+  void mpi_finalize()
+  {
+    MPI_Finalize();
+  }
+  
+}
+
+
 // initialize
 bool pympi_initialize()
 {
@@ -33,8 +44,22 @@ bool pympi_initialize()
     }
 
     if (!isInitialized) {
-        PyErr_SetString(PyExc_ImportError, "MPI_Init has not been called");
+      // init mpi
+      int *argc = NULL;
+      char ***argv = NULL;
+      MPI_Init(argc, argv);
+      // really initialized?
+      status = MPI_Initialized(&isInitialized);
+      if (status != MPI_SUCCESS) {
+        PyErr_SetString(PyExc_ImportError, "MPI_Initialized failed");
         return false;
+      }
+      if (!isInitialized) {
+        PyErr_SetString(PyExc_ImportError, "Should not reach here.");
+        return false;
+      }
+      // all good, and register mpi_finalize
+      atexit(pyrempi::mpi_finalize);
     }
 
     journal::debug_t info("mpi.init");
