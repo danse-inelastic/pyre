@@ -147,6 +147,9 @@ class OrmManager(object):
 
 
     def load(self, Object, id):
+        import __builtin__
+        if id is __builtin__.id:
+            raise ValueError, "You have supplied builtin function 'id' as id"
         self.registerObjectType(Object)
         Table = self.object2record.object2dbtable(Object)
         record = self.db.query(Table).filter_by(id=id).one()
