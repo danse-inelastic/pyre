@@ -79,17 +79,18 @@ class Application(Component, Executive):
         if self.inventory.dumpconfiguration: self._saveConfiguration()
 
         # the main application behavior
+        rt = None
         if help:
             self.help()
         elif self._showHelpOnly:
             pass
         elif self.verifyConfiguration(unknownProperties, unknownComponents, self.inventory.typos):
-            self.execute(*args, **kwds)
+            rt = self.execute(*args, **kwds)
 
         # shutdown
         self.fini()
 
-        return
+        return rt
 
 
     def initializeCurator(self, curator, registry):
