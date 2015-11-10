@@ -5,6 +5,5 @@ MAINTAINER "Jiao Lin <jiao.lin@gmail.com>"
 RUN yum install -y deltarpm
 RUN yum install -y git cmake make gcc-c++ python python-devel rpm-build
 
-RUN rpmbuild --rebuild ${PARENT_GITHUB_URL}/releases/download/v${PARENT_VERSION}/${PARENT_PY_PKG}-${PARENT_VERSION}-${PARENT_RELEASE}.src.rpm
-RUN rpm -i ~/rpmbuild/RPMS/x86_64/${PARENT_PY_PKG}-${PARENT_VERSION}-${PARENT_RELEASE}.x86_64.rpm
-
+RUN curl -s https://packagecloud.io/install/repositories/${PKGCLOUD_USERNAME}/${PKGCLOUD_REPO}/script.rpm.sh | bash
+RUN yum install -y ${DEP_DANSE_PKGS}

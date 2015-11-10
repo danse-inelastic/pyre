@@ -1,3 +1,11 @@
+# To improve
+# * dependency items are declared at different places
+#   - This file two places DEP_DANSE_PKGS, CPACK_DEBIAN_PACKAGE_DEPENDS
+#   - File rpm.spec.in
+# * rpm and deb releases are treated differently:
+#   - rpm: source rpm
+#   - deb: binary deb
+
 cmake_minimum_required (VERSION 2.6)
 project (pyre)
 
@@ -11,10 +19,11 @@ set(RPM_APP_GROUP "Development/Tools")
 set(GITHUB_URL "https://github.com/danse-inelastic/pyre")
 
 # this is released with danse.ins packages
-set (PARENT_PY_PKG "danse.ins")
-set (PARENT_GITHUB_URL "https://github.com/danse-inelastic/danse.ins")
-set (PARENT_VERSION "0.1")
-set (PARENT_RELEASE "0")
+set(DEP_DANSE_PKGS "journal")
+
+# package repository at packagecloud
+set (PKGCLOUD_USERNAME "linjiao")
+set (PKGCLOUD_REPO "danse_ins")
 
 # variables
 set (PYBINDING_NAME "${PROJECT_NAME}module")
@@ -67,7 +76,7 @@ set(CPACK_PACKAGE_VENDOR ${VENDOR})
 set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
 set(CPACK_RPM_PACKAGE_REQUIRES "cmake")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "python, danse.ins")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "python, journal")
 include(CPack)
 
 # source tar ball

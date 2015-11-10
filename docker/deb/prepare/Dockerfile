@@ -7,7 +7,10 @@ RUN apt-get install -y git build-essential
 RUN apt-get install -y cmake
 RUN apt-get install -y python python-dev
 
-RUN apt-get install wget
-RUN wget ${PARENT_GITHUB_URL}/releases/download/v${PARENT_VERSION}/${PARENT_PY_PKG}-${PARENT_VERSION}-${PARENT_RELEASE}.x86_64.deb
-RUN dpkg -i ${PARENT_PY_PKG}-${PARENT_VERSION}-${PARENT_RELEASE}.x86_64.deb
+# danse deps
+# establish repo
+RUN apt-get install curl
+RUN curl -s https://packagecloud.io/install/repositories/${PKGCLOUD_USERNAME}/${PKGCLOUD_REPO}/script.deb.sh | bash
+# install
+RUN apt-get install ${DEP_DANSE_PKGS}
 
