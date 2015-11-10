@@ -6,4 +6,5 @@ RUN apt-get install wget
 RUN wget ${GITHUB_URL}/releases/download/v${VERSION}/${PKG_NAME}-${VERSION}-${CPACK_PACKAGE_RELEASE}.x86_64.deb
 RUN dpkg -i ${PKG_NAME}-${VERSION}-${CPACK_PACKAGE_RELEASE}.x86_64.deb
 
-RUN . /opt/danse/bin/setup-danse.sh && python -c "import journal._journal as jj; print jj"
+RUN . /opt/danse/bin/setup-danse.sh && python -c "import pyre; print pyre"
+RUN cat /opt/danse/${INSTALL_PY_PATH}/pyre/inventory/odb/prefix.py
