@@ -1,0 +1,6 @@
+#
+# install
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+  DESTINATION bin
+  FILES_MATCHING PATTERN "*.py"
+  )
