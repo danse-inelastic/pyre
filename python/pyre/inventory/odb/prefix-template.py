@@ -19,7 +19,7 @@ except KeyError:
     try:
         stem = os.environ["EXPORT_ROOT"]
     except KeyError:
-        stem = 'xxDBROOTxx'
+        stem = '${DEPLOYMENT_PREFIX}'
 
 _SYSTEM_ROOT = os.path.join(stem, "etc")
 _USER_ROOT = os.path.join(os.path.expanduser('~'), '.pyre')
