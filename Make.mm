@@ -14,27 +14,11 @@ PROJECT = pyre
 PACKAGE = pyre
 
 RECURSE_DIRS = \
-    journal \
-    pyre \
-    blade \
-    fuego \
-    merlin \
-    opal \
-    dsaw \
-    pd \
+    python \
+    etc \
+    bin \
 
-ifdef MPI_DIR
 RECURSE_DIRS += \
-    mpi \
-    elc \
-    pulse \
-    rigid
-endif
-
-ifdef ACIS_DIR
-RECURSE_DIRS += acis
-endif
-
 
 OTHERS = \
 

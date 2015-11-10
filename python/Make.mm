@@ -11,15 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = pyre
-PACKAGE = tests
 
 RECURSE_DIRS = \
-    libpyre \
-    pyremodule \
     pyre \
-    etc \
-    applications \
-    tests
 
 OTHERS = \
 
