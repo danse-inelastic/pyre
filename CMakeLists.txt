@@ -2,9 +2,6 @@
 # * dependency items are declared at different places
 #   - This file two places DEP_DANSE_PKGS, CPACK_DEBIAN_PACKAGE_DEPENDS
 #   - File rpm.spec.in
-# * rpm and deb releases are treated differently:
-#   - rpm: source rpm
-#   - deb: binary deb
 
 cmake_minimum_required (VERSION 2.6)
 project (pyre)
@@ -21,9 +18,16 @@ set(GITHUB_URL "https://github.com/danse-inelastic/pyre")
 # this is released with danse.ins packages
 set(DEP_DANSE_PKGS "journal")
 
+# packaging with the help of docker and packagecloud
 # package repository at packagecloud
-set (PKGCLOUD_USERNAME "linjiao")
-set (PKGCLOUD_REPO "danse_ins")
+set (PKGCLOUD_USERNAME "danse")
+set (PKGCLOUD_REPO "ins")
+# dependencies
+set (DOCKER_PKGING_DEPS_DEB "danse.ins journal")
+set (DOCKER_PKGING_DEPS_RPM "danse.ins journal")
+set (DOCKER_PKGING_TEST_SRPM ". /opt/danse/bin/setup-danse.sh && python -c 'import pyre; print pyre'")
+set (DOCKER_PKGING_TEST_RPM ${DOCKER_PKGING_TEST_SRPM})
+set (DOCKER_PKGING_TEST_DEB ${DOCKER_PKGING_TEST_SRPM})
 
 # variables
 set (PYBINDING_NAME "${PROJECT_NAME}module")
@@ -121,4 +125,12 @@ add_custom_target(
   )
 
 # docker folder for build and test packaging artifacts
+execute_process(
+  COMMAND rm -rf docker
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  )
+execute_process(
+  COMMAND git clone https://github.com/danse-inelastic/packaging-use-docker docker
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  )
 add_subdirectory(docker)
