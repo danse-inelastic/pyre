@@ -56,21 +56,21 @@ setup(name='pythia',
       )
 
 # extract .odb files to EXPORT_ROOT
-os.system("unzip pythia-odb.zip -d %s" % export_root)
+os.system("unzip pythia-odb.zip -d {}".format(export_root))
 
 # print report on environment variables used
 if export_root_found:
     pass
 else:
-    print "\n***********************************************************"
-    print "To better enable access to pyre .odb files"
-    print "please set $EXPORT_ROOT as indicated in"
-    print "    http://danse.us/trac/ctrl/wiki/config"
-    print "or copy .odb files from source to $HOME/.pyre"
-    print "\n"
-    print "WARNING: Using default settings:"
-    print "    EXPORT_ROOT %s" % export_root
-    print "***********************************************************\n"
+    print("\n***********************************************************")
+    print("To better enable access to pyre .odb files")
+    print("please set $EXPORT_ROOT as indicated in")
+    print("    http://danse.us/trac/ctrl/wiki/config")
+    print("or copy .odb files from source to $HOME/.pyre")
+    print("\n")
+    print("WARNING: Using default settings:")
+    print("    EXPORT_ROOT {}".format(export_root))
+    print("***********************************************************\n")
 
 
 # end of file
