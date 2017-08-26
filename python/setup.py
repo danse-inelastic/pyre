@@ -4,6 +4,9 @@
 # mmckerns@caltech.edu 
 #
 #NOTE: this setup.py is for pythia .zip build w/ 'mm zip3' or 'mm zip4'
+
+from __future__ import print_function
+
 from setuptools import setup, find_packages
 from sys import platform
 import os
@@ -23,14 +26,14 @@ local_install = True  #XXX: should be True / False;  or determined by $PREFIX ?
 
 #determine platform
 if platform[:3] == 'win':
-  myOS = 'win'
-  export_root_system = export_root_win
+    myOS = 'win'
+    export_root_system = export_root_win
 elif platform[:6] == 'darwin':
-  myOS = 'mac'
-  export_root_system = export_root_mac
+    myOS = 'mac'
+    export_root_system = export_root_mac
 else:
-  myOS = 'nux'
-  export_root_system = export_root_nux
+    myOS = 'nux'
+    export_root_system = export_root_nux
 
 #check if environment variables were set...
 try:
@@ -45,14 +48,14 @@ except KeyError:
 setup(name='pythia',
       version='0.8',
       description='packages for the pyre component framework (python-only version)',
-      author = 'Michael Aivazis',
-      author_email = 'aivazis@caltech.edu',
-      url = 'http://danse.us/trac/pyre',
-      download_url = 'http://dev.danse.us/packages/',
-      package_data = {'':['*.*']},
-      packages = find_packages(),
-     #install_requires("journal>=0.8"),
-     #dependency_links = ['http://dev.danse.us/packages/'],
+      author='Michael Aivazis',
+      author_email='aivazis@caltech.edu',
+      url='http://danse.us/trac/pyre',
+      download_url='http://dev.danse.us/packages/',
+      package_data={'':['*.*']},
+      packages=find_packages(),
+      #install_requires("journal>=0.8"),
+      #dependency_links = ['http://dev.danse.us/packages/'],
       )
 
 # extract .odb files to EXPORT_ROOT
