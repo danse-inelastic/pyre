@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from ComponentHarness import ComponentHarness
 
@@ -28,7 +29,7 @@ class DynamicComponentHarness(ComponentHarness):
         component = self.retrieveComponent(componentName, facilityName)
 
         if not component:
-            raise ValueError("could not locate '%s'(%s)" % (componentName, facilityName))
+            raise ValueError("could not locate '{0!s}'({1!s})".format(componentName, facilityName))
 
         return component
 

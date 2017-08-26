@@ -55,7 +55,7 @@ class ComponentHarness(object):
     def createComponent(self):
         """create the harnessed component"""
         raise NotImplementedError(
-            "class %r must override 'createComponent'" % self.__class__.__name__)
+            "class {0!r} must override 'createComponent'".format(self.__class__.__name__))
 
 
     def prepareComponentCurator(self):

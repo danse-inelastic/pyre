@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 class Executive(object):
 
@@ -64,15 +65,15 @@ class Executive(object):
             return True
         
         if unknownProperties:
-            print " ## unrecognized properties:"
+            print(" ## unrecognized properties:")
             for key, value, locator in unknownProperties:
-                print "    %s <- '%s' from %s" % (key, value, locator)
+                print("    {0!s} <- '{1!s}' from {2!s}".format(key, value, locator))
 
             self.usage()
             return False
 
         if mode == 'pedantic' and unknownComponents:
-            print ' ## unknown components: %s' % ", ".join(unknownComponents)
+            print(' ## unknown components: {0!s}'.format(", ".join(unknownComponents)))
             self.usage()
             return False
         
@@ -100,12 +101,12 @@ class Executive(object):
 
     # user assistance
     def help(self):
-        print 'Please consider writing a help screen for this application'
+        print('Please consider writing a help screen for this application')
         return
 
 
     def usage(self):
-        print 'Please consider writing a usage screen for this application'
+        print('Please consider writing a usage screen for this application')
         return
 
 
