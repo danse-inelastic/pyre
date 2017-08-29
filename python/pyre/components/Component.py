@@ -42,7 +42,7 @@ class Component(Configurable):
             if name not in self.aliases:
                 import journal
                 journal.firewall("inventory").log(
-                    "bad registry node: %s != %s" % (name, self.name))
+                    "bad registry node: {0!s} != {1!s}".format(name, self.name))
 
         return Configurable.updateConfiguration(self, registry)
 
