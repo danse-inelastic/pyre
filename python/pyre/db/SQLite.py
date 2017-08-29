@@ -36,7 +36,7 @@ class wrapper(object):
 
 
     def __getattr__(self, name):
-        return getattr( self._core, name )
+        return getattr(self._core, name)
 
 
     def autocommit(self, on_off=1):

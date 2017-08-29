@@ -22,7 +22,7 @@ def connect(database, wrapper=None, **kwds):
     mod = name2mod.get(wrapper)
     if not mod:
         import journal
-        journal.error("pyre.db").log("%r: unknown db wrapper type" % wrapper)
+        journal.error("pyre.db").log("{0!r}: unknown db wrapper type".format(wrapper))
         return None
 
     package = 'pyre.db'
@@ -96,7 +96,7 @@ def smallint(**kwds):
 
 
 def tableRegistry():
-    from VersatileReference  import tableRegistry
+    from VersatileReference import tableRegistry
     return tableRegistry()
 
 

@@ -28,7 +28,7 @@ class Date(Column):
 
 
     def __get__(self, instance, cls=None):
-        ret = Column.__get__(self, instance, cls = cls)
+        ret = Column.__get__(self, instance, cls=cls)
         if ret is None:
             import time
             return time.ctime()

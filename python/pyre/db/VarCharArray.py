@@ -22,7 +22,7 @@ class VarCharArray(Column):
 
 
     def type(self):
-        return "character varying(%d)[]" % self.length
+        return "character varying({0!d})[]".format(self.length)
 
 
     def declaration(self):
@@ -41,7 +41,7 @@ class VarCharArray(Column):
 
     def _format(self, value):
         if value is None: value = []
-        s = ','.join( value )
+        s = ','.join(value)
         s = '{' + s + '}'
         return s
 

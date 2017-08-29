@@ -27,7 +27,7 @@ class Real(Column):
         return
 
 
-    def _cast(self,value):
+    def _cast(self, value):
         return float(value)
 
 

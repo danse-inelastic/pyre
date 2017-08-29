@@ -24,14 +24,14 @@ class Table(Traceable):
         self._retrieveDefaults()
         return
 
-    def getColumnValue(self,name):
+    def getColumnValue(self, name):
         return self._priv_columns.get(name)
 
     def getValues(self):
-        return [ self.__getattribute__(name) for name in self._columnRegistry ]
+        return [self.__getattribute__(name) for name in self._columnRegistry]
 
     def getWriteableValues(self):
-        return [ self.__getattribute__(name) for name in self._writeable ]
+        return [self.__getattribute__(name) for name in self._writeable]
 
 
     def getFormattedWriteableValues(self):
@@ -39,13 +39,13 @@ class Table(Traceable):
         values = {}
         for name, column in self._columnRegistry.iteritems():
             if name not in writable: continue
-            values[name] =  column.getFormattedValue( self )
+            values[name] = column.getFormattedValue(self)
             continue
-        return [ values[name] for name in self._writeable ]
+        return [values[name] for name in self._writeable]
 
     def getColumnNames(self):
         return self._columnRegistry.keys()
-    
+ 
     def getNumColumns(self):
         return len(self._columnRegistry.keys())
 
@@ -58,7 +58,7 @@ class Table(Traceable):
 
     def _getFormattedColumnValue(self, name):
         column = self._columnRegistry[name]
-        return column.getFormattedValue( self )
+        return column.getFormattedValue(self)
 
     def _setColumnValue(self, name, value):
         self._priv_columns[name] = value
@@ -81,7 +81,7 @@ class Table(Traceable):
     from Schemer import Schemer
     __metaclass__ = Schemer
 
-    
+ 
     @classmethod
     def getTableName(cls):
         if hasattr(cls, 'pyredbtablename'):

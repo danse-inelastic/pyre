@@ -14,6 +14,7 @@
 
 from Column import Column
 
+import time, calendar
 
 class Time(Column):
 
@@ -31,7 +32,7 @@ class Time(Column):
 
 
     def __get__(self, instance, cls=None):
-        ret = Column.__get__(self, instance, cls = cls)
+        ret = Column.__get__(self, instance, cls=cls)
         if ret is None:
             return self._getDefaultValue()
         return self._cast(ret)
@@ -59,9 +60,6 @@ class Time(Column):
         value = time.ctime()
         value = self._cast(value)
         return value
-    
-
-import time, calendar
 
 # version
 __id__ = "$Id: Time.py,v 1.1.1.1 2006-11-27 00:09:55 aivazis Exp $"
