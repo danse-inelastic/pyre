@@ -27,14 +27,13 @@ class GeneralizedCone(Primitive):
         self.scale = scale
         self.height = height
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
 
 
     def __str__(self):
-        return "cone: major=%s, minor=%s, scale=%s, height=%s" % (
-            self.major, self.minor, self.scale, self.height)
+        return "cone: major={0!s}, minor={1!s}, scale={2!s}, height={3!s}".format(self.major, self.minor, self.scale, self.height)
 
 
 # version

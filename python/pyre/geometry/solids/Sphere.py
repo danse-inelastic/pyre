@@ -24,13 +24,13 @@ class Sphere(Primitive):
     def __init__(self, radius):
         self.radius = radius
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
 
 
     def __str__(self):
-        return "sphere: radius=%s" % self.radius
+        return "sphere: radius={0!s}".format(self.radius)
 
 
 # version

@@ -26,13 +26,13 @@ class Cone(Primitive):
         self.bottom = bottom
         self.height = height
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
 
 
     def __str__(self):
-        return "cone: top=%s, bottom=%s, height=%s" % (self.top, self.bottom, self.height)
+        return "cone: top={0!s}, bottom={1!s}, height={2!s}".format(self.top, self.bottom, self.height)
 
 
 # version

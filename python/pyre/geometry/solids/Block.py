@@ -24,13 +24,13 @@ class Block(Primitive):
     def __init__(self, diagonal):
         self.diagonal = tuple(diagonal)
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
 
 
     def __str__(self):
-        return "block: diagonal=(%s, %s, %s)" % self.diagonal
+        return "block: diagonal=({0!s}, {1!s}, {2!s})".format(self.diagonal)
 
 
 # version

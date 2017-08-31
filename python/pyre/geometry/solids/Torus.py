@@ -25,13 +25,13 @@ class Torus(Primitive):
         self.major = major
         self.minor = minor
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
         
 
     def __str__(self):
-        return "torus: major=%s, minor=%s" % (self.major, self.minor)
+        return "torus: major={0!s}, minor={1!s}".format(self.major, self.minor)
 
 # version
 __id__ = "$Id: Torus.py,v 1.1.1.1 2006-11-27 00:09:59 aivazis Exp $"
