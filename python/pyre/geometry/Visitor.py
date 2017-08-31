@@ -85,7 +85,7 @@ class Visitor(object):
     # throw an exception
     def _abstract(self, method):
         raise NotImplementedError(
-            "class '%s' should override method '%s'" % (self.__class__.__name__, method))
+            "class '{0!s}' should override method '{1!s}'".format(self.__class__.__name__, method))
 
 
 # version
