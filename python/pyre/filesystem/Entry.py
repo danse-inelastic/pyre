@@ -16,7 +16,7 @@ class Entry(object):
 
 
     def identify(self, inspector):
-        raise NotImplementedError("class '%s' must override 'id'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'id'".format(self.__class__.__name__))
 
 
     def __init__(self, name, parent=None):
