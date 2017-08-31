@@ -33,11 +33,11 @@ class Rotation(Transformation):
 
     def notify(self, parent):
         if not self._body:
-            raise ValueError("no body specified in '%s'" % self.tag)
+            raise ValueError("no body specified in '{0!s}'".format(self.tag))
         if not self._vector:
-            raise ValueError("no vector specified in '%s'" % self.tag)
+            raise ValueError("no vector specified in '{0!s}'".format(self.tag))
         if not self._angle:
-            raise ValueError("no angle specified in '%s'" % self.tag)
+            raise ValueError("no angle specified in '{0!s}'".format(self.tag))
 
         rotation = pyre.geometry.operations.rotate(
             body=self._body, vector=self._vector, angle=self._angle)

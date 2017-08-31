@@ -32,7 +32,7 @@ class Binary(Composition):
         elif not self._b2:
             self._b2 = body
         else:
-            raise ValueError("too many nested tags in '%s'" % self.tag)
+            raise ValueError("too many nested tags in '{0!s}'".format(self.tag))
             
         return
 
