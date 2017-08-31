@@ -30,7 +30,7 @@ class Difference(Binary):
 
 
     def __str__(self):
-        return "difference: op1={%s}, op2={%s}" % (self.op1, self.op2)
+        return "difference: op1={{0!s}}, op2={{1!s}".format(self.op1, self.op2)
 
 
 # version

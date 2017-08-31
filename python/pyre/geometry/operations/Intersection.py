@@ -30,7 +30,7 @@ class Intersection(Binary):
 
 
     def __str__(self):
-        return "intersection: op1={%s}, op2={%s}" % (self.op1, self.op2)
+        return "intersection: op1={{0!s}}, op2={{1!s}}".format(self.op1, self.op2)
 
 
 # version

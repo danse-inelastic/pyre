@@ -31,7 +31,7 @@ class Dilation(Transformation):
 
 
     def __str__(self):
-        return "dilation: body={%s}, scale=%s" % (self.body, self.scale)
+        return "dilation: body={{0!s}}, scale={1!s}".format(self.body, self.scale)
 
 
 # version

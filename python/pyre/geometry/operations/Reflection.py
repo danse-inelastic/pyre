@@ -31,7 +31,7 @@ class Reflection(Transformation):
 
 
     def __str__(self):
-        return "reflection: body={%s}, vector=%r" % (self.body, self.vector)
+        return "reflection: body={{0!s}}, vector={1!r}".format(self.body, self.vector)
 
 
 
