@@ -34,7 +34,7 @@ class RecordLocator(Component):
         for index, letter in enumerate(locator):
             tid += self._hashtable[letter] * self._base**index
 
-        label = "%07d" % tid
+        label = "{0:07d}".format(tid)
         date = label[-6:]
         counter = label[:-6]
 

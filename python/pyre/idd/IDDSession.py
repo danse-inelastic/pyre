@@ -31,9 +31,9 @@ class IDDSession(TCPSession):
         token = self.request(command="token")
 
         self._info.line("token received:")
-        self._info.line("    id: %s" % token.tid)
-        self._info.line("    date: %s" % token.date)
-        self._info.log("    locator: %s" % token.locator)
+        self._info.line("    id: {0!s}".format(token.tid))
+        self._info.line("    date: {0!s}".format(token.date))
+        self._info.log("    locator: {0!s}".format(token.locator))
 
         return token
 

@@ -24,7 +24,7 @@ class Token(object):
 
 
     def __str__(self):
-        return "locator=%r, id=%r, date=%r" % (self.locator, self.tid, self.date)
+        return "locator={0!r}, id={1!r}, date={2!r}".format(self.locator, self.tid, self.date)
 
 
 # version
