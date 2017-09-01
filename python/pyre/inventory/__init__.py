@@ -39,7 +39,7 @@ def renderer(mode="pml"):
         return Renderer()
 
     import journal
-    journal.error.log("'%s': unknown registry rendering mode" % mode)
+    journal.error.log("'{0!s}': unknown registry rendering mode"format(mode))
     return None
     
 
@@ -49,7 +49,7 @@ def parser(mode="pml"):
         return Parser()
 
     import journal
-    journal.error.log("'%s': unknown registry parsing mode" % mode)
+    journal.error.log("'{0!s}': unknown registry parsing mode".format(mode))
     return None
     
 

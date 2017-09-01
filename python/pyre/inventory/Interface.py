@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 class Interface(type):
 
@@ -29,7 +30,7 @@ class Interface(type):
             if not isinstance(record, types.FunctionType):
                 continue
 
-            print name
+            print(name)
             interfaceRegistry[name] = None
 
         cls._interfaceRegistry = interfaceRegistry

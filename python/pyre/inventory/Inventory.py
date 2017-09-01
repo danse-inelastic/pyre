@@ -47,16 +47,16 @@ class Inventory(object):
 
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
-        # print 'pyre.inventory.Inventory.configureProperties', self
+        # print('pyre.inventory.Inventory.configureProperties', self)
         for name, descriptor in self._priv_registry.properties.iteritems():
-            # print 'pyre.inventory.Inventory.configureProperties', name, descriptor.value
+            # print('pyre.inventory.Inventory.configureProperties', name, descriptor.value)
             try:
                 prop = self._traitRegistry[name]
             except KeyError:
                 unknownProperties.append((name, descriptor.value, descriptor.locator))
                 continue
             prop._set(self, descriptor.value, descriptor.locator)
-            # print 'pyre.inventory.Inventory.configureProperties: *******', name, self._getTraitValue(name)
+            # print('pyre.inventory.Inventory.configureProperties: *******', name, self._getTraitValue(name))
 
         return unknownProperties, []
 
@@ -159,8 +159,8 @@ class Inventory(object):
         return (unknownProperties, unknownComponents)
 
 
-    def retrieveComponent(
-        self, name, factory, args=(), kwds={}, encoding='odb', vault=[], extraDepositories=[]):
+    def retrieveComponent(self, name, factory, args=(), kwds={},
+                          encoding='odb', vault=[], extraDepositories=[]):
         """retrieve component <name> from the persistent store"""
 
         if extraDepositories:
@@ -272,7 +272,7 @@ class Inventory(object):
     def components(self):
         """return a list of my components"""
         candidates = [
-            facility.__get__(self) for facility in self._facilityRegistry.itervalues() ]
+            facility.__get__(self) for facility in self._facilityRegistry.itervalues()]
         return filter(None, candidates)
 
 
