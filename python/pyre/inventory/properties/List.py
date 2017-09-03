@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import sys
 
 from pyre.inventory.Property import Property
 
@@ -26,22 +27,37 @@ class List(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
-            if value and value[0] in '[({':
-                value = value[1:]
-            if value and value[-1] in '])}':
-                value = value[:-1]
+        if sys.version_info[:2] == (2, 7):
+            if isinstance(value, basestring):
+                if value and value[0] in '[({':
+                    value = value[1:]
+                if value and value[-1] in '])}':
+                    value = value[:-1]
 
-            if not value:
-                return []
+                if not value:
+                    return []
                 
-            value = value.split(",")
-            return value
+                value = value.split(",")
+                return value
+        elif sys.version_info[0] == (3,):
+            if isinstance(value, str):
+                if value and value[0] in '[({':
+                    value = value[1:]
+                if value and value[-1] in '])}':
+                    value = value[:-1]
+
+                if not value:
+                    return []
+                
+                value = value.split(",")
+                return value
+        else:
+            raise RuntimeError("This version of Python is not supported. Please use Python 2.7 or Python 3.")
 
         if isinstance(value, list):
             return value
             
-        raise TypeError("property '%s': could not convert '%s' to a list" % (self.name, value))
+        raise TypeError("property '{0!s}': could not convert '{1!s}' to a list".format(self.name, value))
     
 
 # version
