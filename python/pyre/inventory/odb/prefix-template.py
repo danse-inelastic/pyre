@@ -23,7 +23,7 @@ except KeyError:
 
 _SYSTEM_ROOT = os.path.join(stem, "etc")
 _USER_ROOT = os.path.join(os.path.expanduser('~'), '.pyre')
-_LOCAL_ROOT = [ '.' ]
+_LOCAL_ROOT = ['.']
 
 
 # version
