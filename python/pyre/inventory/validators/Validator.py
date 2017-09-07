@@ -16,7 +16,7 @@ class Validator(object):
 
 
     def __call__(self, candidate):
-        raise NotImplementedError("class '%s' must override '__call__'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override '__call__'".format(self.__class__.__name__))
 
 
 # version

@@ -29,11 +29,11 @@ class Not(Validator):
         except ValueError:
             return candidate
         
-        raise ValueError("%s is not supposed to be %s" % (candidate, self.op))
+        raise ValueError("{0!s} is not supposed to be {1!s}".format(candidate, self.op))
 
 
     def __str__(self):
-        return "(not %s)" % (self.op)
+        return "(not {0!s})".format(self.op)
 
 
 # version

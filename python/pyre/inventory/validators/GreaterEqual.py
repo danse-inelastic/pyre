@@ -22,11 +22,11 @@ class GreaterEqual(Binary):
         if candidate >= self.value:
             return candidate
 
-        raise ValueError("%s is not %s" % (candidate, self))
+        raise ValueError("{0!s} is not {1!s}".format(candidate, self))
 
 
     def __str__(self):
-        return "(greater than or equal to %s)" % (self.value)
+        return "(greater than or equal to {0!s})".format(self.value)
 
 
 # version
