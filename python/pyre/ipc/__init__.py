@@ -22,7 +22,7 @@ def connection(mode):
         return UDPSocket()
 
     import journal
-    journal.error('pyre.ipc').log("unknown connection mode '%s'" % mode)
+    journal.error('pyre.ipc').log("unknown connection mode '{0!s}'".format(mode))
 
     return None
 
@@ -37,7 +37,7 @@ def monitor(mode):
         return UDPMonitor()
 
     import journal
-    journal.error('pyre.ipc').log("unknown monitor mode '%s'" % mode)
+    journal.error('pyre.ipc').log("unknown monitor mode '{0!s}'".format(mode))
 
     return None
 
