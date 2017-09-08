@@ -47,7 +47,7 @@ class Shelf(dict):
 
 
         def __str__(self):
-            return "'%s': %s" % (self.shelf, self.error)
+            return "'{0!s}': {1!s}".format(self.shelf, self.error)
 
 
 # version

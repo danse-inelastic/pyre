@@ -23,7 +23,7 @@ class Curator(object):
 
 
     def getShelf(self, address, encoding):
-        raise NotImplementedError("class '%s' must override 'shelf'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'shelf'".format(self.__class__.__name__))
 
 
     def __init__(self, name):
@@ -48,7 +48,7 @@ class Curator(object):
 
 
         def __str__(self):
-            return "%s '%s' not found" % (self.category, self.item)
+            return "{0!s} '{1!s}' not found".format(self.category, self.item)
     
 
 # version
