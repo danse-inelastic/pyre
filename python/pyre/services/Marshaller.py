@@ -19,16 +19,16 @@ class Marshaller(Component):
 
 
     def send(self, request, stream):
-        raise NotImplementedError("class '%s' must override 'evaluate'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'evaluate'".format(self.__class__.__name__))
 
 
     def receive(self, stream):
-        raise NotImplementedError("class '%s' must override 'evaluate'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'evaluate'".format(self.__class__.__name__))
 
 
     def generateClientConfiguration(self, registry):
         raise NotImplementedError(
-            "class %r must override 'generateClientConfiguration'" % self.__class__.__name)
+            "class {0!r} must override 'generateClientConfiguration'".format(self.__class__.__name))
 
     
     def __init__(self, name):

@@ -27,7 +27,7 @@ class Session(Component):
 
 
     def request(self, command, args=None):
-        raise NotImplementedError("class %r must override 'request'" % self.__class__.__name__)
+        raise NotImplementedError("class {0!r} must override 'request'".format(self.__class__.__name__))
 
 
     def __init__(self, name, protocol):
@@ -56,7 +56,7 @@ class Session(Component):
         self._connection = pyre.ipc.connection(self.protocol)
 
         self._info.log(
-            "attempting to connect to server at %s:%d" % (self.host, self.port))
+            "attempting to connect to server at {0!s}:{1!d}".format(self.host, self.port))
 
         self._connection.connect((self.host, self.port))
         return

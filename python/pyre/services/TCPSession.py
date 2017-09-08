@@ -30,10 +30,10 @@ class TCPSession(Session):
 
         try:
             self._connect()
-        except self._connection.ConnectionError, error:
+        except self._connection.ConnectionError as error:
             raise self.RequestError(str(error))
 
-        self._info.log("sending request: command=%r" % command)
+        self._info.log("sending request: command={0!r}".format(command))
         self.marshaller.send(request, self._connection)
         self._info.log("request sent")
 

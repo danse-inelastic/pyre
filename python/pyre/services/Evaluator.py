@@ -24,21 +24,21 @@ class Evaluator(Component):
         except AttributeError:
             import journal
             journal.error('pyre.services').log(
-                "%r not found in component %r" % (command, component.name))
+                "{0!r} not found in component {1!r}".format(command, component.name))
             return
 
         if not callable(func):
             import journal
             journal.error('pyre.services').log(
-                "component %r: %r is not callable" % (component.name, command))
+                "component {0!r}: {1!r} is not callable".format(component.name, command))
             return
 
         try:
             return func(*args)
-        except TypeError, msg:
+        except TypeError as msg:
             import journal
             journal.error('pyre.services').log(
-                "component %r: %s" % (component.name, msg))
+                "component {0!r}: {1!s}".format(component.name, msg))
 
         return
 

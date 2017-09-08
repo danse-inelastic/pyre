@@ -39,16 +39,16 @@ class Pickler(Marshaller):
     def send(self, data, socket):
         stream = socket.makefile("wb", 0)
 
-        self._debug.log("sending data: %s" % data)
+        self._debug.log("sending data: {0!s}".format(data))
         request = Request(self.key, data)
     
         try:
             pickle.dump(request, stream)
         except EOFError:
-            text = '%s: unable to send request: EOFError' % self.__class__.__name__
+            text = '{0!s}: unable to send request: EOFError'.format(self.__class__.__name__)
             raise self.RequestError(text)
-        except IOError, msg:
-            text = '%s: unable to send request: IOError: %s' % (self.__class.__name, msg)
+        except IOError as msg:
+            text = '{0!s}: unable to send request: IOError: {1!s}'.format(self.__class.__name, msg)
             raise self.RequestError(text)
 
         return
@@ -60,13 +60,13 @@ class Pickler(Marshaller):
         try:
             request = pickle.load(stream)
         except EOFError:
-            text = '%s: unable to receive request: EOFError' % self.__class__.__name__
+            text = '{0!s}: unable to receive request: EOFError'.format(self.__class__.__name__)
             raise self.RequestError(text)
-        except IOError, msg:
-            text = '%s: unable to receive request: IOError: %s' % (self.__class.__name, msg)
+        except IOError as msg:
+            text = '{0!s}: unable to receive request: IOError: {1!s}'.format(self.__class.__name, msg)
             raise self.RequestError(text)
 
-        self._debug.log("received request: key=%s, data=%s" % (request.key, request.data))
+        self._debug.log("received request: key={0!s}, data={1!s}".format(request.key, request.data))
 
         return self.authenticate(request).data
 
@@ -80,11 +80,11 @@ class Pickler(Marshaller):
 
     def authenticate(self, request):
         if request.key == self.key:
-            self._debug.log("accepted key {%s}" % request.key)
+            self._debug.log("accepted key {{0!s}}".format(request.key))
             return request
         
-        raise ValueError, "%s: key mismatch: %r(mine) != %r(client's)" % (
-            self.__class__.__name__, self.key, request.key)
+        raise ValueError("{0!s}: key mismatch: {1!r}(mine) != {2!r}(client's)".format(
+            self.__class__.__name__, self.key, request.key))
 
 
     def __init__(self, name=None):
