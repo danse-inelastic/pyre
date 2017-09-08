@@ -27,19 +27,19 @@ class IPASession(TCPSession):
 
 
     def login(self, username, password):
-        self._info.log("login request for user '%s'" % username)
+        self._info.log("login request for user '{0!s}'".format(username))
         request = self.request(command='login', args=[username, password])
         return request
 
 
     def refresh(self, username, ticket):
-        self._info.log("ticketed request for user '%s':'%s'" % (username, ticket))
+        self._info.log("ticketed request for user '{0!s}':'{1!s}'".format(username, ticket))
         request = self.request(command='refresh', args=[username, ticket])
         return request
 
 
     def logout(self, username, ticket):
-        self._info.log("logout request for user '%s':'%s'" % (username, ticket))
+        self._info.log("logout request for user '{0!s}':'{1!s}'".format(username, ticket))
         request = self.request(command='logout', args=[username, ticket])
         return request
 

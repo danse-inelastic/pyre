@@ -38,14 +38,14 @@ class UserManager(Component):
         try:
             cryptotext = self._users[username]
         except KeyError:
-            self._info.log("bad username '%s'" % username)
+            self._info.log("bad username '{0!s}'".format(username))
             return
 
         if not self._decoder(cleartext, cryptotext):
-            self._info.log("bad password '%s' for user '%s'" % (cleartext, username))
+            self._info.log("bad password '{0!s}' for user '{1!s}'".format(cleartext, username))
             return
         
-        self._info.log("accepted password for user '%s'" % username)
+        self._info.log("accepted password for user '{0!s}'".format(username))
         return cryptotext
 
 
@@ -62,20 +62,20 @@ class UserManager(Component):
 
 
     def load(self):
-        self._info.log("reading user records from '%s'" % self.passwd)
+        self._info.log("reading user records from '{0!s}'".format(self.passwd))
 
         context = {}
         try:
             execfile(self.passwd, context)
-        except IOError, error:
-            self._info.log("error opening user db '%s': %s" % (self.passwd, error))
+        except IOError as error:
+            self._info.log("error opening user db '{0!s}': {1!s}".format(self.passwd, error))
             return
 
         try:
             users = context["users"]
             method = context["method"]
         except KeyError:
-            self._info.log("user db '%s' is malformed: no 'users' or 'method'" % self.passwd)
+            self._info.log("user db '{0!s}' is malformed: no 'users' or 'method'".format(self.passwd))
             return
 
         count = len(users)
@@ -83,7 +83,7 @@ class UserManager(Component):
             suffix = ''
         else:
             suffix = 's'
-        self._info.log("'%s': found %d user record%s" % (self.passwd, count, suffix))
+        self._info.log("'{0!s}': found {1!d} user record{2!s}".format(self.passwd, count, suffix))
 
         self.method = method
 
@@ -100,7 +100,7 @@ class UserManager(Component):
         text = [
             "",
             "",
-            "method = %r" % self.method,
+            "method = {0!r}".format(self.method),
             "",
             "",
             "users = {"
@@ -111,7 +111,7 @@ class UserManager(Component):
 
         for name in usernames:
             text += [
-                "    '%s': '%s'," % (name, self._users[name]),
+                "    '{0!s}': '{1!s}',".format(name, self._users[name]),
                 ]
 
         text += [
@@ -125,7 +125,7 @@ class UserManager(Component):
 
         stream = file(self.passwd, "w")
         for line in self.weaver.document():
-            stream.write("%s\n" % line)
+            stream.write("{0!s}\n".format(line))
         stream.close()
         
         return
@@ -175,7 +175,7 @@ class UserManager(Component):
         # locate the user database
         import os
         self.passwd = os.path.join(self.home, self.inventory.passwd)
-        self._info.log("user database in '%s'" % self.passwd)
+        self._info.log("user database in '{0!s}'".format(self.passwd))
 
         # configure the weaver
         self.weaver = self.inventory.weaver
