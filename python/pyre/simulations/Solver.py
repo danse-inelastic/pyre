@@ -18,12 +18,12 @@ class Solver(Component):
 
 
     def initialize(self, app):
-        self._loopInfo.log("initializing solver '%s'" % self.name)
+        self._loopInfo.log("initializing solver '{0!s}'".format(self.name))
         return
 
 
     def launch(self, app):
-        self._loopInfo.log("launching solver '%s'" % self.name)
+        self._loopInfo.log("launching solver '{0!s}'".format(self.name))
         return
 
 
@@ -31,57 +31,55 @@ class Solver(Component):
         self.t = t
         self.step = step
         self._loopInfo.log(
-            "%s: step %d: starting with t = %s" % (self.name, self.step, self.t))
+            "{0!s}: step {1!d}: starting with t = {2!s}".format(self.name, self.step, self.t))
         return
 
 
     def applyBoundaryConditions(self):
         self._loopInfo.log(
-            "%s: step %d: applying boundary conditions" % (self.name, self.step))
+            "{0!s}: step {1!d}: applying boundary conditions".format(self.name, self.step))
         return
 
 
     def stableTimestep(self, dt):
         self._loopInfo.log(
-            "%s: step %d: stable timestep dt = %s" % (self.name, self.step, dt))
+            "{0!s}: step {1!d}: stable timestep dt = {2!s}".format(self.name, self.step, dt))
         return dt
 
 
     def advance(self, dt):
         self._loopInfo.log(
-            "%s: step %d: advancing the solution by dt = %s" % (self.name, self.step, dt))
+            "{0!s}: step {1!d}: advancing the solution by dt = {2!s}".format(self.name, self.step, dt))
         return
 
 
     def publishState(self, directory):
         self._monitorInfo.log(
-            "%s: step %d: publishing monitoring information at t = %s in '%s'" % 
-            (self.name, self.step, self.t, directory))
+            "{0!s}: step {1!d}: publishing monitoring information at t = {2!s} in '{3!s}'".format(self.name, self.step, self.t, directory))
         return
 
 
     def plotFile(self, directory):
         self._loopInfo.log(
-            "%s: step %d: visualization information at t = %s in '%s'" % 
-            (self.name, self.step, self.t, directory))
+            "{0!s}: step {1!d}: visualization information at t = {2!s} in '{3!s}'".format(self.name, self.step, self.t, directory))
         return
 
 
     def checkpoint(self, filename):
         self._loopInfo.log(
-            "%s: step %d: checkpoint at t = %s in '%s'" % (self.name, self.step, self.t, filename))
+            "{0!s}: step {1!d}: checkpoint at t = {2!s} in '{3!s}'".format(self.name, self.step, self.t, filename))
         return
 
 
     def endTimestep(self, t):
         self._loopInfo.log(
-            "%s: step %d: end of timestep at t = %s" % (self.name, self.step, t))
+            "{0!s}: step {1!d}: end of timestep at t = {2!s}".format(self.name, self.step, t))
         return
 
 
     def endSimulation(self, steps, t):
         self._loopInfo.log(
-            "%s: end of timeloop: %d timesteps, t = %s" % (self.name, steps, t))
+            "{0!s}: end of timeloop: {1!d} timesteps, t = {2!s}".format(self.name, steps, t))
         return
 
 
@@ -94,8 +92,8 @@ class Solver(Component):
         self._elc = None
                 
         import journal
-        self._loopInfo = journal.debug("%s.timeloop" % name)
-        self._monitorInfo = journal.debug("%s.monitoring" % name)
+        self._loopInfo = journal.debug("{0!s}.timeloop".format(name))
+        self._monitorInfo = journal.debug("{0!s}.monitoring".format(name))
 
         from pyre.units.time import second
         self.t = 0.0 * second
