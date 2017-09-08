@@ -23,7 +23,7 @@ class Token(object):
 
 
     def __str__(self):
-        return "{token: %s}" % self.lexeme
+        return "{token: {0!s}}".format(self.lexeme)
 
 
     __slots__ = ("lexeme", "match", "size")

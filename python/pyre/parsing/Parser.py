@@ -23,7 +23,7 @@ class Parser(object):
         try:
             self._parse(scanner, tokenizer)
 
-        except scanner.TokenizationException, error:
+        except scanner.TokenizationException as error:
             msg = "-*- tokenization exception -*-"
             self._info.log(msg)
             self.onError(str(error), tokenizer.locator())
@@ -49,7 +49,7 @@ class Parser(object):
         done = 0
         while not done:
             token = self._tokenizer.fetch(self._scanner)
-            self._info.log("token: %s" % token)
+            self._info.log("token: {0!s}".format(token))
 
             done = token.identify(self)
 

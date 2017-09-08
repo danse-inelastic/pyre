@@ -31,17 +31,17 @@ class Scanner(object):
 
     def _tokenClasses(self):
         raise NotImplementedError(
-            "class '%s' must override '_tokenClasses'" % self.__class__.__name__)
+            "class '{0!s}' must override '_tokenClasses'".format(self.__class__.__name__))
 
 
     def _constructTokenRecognizer(self):
         import re
         patterns = [
-            "(?P<%s>%s)" % (token.__name__, token.pattern)
+            "(?P<{0!s}>{1!s})".format(token.__name__, token.pattern)
             for token in self._tokens]
 
         scanner = '|'.join(patterns)
-        self._debugPattern.log("pattern: {%s}" % scanner)
+        self._debugPattern.log("pattern: {{0!s}}".format(scanner))
         return re.compile(scanner)
 
 
@@ -49,10 +49,10 @@ class Scanner(object):
         groups = match.groupdict()
         for token in self._tokens:
             if groups[token.__name__]:
-                self._info.log("matched token class '%s'" % token.__name__)
+                self._info.log("matched token class '{0!s}'".format(token.__name__))
                 return token(match, groups)
 
-        str = "The text '%s' matched the scanner pattern " % match.group()
+        str = "The text '{0!s}' matched the scanner pattern ".format(match.group())
         str += "but there is no corresponding token class"
         import journal
         journal.firewall("pyre.parsing").log(str)
