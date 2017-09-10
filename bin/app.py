@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -37,11 +38,11 @@ class App(Script):
 
         appname = self.inventory.name.capitalize()
         filename = self.inventory.name + '.py'
-        print "creating application '%s' in '%s'" % (appname, filename)
+        print("creating application '{0!s}' in '{1!s}'".format(appname, filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream)
         stream.close()
         
         import os
@@ -74,7 +75,7 @@ class App(Script):
             "    from pyre.applications.Script import Script",
             "",
             "",
-            "    class %sApp(Script):" % appName,
+            "    class {0!s}App(Script):".format(appName),
             "",
             "",
             "        class Inventory(Script.Inventory):",
@@ -86,12 +87,12 @@ class App(Script):
             "",
             "",
             "        def main(self, *args, **kwds):",
-            "            print 'Hello %s!' % self.friend",
+            "            print('Hello {0!s}!'.fomrat(self.friend))",
             "            return",
             "",
             "",
             "        def __init__(self):",
-            "            Script.__init__(self, %r)" % name,
+            "            Script.__init__(self, {0!r})".format(name),
             "            self.friend = ''",
             "            return",
             "",
@@ -112,7 +113,7 @@ class App(Script):
             "            return",
             "",
             "",
-            "    app = %sApp()" % appName,
+            "    app = {0!s}App()".format(appName),
             "    return app.run()",
             "",
             "",
@@ -125,7 +126,7 @@ class App(Script):
             text += [
                 "    # adjust the python path",
                 "    import sys",
-                "    sys.path = %r + sys.path" % path,
+                "    sys.path = {0!r} + sys.path".format(path),
                 ""
                 ]
 
