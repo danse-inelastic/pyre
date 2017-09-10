@@ -62,7 +62,7 @@ class DTDBuilder(type):
                 if callback not in cls.__dict__:
                     import journal
                     warning = journal.warning("pyre.xml.parsing")
-                    warning.log("class '%s' should define a method 'on%s'" % (name, factory))
+                    warning.log("class '{0!s}' should define a method 'on{1!s}'".format(name, factory))
 
         cls._mydtd = dtd
 
