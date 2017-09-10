@@ -32,7 +32,7 @@ class CommentingStrategy(object):
 
     def line(self, line=''):
         raise NotImplementedError(
-            "class '%s' should override 'line'" % self.__class__.__name__)
+            "class '{0!s}' should override 'line'".format(self.__class__.__name__))
 
 
     def __init__(self):
@@ -41,20 +41,17 @@ class CommentingStrategy(object):
 
     def _beginCommentBlock(self, text=''):
         raise NotImplementedError(
-            "class '%s' should override '_beginCommentBlock'"
-            % self.__class__.__name__)
+            "class '{0!s}' should override '_beginCommentBlock'".format(self.__class__.__name__))
                                   
 
     def _commentLineInBlock(self, line=''):
         raise NotImplementedError(
-            "class '%s' should override '_commentLineInBlock'"
-            % self.__class__.__name__)
+            "class '{0!s}' should override '_commentLineInBlock'".format(self.__class__.__name__))
 
 
     def _endCommentBlock(self, text=''):
         raise NotImplementedError(
-            "class '%s' should override '_beginCommentBlock'"
-            % self.__class__.__name__)
+            "class '{0!s}' should override '_beginCommentBlock'".format(self.__class__.__name__))
 
 
 # version
