@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -40,11 +41,11 @@ class Component(Script):
 
         name = self.inventory.name
         filename = name + '.py'
-        print "creating component '%s' in '%s'" % (name, filename)
+        print("creating component '{0!s}' in {1!s}'".format(name, filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream) 
         stream.close()
         
         return
@@ -69,7 +70,7 @@ class Component(Script):
         if self.inventory.base == "Component":
             importStmt = "from pyre.components.Component import Component"
         else:
-            importStmt = "from %s import %s" % (self.inventory.base, self.inventory.base)
+            importStmt = "from {0!s} import {1!s}".format(self.inventory.base, self.inventory.base)
         
         text = [
             "",
@@ -77,35 +78,35 @@ class Component(Script):
             importStmt,
             "",
             "",
-            "class %s(%s):" % (name, base),
+            "class {0!s}({1!s}):".format(name, base),
             "",
             "",
-            "    class Inventory(%s.Inventory):" % base,
+            "    class Inventory({0!s}.Inventory):".format(base),
             "",
             "        import pyre.inventory",
             "",
             "",
             "    def __init__(self, name):",
             "        if name is None:",
-            "            name = '%s'" % facility,
+            "            name = '{0!s}'".format(facility),
             "",
-            "        %s.__init__(self, name, facility=%r)" % (base, facility),
+            "        {0!s}.__init__(self, name, facility={1!r})".format(base, facility),
             "",
             "        return",
             "",
             "",
             "    def _defaults(self):",
-            "        %s._defaults(self)" % base,
+            "        {0!s}._defaults(self)".format(base),
             "        return",
             "",
             "",
             "    def _configure(self):",
-            "        %s._configure(self)" % base,
+            "        {0!s}._configure(self)".format(base),
             "        return",
             "",
             "",
             "    def _init(self):",
-            "        %s._init(self)" % base,
+            "        {0!s}._init(self)".format(base),
             "        return",
             "",
             ]
