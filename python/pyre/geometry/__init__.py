@@ -36,7 +36,7 @@ def renderer(format=None):
         return Renderer()
 
     import journal
-    journal.error.log("'%s': unknown geometry rendering format" % format)
+    journal.error.log("'{0!s}': unknown geometry rendering format".format(format))
     return None
     
 
@@ -49,7 +49,7 @@ def parser(format=None):
         return Parser()
 
     import journal
-    journal.error.log("'%s': unknown geometry parsing format" % format)
+    journal.error.log("'{0!s}': unknown geometry parsing format".format(format))
     return None
     
 
