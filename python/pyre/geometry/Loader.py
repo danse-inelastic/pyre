@@ -37,7 +37,7 @@ class Loader(GeometricalModeller):
         else:
             format = ext[1:]
 
-        stream = file(source)
+        stream = open(source)
         
         return self.retrieveModel(stream, format)
 
