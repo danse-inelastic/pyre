@@ -37,7 +37,7 @@ class CodecPML(CodecODB):
     def _decode(self, shelf):
         """lock and then read the contents of the file into the shelf"""
 
-        stream = file(shelf.name)
+        stream = open(shelf.name)
 
         self._locker.lock(stream, self._locker.LOCK_EX)
         inventory = self._parser.parse(stream, self.parserFactory)
