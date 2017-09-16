@@ -62,7 +62,7 @@ class IDDService(TCPService):
         token.date = self.date
         token.locator = self.locator.encode(self.tid, self.date)
 
-        self._info.log("issued token: %s" % token)
+        self._info.log("issued token: {0!s}".format(token))
         self.tid += 1
 
         return token
@@ -80,7 +80,7 @@ class IDDService(TCPService):
 
     
     def initialize(self, *unused):
-        self._debug.log("reading '%s' state from %r" % (self.name, self.configfile))
+        self._debug.log("reading '{0!s}' state from {1!r}".format(self.name, self.configfile))
         self._loadGeneratorParameters()
 
         # check that the loaded configuration is ok
@@ -97,12 +97,12 @@ class IDDService(TCPService):
 
         date = time.strftime("%y%m%d", tick)
 
-        self._debug.log("checking whether date=%s is current" % self.date)
+        self._debug.log("checking whether date={0!s} is current".format(self.date))
         if date != self.date:
             self.date = date
             self.tid = 0
 
-            self._debug.log("resetting: tid=%d, date=%s" % (self.tid, self.date))
+            self._debug.log("resetting: tid={0!d}, date={1!s}".format(self.tid, self.date))
 
             self._storeGeneratorParameters()
 
@@ -176,11 +176,11 @@ class IDDService(TCPService):
 
 
     def _storeGeneratorParameters(self):
-        self._debug.log("saving '%s' configuration in %r" % (self.name, self.configfile))
+        self._debug.log("saving '{0!s}' configuration in {1!s}".format(self.name, self.configfile))
         registry = self._describe()
 
         if registry:
-            stream = file(self.configfile, "w")
+            stream = open(self.configfile, "w")
             text = self.weaver.weave(registry, stream)
             stream.close()
 
