@@ -1,3 +1,5 @@
+from __future__ import division
+
 #!/usr/bin/env python
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +45,7 @@ class unit(object):
 
 
     def __mul__(self, other):
-        if type(other) == type(0) or type(other) == type(0.0):
+        if isinstance(other, int) or isinstance(other, float):
             return unit(other*self.value, self.derivation)
         
         value = self.value * other.value
@@ -56,7 +58,7 @@ class unit(object):
 
 
     def __div__(self, other):
-        if type(other) == type(0) or type(other) == type(0.0):
+        if isinstance(other, int) or isinstance(other, float):
             return unit(self.value/other, self.derivation)
         
         value = self.value / other.value
@@ -69,7 +71,7 @@ class unit(object):
 
 
     def __pow__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if (not isinstance(other, int)) and (not isinstance(other, float)):
             raise InvalidOperation("**", self, other)
 
         value = self.value ** other
@@ -94,14 +96,14 @@ class unit(object):
 
 
     def __rmul__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if (not isinstance(other, int)) and (not isinstance(other, float)):
             raise InvalidOperation("*", other, self)
 
         return unit(other*self.value, self.derivation)
 
 
     def __rdiv__(self, other):
-        if type(other) != type(0) and type(other) != type(0.0):
+        if (not isinstance(other, int)) and (not isinstnace(other, float)):
             raise InvalidOperation("/", other, self)
 
         value = other/self.value
@@ -120,7 +122,7 @@ class unit(object):
             
 
     def __str__(self):
-        str = "%g" % self.value 
+        str = "{0:g}".format(self.value) 
         derivation = self._strDerivation()
         if not derivation:
             return str
@@ -129,7 +131,7 @@ class unit(object):
 
 
     def __repr__(self):
-        str = "%g" % self.value 
+        str = "{0:g}".format(self.value) 
         derivation = self._strDerivation()
         if not derivation:
             return str
@@ -156,7 +158,7 @@ def _strDerivation(labels, exponents):
 def _strUnit(label, exponent):
     if exponent == 0: return None
     if exponent == 1: return label
-    return label + "**%g" % exponent
+    return label + "**{0:g}".format(exponent)
 
 
 # exceptions
@@ -169,7 +171,7 @@ class InvalidConversion(Exception):
 
 
     def __str__(self):
-        str =  "dimensional quantities ('%s') " % self._op._strDerivation()
+        str =  "dimensional quantities ('{0!s}') ".format(self._op._strDerivation())
         str = str + "cannot be converted to scalars"
         return str
 
@@ -184,7 +186,7 @@ class InvalidOperation(Exception):
 
 
     def __str__(self):
-        str = "Invalid expression: %s %s %s" % (self._op1, self._op, self._op2)
+        str = "Invalid expression: {0!s} {1!s} {2!s}".format(self._op1, self._op, self._op2)
         return str
 
 
@@ -198,8 +200,8 @@ class IncompatibleUnits(Exception):
 
 
     def __str__(self):
-        str = "Cannot %s quanitites with units of '%s' and '%s'" % \
-              (self._op, self._op1._strDerivation(), self._op2._strDerivation())
+        str = "Cannot {0!s} quanitites with units of '{1!s}' and '{2!s}'".format(
+              self._op, self._op1._strDerivation(), self._op2._strDerivation())
         return str
     
 
