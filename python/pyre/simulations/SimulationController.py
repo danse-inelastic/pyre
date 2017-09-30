@@ -141,12 +141,12 @@ class SimulationController(Component):
 
     def _makeDirectory(self, step):
         outdirbase = self.inventory.outputDirectory + "/" + self.solver.name
-        outdirformat = "%s-%%05d" % outdirbase
-        directory = outdirformat % step
+        outdirformat = "{0!s}-%%05d".format(outdirbase)
+        directory = outdirformat.format(step)
         try:
             import os
             os.makedirs(directory)
-        except OSError, error:
+        except OSError as error:
             import errno
             errorCode, msg =  error
 
