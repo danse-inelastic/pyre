@@ -13,9 +13,10 @@ from __future__ import division
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from functools import total_ordering
 import operator
 
-
+@total_ordering
 class unit(object):
 
 
@@ -103,7 +104,7 @@ class unit(object):
 
 
     def __rdiv__(self, other):
-        if (not isinstance(other, int)) and (not isinstnace(other, float)):
+        if (not isinstance(other, int)) and (not isinstance(other, float)):
             raise InvalidOperation("/", other, self)
 
         value = other/self.value
@@ -117,9 +118,17 @@ class unit(object):
         raise InvalidConversion(self)
 
 
-    def __cmp__(self, other):
-        return cmp(self.value, other.value)
+    """def __cmp__(self, other):
+        return cmp(self.value, other.value)"""
+
+    def __eq__(self, other):
+        return (self.value == other.value)
             
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __lt__(self, other):
+        return (self.value < other.value)
 
     def __str__(self):
         str = "{0:g}".format(self.value) 
