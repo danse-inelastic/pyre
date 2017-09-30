@@ -66,7 +66,7 @@ class UserManager(Component):
 
         context = {}
         try:
-            execfile(self.passwd, context)
+            exec(open(self.passwd).read(), context)
         except IOError as error:
             self._info.log("error opening user db '{0!s}': {1!s}".format(self.passwd, error))
             return
@@ -123,7 +123,7 @@ class UserManager(Component):
         self.weaver.contents(text)
         self.weaver.end()
 
-        stream = file(self.passwd, "w")
+        stream = open(self.passwd, "w")
         for line in self.weaver.document():
             stream.write("{0!s}\n".format(line))
         stream.close()
