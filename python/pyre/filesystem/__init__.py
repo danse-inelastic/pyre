@@ -13,6 +13,8 @@
 
 # factories
 
+from fastfind import fastfind
+
 def filesystem(name):
     from FileSystem import FileSystem
     return FileSystem(name)
@@ -69,10 +71,6 @@ def find(fs, name):
     finder = Finder()
 
     return finder.find(root, name)
-
-
-from fastfind import fastfind
-
 
 # version
 __id__ = "$Id: __init__.py,v 1.1.1.1 2006-11-27 00:09:56 aivazis Exp $"
