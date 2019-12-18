@@ -78,7 +78,7 @@ class Table(Traceable):
 
 
     # metaclass
-    from Schemer import Schemer
+    from .Schemer import Schemer
     __metaclass__ = Schemer
 
  

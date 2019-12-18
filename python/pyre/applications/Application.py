@@ -13,7 +13,7 @@
 
 
 from pyre.components.Component import Component
-from Executive import Executive
+from .Executive import Executive
 
 
 class Application(Component, Executive):

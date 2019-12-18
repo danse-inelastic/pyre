@@ -12,7 +12,7 @@
 #
 
 
-from Stager import Stager
+from .Stager import Stager
 
 
 class Daemon(Stager):

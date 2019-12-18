@@ -110,8 +110,8 @@ class Inventory(object):
     def retrieveConfiguration(self, registry):
         """place the current inventory configuration in the given registry"""
 
-        from Facility import Facility
-        from Property import Property
+        from .Facility import Facility
+        from .Property import Property
 
         node = registry.getNode(self._priv_name)
 
@@ -320,7 +320,7 @@ class Inventory(object):
 
 
     def _createTraitDescriptor(self):
-        from Descriptor import Descriptor
+        from .Descriptor import Descriptor
         return Descriptor()
 
 
@@ -344,7 +344,7 @@ class Inventory(object):
 
 
     # metaclass
-    from Notary import Notary
+    from .Notary import Notary
     __metaclass__ = Notary
 
 

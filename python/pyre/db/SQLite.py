@@ -13,7 +13,7 @@
 
 
 import sqlite3
-from DBManager import DBManager
+from .DBManager import DBManager
 
 
 class SQLite(DBManager):

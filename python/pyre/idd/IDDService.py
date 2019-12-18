@@ -55,7 +55,7 @@ class IDDService(TCPService):
         if self._reload:
             self.initialize()
 
-        from Token import Token
+        from .Token import Token
         token = Token()
 
         token.tid = self.tid

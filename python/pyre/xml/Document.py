@@ -12,7 +12,7 @@
 #
 
 
-from AbstractDocument import AbstractDocument
+from .AbstractDocument import AbstractDocument
 
 
 class Document(AbstractDocument):
@@ -32,7 +32,7 @@ class Document(AbstractDocument):
 
 
     # build the lookup table
-    from DTDBuilder import DTDBuilder
+    from .DTDBuilder import DTDBuilder
     __metaclass__ = DTDBuilder
     del DTDBuilder
 

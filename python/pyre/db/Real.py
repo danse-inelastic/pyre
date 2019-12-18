@@ -12,7 +12,7 @@
 #
 
 
-from Column import Column
+from .Column import Column
 
 
 class Real(Column):

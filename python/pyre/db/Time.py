@@ -12,7 +12,7 @@
 #
 
 
-from Column import Column
+from .Column import Column
 
 import time, calendar
 
@@ -56,7 +56,7 @@ class Time(Column):
 
 
     def _getDefaultValue(self):
-        import time
+        from . import time
         value = time.ctime()
         value = self._cast(value)
         return value

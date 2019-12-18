@@ -12,7 +12,7 @@
 #
 
 import pyre.geometry.operations
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Rotation(Transformation):

@@ -15,7 +15,7 @@
 # "array" types are only supported by psycopg2 (postgresql)
 
 
-from Column import Column
+from .Column import Column
 
 import numpy
 

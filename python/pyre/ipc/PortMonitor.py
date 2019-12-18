@@ -12,7 +12,7 @@
 #
 
 
-import socket
+from . import socket
 
 
 class PortMonitor(object):

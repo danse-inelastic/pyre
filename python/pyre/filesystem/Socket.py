@@ -12,7 +12,7 @@
 # 
 
 
-from File import File
+from .File import File
 
 
 class Socket(File):

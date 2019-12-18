@@ -13,9 +13,9 @@
 
 from __future__ import print_function
 
-from Application import Application
-from Daemon import Daemon as Stager
-from ComponentHarness import ComponentHarness
+from .Application import Application
+from .Daemon import Daemon as Stager
+from .ComponentHarness import ComponentHarness
 
 
 class ServiceDaemon(Application, Stager, ComponentHarness):

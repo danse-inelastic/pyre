@@ -12,7 +12,7 @@
 #
 
 
-from Ternary import Ternary
+from .Ternary import Ternary
 
 
 class Range(Ternary):

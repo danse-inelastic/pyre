@@ -36,7 +36,7 @@ class Marshaller(Component):
         return
 
 
-    from RequestError import RequestError
+    from .RequestError import RequestError
 
 
 # version

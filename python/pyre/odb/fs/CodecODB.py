@@ -62,7 +62,7 @@ class CodecODB(Codec):
     def _shelf(self, filename, const):
         """create a shelf for the contents of the db file"""
 
-        from Shelf import Shelf
+        from .Shelf import Shelf
         return Shelf(filename, const, self)
 
 
@@ -87,7 +87,7 @@ class CodecODB(Codec):
 
 
     def _createLocker(self):
-        from FileLocking import FileLocking
+        from .FileLocking import FileLocking
         return FileLocking()
 
         

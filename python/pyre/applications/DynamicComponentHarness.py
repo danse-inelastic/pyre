@@ -13,7 +13,7 @@
 
 from __future__ import print_function
 
-from ComponentHarness import ComponentHarness
+from .ComponentHarness import ComponentHarness
 
 
 class DynamicComponentHarness(ComponentHarness):

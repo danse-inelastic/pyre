@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from time import hour
-from length import nautical_mile
+from .time import hour
+from .length import nautical_mile
 
 #
 # Definitions of common speed units

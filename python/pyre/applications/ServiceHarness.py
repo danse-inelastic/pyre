@@ -14,7 +14,7 @@
 from __future__ import print_function
 
 from pyre.applications.Script import Script
-from DynamicComponentHarness import DynamicComponentHarness
+from .DynamicComponentHarness import DynamicComponentHarness
 
 
 class ServiceHarness(Script, DynamicComponentHarness):

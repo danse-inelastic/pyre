@@ -13,7 +13,7 @@
 
 from __future__ import print_function
 
-from Inspector import Inspector
+from .Inspector import Inspector
 
 
 class SimpleRenderer(Inspector):

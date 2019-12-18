@@ -12,7 +12,7 @@
 #
 
 def tokenizer(file):
-    from Tokenizer import Tokenizer
+    from .Tokenizer import Tokenizer
     return Tokenizer(file)
 
 

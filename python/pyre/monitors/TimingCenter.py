@@ -32,7 +32,7 @@ class TimingCenter(ResourceManager):
     def timer(self, name):
         timer = self.find(name)
         if not timer:
-            from Timer import Timer
+            from .Timer import Timer
             timer = Timer(name).activate()
             self.manage(timer, name)
 

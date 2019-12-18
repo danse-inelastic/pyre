@@ -244,7 +244,7 @@ class Curator(Base):
 
 
     def _registryFactory(self, name):
-        from Registry import Registry
+        from .Registry import Registry
         return Registry(name)
 
 

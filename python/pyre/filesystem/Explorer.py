@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
-from SimpleRenderer import SimpleRenderer
+from .SimpleRenderer import SimpleRenderer
 
 import pythlets
 _defaultResourceFile = pythlets.resourceFile("ctree.glade")

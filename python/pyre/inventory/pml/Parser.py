@@ -19,7 +19,7 @@ class Parser(BaseParser):
 
 
     def parse(self, stream, parserFactory=None):
-        from parser.Document import Document
+        from .parser.Document import Document
         return BaseParser.parse(self, stream, Document(stream.name), parserFactory)
 
 

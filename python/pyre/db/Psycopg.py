@@ -12,8 +12,8 @@
 #
 
 
-import psycopg2 as psycopg
-from DBManager import DBManager
+from . import psycopg2 as psycopg
+from .DBManager import DBManager
 
 
 class Psycopg(DBManager):

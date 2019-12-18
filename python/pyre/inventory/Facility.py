@@ -12,7 +12,7 @@
 #
 
 
-from Trait import Trait
+from .Trait import Trait
 
 import sys
 
@@ -197,7 +197,7 @@ class Facility(Trait):
     _interfaceRegistry = {}
 
     # metaclass
-    from Interface import Interface
+    from .Interface import Interface
     __metaclass__ = Interface
 
 

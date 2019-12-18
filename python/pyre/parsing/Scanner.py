@@ -69,7 +69,7 @@ class Scanner(object):
     _debugPattern = journal.debug("pyre.parsing.scanner.pattern")
 
 
-    from TokenizationException import TokenizationException
+    from .TokenizationException import TokenizationException
 
             
 # version

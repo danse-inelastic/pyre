@@ -12,7 +12,7 @@
 #
 
 import journal
-from Body import Body
+from .Body import Body
 
 
 class Primitive(Body):

@@ -12,7 +12,7 @@
 # 
 
 
-from Resource import Resource
+from .Resource import Resource
 
 
 class ResourceManager(Resource):

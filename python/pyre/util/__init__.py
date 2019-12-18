@@ -13,22 +13,22 @@
 
 
 def tmp():
-    from tmpdir import tmp
+    from .tmpdir import tmp
     return tmp()
 
 
 def spawn(onParent, onChild):
-    from subprocesses import spawn
+    from .subprocesses import spawn
     return spawn(onParent, onChild)
 
 
 def spawn_pty(onParent, onChild):
-    from subprocesses import spawn_pty
+    from .subprocesses import spawn_pty
     return spawn_pty(onParent, onChild)
 
 
 def expandMacros(raw, substitutions):
-    from expand import expandMacros
+    from .expand import expandMacros
     return expandMacros(raw, substitutions)
 
 

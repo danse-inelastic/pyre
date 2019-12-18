@@ -332,7 +332,7 @@ class Configurable(Traceable):
         
 
     # inventory
-    from Inventory import Inventory
+    from .Inventory import Inventory
 
 
 # version

@@ -12,7 +12,7 @@
 #
 
 
-from Binary import Binary
+from .Binary import Binary
 
 
 class LessEqual(Binary):

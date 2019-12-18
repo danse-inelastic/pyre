@@ -36,7 +36,7 @@ class PeriodicTable(object):
 
 
     def __init__(self):
-        from elements import elements
+        from .elements import elements
 
         self._atomicNumberIndex = elements
         self._nameIndex = createNameIndex(elements)

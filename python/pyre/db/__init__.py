@@ -33,55 +33,55 @@ def connect(database, wrapper=None, **kwds):
 
 
 def bigint(**kwds):
-    from BigInt import BigInt
+    from .BigInt import BigInt
     return BigInt(**kwds)
 
 
 def boolean(**kwds):
-    from Boolean import Boolean
+    from .Boolean import Boolean
     return Boolean(**kwds)
 
 def booleanArray(**kwds):
-    from BooleanArray import BooleanArray
+    from .BooleanArray import BooleanArray
     return BooleanArray(**kwds)
 
 def char(**kwds):
-    from Char import Char
+    from .Char import Char
     return Char(**kwds)
 
 
 def date(**kwds):
-    from Date import Date
+    from .Date import Date
     return Date(**kwds)
 
 
 def double(**kwds):
-    from Double import Double
+    from .Double import Double
     return Double(**kwds)
 
 
 def doubleArray(**kwds):
-    from DoubleArray import DoubleArray
+    from .DoubleArray import DoubleArray
     return DoubleArray(**kwds)
 
 
 def integer(**kwds):
-    from Integer import Integer
+    from .Integer import Integer
     return Integer(**kwds)
 
 
 def integerArray(**kwds):
-    from IntegerArray import IntegerArray
+    from .IntegerArray import IntegerArray
     return IntegerArray(**kwds)
 
 
 def interval(**kwds):
-    from Interval import Interval
+    from .Interval import Interval
     return Interval(**kwds)
 
 
 def real(**kwds):
-    from Real import Real
+    from .Real import Real
     return Real(**kwds)
 
 
@@ -91,7 +91,7 @@ def reference(**kwds):
 
 
 def smallint(**kwds):
-    from SmallInt import SmallInt
+    from .SmallInt import SmallInt
     return SmallInt(**kwds)
 
 
@@ -101,22 +101,22 @@ def tableRegistry():
 
 
 def time(**kwds):
-    from Time import Time
+    from .Time import Time
     return Time(**kwds)
 
 
 def timestamp(**kwds):
-    from Timestamp import Timestamp
+    from .Timestamp import Timestamp
     return Timestamp(**kwds)
 
 
 def varchar(**kwds):
-    from VarChar import VarChar
+    from .VarChar import VarChar
     return VarChar(**kwds)
 
 
 def varcharArray(**kwds):
-    from VarCharArray import VarCharArray
+    from .VarCharArray import VarCharArray
     return VarCharArray(**kwds)
 
 # version

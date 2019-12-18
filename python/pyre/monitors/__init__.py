@@ -14,7 +14,7 @@
 
 # timers
 def timingCenter():
-    from TimingCenter import timingCenter
+    from .TimingCenter import timingCenter
     return timingCenter()
 
 

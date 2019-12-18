@@ -12,7 +12,7 @@
 # 
 
 
-from Entry import Entry
+from .Entry import Entry
 
 
 class File(Entry):

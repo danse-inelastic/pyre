@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from SI import meter
-from SI import kilo, centi, milli, micro, nano
+from .SI import meter
+from .SI import kilo, centi, milli, micro, nano
 
 
 #

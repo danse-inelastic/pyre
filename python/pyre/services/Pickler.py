@@ -13,7 +13,7 @@
 
 
 import pickle
-from Marshaller import Marshaller
+from .Marshaller import Marshaller
 
 
 def createKey():

@@ -12,7 +12,7 @@
 #
 
 
-from Token import Token
+from .Token import Token
 from pyre.services.Pickler import Pickler
 
 
