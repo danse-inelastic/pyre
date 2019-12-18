@@ -46,7 +46,7 @@ class App(Script):
         stream.close()
         
         import os
-        os.chmod(filename, 0775)
+        os.chmod(filename, 0o775)
         
         return
 
