@@ -23,7 +23,7 @@ class Interface(type):
 
         interfaceRegistry = {}
         
-        for name, record in dict.iteritems():
+        for name, record in dict.items():
             if name[0] == '_':
                 continue
             

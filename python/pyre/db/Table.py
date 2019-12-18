@@ -37,17 +37,17 @@ class Table(Traceable):
     def getFormattedWriteableValues(self):
         writable = self._writeable
         values = {}
-        for name, column in self._columnRegistry.iteritems():
+        for name, column in self._columnRegistry.items():
             if name not in writable: continue
             values[name] = column.getFormattedValue(self)
             continue
         return [values[name] for name in self._writeable]
 
     def getColumnNames(self):
-        return self._columnRegistry.keys()
+        return list(self._columnRegistry.keys())
  
     def getNumColumns(self):
-        return len(self._columnRegistry.keys())
+        return len(list(self._columnRegistry.keys()))
 
     def getWriteableColumnNames(self):
         return self._writeable
@@ -66,7 +66,7 @@ class Table(Traceable):
 
     #
     def _retrieveDefaults(self):
-        for column in self._columnRegistry.itervalues():
+        for column in self._columnRegistry.values():
             value = column.__get__(self)
             column.__set__(self, value)
             continue

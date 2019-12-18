@@ -107,7 +107,7 @@ class DBManager(object):
     def createTable(self, table):
         # build the list of table columns
         fields = []
-        for name, column in table._columnRegistry.iteritems():
+        for name, column in table._columnRegistry.items():
             text = "    {0!s} {1!s}".format(name, column.declaration())
             fields.append(text)
 
@@ -140,7 +140,7 @@ class DBManager(object):
 
 
     def fetchall(self, table, where=None, sort=None):
-        columns = table._columnRegistry.keys()
+        columns = list(table._columnRegistry.keys())
  
         # build the sql statement
         sql = "SELECT {0!s} FROM {1!s}".format(", ".join(columns), table.getTableName())

@@ -129,7 +129,7 @@ class IPAService(TCPService):
         now = time.time()
 
         expired = []
-        for ticket, timestamp in self._tickets.iteritems():
+        for ticket, timestamp in self._tickets.items():
             self._info.log("ticket {0!r}: {1!s} seconds until expiration".format(ticket, timestamp - now))
             if now > timestamp:
                 expired.append(ticket)

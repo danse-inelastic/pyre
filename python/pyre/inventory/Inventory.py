@@ -48,7 +48,7 @@ class Inventory(object):
         # loop over the registry property entries and
         # attempt to set the value of the corresponding inventory item
         # print('pyre.inventory.Inventory.configureProperties', self)
-        for name, descriptor in self._priv_registry.properties.iteritems():
+        for name, descriptor in self._priv_registry.properties.items():
             # print('pyre.inventory.Inventory.configureProperties', name, descriptor.value)
             try:
                 prop = self._traitRegistry[name]
@@ -97,7 +97,7 @@ class Inventory(object):
         # note that this only affects components for which there are settings in the registry
         # this is done in a separate loop because it provides an easy way to catch typos
         # on the command line
-        for name, registry in self._priv_registry.facilities.iteritems():
+        for name, registry in self._priv_registry.facilities.items():
             try:
                 component = aliases[name]
             except KeyError:
@@ -115,7 +115,7 @@ class Inventory(object):
 
         node = registry.getNode(self._priv_name)
 
-        for prop in self._traitRegistry.itervalues():
+        for prop in self._traitRegistry.values():
 
             name = prop.name
             descriptor = self.getTraitDescriptor(name)
@@ -251,28 +251,28 @@ class Inventory(object):
     # accessors for the inventory items by category
     def properties(self):
         """return a list of my property objects"""
-        return self._traitRegistry.values()
+        return list(self._traitRegistry.values())
 
 
     def propertyNames(self):
         """return a list of the names of all my traits"""
-        return self._traitRegistry.keys()
+        return list(self._traitRegistry.keys())
 
 
     def facilities(self):
         """return a list of my facility objects"""
-        return self._facilityRegistry.values()
+        return list(self._facilityRegistry.values())
 
         
     def facilityNames(self):
         """return a list of the names of all my facilities"""
-        return self._facilityRegistry.keys()
+        return list(self._facilityRegistry.keys())
 
 
     def components(self):
         """return a list of my components"""
         candidates = [
-            facility.__get__(self) for facility in self._facilityRegistry.itervalues()]
+            facility.__get__(self) for facility in self._facilityRegistry.values()]
         return filter(None, candidates)
 
 

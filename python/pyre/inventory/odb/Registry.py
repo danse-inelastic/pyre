@@ -55,11 +55,11 @@ class Registry(object):
         if not registry:
             return self
         
-        for name, descriptor in registry.properties.iteritems():
+        for name, descriptor in list(registry.properties.items()):
             # print("pyre.inventory.odb.Registry:", name, descriptor.value, descriptor.locator)
             self.setProperty(name, descriptor.value, descriptor.locator)
 
-        for name, node in registry.facilities.iteritems():
+        for name, node in list(registry.facilities.items()):
             self.getNode(name).update(node)
 
         return self
@@ -94,12 +94,12 @@ class Registry(object):
 
         listing = [
             ("{0!s}.{1!s}".format(self.name, name), descriptor.value, "{0!s}".format(descriptor.locator))
-            for name, descriptor in self.properties.iteritems()
+            for name, descriptor in list(self.properties.items())
             ]
 
         listing += [
             ("{0!s}.{1!s}".format(self.name, name), value, "{0!s}".format(locator))
-            for facility in self.facilities.itervalues()
+            for facility in self.facilities.values()
             for name, value, locator in facility.render() 
             ]
 

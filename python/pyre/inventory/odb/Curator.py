@@ -100,7 +100,7 @@ class Curator(Base):
 
     def config(self, registry):
         import os
-        import prefix
+        from . import prefix
 
         # gain access to the installation defaults
         user = prefix._USER_ROOT
@@ -194,14 +194,14 @@ class Curator(Base):
 
         if self._traitRequests:
             print("    trait requests:", file=stream) 
-            for trait, record in self._traitRequests.iteritems():
+            for trait, record in self._traitRequests.items():
                 print("        trait='{0!s}'".format(trait), file=stream) 
                 for entry in record:
                     print("            {0!s}: {1!s}".format(entry), file=stream) 
 
         if self._componentRequests:
             print("    component requests:", file=stream) 
-            for trait, record in self._componentRequests.iteritems():
+            for trait, record in self._componentRequests.items():
                 print("        component='{0!s}'".format(trait), file=stream) 
                 for entry in record:
                     print("            {0!s}: {1!s}".format(entry), file=stream) 
