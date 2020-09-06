@@ -104,7 +104,7 @@ class CommandlineParser(object):
                 candidates = field[1:-1].split(',')
             else:
                 candidates = [field]
-            self._debug.line("    sub: [{:02d}] candidates={1!s}".format(level, candidates))
+            self._debug.line("    sub: [{:02d}] candidates={}".format(level, candidates))
             children.append(candidates)
 
         self._storeValue(root, children, value)

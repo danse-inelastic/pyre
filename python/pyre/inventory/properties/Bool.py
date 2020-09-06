@@ -29,7 +29,7 @@ class Bool(Property):
             if isinstance(value, basestring):
                 import pyre.util.bool
                 return pyre.util.bool.bool(value)
-        elif sys.version_info[0] == (3,):
+        elif sys.version_info[0] == 3:
             if isinstance(value, str):
                 import pyre.util.bool
                 return pyre.util.bool.bool(value)

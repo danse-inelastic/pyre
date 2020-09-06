@@ -21,7 +21,7 @@ class SimpleFileLocator(object):
 
 
     def __str__(self):
-        return "{file={0!r}}".format(self.source)
+        return "{{file={0!r}}}".format(self.source)
     
 
     __slots__ = ("source")

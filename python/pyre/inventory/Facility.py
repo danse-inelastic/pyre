@@ -12,11 +12,11 @@
 #
 
 
-from .Trait import Trait
-
 import sys
 
-class Facility(Trait):
+from .Trait import Trait
+from .Interface import Interface
+class Facility(Trait, metaclass=Interface):
 
 
     def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None):
@@ -195,11 +195,6 @@ class Facility(Trait):
 
     # interface registry
     _interfaceRegistry = {}
-
-    # metaclass
-    from .Interface import Interface
-    __metaclass__ = Interface
-
 
 # version
 __id__ = "$Id: Facility.py,v 1.1.1.1 2006-11-27 00:10:00 aivazis Exp $"

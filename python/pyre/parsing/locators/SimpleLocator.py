@@ -21,7 +21,7 @@ class SimpleLocator(object):
 
 
     def __str__(self):
-        return "{{0!s}}".format(self.source)
+        return "{{{0!s}}}".format(self.source)
 
 
     __slots__ = ("source")

@@ -197,14 +197,14 @@ class Curator(Base):
             for trait, record in self._traitRequests.items():
                 print("        trait='{0!s}'".format(trait), file=stream) 
                 for entry in record:
-                    print("            {0!s}: {1!s}".format(entry), file=stream) 
+                    print("            {0!s}: {1!s}".format(*entry), file=stream) 
 
         if self._componentRequests:
             print("    component requests:", file=stream) 
             for trait, record in self._componentRequests.items():
                 print("        component='{0!s}'".format(trait), file=stream) 
                 for entry in record:
-                    print("            {0!s}: {1!s}".format(entry), file=stream) 
+                    print("            {0!s}: {1!s}".format(*entry), file=stream) 
             
         return
 

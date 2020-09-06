@@ -13,9 +13,9 @@
 
 
 from pyre.parsing.locators.Traceable import Traceable
+from .Schemer import Schemer
 
-
-class Table(Traceable):
+class Table(Traceable, metaclass=Schemer):
 
     def __init__(self):
         Traceable.__init__(self)
@@ -75,11 +75,6 @@ class Table(Traceable):
     # column registries
     _writeable = []
     _columnRegistry = {}
-
-
-    # metaclass
-    from .Schemer import Schemer
-    __metaclass__ = Schemer
 
  
     @classmethod

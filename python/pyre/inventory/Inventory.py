@@ -11,8 +11,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
-class Inventory(object):
+from .Notary import Notary
+class Inventory(object, metaclass=Notary):
 
 
     def initializeConfiguration(self):
@@ -341,11 +341,6 @@ class Inventory(object):
     # trait registries
     _traitRegistry = {}
     _facilityRegistry = {}
-
-
-    # metaclass
-    from .Notary import Notary
-    __metaclass__ = Notary
 
 
 # version
