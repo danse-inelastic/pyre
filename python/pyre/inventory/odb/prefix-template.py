@@ -13,15 +13,24 @@
 
 import os
 
+stem = None
 try:
     stem = os.environ["PYTHIA_HOME"]
 except KeyError:
     try:
         stem = os.environ["EXPORT_ROOT"]
     except KeyError:
-        stem = '${DEPLOYMENT_PREFIX}'
+        prefix = os.environ.get('DEPLOYMENT_PREFIX', None)
+        if prefix is None:
+            prefix = os.environ.get('CONDA_PREFIX', None)
+        if prefix is None:
+            prefix = os.environ['PREFIX']
 
-_SYSTEM_ROOT = os.path.join(stem, "etc")
+if stem:
+    _SYSTEM_ROOT = os.path.join(stem, "etc")
+else:
+    _SYSTEM_ROOT = os.path.join(prefix, 'etc', 'pyre')
+
 _USER_ROOT = os.path.join(os.path.expanduser('~'), '.pyre')
 _LOCAL_ROOT = ['.']
 
