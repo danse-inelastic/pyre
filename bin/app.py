@@ -87,7 +87,7 @@ class App(Script):
             "",
             "",
             "        def main(self, *args, **kwds):",
-            "            print('Hello {0!s}!'.fomrat(self.friend))",
+            "            print('Hello {0!s}!'.format(self.friend))",
             "            return",
             "",
             "",
