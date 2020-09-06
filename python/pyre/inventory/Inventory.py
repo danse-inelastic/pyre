@@ -11,9 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from .Notary import Notary
-class Inventory(object, metaclass=Notary):
+from future.utils import with_metaclass
 
+from .Notary import Notary
+
+class Inventory(with_metaclass(Notary, object)):
 
     def initializeConfiguration(self):
         # load my settings from the persistent store
@@ -25,7 +27,6 @@ class Inventory(object, metaclass=Notary):
 
         return
 
-
     def loadConfiguration(self, filestem):
         """load the registry contained in the given pml file (without the extension)"""
 
@@ -35,10 +36,8 @@ class Inventory(object, metaclass=Notary):
 
         return shelf['inventory']
 
-
     def updateConfiguration(self, registry):
         return self._priv_registry.update(registry)
-
 
     def configureProperties(self):
         """configure my properties using user settings in my registry"""

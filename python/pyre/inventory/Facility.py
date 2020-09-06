@@ -13,11 +13,12 @@
 
 
 import sys
+from future.utils import with_metaclass
 
 from .Trait import Trait
 from .Interface import Interface
-class Facility(Trait, metaclass=Interface):
 
+class Facility(with_metaclass(Interface, Trait)):
 
     def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None):
         Trait.__init__(self, name, 'facility', default, meta)
@@ -30,7 +31,6 @@ class Facility(Trait, metaclass=Interface):
         self.family = family
 
         return
-
 
     def _getDefaultValue(self, instance):
         component = self.default

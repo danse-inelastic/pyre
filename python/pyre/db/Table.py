@@ -11,11 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from future.utils import with_metaclass
 
 from pyre.parsing.locators.Traceable import Traceable
 from .Schemer import Schemer
 
-class Table(Traceable, metaclass=Schemer):
+class Table(with_metaclass(Schemer, Traceable)):
 
     def __init__(self):
         Traceable.__init__(self)
