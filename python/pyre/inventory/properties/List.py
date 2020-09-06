@@ -27,32 +27,19 @@ class List(Property):
 
 
     def _cast(self, value):
-        if sys.version_info[:2] == (2, 7):
-            if isinstance(value, basestring):
-                if value and value[0] in '[({':
-                    value = value[1:]
-                if value and value[-1] in '])}':
-                    value = value[:-1]
+        strtype = basestring if sys.version_info[0] < 2 else str
+        
+        if isinstance(value, strtype):
+            if value and value[0] in '[({':
+                value = value[1:]
+            if value and value[-1] in '])}':
+                value = value[:-1]
 
-                if not value:
-                    return []
-                
-                value = value.split(",")
-                return value
-        elif sys.version_info[0] == (3,):
-            if isinstance(value, str):
-                if value and value[0] in '[({':
-                    value = value[1:]
-                if value and value[-1] in '])}':
-                    value = value[:-1]
+            if not value:
+                return []
 
-                if not value:
-                    return []
-                
-                value = value.split(",")
-                return value
-        else:
-            raise RuntimeError("This version of Python is not supported. Please use Python 2.7 or Python 3.")
+            value = value.split(",")
+            return value
 
         if isinstance(value, list):
             return value

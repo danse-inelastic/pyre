@@ -25,15 +25,9 @@ class Preformatted(Property):
 
 
     def _cast(self, value):
-        if sys.version_info[:2] == (2, 7):
-            if isinstance(value, basestring):
-                return self._splitlines(value)
-        elif sys.version[0] == (3,):
-            if isinstance(value, str):
-                return self._splitlines(value)
-        else:
-            raise RuntimeError("This version of Python is not supported. Please use Python 2.7 or Python 3.")
-
+        strtype = basestring if sys.version_info[0] < 2 else str
+        if isinstance(value, strtype):
+            return self._splitlines(value)
         return value
 
 
