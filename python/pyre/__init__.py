@@ -18,7 +18,6 @@ def copyright():
 
 
 # version
-__version__ = "0.8"
-__id__ = "$Id: __init__.py,v 1.1.1.1 2006-11-27 00:09:54 aivazis Exp $"
+__version__ = "0.8.2"
 
 # End of file 
