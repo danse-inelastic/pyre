@@ -58,10 +58,9 @@ class unit(object):
         return unit(value, derivation)
 
 
-    def __div__(self, other):
+    def __truediv__(self, other):
         if isinstance(other, int) or isinstance(other, float):
             return unit(self.value/other, self.derivation)
-        
         value = self.value / other.value
         derivation = tuple(map(operator.sub, self.derivation, other.derivation))
 
@@ -69,6 +68,7 @@ class unit(object):
             return value
 
         return unit(value, derivation)
+    __div__ = __truediv__ # py2
 
 
     def __pow__(self, other):
@@ -103,14 +103,14 @@ class unit(object):
         return unit(other*self.value, self.derivation)
 
 
-    def __rdiv__(self, other):
+    def __rtruediv__(self, other):
         if (not isinstance(other, int)) and (not isinstance(other, float)):
             raise InvalidOperation("/", other, self)
 
         value = other/self.value
         derivation = tuple(map(operator.mul, self._negativeOne, self.derivation))
-        
         return unit(value, derivation)
+    __rdiv__ = __rtruediv__ # py2
 
 
     def __float__(self):
