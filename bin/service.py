@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -33,11 +34,11 @@ class Service(Script):
 
         name = self.inventory.name
         filename = name + '.py'
-        print "creating service '%s' in '%s'" % (name, filename)
+        print("creating service '{0!s}' in '{1!s}'".format(name, filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream) 
         stream.close()
         
         return
@@ -63,7 +64,7 @@ class Service(Script):
             "from pyre.components.Service import Service",
             "",
             "",
-            "class %s(Service):" % name,
+            "class {0!s}(Service):".format(name),
             "",
             "",
             "    class Inventory(Service.Inventory):",

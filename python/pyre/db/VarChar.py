@@ -12,14 +12,14 @@
 #
 
 
-from Column import Column
+from .Column import Column
 
 
 class VarChar(Column):
 
 
     def type(self):
-        return "character varying (%d)" % self.length
+        return "character varying ({0!d})".format(self.length)
 
 
     def __init__(self, name, length, default="", **kwds):

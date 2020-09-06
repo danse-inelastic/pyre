@@ -12,7 +12,7 @@
 #
 
 def commandlineParser():
-    from CommandlineParser import CommandlineParser
+    from .CommandlineParser import CommandlineParser
     return CommandlineParser()
     
 

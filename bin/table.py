@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -37,11 +38,11 @@ class Table(Script):
 
         name = self.inventory.name
         filename = name + '.py'
-        print "creating table '%s' in '%s'" % (name, filename)
+        print("creating table '{0!s}' in '{1!s}'".format(name, filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream) 
         stream.close()
         
         return
@@ -65,16 +66,16 @@ class Table(Script):
         text = [
             "",
             "",
-            "from %s import %s" % (base, base),
+            "from {0!s} import {1!s}".format(base, base),
             "",
             "",
-            "class %s(%s):" % (name, base),
+            "class {0!s}({1!s}):".format(name, base),
             "",
             "",
             "    import pyre.db",
             "",
             "    # the table name",
-            '    name = "%ss"' % name.lower(), 
+            '    name = "{0!s}s"'.format(name.lower()), 
             "",
             "    # the table columns",
             "",

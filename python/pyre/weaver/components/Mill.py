@@ -12,8 +12,8 @@
 # 
 
 
-from Indenter import Indenter
-from Stationery import Stationery
+from .Indenter import Indenter
+from .Stationery import Stationery
 from pyre.parsing.locators.Traceable import Traceable
 
 
@@ -67,7 +67,7 @@ class Mill(Stationery, Indenter, Traceable):
 
     def _renderDocument(self, document):
         raise NotImplementedError(
-            "class '%s' must override '_renderDocument'" % self.__class__.__name__)
+            "class '{0!s}' must override '_renderDocument'".format(self.__class__.__name__))
 
 
     def _separator(self):
@@ -92,7 +92,7 @@ class Mill(Stationery, Indenter, Traceable):
 
         if format:
             import time
-            timestamp = format % (creator, time.asctime())
+            timestamp = format.format(creator, time.asctime())
             return timestamp
 
         return ""

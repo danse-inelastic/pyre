@@ -13,7 +13,7 @@
 
 
 import journal
-debug = journal.debug('db' )
+debug = journal.debug('db')
 
 
 class DBManager(object):
@@ -28,7 +28,7 @@ class DBManager(object):
 
 
     def connect(self, **kwds):
-        raise NotImplementedError("class %r must override 'connect'" % self.__class__.__name__)
+        raise NotImplementedError("class {0!r} must override 'connect'".format(self.__class__.__name__))
 
 
     def cursor(self):
@@ -41,20 +41,19 @@ class DBManager(object):
             name = row.name
         else:
             name = tableName
-            
+ 
         values = row.getFormattedWriteableValues()
         columns = row.getWriteableColumnNames()
 
         # build the sql query
-        sql = "INSERT INTO %s (\n    %s\n    ) VALUES (\n    %s\n    )" % (
-            name, ", ".join(columns), ", ".join(["%s"] * len(columns)))
+        sql = "INSERT INTO {0!s} (\n    {1!s}\n    ) VALUES (\n    {2!s}\n    )".format(name, ", ".join(columns), ", ".join(["{}"] * len(columns)))
 
         # execute the sql statement
         c = self.db.cursor()
         try:
             c.execute(sql, values)
         except:
-            debug.log( 'sql: %s, values: %s' % (sql, values) )
+            debug.log('sql: {0!s}, values: {1!s}'.format(sql, values))
             raise
         self.db.commit()
 
@@ -65,19 +64,19 @@ class DBManager(object):
 
         columns = []
         values = []
-        
+ 
         row = table()
         for column, value in assignments:
-            row._setColumnValue( column, value )
-            formatted = row._getFormattedColumnValue( column )
-            values.append( formatted )
-            columns.append( column )
+            row._setColumnValue(column, value)
+            formatted = row._getFormattedColumnValue(column)
+            values.append(formatted)
+            columns.append(column)
             continue
-        
-        expr = ", ".join(["%s=%%s" % column for column in columns])
-        sql = "UPDATE %s\n    SET %s" % (table.getTableName(), expr)
+ 
+        expr = ", ".join(["{0!s}=%%s".format(column for column in columns)])
+        sql = "UPDATE {0!s}\n    SET {1!s}".format(table.getTableName(), expr)
         if where:
-            sql += "\n    WHERE %s" % where
+            sql += "\n    WHERE {0!s}".format(where)
 
         # execute the sql statement
         c = self.db.cursor()
@@ -85,7 +84,7 @@ class DBManager(object):
         try:
             c.execute(sql, values)
         except:
-            debug.log( 'sql: %s, values: %s' % (sql, values) )
+            debug.log('sql: {0!s}, values: {1!s}'.format(sql, values))
             raise
         self.db.commit()
 
@@ -93,9 +92,9 @@ class DBManager(object):
 
 
     def deleteRow(self, table, where=None):
-        sql = "DELETE FROM %s" % table.getTableName()
+        sql = "DELETE FROM {0!s}".format(table.getTableName())
         if where:
-            sql += "\n    WHERE %s" % where
+            sql += "\n    WHERE {0!s}".format(where)
 
             # execute the sql statement
             c = self.db.cursor()
@@ -108,12 +107,12 @@ class DBManager(object):
     def createTable(self, table):
         # build the list of table columns
         fields = []
-        for name, column in table._columnRegistry.iteritems():
-            text = "    %s %s" % (name, column.declaration())
+        for name, column in table._columnRegistry.items():
+            text = "    {0!s} {1!s}".format(name, column.declaration())
             fields.append(text)
 
         # build the query
-        sql = "CREATE TABLE %s (\n%s\n    )" % (table.getTableName(), ",\n".join(fields))
+        sql = "CREATE TABLE {0!s} (\n{1!s}\n    )".format(table.getTableName(), ",\n".join(fields))
 
         # execute the sql statement
         c = self.db.cursor()
@@ -121,7 +120,7 @@ class DBManager(object):
         try:
             c.execute(sql)
         except:
-            debug.log( 'sql: %s' % sql )
+            debug.log('sql: {0!s}'.format(sql))
             raise
         self.db.commit()
 
@@ -129,7 +128,7 @@ class DBManager(object):
 
 
     def dropTable(self, table, cascade=False):
-        sql = "DROP TABLE %s" % table.getTableName()
+        sql = "DROP TABLE {0!s}".format(table.getTableName())
         if cascade:
             sql += " CASCADE"
 
@@ -141,35 +140,35 @@ class DBManager(object):
 
 
     def fetchall(self, table, where=None, sort=None):
-        columns = table._columnRegistry.keys()
-        
+        columns = list(table._columnRegistry.keys())
+ 
         # build the sql statement
-        sql = "SELECT %s FROM %s" % (", ".join(columns), table.getTableName())
+        sql = "SELECT {0!s} FROM {1!s}".format(", ".join(columns), table.getTableName())
         if where:
-            sql += " WHERE %s" % where
+            sql += " WHERE {0!s}".format(where)
         if sort:
-            sql += " ORDER BY %s" % sort
-        
+            sql += " ORDER BY {0!s}".format(sort)
+ 
         # execute the sql statement
         c = self.db.cursor()
-        debug.log( 'fetchall: sql=%r' % sql )
+        debug.log('fetchall: sql={0!r}'.format(sql))
         c.execute(sql)
 
-        #print c.fetchall(),'<br>'
-        #print c.fetchall(),'<br>'
+        #print(c.fetchall(),'<br>')
+        #print(c.fetchall(),'<br>')
         # walk through the result of the query
         rows = c.fetchall()
-        debug.log( 'query result: %r' % (rows,) )
+        debug.log('query result: {0!r}'.format(rows))
         items = []
         for row in rows:
             # create the object
             item = table()
             item.locator = self.locator
-            
+ 
             # build the dictionary with the column information
             values = {}
             for key, value in zip(columns, row):
-	    	if value is not None:
+                if value is not None:
                     values[key] = value
             # attach it to the object
             item._priv_columns = values
@@ -177,30 +176,30 @@ class DBManager(object):
             # add this object tothepile
             items.append(item)
 
-        debug.log( 'items: %r' % (items,) )
+        debug.log('items: {0!r}'.format(items))
         return items
-    
-    
+ 
+ 
 #    def fetchAttributeFromAll(self, table, attribute, where=None, sort=None):
 #        columns = table._columnRegistry.keys()
 #        
 #        # build the sql statement
-#        sql = "SELECT %s FROM %s" % (attribute, table.name)
+#        sql = "SELECT {0!s} FROM {1!s}".format(attribute, table.name)
 #        if where:
-#            sql += " WHERE %s" % where
+#            sql += " WHERE {0!s}".format(where)
 #        if sort:
-#            sql += " ORDER BY %s" % sort
+#            sql += " ORDER BY {0!s}".format(sort)
 #        
 #        # execute the sql statement
 #        c = self.db.cursor()
-#        debug.log( 'fetchAttributeFromAll: sql=%r' % sql )
+#        debug.log( 'fetchAttributeFromAll: sql={0!r}'.format(sql))
 #        c.execute(sql)
 #
-#        #print c.fetchall(),'<br>'
-#        #print c.fetchall(),'<br>'
+#        #print(c.fetchall(),'<br>')
+#        #print(c.fetchall(),'<br>')
 #        # walk through the result of the query
 #        rows = c.fetchall()
-#        debug.log( 'query result: %r' % (rows,) )
+#        debug.log( 'query result: {0!r}'.format(rows) )
 ##        items = []
 ##        for row in rows:
 ##            # create the object
@@ -218,7 +217,7 @@ class DBManager(object):
 ##            # add this object tothepile
 ##            items.append(item)
 ##
-##        debug.log( 'items: %r' % (items,) )
+##        debug.log( 'items: {0!r}'.format(items))
 #        return rows   
 
 
@@ -226,7 +225,7 @@ class DBManager(object):
         self.db = self.connect(database=name, **kwds)
 
         import pyre.parsing.locators
-        self.locator = pyre.parsing.locators.simple("%s database" % name)
+        self.locator = pyre.parsing.locators.simple("{0!s} database".format(name))
 
         return
 

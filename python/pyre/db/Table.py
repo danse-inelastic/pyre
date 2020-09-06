@@ -11,11 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from future.utils import with_metaclass
 
 from pyre.parsing.locators.Traceable import Traceable
+from .Schemer import Schemer
 
-
-class Table(Traceable):
+class Table(with_metaclass(Schemer, Traceable)):
 
     def __init__(self):
         Traceable.__init__(self)
@@ -24,30 +25,30 @@ class Table(Traceable):
         self._retrieveDefaults()
         return
 
-    def getColumnValue(self,name):
+    def getColumnValue(self, name):
         return self._priv_columns.get(name)
 
     def getValues(self):
-        return [ self.__getattribute__(name) for name in self._columnRegistry ]
+        return [self.__getattribute__(name) for name in self._columnRegistry]
 
     def getWriteableValues(self):
-        return [ self.__getattribute__(name) for name in self._writeable ]
+        return [self.__getattribute__(name) for name in self._writeable]
 
 
     def getFormattedWriteableValues(self):
         writable = self._writeable
         values = {}
-        for name, column in self._columnRegistry.iteritems():
+        for name, column in self._columnRegistry.items():
             if name not in writable: continue
-            values[name] =  column.getFormattedValue( self )
+            values[name] = column.getFormattedValue(self)
             continue
-        return [ values[name] for name in self._writeable ]
+        return [values[name] for name in self._writeable]
 
     def getColumnNames(self):
-        return self._columnRegistry.keys()
-    
+        return list(self._columnRegistry.keys())
+ 
     def getNumColumns(self):
-        return len(self._columnRegistry.keys())
+        return len(list(self._columnRegistry.keys()))
 
     def getWriteableColumnNames(self):
         return self._writeable
@@ -58,7 +59,7 @@ class Table(Traceable):
 
     def _getFormattedColumnValue(self, name):
         column = self._columnRegistry[name]
-        return column.getFormattedValue( self )
+        return column.getFormattedValue(self)
 
     def _setColumnValue(self, name, value):
         self._priv_columns[name] = value
@@ -66,7 +67,7 @@ class Table(Traceable):
 
     #
     def _retrieveDefaults(self):
-        for column in self._columnRegistry.itervalues():
+        for column in self._columnRegistry.values():
             value = column.__get__(self)
             column.__set__(self, value)
             continue
@@ -76,12 +77,7 @@ class Table(Traceable):
     _writeable = []
     _columnRegistry = {}
 
-
-    # metaclass
-    from Schemer import Schemer
-    __metaclass__ = Schemer
-
-    
+ 
     @classmethod
     def getTableName(cls):
         if hasattr(cls, 'pyredbtablename'):

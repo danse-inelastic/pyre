@@ -13,17 +13,17 @@
 
 # modellers
 def loader():
-    from Loader import Loader
+    from .Loader import Loader
     return Loader()
 
 
 def modeller():
-    from GeometricalModeller import GeometricalModeller
+    from .GeometricalModeller import GeometricalModeller
     return GeometricalModeller()
 
 # mesh
 def mesh(dim, order):
-    from Mesh import Mesh
+    from .Mesh import Mesh
     return Mesh(dim, order)
 
 # persistence
@@ -32,11 +32,11 @@ def renderer(format=None):
         format = "pml"
         
     if format == "pml":
-        from pml.Renderer import Renderer
+        from .pml.Renderer import Renderer
         return Renderer()
 
     import journal
-    journal.error.log("'%s': unknown geometry rendering format" % format)
+    journal.error.log("'{0!s}': unknown geometry rendering format".format(format))
     return None
     
 
@@ -45,11 +45,11 @@ def parser(format=None):
         format = "pml"
         
     if format == "pml":
-        from pml.Parser import Parser
+        from .pml.Parser import Parser
         return Parser()
 
     import journal
-    journal.error.log("'%s': unknown geometry parsing format" % format)
+    journal.error.log("'{0!s}': unknown geometry parsing format".format(format))
     return None
     
 

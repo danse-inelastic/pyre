@@ -12,7 +12,7 @@
 # 
 
 
-from Resource import Resource
+from .Resource import Resource
 
 
 class ResourceManager(Resource):
@@ -32,7 +32,7 @@ class ResourceManager(Resource):
 
 
     def resources(self):
-        return self._resources.keys()
+        return list(self._resources.keys())
 
 
     def __init__(self, name):

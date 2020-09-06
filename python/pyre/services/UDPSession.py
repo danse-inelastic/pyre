@@ -12,7 +12,7 @@
 #
 
 
-from Session import Session
+from .Session import Session
 
 
 class UDPSession(Session):
@@ -27,7 +27,7 @@ class UDPSession(Session):
 
         self._connect()
 
-        self._info.log("sending request: command=%r" % command)
+        self._info.log("sending request: command={0!r}".format(command))
         self.marshaller.send(request, self._connection)
         self._info.log("request sent")
 

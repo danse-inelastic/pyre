@@ -12,7 +12,7 @@
 # 
 
 
-from SimpleRenderer import SimpleRenderer
+from .SimpleRenderer import SimpleRenderer
 
 
 class TreeRenderer(SimpleRenderer):
@@ -54,7 +54,7 @@ class TreeRenderer(SimpleRenderer):
 
 
     def _render(self, node, code):
-        print "%s (%s) (%s)" % (self._graphic, code, node.name)
+        print("{0!s} ({1!s}) ({2!s})".format(self._graphic, code, node.name))
         return
 
 

@@ -12,8 +12,8 @@
 # 
 
 
-from Mill import Mill
-from LineComments import LineComments
+from .Mill import Mill
+from .LineComments import LineComments
 
 class LineMill(Mill, LineComments):
 

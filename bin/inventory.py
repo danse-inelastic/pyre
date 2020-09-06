@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -32,11 +33,11 @@ class App(Script):
         self.weaver.end()
 
         filename = self.inventory.name + '.pml'
-        print "creating inventory template in '%s'" % (filename)
+        print("creating inventory template in '{0!s}'".format(filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream) 
         stream.close()
         
         return
@@ -62,7 +63,7 @@ class App(Script):
             "",
             "<inventory>",
             "",
-            "  <component name=%r>" % self.inventory.name,
+            "  <component name={0!r}>".format(self.inventory.name),
             "    <property name='key'>value</property>",
             "  </component>",
             "",

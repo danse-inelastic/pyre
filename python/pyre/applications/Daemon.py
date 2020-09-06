@@ -12,7 +12,7 @@
 #
 
 
-from Stager import Stager
+from .Stager import Stager
 
 
 class Daemon(Stager):
@@ -28,7 +28,7 @@ class Daemon(Stager):
             spawn = True
 
         if not spawn:
-            print " ** daemon %r in debug mode" % self.name
+            print(" ** daemon {0!r} in debug mode".format(self.name))
             self.daemon(0)
             return
             
@@ -68,7 +68,7 @@ class Daemon(Stager):
         # change the working directory to my home directory
         if not os.path.exists(self.home):
             import journal
-            journal.error(self.name).log("directory %r does not exist" % self.home)
+            journal.error(self.name).log("directory {0!r} does not exist".format(self.home))
             self.home = '/tmp'
 
         os.chdir(self.home)

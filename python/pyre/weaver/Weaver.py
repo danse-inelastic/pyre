@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.components.Component import Component
 
@@ -35,11 +36,11 @@ class Weaver(Component):
 
         lastLine = pyre.inventory.str("lastLine", default=" End of file ")
         copyrightLine = pyre.inventory.str(
-            "copyrightLine", default="(C) %s  All Rights Reserved")
+            "copyrightLine", default="(C) {0!s}  All Rights Reserved")
         licenseText = pyre.inventory.preformatted("licenseText", default=["{LicenseText}"])
         
         timestampLine = pyre.inventory.str(
-            "timestampLine", default=" Generated automatically by %s on %s")
+            "timestampLine", default=" Generated automatically by {0!s} on {1!s}")
 
         versionId = pyre.inventory.str("versionId", default=' $' + 'Id' + '$')
     
@@ -52,7 +53,7 @@ class Weaver(Component):
         if stream is None:
             import sys
             stream = sys.stdout
-        print >> stream, "\n".join(text)
+        print("\n".join(text), file=stream) 
 
         return
 
@@ -127,7 +128,7 @@ class Weaver(Component):
             return weaver
                     
         import journal
-        journal.error('pyre.weaver').log("could not locate weaver for '%s'" % language)
+        journal.error('pyre.weaver').log("could not locate weaver for '{0!s}'".format(language))
 
         self.getCurator().dump()
 

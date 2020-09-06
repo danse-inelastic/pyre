@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Rotation(Transformation):
@@ -33,7 +33,7 @@ class Rotation(Transformation):
 
 
     def __str__(self):
-        return "rotation: body={%s}, vector=%r, angle=%s" % (self.body, self.vector, self.angle)
+        return "rotation: body={{0!s}}, vector={1!r}, angle={2!s}".format(self.body, self.vector, self.angle)
 
 
 # version

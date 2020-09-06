@@ -23,7 +23,7 @@ class ScriptLocator(object):
 
 
     def __str__(self):
-        return "{file=%r, line=%r, function=%r}" % (self.source, self.line, self.function)
+        return "{file={0!r}, line={1!r}, function={2!r}}".format(self.source, self.line, self.function)
     
 
 

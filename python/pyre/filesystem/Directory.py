@@ -12,7 +12,7 @@
 # 
 
 
-from File import File
+from .File import File
 
 
 class Directory(File):
@@ -38,12 +38,12 @@ class Directory(File):
 
         import os
         import stat
-        from BlockDevice import BlockDevice
-        from CharacterDevice import CharacterDevice
-        from File import File
-        from Link import Link
-        from NamedPipe import NamedPipe
-        from Socket import Socket
+        from .BlockDevice import BlockDevice
+        from .CharacterDevice import CharacterDevice
+        from .File import File
+        from .Link import Link
+        from .NamedPipe import NamedPipe
+        from .Socket import Socket
 
         import journal
         debug = journal.debug("pyre.filesystem")
@@ -53,7 +53,7 @@ class Directory(File):
 
         root = self.path
         children = os.listdir(root)
-        debug.log("directory '%s' has %d files" % (self.name, len(children)))
+        debug.log("directory '{0!s}' has {1!d} files".format(self.name, len(children)))
 
         count = 0
         for name in children:
@@ -61,7 +61,7 @@ class Directory(File):
 
             if name in self._children:
                 continue
-            
+ 
             pathname = os.path.join(root, name)
             # PORTABILITY: lstat is unix only
             mode = os.lstat(pathname)[stat.ST_MODE]
@@ -83,14 +83,14 @@ class Directory(File):
             elif stat.S_ISBLK(mode):
                 node = BlockDevice(name, self)
             else:
-                Firewall.hit("unknown file type: mode=%x" % mode)
+                Firewall.hit("unknown file type: mode={0:x}".format(mode))
 
             self._children[node.name] = node
 
             if not count % 1000:
-                debug.log("processed %d files" % count)
+                debug.log("processed {0!d} files".format(count))
 
-        debug.log("total files processed: %d" % count)
+        debug.log("total files processed: {0!d}".format(count))
 
         self._files = files
         self._subdirectories = subdirectories

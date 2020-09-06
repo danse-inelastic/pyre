@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -29,7 +30,7 @@ class Stationery(Script):
     def main(self, *args, **kwds):
 
         for line in self.weaver.render():
-            print >> self.stream, line
+            print(line, file=self.stream) 
         
         return
 
@@ -49,8 +50,8 @@ class Stationery(Script):
         # prepare the output stream
         filename = self.inventory.name
         if filename:
-            print "creating '%s'" % filename
-            self.stream = file(filename, "w")
+            print("creating '{0!s}'".format(filename))
+            self.stream = open(filename, "w")
         else:
             import sys
             self.stream = sys.stdout

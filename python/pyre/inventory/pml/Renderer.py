@@ -27,7 +27,7 @@ class Renderer(XMLMill):
     def onInventory(self, inventory):
         self._rep += ['', '<!DOCTYPE inventory>', '', '<inventory>']
 
-        for facility in inventory.facilities.itervalues():
+        for facility in inventory.facilities.values():
             facility.identify(self)
 
         self._rep += ['</inventory>']
@@ -42,15 +42,15 @@ class Renderer(XMLMill):
         
         self._indent()
         self._write('')
-        self._write('<component name="%s">' % registry.name)
+        self._write('<component name="{0!s}">'.format(registry.name))
 
         self._indent()
         for trait in registry.properties:
             value = registry.getProperty(trait)
             if trait in registry.facilities:
-                self._write('<facility name="%s">%s</facility>' % (trait, value))
+                self._write('<facility name="{0!s}">{1!s}</facility>'.format(trait, value))
             else:
-                self._write('<property name="%s">%s</property>' % (trait, value))
+                self._write('<property name="{0!s}">{1!s}</property>'.format(trait, value))
                 
         self._outdent()
 

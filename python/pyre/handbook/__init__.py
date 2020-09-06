@@ -13,7 +13,7 @@
 
 
 def periodicTable():
-    from elements import periodicTable
+    from .elements import periodicTable
     return periodicTable()
 
 

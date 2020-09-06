@@ -11,7 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-print """
+from __future__ import print_function
+
+print("""
 
 pyre.geometry:
   - single vs. multi body in the interfaces modellers, parsers and renderers
@@ -38,7 +40,7 @@ pyre.ipa:
   - break it up into two services: a password database manager and a ticket service
 
 
-"""
+""")
 
 # version
 __id__ = "$Id: TODO.py,v 1.1.1.1 2006-11-27 00:09:21 aivazis Exp $"

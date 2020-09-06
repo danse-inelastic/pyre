@@ -21,7 +21,7 @@ class CodecPML(CodecODB):
     def __init__(self):
         CodecODB.__init__(self, encoding='pml')
 
-        from Parser import Parser
+        from .Parser import Parser
         self._parser = Parser()
 
         self.parserFactory = None
@@ -30,14 +30,14 @@ class CodecPML(CodecODB):
 
 
     def _createRenderer(self):
-        from Renderer import Renderer
+        from .Renderer import Renderer
         return Renderer()
 
 
     def _decode(self, shelf):
         """lock and then read the contents of the file into the shelf"""
 
-        stream = file(shelf.name)
+        stream = open(shelf.name)
 
         self._locker.lock(stream, self._locker.LOCK_EX)
         inventory = self._parser.parse(stream, self.parserFactory)

@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Binary import Binary
+from .Binary import Binary
 import pyre.geometry.operations
 
 
@@ -22,7 +22,7 @@ class Union(Binary):
 
     def notify(self, parent):
         if not self._b1 or not self._b2:
-            raise ValueError("'%s' requires exactly two children" % self.tag)
+            raise ValueError("'{0!s}' requires exactly two children".format(self.tag))
 
         union = pyre.geometry.operations.unite(self._b1, self._b2)
         parent.onUnion(union)

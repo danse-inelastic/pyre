@@ -24,7 +24,7 @@ class AbstractNode(object):
     # parser.endElement handler
     def notify(self, target):
         raise NotImplementedError(
-            "class '%s' should override method 'notify'" % self.__class__.__name__)
+            "class '{0!s}' should override method 'notify'".format(self.__class__.__name__))
 
 
     # the default constructor is also abstract, hence useless

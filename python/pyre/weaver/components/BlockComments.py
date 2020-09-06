@@ -12,7 +12,7 @@
 # 
 
 
-from CommentingStrategy import CommentingStrategy
+from .CommentingStrategy import CommentingStrategy
 
 
 class BlockComments(CommentingStrategy):

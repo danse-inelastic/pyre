@@ -12,8 +12,8 @@
 #
 
 
-import psycopg2
-from DBManager import DBManager
+from . import psycopg2
+from .DBManager import DBManager
 
 
 class Psycopg2(DBManager):
@@ -28,7 +28,7 @@ class Psycopg2(DBManager):
     def connect(self, **kwds):
         ret = psycopg2.connect(**kwds)
         if not hasattr(ret, 'autocommit'):
-            return wrapper( ret )
+            return wrapper(ret)
         return ret
 
 
@@ -40,7 +40,7 @@ class wrapper(object):
 
 
     def __getattribute__(self, name):
-        try: return getattr( self._core, name )
+        try: return getattr(self._core, name)
         except: return object.__getattribute__(self, name)
 
 

@@ -19,7 +19,7 @@ class AbstractDocument(object):
     # parser.startElement handler
     def node(self, tag, attributes):
         raise NotImplementedError(
-            "class '%s' should override method 'node'" % self.__class__.__name__)
+            "class '{0!s}' should override method 'node'".format(self.__class__.__name__))
 
 
     def __init__(self, source):

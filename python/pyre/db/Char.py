@@ -12,14 +12,14 @@
 #
 
 
-from Column import Column
+from .Column import Column
 
 
 class Char(Column):
 
 
     def type(self):
-        return "character (%d)" % self.length
+        return "character ({0!d})".format(self.length)
 
 
     def __init__(self, name, length, default="", **kwds):

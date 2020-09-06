@@ -13,7 +13,7 @@
 
 
 from pyre.components.Component import Component
-from Executive import Executive
+from .Executive import Executive
 
 
 class Application(Component, Executive):
@@ -36,11 +36,11 @@ class Application(Component, Executive):
         journal = journal.facility()
         journal.meta['tip'] = 'the logging facility'
 
-        dumpconfiguration = pyre.inventory.bool( 'dumpconfiguration', default = 0 )
+        dumpconfiguration = pyre.inventory.bool('dumpconfiguration', default=0)
         dumpconfiguration.meta['tip'] = 'If set, dump configuration to a pml file'
         dumpconfiguration.meta['opacity'] = 100000
         
-        dumpconfiguration_output = pyre.inventory.str( 'dumpconfiguration-output', default = '' )
+        dumpconfiguration_output = pyre.inventory.str('dumpconfiguration-output', default='')
         dumpconfiguration_output.meta['tip'] = 'Output file path of dumped configuration file (pml)'
 
 
@@ -153,14 +153,14 @@ class Application(Component, Executive):
 
 
     def _saveConfiguration(self):
-        outfile = self.inventory.dumpconfiguration_output or '%s.pml' % self.name
+        outfile = self.inventory.dumpconfiguration_output or '{0!s}.pml'.format(self.name)
         import os
         if os.path.exists(outfile):
-            raise RuntimeError, "output file %r already exists" % outfile
+            raise RuntimeError("output file {0!r} already exists".format(outfile))
         registry = self.createRegistry()
-        registry = retrieveConfiguration( self.inventory, registry )
+        registry = retrieveConfiguration(self.inventory, registry)
         stream = open(outfile, 'w')
-        self.weaver.weave( registry, stream )
+        self.weaver.weave(registry, stream)
         return
 
 
@@ -176,7 +176,7 @@ class Application(Component, Executive):
 
 
 
-def retrieveConfiguration(inventory, registry, excludes = None):
+def retrieveConfiguration(inventory, registry, excludes=None):
     """place the current inventory configuration in the given registry"""
 
     if excludes is None:
@@ -217,8 +217,8 @@ def retrieveConfiguration(inventory, registry, excludes = None):
         component = fac.__get__(inventory)
         if isinstance(component, Journal): continue
         if component is None:
-            raise RuntimeError, "Unable to retrieve component for facility %s" % fac.name
-        retrieveConfiguration(component.inventory, node, excludes = excludes)
+            raise RuntimeError("Unable to retrieve component for facility {0!s}".format(fac.name))
+        retrieveConfiguration(component.inventory, node, excludes=excludes)
         continue
 
     return registry

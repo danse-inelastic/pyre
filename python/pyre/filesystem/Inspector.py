@@ -17,37 +17,37 @@ class Inspector(object):
 
     def onCharacterDevice(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onCharacterDevice'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onCharacterDevice'".format(self.__class__.__name__))
 
 
     def onBlockDevice(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onBlockDevice'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onBlockDevice'".format(self.__class__.__name__))
 
 
     def onDirectory(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onDirectory'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onDirectory'".format(self.__class__.__name__))
 
 
     def onFile(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onFile'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onFile'".format(self.__class__.__name__))
 
 
     def onLink(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onLink'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onLink'".format(self.__class__.__name__))
 
 
     def onNamedPipe(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onNamedPipe'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onNamedPipe'".format(self.__class__.__name__))
 
 
     def onSocket(self, node):
         raise NotImplementedError(
-            "class '%s' must override 'onSocket'" % self.__class__.__name__)
+            "class '{0!s}' must override 'onSocket'".format(self.__class__.__name__))
 
 
 # version

@@ -11,8 +11,8 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
-from TCPSocket import TCPSocket
-from PortMonitor import PortMonitor
+from .TCPSocket import TCPSocket
+from .PortMonitor import PortMonitor
 
 
 class TCPMonitor(PortMonitor, TCPSocket):

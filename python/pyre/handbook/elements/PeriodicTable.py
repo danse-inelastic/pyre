@@ -29,14 +29,14 @@ class PeriodicTable(object):
         if n < 1 or n > len(self._atomicNumberIndex):
             import journal
             journal.firewall("pyre.handbook").log(
-                "element with atomic number %d not found" % atomicNumber)
+                "element with atomic number {0!d} not found".format(n))
             return None
         
         return self._atomicNumberIndex[n-1]
 
 
     def __init__(self):
-        from elements import elements
+        from .elements import elements
 
         self._atomicNumberIndex = elements
         self._nameIndex = createNameIndex(elements)
@@ -61,8 +61,7 @@ def verify(elements):
             import journal
             firewall = journal.firewall("handbook")
             firewall.log(
-                "PeriodicTable: atomic number(%d) != offset(%d)" %
-                (index, elements[index].atomicNumber))
+                "PeriodicTable: atomic number({0!d}) != offset({1!d})".format(index, elements[index].atomicNumber))
 
     return status
 
@@ -79,7 +78,7 @@ def createNameIndex(elements):
         import journal
         firewall = journal.firewall("handbook")
         firewall.log(
-            "PeriodicTable: symbol index size mismatch: %d != %d" % (len(index), len(elements)))
+            "PeriodicTable: symbol index size mismatch: {0!d} != {1!d}".format(len(index), len(elements)))
 
     return index
 
@@ -96,7 +95,7 @@ def createSymbolIndex(elements):
         import journal
         firewall = journal.firewall("handbook")
         firewall.log(
-            "PeriodicTable: symbol index size mismatch: %d != %d" % (len(index), len(elements)))
+            "PeriodicTable: symbol index size mismatch: {0!d} != {1!d}".format(len(index), len(elements)))
 
     return index
 

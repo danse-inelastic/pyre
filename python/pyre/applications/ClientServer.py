@@ -75,23 +75,23 @@ class ClientServer(Script):
         child = os.fork()
         if child > 0:
             # in the parent process
-            self._info.log("server(%r): spawned client(%r)" % (pid, child))
-            self._info.log("server(%r): proceeding in server mode" % pid)
+            self._info.log("server({0!r}): spawned client({1!r})".format(pid, child))
+            self._info.log("server({0!r}): proceeding in server mode".format(pid))
             self.onServer()
-            self._info.log("server(%r): finished" % pid)
+            self._info.log("server({0!r}): finished".format(pid))
         elif child == 0:
             pid = os.getpid()
 
-            self._info.log("client(%r): sleeping for %r seconds" % (pid, self._delay))
+            self._info.log("client({0!r}): sleeping for {1!r} seconds".format(pid, self._delay))
             import select
             select.select([], [], [], self._delay)
 
-            self._info.log("client(%r): proceeding in client mode" % pid)
+            self._info.log("client({0!r}): proceeding in client mode".format(pid))
             self.onClient()
-            self._info.log("client(%r): finished" % pid)
+            self._info.log("client({0!r}): finished".format(pid))
         else:
             import journal
-            journal.error(self.name).log("fork: error %d" % child)
+            journal.error(self.name).log("fork: error {0!d}".format(child))
             
         return
 

@@ -16,7 +16,7 @@ class Tokenizer(object):
 
 
     def locator(self):
-        from Locator import Locator
+        from .Locator import Locator
         return Locator(self.filename, self.line, self.column)
 
 
@@ -62,12 +62,12 @@ class Tokenizer(object):
         # detect the end of line
         if self.column == len(self.text):
             self.text = self._newLine()
-            self._info.log("new line: {%s}" % self.text)
+            self._info.log("new line: {{0!s}}".format(self.text))
 
         # attempt to get a token
         token = scanner.match(self.text, self.column)
         if not token:
-            msg = "illegal character, could not match '%s'" % self.text[self.column:]
+            msg = "illegal character, could not match '{0!s}'".format(self.text[self.column:])
             raise self.TokenizationException(msg)
 
         # store the size of the token
@@ -90,8 +90,8 @@ class Tokenizer(object):
         raise self.EndOfFile()
 
 
-    from EndOfFile import EndOfFile
-    from TokenizationException import TokenizationException
+    from .EndOfFile import EndOfFile
+    from .TokenizationException import TokenizationException
 
     import journal
     _info = journal.debug("pyre.parsing")

@@ -12,7 +12,7 @@
 #
 
 
-from Validator import Validator
+from .Validator import Validator
 
 
 class Binary(Validator):

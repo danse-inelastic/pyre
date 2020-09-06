@@ -27,7 +27,7 @@ class CodecODB(Codec):
         exists = os.path.isfile(filename)
         
         if mode in ['w'] and not exists:
-            raise IOError("file not found: '%s'" % filename)
+            raise IOError("file not found: '{0!s}'".format(filename))
 
         shelf = self._shelf(filename, False)
         self._decode(shelf)
@@ -62,17 +62,17 @@ class CodecODB(Codec):
     def _shelf(self, filename, const):
         """create a shelf for the contents of the db file"""
 
-        from Shelf import Shelf
+        from .Shelf import Shelf
         return Shelf(filename, const, self)
 
 
     def _decode(self, shelf):
         """lock and then read the contents of the file into the shelf"""
 
-        stream = file(shelf.name)
+        stream = open(shelf.name)
 
         self._locker.lock(stream, self._locker.LOCK_EX)
-        exec stream in shelf
+        exec(stream.read(), shelf)
         self._locker.unlock(stream)
 
         return
@@ -87,7 +87,7 @@ class CodecODB(Codec):
 
 
     def _createLocker(self):
-        from FileLocking import FileLocking
+        from .FileLocking import FileLocking
         return FileLocking()
 
         

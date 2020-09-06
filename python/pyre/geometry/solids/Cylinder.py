@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Primitive import Primitive
+from .Primitive import Primitive
 
 
 class Cylinder(Primitive):
@@ -25,13 +25,13 @@ class Cylinder(Primitive):
         self.radius = radius
         self.height = height
 
-        self._info.log("new %s" % self)
+        self._info.log("new {0!s}".format(self))
                  
         return
 
 
     def __str__(self):
-        return "cylinder: radius=%s, height=%s" % (self.radius, self.height)
+        return "cylinder: radius={0!s}, height={1!s}".format(self.radius, self.height)
     
 
 # version

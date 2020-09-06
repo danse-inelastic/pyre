@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
 
@@ -32,15 +33,15 @@ class App(Script):
         self.weaver.end()
 
         filename = self.inventory.name + '.py'
-        print "creating script '%s'" % filename
+        print("creating script '{0!s}'".format(filename))
 
-        stream = file(filename, "w")
+        stream = open(filename, "w")
         for line in self.weaver.document():
-            print >> stream, line
+            print(line, file=stream) 
         stream.close()
         
         import os
-        os.chmod(filename, 0775)
+        os.chmod(filename, 0o775)
         
         return
 

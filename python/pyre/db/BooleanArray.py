@@ -15,8 +15,9 @@
 # "array" types are only supported by psycopg2 (postgresql)
 
 
-from Column import Column
+from .Column import Column
 
+import numpy
 
 class BooleanArray(Column):
 
@@ -40,14 +41,14 @@ class BooleanArray(Column):
 
 
     def _cast(self, value):
-        if isinstance(value, str): value = eval( value )
+        if isinstance(value, str): value = eval(value)
         if value is None: return
         value = numpy.array(value, bool)
         if self.shape:
             try:
                 value.shape = self.shape
             except:
-                raise ValueError, str(value)
+                raise ValueError(str(value))
         return value
 
 
@@ -59,10 +60,6 @@ class BooleanArray(Column):
         s = str(value)
         s = '{' + s[1:-1] + '}'
         return s
-
-
-import numpy
-
 
 # version
 __id__ = "$Id$"

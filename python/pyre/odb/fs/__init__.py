@@ -13,7 +13,7 @@
 
 
 def curator(name):
-    from Curator import Curator
+    from .Curator import Curator
     return Curator(name)
 
 

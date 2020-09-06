@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Translation(Transformation):
@@ -31,7 +31,7 @@ class Translation(Transformation):
 
 
     def __str__(self):
-        return "translation: body={%s}, vector=%r" % (self.body, self.vector)
+        return "translation: body={{0!s}}, vector={1!r}".format(self.body, self.vector)
 
 
 

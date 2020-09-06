@@ -12,7 +12,7 @@
 #
 
 import pyre.geometry.operations
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Reversal(Transformation):
@@ -23,7 +23,7 @@ class Reversal(Transformation):
 
     def notify(self, parent):
         if not self._body:
-            raise ValueError("no body specified in '%s'" % self.tag)
+            raise ValueError("no body specified in '{0!s}'".format(self.tag))
 
         reversal = pyre.geometry.operations.reverse(body=self._body)
         parent.onReversal(reversal)

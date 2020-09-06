@@ -12,11 +12,13 @@
 #
 
 
-from Trait import Trait
+import sys
+from future.utils import with_metaclass
 
+from .Trait import Trait
+from .Interface import Interface
 
-class Facility(Trait):
-
+class Facility(with_metaclass(Interface, Trait)):
 
     def __init__(self, name, family=None, default=None, factory=None, args=(), meta=None):
         Trait.__init__(self, name, 'facility', default, meta)
@@ -30,7 +32,6 @@ class Facility(Trait):
 
         return
 
-
     def _getDefaultValue(self, instance):
         component = self.default
 
@@ -40,9 +41,16 @@ class Facility(Trait):
 
         if component is not None:
             # if we got a string, resolve
-            if isinstance(component, basestring):
-                component, locator = self._retrieveComponent(instance, component, args=())
-                here = pyre.parsing.locators.chain(locator, here)
+            if sys.version_info[:2] == (2, 7): 
+                if isinstance(component, basestring):
+                    component, locator = self._retrieveComponent(instance, component, args=())
+                    here = pyre.parsing.locators.chain(locator, here)
+            elif sys.version_info[0] == (3,):
+                if isinstance(component, str):
+                    component, locator = self._retrieveComponent(instance, component, args=())
+                    here = pyre.parsing.locators.chain(locator, here)
+            else:
+                raise RuntimeError("Incompatible version of Python. This code requires Python 2.7 or Python 3.") 
                 
             return component, here
 
@@ -64,23 +72,39 @@ class Facility(Trait):
         import journal
         firewall = journal.firewall('pyre.inventory')
         firewall.log(
-            "facility %r was given neither a default value nor a factory method" % self.name)
+            "facility {0!r} was given neither a default value nor a factory method".format(self.name))
         return None, None
 
 
     def _set(self, instance, component, locator):
-        if isinstance(component, basestring):
-            try:
-                name, args = component.split(":")
-                args = args.split(",")
-            except ValueError:
-                name = component
-                args = []
+        if sys.version_info[:2] == (2,7):
+            if isinstance(component, basestring):
+                try:
+                    name, args = component.split(":")
+                    args = args.split(",")
+                except ValueError:
+                    name = component
+                    args = []
                 
-            component, source = self._retrieveComponent(instance, name, args)
+                component, source = self._retrieveComponent(instance, name, args)
 
-            import pyre.parsing.locators
-            locator = pyre.parsing.locators.chain(source, locator)
+                import pyre.parsing.locators
+                locator = pyre.parsing.locators.chain(source, locator)
+        elif sys.version_info[0] == (3,):
+            if isinstance(component, str):
+                try:
+                    name, args = component.split(":")
+                    args = args.split(",")
+                except ValueError:
+                    name = component
+                    args = []
+                
+                component, source = self._retrieveComponent(instance, name, args)
+
+                import pyre.parsing.locators
+                locator = pyre.parsing.locators.chain(source, locator)
+        else:
+            raise RuntimeError("Incompatible version of Python. This code requires Python 2.7 or Python 3.") 
 
         if component is None:
             return
@@ -114,7 +138,7 @@ class Facility(Trait):
                 component = None
 
             if component:
-                locator = pyre.parsing.locators.simple('imported from %s' % file)
+                locator = pyre.parsing.locators.simple('imported from {0!s}'.format(file))
             else:
                 locator = pyre.parsing.locators.simple('not found')
 
@@ -139,9 +163,7 @@ class Facility(Trait):
             
             import journal
             journal.error("pyre.inventory").log(
-                "could not bind facility '%s': component '%s' not found:\n%s" % (
-                self.name, name, tb)
-                )
+                "could not bind facility '{0!s}': component '{1!s}' not found:\n{2!s}".format(self.name, name, tb))
             return
         except ValueError:
             import traceback
@@ -149,9 +171,7 @@ class Facility(Trait):
             
             import journal
             journal.error("pyre.inventory").log(
-                "could not bind facility '%s': component '%s' not found:\n%s" % (
-                self.name, name, tb)
-                )
+                "could not bind facility '{0!s}': component '{1!s}' not found:\n{2!s}".format(self.name, name, tb))
             return
 
         try:
@@ -159,7 +179,7 @@ class Facility(Trait):
         except KeyError:
             import journal
             journal.error("pyre.inventory").log(
-                "no factory for facility '%s' in '%s'" % (self.name, module.__file__))
+                "no factory for facility '{0!s}' in '{1!s}'".format(self.name, module.__file__))
             return
 
         try:
@@ -167,7 +187,7 @@ class Facility(Trait):
         except TypeError:
             import journal
             journal.error("pyre.inventory").log(
-                "no factory for facility '%s' in '%s'" % (self.name, module.__file__))
+                "no factory for facility '{0!s}' in '{1!s}'".format(self.name, module.__file__))
             return
 
         return item, module.__file__
@@ -175,11 +195,6 @@ class Facility(Trait):
 
     # interface registry
     _interfaceRegistry = {}
-
-    # metaclass
-    from Interface import Interface
-    __metaclass__ = Interface
-
 
 # version
 __id__ = "$Id: Facility.py,v 1.1.1.1 2006-11-27 00:10:00 aivazis Exp $"

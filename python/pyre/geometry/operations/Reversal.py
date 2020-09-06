@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Reversal(Transformation):
@@ -30,7 +30,7 @@ class Reversal(Transformation):
 
 
     def __str__(self):
-        return "reversal: body={%s}" % self.body
+        return "reversal: body={{0!s}}".format(self.body)
 
 
 

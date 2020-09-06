@@ -24,8 +24,7 @@ class Element(object):
 
 
     def __str__(self):
-        return "%s (%s) - atomic number: %d, atomic weight: %g amu" \
-               % (self.name, self.symbol, self.atomicNumber, self.atomicWeight)
+        return "{0!s} ({1!s}) - atomic number: {2!d}, atomic weight: {3:g} amu".format(self.name, self.symbol, self.atomicNumber, self.atomicWeight)
 
 
 # version

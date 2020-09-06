@@ -12,7 +12,7 @@
 #
 
 from math import pi
-from SI import radian
+from .SI import radian
 
 degree = pi/180 * radian
 arcminute = degree / 60

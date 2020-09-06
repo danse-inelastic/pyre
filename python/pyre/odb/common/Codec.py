@@ -16,7 +16,7 @@ class Codec(object):
 
 
     def open(self, db, mode):
-        raise NotImplementedError("class '%s' must override 'open'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'open'".format(self.__class__.__name__))
 
 
     def __init__(self, encoding, extension):

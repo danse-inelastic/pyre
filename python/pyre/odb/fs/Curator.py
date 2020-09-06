@@ -32,7 +32,7 @@ class Curator(Base):
         for depository in self.searchOrder(extraDepositories):
             candidates = depository.retrieveShelves(address, extension)
             files += [
-                depository.resolve(address + [name]) + '.' + extension for name in candidates ]
+                depository.resolve(address + [name]) + '.' + extension for name in candidates]
 
         return files
 
@@ -66,7 +66,7 @@ class Curator(Base):
             # open the shelf
             try:
                 shelf = codec.open(spec, 'r')
-            except IOError, error:
+            except IOError as error:
                 # the codec failed to open the spec
                 if callable(errorHandler):
                     errorHandler(tag, locator, error)
@@ -78,7 +78,7 @@ class Curator(Base):
             except KeyError:
                 # no factory by that name exists
                 if callable(errorHandler):
-                    errorHandler(tag, locator, "'%s' not found" % symbol)
+                    errorHandler(tag, locator, "'{0!s}' not found".format(symbol))
                 continue
 
             # success
@@ -93,7 +93,7 @@ class Curator(Base):
 
         import os
         if os.path.isdir(directory):
-            from Depository import Depository
+            from .Depository import Depository
             depository = Depository(directory)
             return depository
 
@@ -102,7 +102,7 @@ class Curator(Base):
 
     def addDepositories(self, *directories):
         """create new depositories out of <directories> and add them to the search list"""
-        return [ self.addDepository(directory) for directory in directories ]
+        return [self.addDepository(directory) for directory in directories]
 
 
     def addDepository(self, directory):

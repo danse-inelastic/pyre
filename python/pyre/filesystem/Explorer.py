@@ -11,12 +11,10 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
+from .SimpleRenderer import SimpleRenderer
 
 import pythlets
 _defaultResourceFile = pythlets.resourceFile("ctree.glade")
-
-
-from SimpleRenderer import SimpleRenderer
 
 
 class Explorer(SimpleRenderer):
@@ -31,7 +29,7 @@ class Explorer(SimpleRenderer):
         isExpanded = 0
         isLeaf = not children
 
-        self._info.log(" visitor: directory={%s}, isLeaf=%d" % (node.path, isLeaf))
+        self._info.log(" visitor: directory={{0!s}}, isLeaf={1!d}".format(node.path, isLeaf))
         
         newNode = self._tree.insert_node(
             parent, None, [node.name], 5,
@@ -93,20 +91,20 @@ class Explorer(SimpleRenderer):
 
     def _expand(self, tree, node):
         directory = self._nodemap[node][0].path
-        self._info.log("  expand: directory={%s}" % directory)
+        self._info.log("  expand: directory={{0!s}}".format(directory))
         return
 
 
     def _collapse(self, tree, node):
         directory = self._nodemap[node][0].path
-        self._info.log("collapse: directory={%s}" % directory)
+        self._info.log("collapse: directory={{0!s}}".format(directory))
         return
 
 
     def _select(self, tree, node, column):
         if (column >= 0):
             directory = self._nodemap[node][0].path
-            self._info.log("  select: directory={%s}" % directory)
+            self._info.log("  select: directory={{0!s}}".format(directory))
 
         return
 

@@ -13,26 +13,26 @@
 
 
 def simple(tag):
-    from SimpleLocator import SimpleLocator
+    from .SimpleLocator import SimpleLocator
     return SimpleLocator(tag)
 
 
 def script(source, line, function):
-    from ScriptLocator import ScriptLocator
+    from .ScriptLocator import ScriptLocator
     return ScriptLocator(source, line, function)
 
 
 def file(source, line=-1, column=-1):
     if line == -1 and column == -1:
-        from SimpleFileLocator import SimpleFileLocator
+        from .SimpleFileLocator import SimpleFileLocator
         return SimpleFileLocator(source)
     
-    from FileLocator import FileLocator
+    from .FileLocator import FileLocator
     return FileLocator(source, line, column)
 
 
 def chain(this, next):
-    from ChainLocator import ChainLocator
+    from .ChainLocator import ChainLocator
     return ChainLocator(this, next)
 
 

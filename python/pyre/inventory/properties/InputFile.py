@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import sys
 
 from pyre.inventory.Property import Property
 
@@ -28,12 +29,21 @@ class InputFile(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
-            if value == "stdin":
-                import sys
-                value = sys.stdin
-            else:
-                value = file(value, "r")
+        if sys.version_info[:2] == (2,7):
+            if isinstance(value, basestring):
+                if value == "stdin":
+                    value = sys.stdin
+                else:
+                    value = open(value, "r")
+        elif sys.version_info[0] == (3,):
+            if isinstance(value, str):
+                if value == "stdin":
+                    value = sys.stdin
+                else:
+                    value = open(value, "r")
+        else:
+            raise RuntimeError("This version of Python is not supported. Please use Pyhton 2,7 or Python 3.")
+
         
         return value
 

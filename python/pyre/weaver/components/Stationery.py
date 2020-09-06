@@ -1,3 +1,5 @@
+from __future__ import division
+
 #!/usr/bin/env python
 # 
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,7 +34,7 @@ class Stationery(object):
 
 
     def footer(self):
-        f = ['', self.line(self._options.lastLine) ]
+        f = ['', self.line(self._options.lastLine)]
         return f
             
 
@@ -55,7 +57,7 @@ class Stationery(object):
             c.append(organization.center(width).rstrip())
 
         if copyright:
-            c.append((options.copyrightLine % copyright).center(width).rstrip())
+            c.append((options.copyrightLine.format(copyright)).center(width).rstrip())
 
         return c
 
@@ -63,7 +65,7 @@ class Stationery(object):
     def separator(self):
         options = self._options
         banner = options.bannerCharacter
-        cycles = options.bannerWidth/len(banner)
+        cycles = options.bannerWidth//len(banner)
         separator = ' ' + banner * cycles
         return separator
 
@@ -92,7 +94,7 @@ class Stationery(object):
         
         import pyre.util
         result = ['']
-        result += [ " %s" % pyre.util.expandMacros(line, substitutions) for line in raw ]
+        result += [" {0!s}".format(pyre.util.expandMacros(line, substitutions)) for line in raw]
         
         return result
 

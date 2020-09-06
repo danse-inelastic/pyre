@@ -12,7 +12,7 @@
 #
 
 
-from Binary import Binary
+from .Binary import Binary
 
 
 class Choice(Binary):
@@ -22,11 +22,11 @@ class Choice(Binary):
         if candidate in self.value:
             return candidate
 
-        raise ValueError("%r is not %s" % (candidate, self))
+        raise ValueError("{0!r} is not {1!s}".format(candidate, self))
 
 
     def __str__(self):
-        return "(in %r)" % (self.value)
+        return "(in {0!r})".format(self.value)
 
 
 # version

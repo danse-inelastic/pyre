@@ -54,24 +54,24 @@ class IPAService(TCPService):
         password = self.userManager.authenticate(username, cleartext)
 
         if not password:
-            self._info.log("rejected password %r from user %r" % (cleartext, username))
+            self._info.log("rejected password {0!r} from user {1!r}".format(cleartext, username))
             return
         
         ticket = self._createTicket(username, password)
-        self._info.log("issued ticket %r to user %r" % (ticket, username))
+        self._info.log("issued ticket {0!r} to user {1!r}".format(ticket, username))
         return ticket
 
 
     def refresh(self, username, ticket):
         if ticket not in self._tickets:
-            self._info.log("got bad ticket %r" % ticket)
+            self._info.log("got bad ticket {0!r}".format(ticket))
             return
 
         if ticket[:len(username)] != username:
-            self._info.log("username does not match ticket %r" % ticket)
+            self._info.log("username does not match ticket {0!r}".format(ticket))
             return
 
-        self._info.log("got good ticket %r" % ticket)
+        self._info.log("got good ticket {0!r}".format(ticket))
 
         expiration = self._tickets[ticket]
 
@@ -83,41 +83,41 @@ class IPAService(TCPService):
 
         import time
         if time.time() > expiration:
-            self._info.log("got expired ticket %r" % (ticket))
+            self._info.log("got expired ticket {0!r}".format(ticket))
             return
 
         newTicket = self._createTicket(username, ticket[len(username):])
-        self._info.log("exchanged good ticket %r for %r" % (ticket, newTicket))
+        self._info.log("exchanged good ticket {0!r} for {1!r}".format(ticket, newTicket))
         return newTicket
 
 
     def verify(self, username, ticket):
         if ticket not in self._tickets:
-            self._info.log("got bad ticket %r" % ticket)
+            self._info.log("got bad ticket {0!r}".format(ticket))
             return False
 
         if ticket[:len(username)] != username:
-            self._info.log("username does not match ticket %r" % ticket)
+            self._info.log("username does not match ticket {0!r}".format(ticket))
             return False
 
-        self._info.log("got good ticket %r" % ticket)
+        self._info.log("got good ticket {0!r}".format(ticket))
 
         return True
 
 
     def logout(self, username, ticket):
         if ticket not in self._tickets:
-            self._info.log("got bad ticket %r" % ticket)
+            self._info.log("got bad ticket {0!r}".format(ticket))
             return False
 
         if ticket[:len(username)] != username:
-            self._info.log("username does not match ticket %r" % ticket)
+            self._info.log("username does not match ticket {0!r}".format(ticket))
             return False
 
-        self._info.log("got good ticket %r" % ticket)
+        self._info.log("got good ticket {0!r}".format(ticket))
         
         del self._tickets[ticket]
-        self._info.log("deleted good ticket %r" % ticket)
+        self._info.log("deleted good ticket {0!r}".format(ticket))
 
         return True
 
@@ -129,16 +129,16 @@ class IPAService(TCPService):
         now = time.time()
 
         expired = []
-        for ticket, timestamp in self._tickets.iteritems():
-            self._info.log("ticket %r: %s seconds until expiration" % (ticket, timestamp - now))
+        for ticket, timestamp in self._tickets.items():
+            self._info.log("ticket {0!r}: {1!s} seconds until expiration".format(ticket, timestamp - now))
             if now > timestamp:
                 expired.append(ticket)
 
         for ticket in expired:
-            self._info.log("removed stale ticket %r issued on %r" % (ticket, timestamp))
+            self._info.log("removed stale ticket {0!r} issued on {1!r}".format(ticket, timestamp))
             del self._tickets[ticket]
 
-        self._info.log("unexpired tickets: %s" % len(self._tickets))
+        self._info.log("unexpired tickets: {0!s}".format(len(self._tickets)))
 
         return True
 

@@ -22,7 +22,7 @@ class ChainLocator(object):
 
 
     def __str__(self):
-        return "%s via %s" % (self.this, self.next)
+        return "{0!s} via {1!s}".format(self.this, self.next)
 
 
     __slots__ = ("this", "next")

@@ -11,9 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Application import Application
-from Daemon import Daemon as Stager
-from ComponentHarness import ComponentHarness
+from __future__ import print_function
+
+from .Application import Application
+from .Daemon import Daemon as Stager
+from .ComponentHarness import ComponentHarness
 
 
 class ServiceDaemon(Application, Stager, ComponentHarness):
@@ -51,9 +53,9 @@ class ServiceDaemon(Application, Stager, ComponentHarness):
         componentRegistry = registry.getNode(clientName)
         component.generateClientConfiguration(componentRegistry)
 
-        stream = file(clientName + '.pml', 'w')
+        stream = open(clientName + '.pml', 'w')
         document = self.weaver.render(registry)
-        print >> stream, "\n".join(document)
+        print("\n".join(document), file=stream) 
         stream.close()
             
         return

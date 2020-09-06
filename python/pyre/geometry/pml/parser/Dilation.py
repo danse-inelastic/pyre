@@ -12,7 +12,7 @@
 #
 
 import pyre.geometry.operations
-from Transformation import Transformation
+from .Transformation import Transformation
 
 
 class Dilation(Transformation):
@@ -27,9 +27,9 @@ class Dilation(Transformation):
 
     def notify(self, parent):
         if not self._body:
-            raise ValueError("no body specified in '%s'" % self.tag)
+            raise ValueError("no body specified in '{0!s}'".format(self.tag))
         if not self._scale:
-            raise ValueError("no scale specified in '%s'" % self.tag)
+            raise ValueError("no scale specified in '{0!s}'".format(self.tag))
 
         dilation = pyre.geometry.operations.dilate(body=self._body, scale=self._scale)
         parent.onDilation(dilation)

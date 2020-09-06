@@ -43,21 +43,21 @@ class CommandlineParser(object):
         unprocessed = []
 
         for arg in argv:
-            self._debug.line("processing '%s'" % arg)
+            self._debug.line("processing '{0!s}'".format(arg))
 
             # is this an option
             for prefix in self.prefixes:
                 if arg.startswith(prefix):
-                    self._debug.line("    prefix: '%s starts with '%s'" % (arg, prefix))
+                    self._debug.line("    prefix: '{0!s} starts with '{1!s}'".format(arg, prefix))
                     candidate = arg[len(prefix):]
                     break
             else:
                 # prefix matching failed; leave this argument alone
-                self._debug.line("    prefix: '%s' is not an option" % arg)
+                self._debug.line("    prefix: '{0!s}' is not an option".format(arg))
                 unprocessed.append(arg)
                 continue
                 
-            self._debug.line("    prefix: arg='%s' after prefix stripping" % candidate)
+            self._debug.line("    prefix: arg='{0!s}' after prefix stripping".format(candidate))
 
             # skip the processing if the arg is empty after stripping
             if not candidate:
@@ -65,7 +65,7 @@ class CommandlineParser(object):
 
             # check for assignment
             tokens = candidate.split(self.assignment)
-            self._debug.line("    tokens: %s" % `candidate`)
+            self._debug.line("    tokens: {0!s}".format(repr(candidate)))
 
             # dangling =
             # if len(tokens) > 1 and not tokens[1]:
@@ -79,7 +79,7 @@ class CommandlineParser(object):
                 rhs = self.assignment.join(tokens[1:])
             else:
                 rhs = "true"
-            self._debug.line("    tokens: key={%s}, value={%s}" % (lhs,  rhs))
+            self._debug.line("    tokens: key={{0!s}}, value={{1!s}}".format(lhs,  rhs))
 
             if lhs in self.help:
                 help = True
@@ -96,7 +96,7 @@ class CommandlineParser(object):
     def _processArgument(self, key, value, root):
         separator = self.separator
         fields = key.split(separator)
-        self._debug.line("    sub: fields=%s" % fields)
+        self._debug.line("    sub: fields={0!s}".format(fields))
 
         children = []
         for level, field in enumerate(fields):
@@ -104,7 +104,7 @@ class CommandlineParser(object):
                 candidates = field[1:-1].split(',')
             else:
                 candidates = [field]
-            self._debug.line("    sub: [%02d] candidates=%s" % (level, candidates))
+            self._debug.line("    sub: [{:02d}] candidates={}".format(level, candidates))
             children.append(candidates)
 
         self._storeValue(root, children, value)
@@ -113,16 +113,16 @@ class CommandlineParser(object):
 
 
     def _storeValue(self, node, children, value):
-        self._debug.line("    set: children=%s" % children)
+        self._debug.line("    set: children={0!s}".format(children))
         if len(children) == 1:
             for key in children[0]:
                 key = key.strip()
-                self._debug.line("    option: setting '%s'='%s'" % (key, value))
+                self._debug.line("    option: setting '{0!s}'='{1!s}'".format(key, value))
                 node.setProperty(key, value, self.locator)
             return
 
         for key in children[0]:
-            self._debug.line("    sub: processing '%s'" % key)
+            self._debug.line("    sub: processing '{0!s}'".format(key))
             self._storeValue(node.getNode(key), children[1:], value)
 
         return

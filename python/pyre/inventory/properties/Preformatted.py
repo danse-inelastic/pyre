@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import sys
 
 from pyre.inventory.Property import Property
 
@@ -24,9 +25,9 @@ class Preformatted(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        strtype = basestring if sys.version_info[0] < 2 else str
+        if isinstance(value, strtype):
             return self._splitlines(value)
-
         return value
 
 

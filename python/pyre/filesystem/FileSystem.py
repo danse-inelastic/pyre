@@ -36,7 +36,7 @@ class FileSystem(object):
 
     def __init__(self, root):
         import os
-        from Root import Root
+        from .Root import Root
 
         directory = os.path.abspath(root)
         self._root = Root(directory) 

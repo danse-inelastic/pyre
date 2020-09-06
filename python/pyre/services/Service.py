@@ -28,11 +28,11 @@ class Service(Component):
 
 
     def serve(self):
-        self._info.line("%s(%s).serve" % (self.name, self.__class__.__name__))
-        self._info.line("    port: %s" % self.port)
-        self._info.line("    timeout: %s seconds" % self.timeout)
+        self._info.line("{0!s}({1!s}).serve".format(self.name, self.__class__.__name__))
+        self._info.line("    port: {0!s}".format(self.port))
+        self._info.line("    timeout: {0!s} seconds".format(self.timeout))
 
-	# enter the event loop
+        # enter the event loop
         self._info.log("    entering selector watch...")
         self._serve()
         return
@@ -52,12 +52,12 @@ class Service(Component):
 
     def onConnectionAttempt(self, selector, monitor):
         raise NotImplementedError(
-            "class %r must override 'onConnectionAttempt'" % self.__class__.__name__)
+            "class {0!r} must override 'onConnectionAttempt'".format(self.__class__.__name__))
 
 
     def onTimeout(self, selector):
         import time
-        self._debug.log("MARK: %s" % time.ctime())
+        self._debug.log("MARK: {0!s}".format(time.ctime()))
         return True
 
 
@@ -133,7 +133,7 @@ class Service(Component):
         self.selector.notifyOnInterrupt(self.onInterrupt)
         self.selector.notifyOnReadReady(self.monitor, self.onConnectionAttempt)
 
-	# register the signal handlers
+        # register the signal handlers
         self.registerSignalHandlers()
 
         return
@@ -156,7 +156,7 @@ class Service(Component):
 
     def _createPortMonitor(self):
         raise NotImplementedError(
-            "class %r must override '_createPortMonitor'" % self.__class__.__name__)
+            "class {0!r} must override '_createPortMonitor'".format(self.__class__.__name__))
 
 
     def _getPort(self):

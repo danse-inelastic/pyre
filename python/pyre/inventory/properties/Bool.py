@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import sys
 
 from pyre.inventory.Property import Property
 
@@ -24,9 +25,16 @@ class Bool(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
-            import pyre.util.bool
-            return pyre.util.bool.bool(value)
+        if sys.version_info[:2] == (2,7):
+            if isinstance(value, basestring):
+                import pyre.util.bool
+                return pyre.util.bool.bool(value)
+        elif sys.version_info[0] == 3:
+            if isinstance(value, str):
+                import pyre.util.bool
+                return pyre.util.bool.bool(value)
+        else:
+            raise RuntimeError("This version of Python is not supported. Please use Python 2.7 or Python 3.")
 
         return bool(value)
     

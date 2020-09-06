@@ -32,7 +32,7 @@ class Parser(xml.sax.ContentHandler):
 
     def startDocument(self):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
-        self._info.log("startDocument at (%d, %d)" % (line, column))
+        self._info.log("startDocument at ({0!d}, {1!d})".format(line, column))
 
         # give the document node a way to get at line info
         self._document.locator = self._locator
@@ -41,7 +41,7 @@ class Parser(xml.sax.ContentHandler):
 
     def endDocument(self):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
-        self._info.log("endDocument at (%d, %d)" % (line, column))
+        self._info.log("endDocument at ({0!d}, {1!d})".format(line, column))
 
         if self._document != self._currentNode:
             import journal
@@ -55,7 +55,7 @@ class Parser(xml.sax.ContentHandler):
         
     def startElement(self, name, attributes):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
-        self._info.log("startElement: '%s', at (%d, %d)" % (name, line, column))
+        self._info.log("startElement: '{0!s}', at ({1!d}, {2!d})".format(name, line, column))
         self._nodeStack.append(self._currentNode)
         self._currentNode = self._document.node(name, attributes)
 
@@ -65,7 +65,7 @@ class Parser(xml.sax.ContentHandler):
     def characters(self, content):
         if content: 
             line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
-            self._info.log("characters: '%s', at (%d, %d)" % (content, line, column))
+            self._info.log("characters: '{0!s}', at ({1!d}, {2!d})".format(content, line, column))
             self._currentNode.content(content)
 
         return
@@ -73,14 +73,14 @@ class Parser(xml.sax.ContentHandler):
 
     def endElement(self, name):
         line, column = self._locator.getLineNumber(), self._locator.getColumnNumber()
-        self._info.log("endElement: '%s', at (%d, %d)" % (name, line, column))
+        self._info.log("endElement: '{0!s}', at ({1!d}, {2!d})".format(name, line, column))
 
         node = self._currentNode
         self._currentNode = self._nodeStack.pop()
 
         try:
             node.notify(self._currentNode)
-        except ValueError, text:
+        except ValueError as text:
             l = self._document.locator
 
             import journal
@@ -88,7 +88,7 @@ class Parser(xml.sax.ContentHandler):
             filename = getattr(l, 'source', None)
             if filename is None:
                 filename = getattr(l, 'filename', None)
-            error.log("%s: line %s, column %s: %s" % (filename, l.line, l.column, text))
+            error.log("{0!s}: line {1!s}, column {2!s}: {3!s}".format(filename, l.line, l.column, text))
 
         return
 
@@ -96,7 +96,7 @@ class Parser(xml.sax.ContentHandler):
     def processingInstruction(self, target, data):
         import journal
         journal.firewall("pyre.xml.parsing").log(
-            "processingInstruction: target={%s}, data={%s}" % (target, data)
+            "processingInstruction: target={{0!s}}, data={{1!s}}".format(target, data)
             )
         
         return

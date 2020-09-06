@@ -72,7 +72,7 @@ class Trait(object):
     def _getDefaultValue(self, instance):
         """retrieve the default value and return it along with a locator"""
         raise NotImplementedError(
-            "class %r must override '_getDefaultValue" % self.__class__.__name__)
+            "class {0!r} must override '_getDefaultValue".format(self.__class__.__name__))
 
 
     def _initialize(self, instance):

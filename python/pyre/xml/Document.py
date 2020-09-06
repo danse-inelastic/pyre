@@ -12,10 +12,10 @@
 #
 
 
-from AbstractDocument import AbstractDocument
+from .AbstractDocument import AbstractDocument
+from .DTDBuilder import DTDBuilder
 
-
-class Document(AbstractDocument):
+class Document(AbstractDocument, metaclass=DTDBuilder):
 
 
     tags = []
@@ -29,12 +29,6 @@ class Document(AbstractDocument):
     def __init__(self, source):
         AbstractDocument.__init__(self, source)
         return
-
-
-    # build the lookup table
-    from DTDBuilder import DTDBuilder
-    __metaclass__ = DTDBuilder
-    del DTDBuilder
 
 
 # version

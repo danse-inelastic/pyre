@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.parsing.locators.Traceable import Traceable
 
@@ -156,7 +157,7 @@ class Configurable(Traceable):
         except KeyError:
             pass
 
-        raise AttributeError("object '%s' of type '%s' has no attribute '%s'" % (
+        raise AttributeError("object '{0!s}' of type '{1!s}' has no attribute '{2!s}'".format(
             self.name, self.__class__.__name__, name))
         
 
@@ -166,7 +167,7 @@ class Configurable(Traceable):
         except KeyError:
             pass
 
-        raise AttributeError("object '%s' of type '%s' has no attribute '%s'" % (
+        raise AttributeError("object '{0!s}' of type '{1!s}' has no attribute '{2!s}'".format(
             self.name, self.__class__.__name__, name))
 
 
@@ -177,7 +178,7 @@ class Configurable(Traceable):
         propertyNames = self.inventory.propertyNames()
         propertyNames.sort()
         
-        print "properties of %r:" % self.name
+        print("properties of {0!r}:".format(self.name))
         for name in propertyNames:
             if name in facilityNames:
                 continue
@@ -200,11 +201,11 @@ class Configurable(Traceable):
             value = descriptor.value
             locator = descriptor.locator
 
-            print "    %s=<%s>: %s" % (name, traitType, tip)
-            print "        default value: %r" % (default,)
-            print "        current value: %r, from %s" % (value, locator)
+            print("    {0!s}=<{1!s}>: {2!s}".format(name, traitType, tip))
+            print("        default value: {0!r}".format(default))
+            print("        current value: {0!r}, from {1!s}".format(value, locator))
             if validator:
-                print "        validator: %s" % validator
+                print("        validator: {0!s}".format(validator))
 
         return
 
@@ -213,7 +214,7 @@ class Configurable(Traceable):
         facilityNames = self.inventory.facilityNames()
         facilityNames.sort()
 
-        print "facilities of %r:" % self.name
+        print("facilities of {0!r}:".format(self.name))
         for name in facilityNames:
 
             # get the facility object
@@ -230,9 +231,9 @@ class Configurable(Traceable):
             value = descriptor.value
             locator = descriptor.locator
 
-            print "    %s=<component name>: %s" % (name, tip)
-            print "        current value: %r, from %s" % (value.name, locator)
-            print "        configurable as: %s" % ", ".join(value.aliases)
+            print("    {0!s}=<component name>: {1!s}".format(name, tip))
+            print("        current value: {0!r}, from {1!s}".format(value.name, locator))
+            print("        configurable as: {0!s}".format(", ".join(value.aliases)))
 
         return
 
@@ -244,17 +245,17 @@ class Configurable(Traceable):
         facilityNames = self.inventory.facilityNames()
         facilityNames.sort()
 
-        print "component %r" % self.name
+        print("component {0!r}".format(self.name))
 
         if propertyNames:
-            print "    properties:", ", ".join(propertyNames)
+            print("    properties:", ", ".join(propertyNames))
 
         if facilityNames:
-            print "    facilities:", ",".join(facilityNames)
+            print("    facilities:", ",".join(facilityNames))
 
-        print "For more information:"
-        print "  --help-properties: prints details about user settable properties"
-        print "  --help-components: prints details about user settable facilities and components"
+        print("For more information:")
+        print("  --help-properties: prints details about user settable properties")
+        print("  --help-components: prints details about user settable facilities and components")
 
         return
 
@@ -287,7 +288,7 @@ class Configurable(Traceable):
         self.inventory = self.createInventory()
 
         # other names by which I am known for configuration purposes
-        self.aliases = [ name ]
+        self.aliases = [name]
 
         import journal
         self._info = journal.info(name)
@@ -325,13 +326,13 @@ class Configurable(Traceable):
     # misc
     def _claim(self, up, uc):
         """decorate the missing traits with my name"""
-        rup = [ (self.name + '.' + key, value, locator) for key, value, locator in up ]
-        ruc = [ self.name + '.' + key for key in uc]
+        rup = [(self.name + '.' + key, value, locator) for key, value, locator in up]
+        ruc = [self.name + '.' + key for key in uc]
         return rup, ruc
         
 
     # inventory
-    from Inventory import Inventory
+    from .Inventory import Inventory
 
 
 # version

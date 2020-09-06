@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 class Interface(type):
 
@@ -22,14 +23,14 @@ class Interface(type):
 
         interfaceRegistry = {}
         
-        for name, record in dict.iteritems():
+        for name, record in dict.items():
             if name[0] == '_':
                 continue
             
             if not isinstance(record, types.FunctionType):
                 continue
 
-            print name
+            print(name)
             interfaceRegistry[name] = None
 
         cls._interfaceRegistry = interfaceRegistry

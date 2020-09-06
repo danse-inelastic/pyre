@@ -37,7 +37,7 @@ def locate(filename, pathlist=None, extensions=None):
             if os.path.isfile(candidate):
                 return candidate
 
-    raise IOError("Could not locate %r in %r" % (filename, pathlist))
+    raise IOError("Could not locate {0!r} in {1!r}".format(filename, pathlist))
 
 
 # version

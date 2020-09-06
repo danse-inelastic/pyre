@@ -12,8 +12,8 @@
 #
 
 
-from Trait import Trait
-from Facility import Facility
+from .Trait import Trait
+from .Facility import Facility
 
 
 class Notary(type):
@@ -40,7 +40,7 @@ class Notary(type):
                 pass
 
         # scan the class record for traits
-        for name, item in cls.__dict__.iteritems():
+        for name, item in cls.__dict__.items():
 
             # disregard entries that do not derive from Trait
             if not isinstance(item, Trait):

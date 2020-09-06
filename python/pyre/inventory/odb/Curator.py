@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.odb.fs.Curator import Curator as Base
 
@@ -31,7 +32,7 @@ class Curator(Base):
         for traits, locator in self.loadSymbol(
             tag=name,
             codec=codec, address=[name], symbol='inventory', extras=extraDepositories,
-            errorHandler=self._recordTraitLookup):
+                errorHandler=self._recordTraitLookup):
 
             # update the registry
             target = traits.getFacility(name)
@@ -42,13 +43,14 @@ class Curator(Base):
                 self._recordTraitLookup(name, locator, 'success')
             else:
                 # record the failure
-                self._recordTraitLookup(name, locator, "traits for '%s' not found" % name)
+                self._recordTraitLookup(name, locator, "traits for '{0!s}' not found".format(name))
 
         return registry    
 
 
     def retrieveComponent(
-        self, name, facility, args=(), kwds={}, encoding='odb', vault=[], extraDepositories=[]):
+            self, name, facility, args=(), kwds={}, encoding='odb', 
+            vault=[], extraDepositories=[]):
         """construct a component by locating and invoking a component factory"""
 
         # get the requested codec
@@ -64,20 +66,20 @@ class Curator(Base):
         for factory, locator in self.loadSymbol(
             tag=name,
             codec=codec, address=location, symbol=facility, extras=extraDepositories,
-            errorHandler=self._recordComponentLookup):
+                errorHandler=self._recordComponentLookup):
 
             if not callable(factory):
                 self._recordComponentLookup(
-                    name, locator, "factory '%s' found but not callable" % facility)
+                    name, locator, "factory '{0!s}' found but not callable".format(facility))
                 continue
 
             try:
                 component = factory(*args, **kwds)
-            except TypeError, message:
+            except TypeError as message:
                 import traceback
                 tb = traceback.format_exc()
                 self._recordComponentLookup(
-                    name, locator, "error invoking '%s': %s" % (facility, tb))
+                    name, locator, "error invoking '{0!s}': {1!s}".format(facility, tb))
                 continue
 
             # set the locator
@@ -98,7 +100,7 @@ class Curator(Base):
 
     def config(self, registry):
         import os
-        import prefix
+        from . import prefix
 
         # gain access to the installation defaults
         user = prefix._USER_ROOT
@@ -184,25 +186,25 @@ class Curator(Base):
         if not stream:
             import sys
             stream = sys.stdout
-        print >>stream, "curator info:"
-        print >>stream, "    depositories:", [d.name for d in self.depositories]
+        print("curator info:", file=stream)
+        print("    depositories:", [d.name for d in self.depositories], file=stream) 
 
         if extras:
-            print >>stream, "    local depositories:", [d.name for d in extras]
+            print("    local depositories:", [d.name for d in extras], file=stream) 
 
         if self._traitRequests:
-            print >>stream, "    trait requests:"
-            for trait, record in self._traitRequests.iteritems():
-                print >>stream, "        trait='%s'" % trait
+            print("    trait requests:", file=stream) 
+            for trait, record in self._traitRequests.items():
+                print("        trait='{0!s}'".format(trait), file=stream) 
                 for entry in record:
-                    print >>stream, "            %s: %s" % entry
+                    print("            {0!s}: {1!s}".format(*entry), file=stream) 
 
         if self._componentRequests:
-            print >>stream, "    component requests:"
-            for trait, record in self._componentRequests.iteritems():
-                print >>stream, "        component='%s'" % trait
+            print("    component requests:", file=stream) 
+            for trait, record in self._componentRequests.items():
+                print("        component='{0!s}'".format(trait), file=stream) 
                 for entry in record:
-                    print >>stream, "            %s: %s" % entry
+                    print("            {0!s}: {1!s}".format(*entry), file=stream) 
             
         return
 
@@ -242,7 +244,7 @@ class Curator(Base):
 
 
     def _registryFactory(self, name):
-        from Registry import Registry
+        from .Registry import Registry
         return Registry(name)
 
 

@@ -11,6 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+import sys
 
 from pyre.inventory.Property import Property
 
@@ -26,7 +27,9 @@ class List(Property):
 
 
     def _cast(self, value):
-        if isinstance(value, basestring):
+        strtype = basestring if sys.version_info[0] < 2 else str
+        
+        if isinstance(value, strtype):
             if value and value[0] in '[({':
                 value = value[1:]
             if value and value[-1] in '])}':
@@ -34,14 +37,14 @@ class List(Property):
 
             if not value:
                 return []
-                
+
             value = value.split(",")
             return value
 
         if isinstance(value, list):
             return value
             
-        raise TypeError("property '%s': could not convert '%s' to a list" % (self.name, value))
+        raise TypeError("property '{0!s}': could not convert '{1!s}' to a list".format(self.name, value))
     
 
 # version

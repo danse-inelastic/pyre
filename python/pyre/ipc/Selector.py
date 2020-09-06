@@ -40,7 +40,7 @@ class Selector(object):
             type, value = sys.exc_info()[:2]
 
             # rethrow the exception so the clients can handle it
-            raise type, value
+            raise type(value)
 
         return
 
@@ -97,13 +97,13 @@ class Selector(object):
         while self.state:
 
             self._debug.line("constructing list of watchers")
-            iwtd = self._input.keys()
-            owtd = self._output.keys()
-            ewtd = self._exception.keys()
+            iwtd = list(self._input.keys())
+            owtd = list(self._output.keys())
+            ewtd = list(self._exception.keys())
 
-            self._debug.line("input: %s" % iwtd)
-            self._debug.line("output: %s" % owtd)
-            self._debug.line("exception: %s" % ewtd)
+            self._debug.line("input: {0!s}".format(iwtd))
+            self._debug.line("output: {0!s}".format(owtd))
+            self._debug.line("exception: {0!s}".format(ewtd))
 
             self._debug.line("checking for indefinite block")
             if not iwtd and not owtd and not ewtd and not self._idle:
@@ -113,13 +113,13 @@ class Selector(object):
             self._debug.line("calling select")
             try:
                 reads, writes, excepts = select.select(iwtd, owtd, ewtd, self._timeout)
-            except select.error, error:
+            except select.error as error:
                 # GUESS:
                 # when a signal is delivered to a signal handler registered
                 # by the application, the select call is interrupted and
                 # raises a select.error
                 errno, msg = error
-                self._debug.log("signal received: %d: %s" % (errno, msg))
+                self._debug.log("signal received: {0!d}: {1!s}".format(errno, msg))
                 continue
                 
             self._debug.line("returned from select")

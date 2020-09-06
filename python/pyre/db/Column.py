@@ -16,7 +16,7 @@ class Column(object):
 
 
     def type(self):
-        raise NotImplementedError("class %r must override 'type'" % self.__class__.__name__)
+        raise NotImplementedError("class {0!r} must override 'type'".format(self.__class__.__name__))
 
 
     def getFormattedValue(self, instance, cls = None):
@@ -28,7 +28,7 @@ class Column(object):
     def declaration(self):
         text = [ self.type() ]
         if self.default is not None:
-            text.append("DEFAULT %r" % self.default)
+            text.append("DEFAULT {0!r}".format(self.default))
         if self.constraints:
             text.append(self.constraints)
 

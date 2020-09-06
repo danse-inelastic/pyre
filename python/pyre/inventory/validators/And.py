@@ -12,7 +12,7 @@
 #
 
 
-from Validator import Validator
+from .Validator import Validator
 
 
 class And(Validator):
@@ -40,11 +40,11 @@ class And(Validator):
         if g1 and g2:
             return candidate
         
-        raise ValueError("%s is not %s" % (candidate, self))
+        raise ValueError("{0!s} is not {1!s}".format(candidate, self))
 
 
     def __str__(self):
-        return "(%s and %s)" % (self.op1, self.op2)
+        return "({0!s} and {1!s})".format(self.op1, self.op2)
 
 
 # version

@@ -27,7 +27,7 @@ class GeometricalModeller(Component):
 
 
     def model(self):
-        raise NotImplementedError("class '%s' must override 'model'" % self.__class__.__name__)
+        raise NotImplementedError("class '{0!s}' must override 'model'".format(self.__class__.__name__))
 
 
     def retrieveModel(self, stream, format=None):

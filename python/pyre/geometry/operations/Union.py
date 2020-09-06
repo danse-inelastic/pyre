@@ -11,7 +11,7 @@
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-from Binary import Binary
+from .Binary import Binary
 
 
 class Union(Binary):
@@ -30,7 +30,7 @@ class Union(Binary):
 
 
     def __str__(self):
-        return "union: op1={%s}, op2={%s}" % (self.op1, self.op2)
+        return "union: op1={{0!s}}, op2={{1!s}}".format(self.op1, self.op2)
 
 
 # version

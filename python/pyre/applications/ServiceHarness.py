@@ -11,9 +11,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from __future__ import print_function
 
 from pyre.applications.Script import Script
-from DynamicComponentHarness import DynamicComponentHarness
+from .DynamicComponentHarness import DynamicComponentHarness
 
 
 class ServiceHarness(Script, DynamicComponentHarness):
@@ -56,9 +57,9 @@ class ServiceHarness(Script, DynamicComponentHarness):
         serviceRegistry = registry.getNode(clientName)
         service.generateClientConfiguration(serviceRegistry)
 
-        stream = file(clientName + '.pml', 'w')
+        stream = open(clientName + '.pml', 'w')
         document = self.weaver.render(registry)
-        print >> stream, "\n".join(document)
+        print("\n".join(document), file=stream) 
         stream.close()
             
         return
