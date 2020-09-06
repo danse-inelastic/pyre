@@ -25,7 +25,6 @@ install:
   - conda update conda
   - conda config --add channels conda-forge
   - conda config --add channels mcvine
-  - conda install -n root conda-build
   - conda create -n testenv python=$TRAVIS_PYTHON_VERSION anaconda-client pytest gxx_linux-64=7 cmake danse.ins journal=0.8.2
   - source activate testenv
   - conda config --set anaconda_upload no
