@@ -30,7 +30,7 @@ class Dimensional(Property):
 
     def _cast(self, value):
         candidate = value
-        if isinstance(value, str):
+        if isstr(value):
             import pyre.units
             parser = pyre.units.parser()
             candidate = parser.parse(value)
@@ -72,5 +72,12 @@ class Dimensional(Property):
 
         return
 
+import sys
+if sys.version_info < (3,0):
+    strtype = basestring
+else:
+    strtype = str
+def isstr(s):
+    return isinstance(s, strtype)
 
 # End of file
