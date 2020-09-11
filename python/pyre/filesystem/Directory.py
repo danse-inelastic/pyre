@@ -53,7 +53,7 @@ class Directory(File):
 
         root = self.path
         children = os.listdir(root)
-        debug.log("directory '{0!s}' has {1!d} files".format(self.name, len(children)))
+        debug.log("directory '{0!s}' has {1:d} files".format(self.name, len(children)))
 
         count = 0
         for name in children:
@@ -88,9 +88,9 @@ class Directory(File):
             self._children[node.name] = node
 
             if not count % 1000:
-                debug.log("processed {0!d} files".format(count))
+                debug.log("processed {0:d} files".format(count))
 
-        debug.log("total files processed: {0!d}".format(count))
+        debug.log("total files processed: {0:d}".format(count))
 
         self._files = files
         self._subdirectories = subdirectories

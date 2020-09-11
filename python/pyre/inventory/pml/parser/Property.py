@@ -11,9 +11,15 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import urllib
+import sys
 from .AbstractNode import AbstractNode
 
+if sys.version_info < (3,0):
+    import urllib
+    url_unquote = urllib.unquote
+else:
+    import urllib.parse
+    url_unquote = urllib.parse.unquote
 
 class Property(AbstractNode):
 
@@ -26,7 +32,7 @@ class Property(AbstractNode):
 
 
     def content(self, content):
-        self.value += urllib.unquote(content)
+        self.value += url_unquote(content)
         self.locator = self.document.locator
         return
 

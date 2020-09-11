@@ -30,7 +30,7 @@ class Block(Primitive):
 
 
     def __str__(self):
-        return "block: diagonal=({0!s}, {1!s}, {2!s})".format(self.diagonal)
+        return "block: diagonal=({0!s}, {1!s}, {2!s})".format(*self.diagonal)
 
 
 # version

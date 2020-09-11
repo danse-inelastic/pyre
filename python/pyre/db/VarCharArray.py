@@ -22,7 +22,7 @@ class VarCharArray(Column):
 
 
     def type(self):
-        return "character varying({0!d})[]".format(self.length)
+        return "character varying({0:d})[]".format(self.length)
 
 
     def declaration(self):

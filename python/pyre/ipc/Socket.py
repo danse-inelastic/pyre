@@ -52,7 +52,7 @@ class Socket(socket.socket):
 
 
         def __str__(self):
-            msg = "error {0!d} connecting to '{1!s}', port {2!d}: {3!s}".format(
+            msg = "error {0:d} connecting to '{1!s}', port {2:d}: {3!s}".format(
                 self.errno, self.host, self.port, self.reason)
             return msg
 

@@ -18,7 +18,7 @@ class TCPService(Service):
 
 
     def onConnectionAttempt(self, selector, monitor):
-        self._debug.log("detected activity on port {0!d}".format(self.port))
+        self._debug.log("detected activity on port {0:d}".format(self.port))
 
         socket, address = monitor.accept()
         if not self.validateConnection(address):
@@ -33,7 +33,7 @@ class TCPService(Service):
             self._info.log(msg)
             return True
 
-        self._info.log("request from [{0!d}@{1!s}]: command={2!r}, args={3!r}".format(
+        self._info.log("request from [{0:d}@{1!s}]: command={2!r}, args={3!r}".format(
             address[1], address[0], request.command, request.args))
 
         result = self.evaluator.evaluate(self, request.command, request.args)

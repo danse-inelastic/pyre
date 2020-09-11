@@ -83,7 +83,7 @@ class UserManager(Component):
             suffix = ''
         else:
             suffix = 's'
-        self._info.log("'{0!s}': found {1!d} user record{2!s}".format(self.passwd, count, suffix))
+        self._info.log("'{0!s}': found {1:d} user record{2!s}".format(self.passwd, count, suffix))
 
         self.method = method
 
