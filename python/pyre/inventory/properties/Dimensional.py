@@ -25,25 +25,15 @@ class Dimensional(Property):
             self.len = len(default)
         except TypeError:
             self.len = 0
-            
         return
 
 
     def _cast(self, value):
         candidate = value
-        if sys.version_info[:2] == (2, 7):
-            if isinstance(value, basestring):
-                import pyre.units
-                parser = pyre.units.parser()
-                candidate = parser.parse(value)
-        elif sys.version_info[0] == (3,):
-            if isinstance(value, str):
-                import pyre.units
-                parser = pyre.units.parser()
-                candidate = parser.parse(value)
-        else:
-            raise RuntimeError("This verison of Python is not supported. Please use Python 2.7 or Python 3.")
-
+        if isinstance(value, str):
+            import pyre.units
+            parser = pyre.units.parser()
+            candidate = parser.parse(value)
 
         self._checkDimensions(candidate, value)
 
@@ -55,10 +45,10 @@ class Dimensional(Property):
             size = len(candidate)
         except TypeError:
             size = 0
-        
+
         if size != self.len:
             raise ValueError("value '{0!s}' is not the same shape as the default '{1!s}'".format(setting, self.default))
-        
+
         if self.len == 0:
             tokens = [candidate]
             target = [self.default]
@@ -70,7 +60,7 @@ class Dimensional(Property):
         for a, b in zip(tokens, target):
             if not isinstance(a, unit) and not isinstance(b, unit):
                 continue
-            
+
             if isinstance(a, unit) and not isinstance(b, unit):
                 raise ValueError("dimension mismatch between input '{0!s}' and target '{1!s}'".format(setting, self.default))
 
@@ -83,7 +73,4 @@ class Dimensional(Property):
         return
 
 
-# version
-__id__ = "$Id: Dimensional.py,v 1.1.1.1 2006-11-27 00:10:02 aivazis Exp $"
-
-# End of file 
+# End of file

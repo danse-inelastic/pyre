@@ -44,6 +44,7 @@ script:
   - app.py
   - python simple.py
   - ./test_units.py
+  - python area.py
 
 notifications:
   email:
