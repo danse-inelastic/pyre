@@ -11,11 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+from future.utils import with_metaclass
 
 from .AbstractDocument import AbstractDocument
 from .DTDBuilder import DTDBuilder
 
-class Document(AbstractDocument, metaclass=DTDBuilder):
+class Document(with_metaclass(DTDBuilder, AbstractDocument)):
 
 
     tags = []
