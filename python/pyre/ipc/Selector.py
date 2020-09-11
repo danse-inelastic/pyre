@@ -119,7 +119,7 @@ class Selector(object):
                 # by the application, the select call is interrupted and
                 # raises a select.error
                 errno, msg = error
-                self._debug.log("signal received: {0!d}: {1!s}".format(errno, msg))
+                self._debug.log("signal received: {0:d}: {1!s}".format(errno, msg))
                 continue
                 
             self._debug.line("returned from select")

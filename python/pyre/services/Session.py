@@ -56,7 +56,7 @@ class Session(Component):
         self._connection = pyre.ipc.connection(self.protocol)
 
         self._info.log(
-            "attempting to connect to server at {0!s}:{1!d}".format(self.host, self.port))
+            "attempting to connect to server at {0!s}:{1:d}".format(self.host, self.port))
 
         self._connection.connect((self.host, self.port))
         return

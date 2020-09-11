@@ -102,7 +102,7 @@ class IDDService(TCPService):
             self.date = date
             self.tid = 0
 
-            self._debug.log("resetting: tid={0!d}, date={1!s}".format(self.tid, self.date))
+            self._debug.log("resetting: tid={0:d}, date={1!s}".format(self.tid, self.date))
 
             self._storeGeneratorParameters()
 

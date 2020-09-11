@@ -29,7 +29,7 @@ class Explorer(SimpleRenderer):
         isExpanded = 0
         isLeaf = not children
 
-        self._info.log(" visitor: directory={{0!s}}, isLeaf={1!d}".format(node.path, isLeaf))
+        self._info.log(" visitor: directory={{0!s}}, isLeaf={1:d}".format(node.path, isLeaf))
         
         newNode = self._tree.insert_node(
             parent, None, [node.name], 5,

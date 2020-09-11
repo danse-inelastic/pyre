@@ -19,7 +19,7 @@ class UDPService(Service):
 
 
     def onConnectionAttempt(self, selector, monitor):
-        self._info.log("detected activity on port {0!d}".format(self.port))
+        self._info.log("detected activity on port {0:d}".format(self.port))
 
         try:
             request = self.marshaller.receive(monitor)

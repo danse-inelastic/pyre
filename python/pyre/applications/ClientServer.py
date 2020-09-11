@@ -91,7 +91,7 @@ class ClientServer(Script):
             self._info.log("client({0!r}): finished".format(pid))
         else:
             import journal
-            journal.error(self.name).log("fork: error {0!d}".format(child))
+            journal.error(self.name).log("fork: error {0!s}".format(child))
             
         return
 
