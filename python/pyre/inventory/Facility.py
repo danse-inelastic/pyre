@@ -14,6 +14,7 @@
 
 import sys
 from future.utils import with_metaclass
+from .._2to3 import isstr
 
 from .Trait import Trait
 from .Interface import Interface
@@ -41,17 +42,9 @@ class Facility(with_metaclass(Interface, Trait)):
 
         if component is not None:
             # if we got a string, resolve
-            if sys.version_info[:2] == (2, 7): 
-                if isinstance(component, basestring):
-                    component, locator = self._retrieveComponent(instance, component, args=())
-                    here = pyre.parsing.locators.chain(locator, here)
-            elif sys.version_info[0] == (3,):
-                if isinstance(component, str):
-                    component, locator = self._retrieveComponent(instance, component, args=())
-                    here = pyre.parsing.locators.chain(locator, here)
-            else:
-                raise RuntimeError("Incompatible version of Python. This code requires Python 2.7 or Python 3.") 
-                
+            if isstr(component):
+                component, locator = self._retrieveComponent(instance, component, args=())
+                here = pyre.parsing.locators.chain(locator, here)
             return component, here
 
         if self.factory is not None:
@@ -77,34 +70,18 @@ class Facility(with_metaclass(Interface, Trait)):
 
 
     def _set(self, instance, component, locator):
-        if sys.version_info[:2] == (2,7):
-            if isinstance(component, basestring):
-                try:
-                    name, args = component.split(":")
-                    args = args.split(",")
-                except ValueError:
-                    name = component
-                    args = []
-                
-                component, source = self._retrieveComponent(instance, name, args)
+        if isstr(component):
+            try:
+                name, args = component.split(":")
+                args = args.split(",")
+            except ValueError:
+                name = component
+                args = []
 
-                import pyre.parsing.locators
-                locator = pyre.parsing.locators.chain(source, locator)
-        elif sys.version_info[0] == (3,):
-            if isinstance(component, str):
-                try:
-                    name, args = component.split(":")
-                    args = args.split(",")
-                except ValueError:
-                    name = component
-                    args = []
-                
-                component, source = self._retrieveComponent(instance, name, args)
+            component, source = self._retrieveComponent(instance, name, args)
 
-                import pyre.parsing.locators
-                locator = pyre.parsing.locators.chain(source, locator)
-        else:
-            raise RuntimeError("Incompatible version of Python. This code requires Python 2.7 or Python 3.") 
+            import pyre.parsing.locators
+            locator = pyre.parsing.locators.chain(source, locator)
 
         if component is None:
             return

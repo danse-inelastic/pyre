@@ -25,8 +25,8 @@ class Preformatted(Property):
 
 
     def _cast(self, value):
-        strtype = basestring if sys.version_info[0] < 2 else str
-        if isinstance(value, strtype):
+        from ..._2to3 import isstr
+        if isstr(value):
             return self._splitlines(value)
         return value
 
