@@ -21,12 +21,8 @@ class SimpleFileLocator(object):
 
 
     def __str__(self):
-        return "{{file={0!r}}}".format(self.source)
-    
+        return "{{file={%s}}}" % (self.source,)
 
-    __slots__ = ("source")
-
-# version
-__id__ = "$Id: SimpleFileLocator.py,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $"
+    __slots__ = ("source",)
 
 # End of file 
