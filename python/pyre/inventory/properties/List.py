@@ -27,9 +27,8 @@ class List(Property):
 
 
     def _cast(self, value):
-        strtype = basestring if sys.version_info[0] < 2 else str
-        
-        if isinstance(value, strtype):
+        from ..._2to3 import isstr
+        if isstr(value):
             if value and value[0] in '[({':
                 value = value[1:]
             if value and value[-1] in '])}':

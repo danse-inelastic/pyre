@@ -11,11 +11,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-
 # misc
 def copyright():
     return "pyre: Copyright (c) 1998-2005 Michael A.G. Aivazis"
 
+from . import _2to3
 
 # version
 __version__ = "0.8.3"

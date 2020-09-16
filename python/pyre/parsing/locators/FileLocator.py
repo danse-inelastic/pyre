@@ -23,12 +23,9 @@ class FileLocator(object):
 
 
     def __str__(self):
-        return "{file={0!r}, line={1!r}, column={2!r}}".format(self.source, self.line, self.column)
-    
+        s = "file={0!r}, line={1!r}, column={2!r}".format(self.source, self.line, self.column)
+        return '{' + s + '}'
 
     __slots__ = ("source", "line", "column")
-
-# version
-__id__ = "$Id: FileLocator.py,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $"
 
 # End of file 

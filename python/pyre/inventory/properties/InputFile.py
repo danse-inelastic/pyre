@@ -29,22 +29,12 @@ class InputFile(Property):
 
 
     def _cast(self, value):
-        if sys.version_info[:2] == (2,7):
-            if isinstance(value, basestring):
-                if value == "stdin":
-                    value = sys.stdin
-                else:
-                    value = open(value, "r")
-        elif sys.version_info[0] == (3,):
-            if isinstance(value, str):
-                if value == "stdin":
-                    value = sys.stdin
-                else:
-                    value = open(value, "r")
-        else:
-            raise RuntimeError("This version of Python is not supported. Please use Pyhton 2,7 or Python 3.")
-
-        
+        from ..._2to3 import isstr
+        if isstr(value):
+            if value == "stdin":
+                value = sys.stdin
+            else:
+                value = open(value, "r")
         return value
 
 

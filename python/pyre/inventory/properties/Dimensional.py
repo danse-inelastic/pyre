@@ -72,12 +72,6 @@ class Dimensional(Property):
 
         return
 
-import sys
-if sys.version_info < (3,0):
-    strtype = basestring
-else:
-    strtype = str
-def isstr(s):
-    return isinstance(s, strtype)
+from ..._2to3 import isstr
 
 # End of file

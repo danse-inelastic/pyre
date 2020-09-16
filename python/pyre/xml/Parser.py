@@ -105,11 +105,9 @@ class Parser(xml.sax.ContentHandler):
     # constructor
     def __init__(self):
         xml.sax.ContentHandler.__init__(self)
-
         self._document= None
         self._nodeStack = []
         self._currentNode = None
-
         return
 
 
@@ -128,10 +126,11 @@ class Parser(xml.sax.ContentHandler):
             parser = xml.sax.make_parser()
 
         # parse
+        from xml.sax.handler import feature_external_ges
+        parser.setFeature(feature_external_ges, True)
         parser.setContentHandler(self)
         parser.parse(stream)
         parser.setContentHandler(None)
-
         return
 
 

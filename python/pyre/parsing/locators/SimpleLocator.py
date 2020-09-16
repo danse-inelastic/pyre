@@ -21,13 +21,10 @@ class SimpleLocator(object):
 
 
     def __str__(self):
-        return "{{{0!s}}}".format(self.source)
+        return "{{{%s}}}" % (self.source,)
 
 
-    __slots__ = ("source")
-    
+    __slots__ = ("source",)
 
-# version
-__id__ = "$Id: SimpleLocator.py,v 1.1.1.1 2006-11-27 00:10:05 aivazis Exp $"
 
 # End of file 

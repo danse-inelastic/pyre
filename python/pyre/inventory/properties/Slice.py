@@ -26,20 +26,12 @@ class Slice(Property):
 
 
     def _cast(self, value):
-        if sys.version_info[:2] == (2, 7):
-            if isinstance(value, basestring):
-                try:
-                    value = pyre.util.range.sequence(value)
-                except:
-                    raise TypeError("property '{0!s}': could not convert '{1!s}' to a slice".format(self.name, value))
-        elif sys.version_info[0] == (3,):
-            if isinstance(value, str):
-                try:
-                    value = pyre.util.range.sequence(value)
-                except:
-                    raise TypeError("property '{0!s}': could not convert '{1!s}' to a slice".format(self.name, value))
-        else:
-            raise RuntimeError("This version of Python is not supported. Please use Python 2.7 or Python 3.")
+        from ..._2to3 import isstr
+        if isstr(value):
+            try:
+                value = pyre.util.range.sequence(value)
+            except:
+                raise TypeError("property '{0!s}': could not convert '{1!s}' to a slice".format(self.name, value))
 
         if isinstance(value, list):
             return value

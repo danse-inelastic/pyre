@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
-import urllib
+import urllib.parse
 from .AbstractNode import AbstractNode
 
 
@@ -26,7 +26,7 @@ class Facility(AbstractNode):
 
 
     def content(self, content):
-        self.value += urllib.unquote(content)
+        self.value += urllib.parse.unquote(content)
         self.locator = self.document.locator
         return
 

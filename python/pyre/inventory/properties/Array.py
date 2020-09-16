@@ -31,33 +31,20 @@ class Array(Property):
 
 
     def _cast(self, text):
-        if sys.version_info[:2] == (2,7): 
-            if isinstance(text, basestring):
-                if text and text[0] in '[({':
-                    text = text[1:]
-                if text and text[-1] in '])}':
-                    text = text[:-1]
-                
-                value = text.split(",")
-            else:
-                value = text
-        elif sys.version_info[0] == (3,):
-            if isinstance(text, str):
-                if text and text[0] in '[({':
-                    text = text[1:]
-                if text and text[-1] in '])}':
-                    text = text[:-1]
-                
-                value = text.split(",")
-            else:
-                value = text
-        else:
-            raise RuntimeError("This version of Python is not supported. This software requires Python 2.7 or Python 3.")
+        from ..._2to3 import isstr
+        if isstr(text):
+            if text and text[0] in '[({':
+                text = text[1:]
+            if text and text[-1] in '])}':
+                text = text[:-1]
 
+            value = text.split(",")
+        else:
+            value = text
 
         if isinstance(value, list):
             try:
-                return map(self.converter, value)
+                return list(map(self.converter, value))
             except ValueError:
                 pass
             
